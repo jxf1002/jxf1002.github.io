@@ -1,0 +1,66 @@
+{
+    "editor.tabSize": 2,
+    "editor.fontLigatures": false,
+    "editor.suggestSelection": "first",
+    "editor.columnSelection": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.fixAll.stylelint": "explicit",
+      "source.organizeImports": "never"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "search.followSymlinks": false,
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.editor.enablePreview": false,
+    // git
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    // lint
+    "scss.lint.unknownAtRules": "ignore",
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "stylelint.validate": ["css", "scss", "vue"],
+    // i18n-ally
+    "i18n-ally.localesPaths": ["src/locales/lang"],
+    "i18n-ally.displayLanguage": "zh-cn",
+    "i18n-ally.editor.preferEditor": true,
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.keepFulfilled": true,
+    "i18n-ally.indent": 2,
+    // liver server
+    "liveServer.settings.root": "/.output/public",
+    "[vue]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "Vue.volar"
+    },
+    "[html]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.formatOnSave": true
+    },
+    "[typescript]": {
+      "editor.formatOnSave": true
+    }
+  }
+  
