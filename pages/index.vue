@@ -1,52 +1,14 @@
 <script setup>
-const data = [
-  {
-    id: 1,
-    title: '数据1',
-    description: '这是数据1的描述'
-  },
-  {
-    id: 2,
-    title: '数据2',
-    description: '这是数据2的描述'
-  }
-]
-const tools = [
-  {
-    id: 1,
-    title: '工具1',
-    description: '这是工具1的描述'
-  },
-  {
-    id: 2,
-    title: '工具2',
-    description: '这是工具2的描述'
-  }
-]
+import { dataTypes, toolTypes } from '~/assets/data/home.js'
 </script>
 
 <template>
-  <div class="bg-purple-500">
-    <div class="bg-purple-700 py-4">
-      <h1 class="text-center text-white">首页</h1>
+  <div class="h-[calc(100vh-80px)]">
+    <div class="bg-gradient-to-r from-purple-500 to-purple-700 h-[200px]">
+      <h1 class="text-center text-white pt-[40px] text-[40px] bold">用代码创造无限可能</h1>
+      <p class="text-center text-white mt-[10px]">分享个人觉得有用的工具和数据</p>
     </div>
-    <div class="grid grid-cols-2 gap-4">
-      <div class="bg-white p-4">
-        <h2 class="text-purple-700">数据</h2>
-        <ul>
-          <li v-for="item in data" :key="item.id">
-            <Card :data="data" />
-          </li>
-        </ul>
-      </div>
-      <div class="bg-white p-4">
-        <h2 class="text-purple-700">工具</h2>
-        <ul>
-          <li v-for="tool in tools" :key="tool.id">
-            <Card :data="tool" />
-          </li>
-        </ul>
-      </div>
-    </div>
+    <Block title="数据" :data="dataTypes" />
+    <Block title="工具" :data="toolTypes" />
   </div>
 </template>
