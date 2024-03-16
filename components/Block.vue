@@ -13,7 +13,7 @@ const props = defineProps({
 
 <template>
   <div class="bg-white p-4">
-    <h2 class="text-purple-700 text-[18px] bold mb-[5px]">{{ title }}</h2>
+    <h2 class="text-purple-700 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
     <div class="grid grid-cols-4 gap-4">
       <div class="text-sm leading-6" v-for="item in data" :key="item.id">
         <figure
