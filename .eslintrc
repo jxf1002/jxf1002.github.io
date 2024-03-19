@@ -1,0 +1,9 @@
+{
+  "extends": "@antfu",
+  "rules": {
+    "no-console": "off",
+    "no-irregular-whitespace": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "max-len": "off"
+  }
+}
