@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="px-20">
+  <div class="px-4 md:px-20">
     <UDivider>
       <h2 class="text-purple-500 dark:text-purple-400 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
     </UDivider>
