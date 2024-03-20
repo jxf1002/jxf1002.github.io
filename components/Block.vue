@@ -12,9 +12,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="bg-white p-4">
-    <h2 class="text-purple-700 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
-    <div class="grid grid-cols-4 gap-4">
+  <div class="px-20">
+    <UDivider>
+      <h2 class="text-purple-500 dark:text-purple-400 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
+    </UDivider>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div class="text-sm leading-6" v-for="item in data" :key="item.id">
         <NuxtLink :to="item.route">
           <UCard class="bg-gray-50 hover:bg-gray-100">
