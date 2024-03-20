@@ -1,4 +1,10 @@
 <script setup>
+useSeoMeta({
+  title: '贾师傅的小站',
+  description: '用代码创造无限可能，分享个人精心整理的实用工具和数据。',
+  keywords: '贾师傅,数据,工具',
+})
+
 const { dataTypes, toolTypes } = useHome()
 </script>
 

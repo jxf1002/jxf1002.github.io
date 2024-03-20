@@ -1,4 +1,10 @@
 <script setup>
+useSeoMeta({
+  title: '大学排行榜-数据-贾师傅的小站',
+  description: '提供基于2023年校友会、软科、武书连数据的中国大学排行榜。',
+  keywords: '贾师傅,大学排行榜,大学排行榜数据',
+})
+
 const { q, columns, colleges } = useCollege()
 </script>
 
