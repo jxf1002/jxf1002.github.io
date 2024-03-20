@@ -1,0 +1,6273 @@
+[
+  {
+    "name": "清华大学",
+    "chinaxy": 2,
+    "ranking": 1,
+    "wurank": 1,
+    "avg": 1.33,
+    "id": 1
+  },
+  {
+    "name": "北京大学",
+    "chinaxy": 1,
+    "ranking": 2,
+    "wurank": 3,
+    "avg": 2.0,
+    "id": 2
+  },
+  {
+    "name": "浙江大学",
+    "chinaxy": 3,
+    "ranking": 3,
+    "wurank": 2,
+    "avg": 2.67,
+    "id": 3
+  },
+  {
+    "name": "上海交通大学",
+    "chinaxy": 4,
+    "ranking": 4,
+    "wurank": 4,
+    "avg": 4.0,
+    "id": 4
+  },
+  {
+    "name": "华中科技大学",
+    "chinaxy": 5,
+    "ranking": 8,
+    "wurank": 5,
+    "avg": 6.0,
+    "id": 5
+  },
+  {
+    "name": "复旦大学",
+    "chinaxy": 7,
+    "ranking": 5,
+    "wurank": 8,
+    "avg": 6.67,
+    "id": 6
+  },
+  {
+    "name": "南京大学",
+    "chinaxy": 6,
+    "ranking": 6,
+    "wurank": 9,
+    "avg": 7.0,
+    "id": 7
+  },
+  {
+    "name": "武汉大学",
+    "chinaxy": 8,
+    "ranking": 9,
+    "wurank": 6,
+    "avg": 7.67,
+    "id": 8
+  },
+  {
+    "name": "中国科学技术大学",
+    "chinaxy": 9,
+    "ranking": 7,
+    "wurank": 17,
+    "avg": 11.0,
+    "id": 9
+  },
+  {
+    "name": "中山大学",
+    "chinaxy": 15,
+    "ranking": 11,
+    "wurank": 7,
+    "avg": 11.0,
+    "id": 10
+  },
+  {
+    "name": "哈尔滨工业大学",
+    "chinaxy": 10,
+    "ranking": 13,
+    "wurank": 11,
+    "avg": 11.33,
+    "id": 11
+  },
+  {
+    "name": "西安交通大学",
+    "chinaxy": 14,
+    "ranking": 10,
+    "wurank": 12,
+    "avg": 12.0,
+    "id": 12
+  },
+  {
+    "name": "四川大学",
+    "chinaxy": 18,
+    "ranking": 12,
+    "wurank": 10,
+    "avg": 13.33,
+    "id": 13
+  },
+  {
+    "name": "中国人民大学",
+    "chinaxy": 11,
+    "ranking": 18,
+    "wurank": 22,
+    "avg": 17.0,
+    "id": 14
+  },
+  {
+    "name": "山东大学",
+    "chinaxy": 15,
+    "ranking": 22,
+    "wurank": 14,
+    "avg": 17.0,
+    "id": 15
+  },
+  {
+    "name": "北京航空航天大学",
+    "chinaxy": 17,
+    "ranking": 14,
+    "wurank": 21,
+    "avg": 17.33,
+    "id": 16
+  },
+  {
+    "name": "同济大学",
+    "chinaxy": 19,
+    "ranking": 17,
+    "wurank": 16,
+    "avg": 17.33,
+    "id": 17
+  },
+  {
+    "name": "天津大学",
+    "chinaxy": 13,
+    "ranking": 21,
+    "wurank": 19,
+    "avg": 17.67,
+    "id": 18
+  },
+  {
+    "name": "东南大学",
+    "chinaxy": 21,
+    "ranking": 15,
+    "wurank": 18,
+    "avg": 18.0,
+    "id": 19
+  },
+  {
+    "name": "南开大学",
+    "chinaxy": 12,
+    "ranking": 20,
+    "wurank": 24,
+    "avg": 18.67,
+    "id": 20
+  },
+  {
+    "name": "北京师范大学",
+    "chinaxy": 12,
+    "ranking": 19,
+    "wurank": 28,
+    "avg": 19.67,
+    "id": 21
+  },
+  {
+    "name": "中南大学",
+    "chinaxy": 26,
+    "ranking": 23,
+    "wurank": 13,
+    "avg": 20.67,
+    "id": 22
+  },
+  {
+    "name": "吉林大学",
+    "chinaxy": 22,
+    "ranking": 27,
+    "wurank": 15,
+    "avg": 21.33,
+    "id": 23
+  },
+  {
+    "name": "华南理工大学",
+    "chinaxy": 24,
+    "ranking": 26,
+    "wurank": 20,
+    "avg": 23.33,
+    "id": 24
+  },
+  {
+    "name": "厦门大学",
+    "chinaxy": 20,
+    "ranking": 24,
+    "wurank": 27,
+    "avg": 23.67,
+    "id": 25
+  },
+  {
+    "name": "北京理工大学",
+    "chinaxy": 25,
+    "ranking": 16,
+    "wurank": 30,
+    "avg": 23.67,
+    "id": 26
+  },
+  {
+    "name": "西北工业大学",
+    "chinaxy": 23,
+    "ranking": 25,
+    "wurank": 29,
+    "avg": 25.67,
+    "id": 27
+  },
+  {
+    "name": "湖南大学",
+    "chinaxy": 31,
+    "ranking": 29,
+    "wurank": 25,
+    "avg": 28.33,
+    "id": 28
+  },
+  {
+    "name": "华东师范大学",
+    "chinaxy": 25,
+    "ranking": 31,
+    "wurank": 34,
+    "avg": 30.0,
+    "id": 29
+  },
+  {
+    "name": "大连理工大学",
+    "chinaxy": 28,
+    "ranking": 32,
+    "wurank": 31,
+    "avg": 30.33,
+    "id": 30
+  },
+  {
+    "name": "电子科技大学",
+    "chinaxy": 30,
+    "ranking": 28,
+    "wurank": 33,
+    "avg": 30.33,
+    "id": 31
+  },
+  {
+    "name": "重庆大学",
+    "chinaxy": 33,
+    "ranking": 34,
+    "wurank": 26,
+    "avg": 31.0,
+    "id": 32
+  },
+  {
+    "name": "中国农业大学",
+    "chinaxy": 27,
+    "ranking": 30,
+    "wurank": 39,
+    "avg": 32.0,
+    "id": 33
+  },
+  { "name": "北京协和医学院", "chinaxy": 32, "avg": 32.0, "id": 34 },
+  {
+    "name": "苏州大学",
+    "chinaxy": 42,
+    "ranking": 41,
+    "wurank": 23,
+    "avg": 35.33,
+    "id": 35
+  },
+  {
+    "name": "兰州大学",
+    "chinaxy": 29,
+    "ranking": 40,
+    "wurank": 41,
+    "avg": 36.67,
+    "id": 36
+  },
+  {
+    "name": "北京科技大学",
+    "chinaxy": 32,
+    "ranking": 35,
+    "wurank": 47,
+    "avg": 38.0,
+    "id": 37
+  },
+  {
+    "name": "南京理工大学",
+    "chinaxy": 40,
+    "ranking": 36,
+    "wurank": 40,
+    "avg": 38.67,
+    "id": 38
+  },
+  {
+    "name": "南京航空航天大学",
+    "chinaxy": 46,
+    "ranking": 37,
+    "wurank": 38,
+    "avg": 40.33,
+    "id": 39
+  },
+  {
+    "name": "东北大学",
+    "chinaxy": 43,
+    "ranking": 38,
+    "wurank": 42,
+    "avg": 41.0,
+    "id": 40
+  },
+  {
+    "name": "武汉理工大学",
+    "chinaxy": 34,
+    "ranking": 54,
+    "wurank": 36,
+    "avg": 41.33,
+    "id": 41
+  },
+  {
+    "name": "西安电子科技大学",
+    "chinaxy": 45,
+    "ranking": 39,
+    "wurank": 45,
+    "avg": 43.0,
+    "id": 42
+  },
+  {
+    "name": "北京交通大学",
+    "chinaxy": 35,
+    "ranking": 43,
+    "wurank": 56,
+    "avg": 44.67,
+    "id": 43
+  },
+  {
+    "name": "华东理工大学",
+    "chinaxy": 36,
+    "ranking": 44,
+    "wurank": 54,
+    "avg": 44.67,
+    "id": 44
+  },
+  {
+    "name": "郑州大学",
+    "chinaxy": 57,
+    "ranking": 46,
+    "wurank": 32,
+    "avg": 45.0,
+    "id": 45
+  },
+  {
+    "name": "华中农业大学",
+    "chinaxy": 37,
+    "ranking": 42,
+    "wurank": 63,
+    "avg": 47.33,
+    "id": 46
+  },
+  {
+    "name": "暨南大学",
+    "chinaxy": 50,
+    "ranking": 50,
+    "wurank": 46,
+    "avg": 48.67,
+    "id": 47
+  },
+  {
+    "name": "西南大学",
+    "chinaxy": 41,
+    "ranking": 72,
+    "wurank": 35,
+    "avg": 49.33,
+    "id": 48
+  },
+  {
+    "name": "南京农业大学",
+    "chinaxy": 44,
+    "ranking": 51,
+    "wurank": 53,
+    "avg": 49.33,
+    "id": 49
+  },
+  {
+    "name": "上海大学",
+    "chinaxy": 64,
+    "ranking": 48,
+    "wurank": 37,
+    "avg": 49.67,
+    "id": 50
+  },
+  {
+    "name": "河海大学",
+    "chinaxy": 39,
+    "ranking": 61,
+    "wurank": 51,
+    "avg": 50.33,
+    "id": 51
+  },
+  {
+    "name": "华中师范大学",
+    "chinaxy": 42,
+    "ranking": 47,
+    "wurank": 62,
+    "avg": 50.33,
+    "id": 52
+  },
+  {
+    "name": "南京师范大学",
+    "chinaxy": 43,
+    "ranking": 58,
+    "wurank": 52,
+    "avg": 51.0,
+    "id": 53
+  },
+  {
+    "name": "哈尔滨工程大学",
+    "chinaxy": 49,
+    "ranking": 49,
+    "wurank": 55,
+    "avg": 51.0,
+    "id": 54
+  },
+  {
+    "name": "西南交通大学",
+    "chinaxy": 52,
+    "ranking": 55,
+    "wurank": 50,
+    "avg": 52.33,
+    "id": 55
+  },
+  {
+    "name": "江南大学",
+    "chinaxy": 55,
+    "ranking": 60,
+    "wurank": 49,
+    "avg": 54.67,
+    "id": 56
+  },
+  {
+    "name": "西北农林科技大学",
+    "chinaxy": 54,
+    "ranking": 74,
+    "wurank": 44,
+    "avg": 57.33,
+    "id": 57
+  },
+  {
+    "name": "北京邮电大学",
+    "chinaxy": 48,
+    "ranking": 57,
+    "wurank": 76,
+    "avg": 60.33,
+    "id": 58
+  },
+  {
+    "name": "南昌大学",
+    "chinaxy": 67,
+    "ranking": 69,
+    "wurank": 48,
+    "avg": 61.33,
+    "id": 59
+  },
+  {
+    "name": "深圳大学",
+    "chinaxy": 60,
+    "ranking": 68,
+    "wurank": 58,
+    "avg": 62.0,
+    "id": 60
+  },
+  {
+    "name": "中国矿业大学",
+    "chinaxy": 73,
+    "ranking": 56,
+    "wurank": 59,
+    "avg": 62.67,
+    "id": 61
+  },
+  {
+    "name": "中国海洋大学",
+    "chinaxy": 38,
+    "ranking": 62,
+    "wurank": 89,
+    "avg": 63.0,
+    "id": 62
+  },
+  {
+    "name": "北京化工大学",
+    "chinaxy": 64,
+    "ranking": 64,
+    "wurank": 66,
+    "avg": 64.67,
+    "id": 63
+  },
+  {
+    "name": "东北师范大学",
+    "chinaxy": 56,
+    "ranking": 53,
+    "wurank": 88,
+    "avg": 65.67,
+    "id": 64
+  },
+  {
+    "name": "江苏大学",
+    "chinaxy": 77,
+    "ranking": 78,
+    "wurank": 43,
+    "avg": 66.0,
+    "id": 65
+  },
+  {
+    "name": "西北大学",
+    "chinaxy": 58,
+    "ranking": 65,
+    "wurank": 77,
+    "avg": 66.67,
+    "id": 66
+  },
+  {
+    "name": "北京工业大学",
+    "chinaxy": 69,
+    "ranking": 63,
+    "wurank": 70,
+    "avg": 67.33,
+    "id": 67
+  },
+  {
+    "name": "合肥工业大学",
+    "chinaxy": 47,
+    "ranking": 83,
+    "wurank": 75,
+    "avg": 68.33,
+    "id": 68
+  },
+  {
+    "name": "首都医科大学",
+    "chinaxy": 69,
+    "wurank": 68,
+    "avg": 68.5,
+    "id": 69
+  },
+  {
+    "name": "中国地质大学（武汉）",
+    "chinaxy": 69,
+    "ranking": 59,
+    "wurank": 78,
+    "avg": 68.67,
+    "id": 70
+  },
+  {
+    "name": "扬州大学",
+    "chinaxy": 68,
+    "ranking": 81,
+    "wurank": 60,
+    "avg": 69.67,
+    "id": 71
+  },
+  {
+    "name": "福州大学",
+    "chinaxy": 75,
+    "ranking": 73,
+    "wurank": 64,
+    "avg": 70.67,
+    "id": 72
+  },
+  {
+    "name": "华南师范大学",
+    "chinaxy": 62,
+    "ranking": 79,
+    "wurank": 74,
+    "avg": 71.67,
+    "id": 73
+  },
+  {
+    "name": "陕西师范大学",
+    "chinaxy": 73,
+    "ranking": 67,
+    "wurank": 79,
+    "avg": 73.0,
+    "id": 74
+  },
+  {
+    "name": "浙江工业大学",
+    "chinaxy": 80,
+    "ranking": 70,
+    "wurank": 72,
+    "avg": 74.0,
+    "id": 75
+  },
+  {
+    "name": "湖南师范大学",
+    "chinaxy": 57,
+    "ranking": 87,
+    "wurank": 83,
+    "avg": 75.67,
+    "id": 76
+  },
+  {
+    "name": "东华大学",
+    "chinaxy": 62,
+    "ranking": 77,
+    "wurank": 91,
+    "avg": 76.67,
+    "id": 77
+  },
+  {
+    "name": "中国石油大学（华东）",
+    "chinaxy": 81,
+    "ranking": 66,
+    "wurank": 85,
+    "avg": 77.33,
+    "id": 78
+  },
+  {
+    "name": "华南农业大学",
+    "chinaxy": 53,
+    "ranking": 93,
+    "wurank": 87,
+    "avg": 77.67,
+    "id": 79
+  },
+  {
+    "name": "南方科技大学",
+    "chinaxy": 86,
+    "ranking": 33,
+    "wurank": 116,
+    "avg": 78.33,
+    "id": 80
+  },
+  {
+    "name": "南京工业大学",
+    "chinaxy": 82,
+    "ranking": 85,
+    "wurank": 71,
+    "avg": 79.33,
+    "id": 81
+  },
+  {
+    "name": "中国石油大学（北京）",
+    "chinaxy": 69,
+    "ranking": 52,
+    "wurank": 121,
+    "avg": 80.67,
+    "id": 82
+  },
+  {
+    "name": "华北电力大学",
+    "chinaxy": 113,
+    "ranking": 75,
+    "wurank": 57,
+    "avg": 81.67,
+    "id": 83
+  },
+  {
+    "name": "中南财经政法大学",
+    "chinaxy": 51,
+    "wurank": 113,
+    "avg": 82.0,
+    "id": 84
+  },
+  {
+    "name": "河南大学",
+    "chinaxy": 83,
+    "ranking": 98,
+    "wurank": 65,
+    "avg": 82.0,
+    "id": 85
+  },
+  {
+    "name": "燕山大学",
+    "chinaxy": 63,
+    "ranking": 94,
+    "wurank": 90,
+    "avg": 82.33,
+    "id": 86
+  },
+  {
+    "name": "中国政法大学",
+    "chinaxy": 72,
+    "wurank": 94,
+    "avg": 83.0,
+    "id": 87
+  },
+  {
+    "name": "宁波大学",
+    "chinaxy": 66,
+    "ranking": 84,
+    "wurank": 100,
+    "avg": 83.33,
+    "id": 88
+  },
+  {
+    "name": "南京医科大学",
+    "chinaxy": 108,
+    "wurank": 61,
+    "avg": 84.5,
+    "id": 89
+  },
+  {
+    "name": "北京林业大学",
+    "chinaxy": 78,
+    "ranking": 82,
+    "wurank": 95,
+    "avg": 85.0,
+    "id": 90
+  },
+  {
+    "name": "南京林业大学",
+    "chinaxy": 79,
+    "ranking": 110,
+    "wurank": 69,
+    "avg": 86.0,
+    "id": 91
+  },
+  {
+    "name": "上海财经大学",
+    "chinaxy": 59,
+    "wurank": 115,
+    "avg": 87.0,
+    "id": 92
+  },
+  {
+    "name": "上海理工大学",
+    "chinaxy": 74,
+    "ranking": 102,
+    "wurank": 86,
+    "avg": 87.33,
+    "id": 93
+  },
+  {
+    "name": "首都师范大学",
+    "chinaxy": 74,
+    "ranking": 89,
+    "wurank": 103,
+    "avg": 88.67,
+    "id": 94
+  },
+  {
+    "name": "云南大学",
+    "chinaxy": 56,
+    "ranking": 80,
+    "wurank": 135,
+    "avg": 90.33,
+    "id": 95
+  },
+  {
+    "name": "长安大学",
+    "chinaxy": 93,
+    "ranking": 88,
+    "wurank": 92,
+    "avg": 91.0,
+    "id": 96
+  },
+  {
+    "name": "西南财经大学",
+    "chinaxy": 75,
+    "wurank": 111,
+    "avg": 93.0,
+    "id": 97
+  },
+  {
+    "name": "南京信息工程大学",
+    "chinaxy": 116,
+    "ranking": 90,
+    "wurank": 73,
+    "avg": 93.0,
+    "id": 98
+  },
+  {
+    "name": "南方医科大学",
+    "chinaxy": 107,
+    "wurank": 80,
+    "avg": 93.5,
+    "id": 99
+  },
+  {
+    "name": "福建师范大学",
+    "chinaxy": 78,
+    "ranking": 95,
+    "wurank": 114,
+    "avg": 95.67,
+    "id": 100
+  },
+  {
+    "name": "山东师范大学",
+    "chinaxy": 101,
+    "ranking": 105,
+    "wurank": 82,
+    "avg": 96.0,
+    "id": 101
+  },
+  {
+    "name": "南京邮电大学",
+    "chinaxy": 122,
+    "ranking": 86,
+    "wurank": 81,
+    "avg": 96.33,
+    "id": 102
+  },
+  {
+    "name": "浙江师范大学",
+    "chinaxy": 81,
+    "ranking": 100,
+    "wurank": 109,
+    "avg": 96.67,
+    "id": 103
+  },
+  {
+    "name": "安徽大学",
+    "chinaxy": 87,
+    "ranking": 104,
+    "wurank": 101,
+    "avg": 97.33,
+    "id": 104
+  },
+  {
+    "name": "对外经济贸易大学",
+    "chinaxy": 72,
+    "wurank": 124,
+    "avg": 98.0,
+    "id": 105
+  },
+  {
+    "name": "贵州大学",
+    "chinaxy": 87,
+    "ranking": 109,
+    "wurank": 98,
+    "avg": 98.0,
+    "id": 106
+  },
+  {
+    "name": "中国地质大学（北京）",
+    "chinaxy": 104,
+    "ranking": 71,
+    "wurank": 119,
+    "avg": 98.0,
+    "id": 107
+  },
+  {
+    "name": "山西大学",
+    "chinaxy": 89,
+    "ranking": 103,
+    "wurank": 108,
+    "avg": 100.0,
+    "id": 108
+  },
+  {
+    "name": "昆明理工大学",
+    "chinaxy": 60,
+    "ranking": 124,
+    "wurank": 123,
+    "avg": 102.33,
+    "id": 109
+  },
+  {
+    "name": "广东工业大学",
+    "chinaxy": 124,
+    "ranking": 101,
+    "wurank": 84,
+    "avg": 103.0,
+    "id": 110
+  },
+  {
+    "name": "湘潭大学",
+    "chinaxy": 101,
+    "ranking": 92,
+    "wurank": 117,
+    "avg": 103.33,
+    "id": 111
+  },
+  {
+    "name": "中国药科大学",
+    "chinaxy": 100,
+    "wurank": 107,
+    "avg": 103.5,
+    "id": 112
+  },
+  {
+    "name": "太原理工大学",
+    "chinaxy": 97,
+    "ranking": 108,
+    "wurank": 106,
+    "avg": 103.67,
+    "id": 113
+  },
+  {
+    "name": "青岛大学",
+    "chinaxy": 139,
+    "ranking": 107,
+    "wurank": 67,
+    "avg": 104.33,
+    "id": 114
+  },
+  {
+    "name": "中国医科大学",
+    "chinaxy": 108,
+    "wurank": 104,
+    "avg": 106.0,
+    "id": 115
+  },
+  {
+    "name": "重庆医科大学",
+    "chinaxy": 113,
+    "wurank": 99,
+    "avg": 106.0,
+    "id": 116
+  },
+  {
+    "name": "中央财经大学",
+    "chinaxy": 95,
+    "wurank": 118,
+    "avg": 106.5,
+    "id": 117
+  },
+  {
+    "name": "哈尔滨医科大学",
+    "chinaxy": 103,
+    "wurank": 112,
+    "avg": 107.5,
+    "id": 118
+  },
+  {
+    "name": "广西大学",
+    "chinaxy": 121,
+    "ranking": 96,
+    "wurank": 110,
+    "avg": 109.0,
+    "id": 119
+  },
+  {
+    "name": "武汉科技大学",
+    "chinaxy": 84,
+    "ranking": 112,
+    "wurank": 132,
+    "avg": 109.33,
+    "id": 120
+  },
+  {
+    "name": "温州医科大学",
+    "chinaxy": 130,
+    "wurank": 93,
+    "avg": 111.5,
+    "id": 121
+  },
+  {
+    "name": "山东科技大学",
+    "chinaxy": 116,
+    "ranking": 126,
+    "wurank": 97,
+    "avg": 113.0,
+    "id": 122
+  },
+  {
+    "name": "中国矿业大学（北京）",
+    "chinaxy": 108,
+    "ranking": 76,
+    "wurank": 157,
+    "avg": 113.67,
+    "id": 123
+  },
+  {
+    "name": "河北工业大学",
+    "chinaxy": 111,
+    "ranking": 106,
+    "wurank": 125,
+    "avg": 114.0,
+    "id": 124
+  },
+  {
+    "name": "北京中医药大学",
+    "chinaxy": 101,
+    "wurank": 128,
+    "avg": 114.5,
+    "id": 125
+  },
+  {
+    "name": "河北大学",
+    "chinaxy": 90,
+    "ranking": 130,
+    "wurank": 127,
+    "avg": 115.67,
+    "id": 126
+  },
+  {
+    "name": "天津医科大学",
+    "chinaxy": 103,
+    "wurank": 129,
+    "avg": 116.0,
+    "id": 127
+  },
+  {
+    "name": "四川农业大学",
+    "chinaxy": 109,
+    "ranking": 144,
+    "wurank": 96,
+    "avg": 116.33,
+    "id": 128
+  },
+  {
+    "name": "杭州电子科技大学",
+    "chinaxy": 140,
+    "ranking": 91,
+    "wurank": 122,
+    "avg": 117.67,
+    "id": 129
+  },
+  {
+    "name": "福建农林大学",
+    "chinaxy": 100,
+    "ranking": 116,
+    "wurank": 141,
+    "avg": 119.0,
+    "id": 130
+  },
+  {
+    "name": "江西师范大学",
+    "chinaxy": 101,
+    "ranking": 119,
+    "wurank": 137,
+    "avg": 119.0,
+    "id": 131
+  },
+  {
+    "name": "广州大学",
+    "chinaxy": 134,
+    "ranking": 97,
+    "wurank": 126,
+    "avg": 119.0,
+    "id": 132
+  },
+  {
+    "name": "浙江理工大学",
+    "chinaxy": 115,
+    "ranking": 114,
+    "wurank": 134,
+    "avg": 121.0,
+    "id": 133
+  },
+  {
+    "name": "上海科技大学",
+    "ranking": 45,
+    "wurank": 199,
+    "avg": 122.0,
+    "id": 134
+  },
+  {
+    "name": "西安建筑科技大学",
+    "chinaxy": 101,
+    "ranking": 122,
+    "wurank": 147,
+    "avg": 123.33,
+    "id": 135
+  },
+  {
+    "name": "东北林业大学",
+    "chinaxy": 107,
+    "ranking": 115,
+    "wurank": 148,
+    "avg": 123.33,
+    "id": 136
+  },
+  {
+    "name": "江西财经大学",
+    "chinaxy": 98,
+    "wurank": 151,
+    "avg": 124.5,
+    "id": 137
+  },
+  {
+    "name": "东北农业大学",
+    "chinaxy": 104,
+    "ranking": 120,
+    "wurank": 150,
+    "avg": 124.67,
+    "id": 138
+  },
+  {
+    "name": "西安理工大学",
+    "chinaxy": 114,
+    "ranking": 117,
+    "wurank": 146,
+    "avg": 125.67,
+    "id": 139
+  },
+  {
+    "name": "上海师范大学",
+    "chinaxy": 133,
+    "ranking": 111,
+    "wurank": 133,
+    "avg": 125.67,
+    "id": 140
+  },
+  {
+    "name": "大连海事大学",
+    "chinaxy": 124,
+    "ranking": 99,
+    "wurank": 155,
+    "avg": 126.0,
+    "id": 141
+  },
+  {
+    "name": "河南师范大学",
+    "chinaxy": 95,
+    "ranking": 155,
+    "wurank": 131,
+    "avg": 127.0,
+    "id": 142
+  },
+  {
+    "name": "山东农业大学",
+    "chinaxy": 103,
+    "ranking": 146,
+    "wurank": 139,
+    "avg": 129.33,
+    "id": 143
+  },
+  {
+    "name": "北京外国语大学",
+    "chinaxy": 79,
+    "wurank": 180,
+    "avg": 129.5,
+    "id": 144
+  },
+  {
+    "name": "河南科技大学",
+    "chinaxy": 92,
+    "ranking": 167,
+    "wurank": 130,
+    "avg": 129.67,
+    "id": 145
+  },
+  {
+    "name": "辽宁大学",
+    "chinaxy": 93,
+    "ranking": 127,
+    "wurank": 170,
+    "avg": 130.0,
+    "id": 146
+  },
+  {
+    "name": "南京中医药大学",
+    "chinaxy": 116,
+    "wurank": 144,
+    "avg": 130.0,
+    "id": 147
+  },
+  {
+    "name": "西南石油大学",
+    "chinaxy": 112,
+    "ranking": 128,
+    "wurank": 152,
+    "avg": 130.67,
+    "id": 148
+  },
+  {
+    "name": "安徽师范大学",
+    "chinaxy": 116,
+    "ranking": 132,
+    "wurank": 149,
+    "avg": 132.33,
+    "id": 149
+  },
+  {
+    "name": "华侨大学",
+    "chinaxy": 120,
+    "ranking": 134,
+    "wurank": 145,
+    "avg": 133.0,
+    "id": 150
+  },
+  {
+    "name": "江苏师范大学",
+    "chinaxy": 140,
+    "ranking": 125,
+    "wurank": 136,
+    "avg": 133.67,
+    "id": 151
+  },
+  {
+    "name": "海南大学",
+    "chinaxy": 141,
+    "ranking": 118,
+    "wurank": 142,
+    "avg": 133.67,
+    "id": 152
+  },
+  {
+    "name": "广州医科大学",
+    "chinaxy": 129,
+    "wurank": 140,
+    "avg": 134.5,
+    "id": 153
+  },
+  {
+    "name": "浙江工商大学",
+    "chinaxy": 118,
+    "wurank": 153,
+    "avg": 135.5,
+    "id": 154
+  },
+  {
+    "name": "长沙理工大学",
+    "chinaxy": 133,
+    "ranking": 121,
+    "wurank": 158,
+    "avg": 137.33,
+    "id": 155
+  },
+  {
+    "name": "中央民族大学",
+    "chinaxy": 85,
+    "wurank": 190,
+    "avg": 137.5,
+    "id": 156
+  },
+  {
+    "name": "湖北大学",
+    "chinaxy": 134,
+    "ranking": 123,
+    "wurank": 159,
+    "avg": 138.67,
+    "id": 157
+  },
+  {
+    "name": "济南大学",
+    "chinaxy": 148,
+    "ranking": 163,
+    "wurank": 105,
+    "avg": 138.67,
+    "id": 158
+  },
+  {
+    "name": "东北财经大学",
+    "chinaxy": 96,
+    "wurank": 182,
+    "avg": 139.0,
+    "id": 159
+  },
+  {
+    "name": "中国传媒大学",
+    "chinaxy": 84,
+    "wurank": 196,
+    "avg": 140.0,
+    "id": 160
+  },
+  {
+    "name": "黑龙江大学",
+    "chinaxy": 106,
+    "ranking": 150,
+    "wurank": 166,
+    "avg": 140.67,
+    "id": 161
+  },
+  {
+    "name": "天津工业大学",
+    "chinaxy": 98,
+    "ranking": 157,
+    "wurank": 172,
+    "avg": 142.33,
+    "id": 162
+  },
+  {
+    "name": "南通大学",
+    "chinaxy": 168,
+    "ranking": 161,
+    "wurank": 102,
+    "avg": 143.67,
+    "id": 163
+  },
+  {
+    "name": "陕西科技大学",
+    "chinaxy": 141,
+    "ranking": 131,
+    "wurank": 168,
+    "avg": 146.67,
+    "id": 164
+  },
+  {
+    "name": "山东财经大学",
+    "chinaxy": 122,
+    "wurank": 174,
+    "avg": 148.0,
+    "id": 165
+  },
+  {
+    "name": "安徽医科大学",
+    "chinaxy": 159,
+    "wurank": 138,
+    "avg": 148.5,
+    "id": 166
+  },
+  {
+    "name": "湖南农业大学",
+    "chinaxy": 110,
+    "ranking": 151,
+    "wurank": 193,
+    "avg": 151.33,
+    "id": 167
+  },
+  {
+    "name": "杭州师范大学",
+    "chinaxy": 147,
+    "ranking": 129,
+    "wurank": 178,
+    "avg": 151.33,
+    "id": 168
+  },
+  {
+    "name": "广州中医药大学",
+    "chinaxy": 130,
+    "wurank": 173,
+    "avg": 151.5,
+    "id": 169
+  },
+  {
+    "name": "华东政法大学",
+    "chinaxy": 120,
+    "wurank": 187,
+    "avg": 153.5,
+    "id": 170
+  },
+  {
+    "name": "天津师范大学",
+    "chinaxy": 111,
+    "ranking": 148,
+    "wurank": 203,
+    "avg": 154.0,
+    "id": 171
+  },
+  {
+    "name": "河北医科大学",
+    "chinaxy": 116,
+    "wurank": 192,
+    "avg": 154.0,
+    "id": 172
+  },
+  {
+    "name": "河南理工大学",
+    "chinaxy": 141,
+    "ranking": 179,
+    "wurank": 143,
+    "avg": 154.33,
+    "id": 173
+  },
+  {
+    "name": "西北师范大学",
+    "chinaxy": 112,
+    "ranking": 177,
+    "wurank": 177,
+    "avg": 155.33,
+    "id": 174
+  },
+  {
+    "name": "三峡大学",
+    "chinaxy": 130,
+    "ranking": 173,
+    "wurank": 169,
+    "avg": 157.33,
+    "id": 175
+  },
+  {
+    "name": "重庆邮电大学",
+    "chinaxy": 175,
+    "ranking": 141,
+    "wurank": 156,
+    "avg": 157.33,
+    "id": 176
+  },
+  {
+    "name": "成都理工大学",
+    "chinaxy": 156,
+    "ranking": 156,
+    "wurank": 162,
+    "avg": 158.0,
+    "id": 177
+  },
+  {
+    "name": "内蒙古大学",
+    "chinaxy": 137,
+    "ranking": 113,
+    "wurank": 228,
+    "avg": 159.33,
+    "id": 178
+  },
+  {
+    "name": "西南政法大学",
+    "chinaxy": 129,
+    "wurank": 191,
+    "avg": 160.0,
+    "id": 179
+  },
+  {
+    "name": "中南民族大学",
+    "chinaxy": 134,
+    "wurank": 188,
+    "avg": 161.0,
+    "id": 180
+  },
+  {
+    "name": "齐鲁工业大学",
+    "chinaxy": 91,
+    "ranking": 159,
+    "wurank": 234,
+    "avg": 161.33,
+    "id": 181
+  },
+  {
+    "name": "河北师范大学",
+    "chinaxy": 110,
+    "ranking": 154,
+    "wurank": 222,
+    "avg": 162.0,
+    "id": 182
+  },
+  {
+    "name": "广东外语外贸大学",
+    "chinaxy": 138,
+    "wurank": 186,
+    "avg": 162.0,
+    "id": 183
+  },
+  {
+    "name": "河北农业大学",
+    "chinaxy": 119,
+    "ranking": 183,
+    "wurank": 185,
+    "avg": 162.33,
+    "id": 184
+  },
+  {
+    "name": "青岛科技大学",
+    "chinaxy": 151,
+    "ranking": 182,
+    "wurank": 154,
+    "avg": 162.33,
+    "id": 185
+  },
+  {
+    "name": "新疆大学",
+    "chinaxy": 138,
+    "ranking": 136,
+    "wurank": 214,
+    "avg": 162.67,
+    "id": 186
+  },
+  {
+    "name": "湖北工业大学",
+    "chinaxy": 130,
+    "ranking": 142,
+    "wurank": 217,
+    "avg": 163.0,
+    "id": 187
+  },
+  {
+    "name": "河南农业大学",
+    "chinaxy": 148,
+    "ranking": 140,
+    "wurank": 201,
+    "avg": 163.0,
+    "id": 188
+  },
+  {
+    "name": "石河子大学",
+    "chinaxy": 186,
+    "ranking": 138,
+    "wurank": 167,
+    "avg": 163.67,
+    "id": 189
+  },
+  {
+    "name": "上海中医药大学",
+    "chinaxy": 112,
+    "wurank": 216,
+    "avg": 164.0,
+    "id": 190
+  },
+  {
+    "name": "山西医科大学",
+    "chinaxy": 130,
+    "wurank": 198,
+    "avg": 164.0,
+    "id": 191
+  },
+  {
+    "name": "温州大学",
+    "chinaxy": 156,
+    "ranking": 158,
+    "wurank": 179,
+    "avg": 164.33,
+    "id": 192
+  },
+  {
+    "name": "四川师范大学",
+    "chinaxy": 141,
+    "ranking": 196,
+    "wurank": 161,
+    "avg": 166.0,
+    "id": 193
+  },
+  {
+    "name": "中北大学",
+    "chinaxy": 159,
+    "ranking": 184,
+    "wurank": 160,
+    "avg": 167.67,
+    "id": 194
+  },
+  {
+    "name": "安徽农业大学",
+    "chinaxy": 124,
+    "ranking": 162,
+    "wurank": 220,
+    "avg": 168.67,
+    "id": 195
+  },
+  {
+    "name": "首都经济贸易大学",
+    "chinaxy": 124,
+    "wurank": 215,
+    "avg": 169.5,
+    "id": 196
+  },
+  {
+    "name": "长江大学",
+    "chinaxy": 129,
+    "ranking": 186,
+    "wurank": 194,
+    "avg": 169.67,
+    "id": 197
+  },
+  {
+    "name": "中国计量大学",
+    "chinaxy": 186,
+    "ranking": 139,
+    "wurank": 184,
+    "avg": 169.67,
+    "id": 198
+  },
+  {
+    "name": "曲阜师范大学",
+    "chinaxy": 222,
+    "ranking": 170,
+    "wurank": 120,
+    "avg": 170.67,
+    "id": 199
+  },
+  {
+    "name": "沈阳农业大学",
+    "chinaxy": 124,
+    "ranking": 143,
+    "wurank": 246,
+    "avg": 171.0,
+    "id": 200
+  },
+  {
+    "name": "江苏科技大学",
+    "chinaxy": 215,
+    "ranking": 137,
+    "wurank": 163,
+    "avg": 171.67,
+    "id": 201
+  },
+  {
+    "name": "广西师范大学",
+    "chinaxy": 147,
+    "ranking": 160,
+    "wurank": 211,
+    "avg": 172.67,
+    "id": 202
+  },
+  {
+    "name": "常州大学",
+    "chinaxy": 200,
+    "ranking": 152,
+    "wurank": 176,
+    "avg": 176.0,
+    "id": 203
+  },
+  {
+    "name": "江西理工大学",
+    "chinaxy": 141,
+    "ranking": 169,
+    "wurank": 219,
+    "avg": 176.33,
+    "id": 204
+  },
+  {
+    "name": "汕头大学",
+    "chinaxy": 147,
+    "ranking": 135,
+    "wurank": 257,
+    "avg": 179.67,
+    "id": 205
+  },
+  {
+    "name": "大连医科大学",
+    "chinaxy": 173,
+    "wurank": 189,
+    "avg": 181.0,
+    "id": 206
+  },
+  { "name": "宁波诺丁汉大学", "wurank": 181, "avg": 181.0, "id": 207 },
+  {
+    "name": "武汉工程大学",
+    "chinaxy": 178,
+    "ranking": 145,
+    "wurank": 221,
+    "avg": 181.33,
+    "id": 208
+  },
+  {
+    "name": "南昌航空大学",
+    "chinaxy": 176,
+    "ranking": 166,
+    "wurank": 208,
+    "avg": 183.33,
+    "id": 209
+  },
+  {
+    "name": "浙江农林大学",
+    "chinaxy": 180,
+    "ranking": 153,
+    "wurank": 227,
+    "avg": 186.67,
+    "id": 210
+  },
+  {
+    "name": "云南师范大学",
+    "chinaxy": 141,
+    "ranking": 189,
+    "wurank": 235,
+    "avg": 188.33,
+    "id": 211
+  },
+  {
+    "name": "北京工商大学",
+    "chinaxy": 159,
+    "wurank": 218,
+    "avg": 188.5,
+    "id": 212
+  },
+  {
+    "name": "长春理工大学",
+    "chinaxy": 185,
+    "ranking": 147,
+    "wurank": 239,
+    "avg": 190.33,
+    "id": 213
+  },
+  {
+    "name": "福建医科大学",
+    "chinaxy": 212,
+    "wurank": 171,
+    "avg": 191.5,
+    "id": 214
+  },
+  {
+    "name": "上海外国语大学",
+    "chinaxy": 112,
+    "wurank": 273,
+    "avg": 192.5,
+    "id": 215
+  },
+  {
+    "name": "天津科技大学",
+    "chinaxy": 151,
+    "ranking": 185,
+    "wurank": 242,
+    "avg": 192.67,
+    "id": 216
+  },
+  {
+    "name": "北京体育大学",
+    "chinaxy": 116,
+    "wurank": 270,
+    "avg": 193.0,
+    "id": 217
+  },
+  {
+    "name": "兰州理工大学",
+    "chinaxy": 168,
+    "ranking": 199,
+    "wurank": 212,
+    "avg": 193.0,
+    "id": 218
+  },
+  {
+    "name": "宁夏大学",
+    "chinaxy": 182,
+    "ranking": 149,
+    "wurank": 248,
+    "avg": 193.0,
+    "id": 219
+  },
+  {
+    "name": "武汉纺织大学",
+    "chinaxy": 148,
+    "ranking": 165,
+    "wurank": 268,
+    "avg": 193.67,
+    "id": 220
+  },
+  {
+    "name": "浙江财经大学",
+    "chinaxy": 189,
+    "wurank": 200,
+    "avg": 194.5,
+    "id": 221
+  },
+  {
+    "name": "西南科技大学",
+    "chinaxy": 215,
+    "ranking": 206,
+    "wurank": 164,
+    "avg": 195.0,
+    "id": 222
+  },
+  {
+    "name": "南华大学",
+    "chinaxy": 184,
+    "ranking": 191,
+    "wurank": 213,
+    "avg": 196.0,
+    "id": 223
+  },
+  {
+    "name": "天津中医药大学",
+    "chinaxy": 114,
+    "wurank": 281,
+    "avg": 197.5,
+    "id": 224
+  },
+  {
+    "name": "西安科技大学",
+    "chinaxy": 180,
+    "ranking": 171,
+    "wurank": 243,
+    "avg": 198.0,
+    "id": 225
+  },
+  {
+    "name": "青岛农业大学",
+    "chinaxy": 193,
+    "ranking": 219,
+    "wurank": 183,
+    "avg": 198.33,
+    "id": 226
+  },
+  {
+    "name": "山东第一医科大学",
+    "chinaxy": 159,
+    "wurank": 238,
+    "avg": 198.5,
+    "id": 227
+  },
+  {
+    "name": "哈尔滨理工大学",
+    "chinaxy": 168,
+    "ranking": 222,
+    "wurank": 206,
+    "avg": 198.67,
+    "id": 228
+  },
+  {
+    "name": "辽宁师范大学",
+    "chinaxy": 189,
+    "ranking": 181,
+    "wurank": 230,
+    "avg": 200.0,
+    "id": 229
+  },
+  {
+    "name": "山东理工大学",
+    "chinaxy": 227,
+    "ranking": 208,
+    "wurank": 165,
+    "avg": 200.0,
+    "id": 230
+  },
+  {
+    "name": "中南林业科技大学",
+    "chinaxy": 168,
+    "ranking": 204,
+    "wurank": 233,
+    "avg": 201.67,
+    "id": 231
+  },
+  {
+    "name": "哈尔滨师范大学",
+    "chinaxy": 137,
+    "ranking": 214,
+    "wurank": 255,
+    "avg": 202.0,
+    "id": 232
+  },
+  {
+    "name": "天津理工大学",
+    "chinaxy": 182,
+    "ranking": 198,
+    "wurank": 226,
+    "avg": 202.0,
+    "id": 233
+  },
+  {
+    "name": "吉林农业大学",
+    "chinaxy": 159,
+    "ranking": 164,
+    "wurank": 284,
+    "avg": 202.33,
+    "id": 234
+  },
+  {
+    "name": "上海海事大学",
+    "chinaxy": 222,
+    "ranking": 180,
+    "wurank": 205,
+    "avg": 202.33,
+    "id": 235
+  },
+  {
+    "name": "华东交通大学",
+    "chinaxy": 189,
+    "ranking": 178,
+    "wurank": 249,
+    "avg": 205.33,
+    "id": 236
+  },
+  {
+    "name": "广西医科大学",
+    "chinaxy": 179,
+    "wurank": 232,
+    "avg": 205.5,
+    "id": 237
+  },
+  {
+    "name": "重庆交通大学",
+    "chinaxy": 164,
+    "ranking": 194,
+    "wurank": 259,
+    "avg": 205.67,
+    "id": 238
+  },
+  {
+    "name": "南京财经大学",
+    "chinaxy": 210,
+    "wurank": 202,
+    "avg": 206.0,
+    "id": 239
+  },
+  {
+    "name": "湖南科技大学",
+    "chinaxy": 231,
+    "ranking": 188,
+    "wurank": 204,
+    "avg": 207.67,
+    "id": 240
+  },
+  {
+    "name": "江西农业大学",
+    "chinaxy": 168,
+    "ranking": 187,
+    "wurank": 269,
+    "avg": 208.0,
+    "id": 241
+  },
+  {
+    "name": "北京建筑大学",
+    "chinaxy": 195,
+    "ranking": 133,
+    "wurank": 298,
+    "avg": 208.67,
+    "id": 242
+  },
+  {
+    "name": "延边大学",
+    "chinaxy": 156,
+    "ranking": 176,
+    "wurank": 295,
+    "avg": 209.0,
+    "id": 243
+  },
+  {
+    "name": "安徽工业大学",
+    "chinaxy": 223,
+    "ranking": 175,
+    "wurank": 231,
+    "avg": 209.67,
+    "id": 244
+  },
+  { "name": "西交利物浦大学", "wurank": 210, "avg": 210.0, "id": 245 },
+  {
+    "name": "河南工业大学",
+    "chinaxy": 195,
+    "ranking": 209,
+    "wurank": 229,
+    "avg": 211.0,
+    "id": 246
+  },
+  {
+    "name": "兰州交通大学",
+    "chinaxy": 154,
+    "ranking": 229,
+    "wurank": 251,
+    "avg": 211.33,
+    "id": 247
+  },
+  {
+    "name": "西南民族大学",
+    "chinaxy": 159,
+    "wurank": 265,
+    "avg": 212.0,
+    "id": 248
+  },
+  {
+    "name": "烟台大学",
+    "chinaxy": 198,
+    "ranking": 216,
+    "wurank": 224,
+    "avg": 212.67,
+    "id": 249
+  },
+  {
+    "name": "桂林电子科技大学",
+    "chinaxy": 240,
+    "ranking": 231,
+    "wurank": 175,
+    "avg": 215.33,
+    "id": 250
+  },
+  {
+    "name": "内蒙古农业大学",
+    "chinaxy": 153,
+    "ranking": 197,
+    "wurank": 297,
+    "avg": 215.67,
+    "id": 251
+  },
+  {
+    "name": "河南中医药大学",
+    "chinaxy": 192,
+    "wurank": 240,
+    "avg": 216.0,
+    "id": 252
+  },
+  {
+    "name": "沈阳工业大学",
+    "chinaxy": 173,
+    "ranking": 195,
+    "wurank": 286,
+    "avg": 218.0,
+    "id": 253
+  },
+  {
+    "name": "上海海洋大学",
+    "chinaxy": 212,
+    "ranking": 168,
+    "wurank": 275,
+    "avg": 218.33,
+    "id": 254
+  },
+  {
+    "name": "沈阳药科大学",
+    "chinaxy": 212,
+    "wurank": 225,
+    "avg": 218.5,
+    "id": 255
+  },
+  {
+    "name": "重庆师范大学",
+    "chinaxy": 184,
+    "ranking": 236,
+    "wurank": 244,
+    "avg": 221.33,
+    "id": 256
+  },
+  {
+    "name": "重庆工商大学",
+    "chinaxy": 208,
+    "wurank": 237,
+    "avg": 222.5,
+    "id": 257
+  },
+  {
+    "name": "安徽理工大学",
+    "chinaxy": 227,
+    "ranking": 201,
+    "wurank": 247,
+    "avg": 225.0,
+    "id": 258
+  },
+  {
+    "name": "青岛理工大学",
+    "chinaxy": 208,
+    "ranking": 215,
+    "wurank": 253,
+    "avg": 225.33,
+    "id": 259
+  },
+  {
+    "name": "东华理工大学",
+    "chinaxy": 210,
+    "ranking": 190,
+    "wurank": 278,
+    "avg": 226.0,
+    "id": 260
+  },
+  {
+    "name": "成都中医药大学",
+    "chinaxy": 229,
+    "wurank": 223,
+    "avg": 226.0,
+    "id": 261
+  },
+  {
+    "name": "甘肃农业大学",
+    "chinaxy": 179,
+    "ranking": 223,
+    "wurank": 283,
+    "avg": 228.33,
+    "id": 262
+  },
+  {
+    "name": "聊城大学",
+    "chinaxy": 254,
+    "ranking": 239,
+    "wurank": 195,
+    "avg": 229.33,
+    "id": 263
+  },
+  {
+    "name": "桂林理工大学",
+    "chinaxy": 163,
+    "ranking": 263,
+    "wurank": 263,
+    "avg": 229.67,
+    "id": 264
+  },
+  {
+    "name": "山东中医药大学",
+    "chinaxy": 202,
+    "wurank": 258,
+    "avg": 230.0,
+    "id": 265
+  },
+  {
+    "name": "华北理工大学",
+    "chinaxy": 202,
+    "ranking": 281,
+    "wurank": 209,
+    "avg": 230.67,
+    "id": 266
+  },
+  {
+    "name": "北京语言大学",
+    "chinaxy": 111,
+    "wurank": 352,
+    "avg": 231.5,
+    "id": 267
+  },
+  {
+    "name": "新疆医科大学",
+    "chinaxy": 159,
+    "wurank": 304,
+    "avg": 231.5,
+    "id": 268
+  },
+  {
+    "name": "上海工程技术大学",
+    "chinaxy": 234,
+    "ranking": 213,
+    "wurank": 262,
+    "avg": 236.33,
+    "id": 269
+  },
+  {
+    "name": "重庆理工大学",
+    "chinaxy": 236,
+    "ranking": 228,
+    "wurank": 245,
+    "avg": 236.33,
+    "id": 270
+  },
+  {
+    "name": "华北水利水电大学",
+    "chinaxy": 236,
+    "ranking": 218,
+    "wurank": 256,
+    "avg": 236.67,
+    "id": 271
+  },
+  {
+    "name": "东北电力大学",
+    "chinaxy": 141,
+    "ranking": 265,
+    "wurank": 307,
+    "avg": 237.67,
+    "id": 272
+  },
+  {
+    "name": "黑龙江中医药大学",
+    "chinaxy": 173,
+    "wurank": 303,
+    "avg": 238.0,
+    "id": 273
+  },
+  {
+    "name": "东莞理工学院",
+    "chinaxy": 141,
+    "ranking": 244,
+    "wurank": 334,
+    "avg": 239.67,
+    "id": 274
+  },
+  {
+    "name": "河北科技大学",
+    "chinaxy": 202,
+    "ranking": 241,
+    "wurank": 282,
+    "avg": 241.67,
+    "id": 275
+  },
+  {
+    "name": "鲁东大学",
+    "chinaxy": 288,
+    "ranking": 230,
+    "wurank": 207,
+    "avg": 241.67,
+    "id": 276
+  },
+  {
+    "name": "北方工业大学",
+    "chinaxy": 244,
+    "ranking": 174,
+    "wurank": 309,
+    "avg": 242.33,
+    "id": 277
+  },
+  {
+    "name": "西华师范大学",
+    "chinaxy": 260,
+    "ranking": 232,
+    "wurank": 236,
+    "avg": 242.67,
+    "id": 278
+  },
+  {
+    "name": "石家庄铁道大学",
+    "chinaxy": 164,
+    "ranking": 221,
+    "wurank": 344,
+    "avg": 243.0,
+    "id": 279
+  },
+  {
+    "name": "集美大学",
+    "chinaxy": 260,
+    "ranking": 172,
+    "wurank": 301,
+    "avg": 244.33,
+    "id": 280
+  },
+  {
+    "name": "山西师范大学",
+    "chinaxy": 205,
+    "ranking": 251,
+    "wurank": 280,
+    "avg": 245.33,
+    "id": 281
+  },
+  {
+    "name": "武汉轻工大学",
+    "chinaxy": 164,
+    "ranking": 227,
+    "wurank": 356,
+    "avg": 249.0,
+    "id": 282
+  },
+  {
+    "name": "安徽财经大学",
+    "chinaxy": 231,
+    "wurank": 267,
+    "avg": 249.0,
+    "id": 283
+  },
+  { "name": "中国人民公安大学", "chinaxy": 249, "avg": 249.0, "id": 284 },
+  {
+    "name": "辽宁工程技术大学",
+    "chinaxy": 173,
+    "ranking": 279,
+    "wurank": 299,
+    "avg": 250.33,
+    "id": 285
+  },
+  {
+    "name": "昆明医科大学",
+    "chinaxy": 192,
+    "wurank": 311,
+    "avg": 251.5,
+    "id": 286
+  },
+  {
+    "name": "沈阳航空航天大学",
+    "chinaxy": 240,
+    "ranking": 203,
+    "wurank": 316,
+    "avg": 253.0,
+    "id": 287
+  },
+  {
+    "name": "内蒙古科技大学",
+    "chinaxy": 229,
+    "ranking": 335,
+    "wurank": 197,
+    "avg": 253.67,
+    "id": 288
+  },
+  {
+    "name": "天津财经大学",
+    "chinaxy": 154,
+    "wurank": 354,
+    "avg": 254.0,
+    "id": 289
+  },
+  {
+    "name": "南京审计大学",
+    "chinaxy": 254,
+    "wurank": 254,
+    "avg": 254.0,
+    "id": 290
+  },
+  {
+    "name": "青海大学",
+    "chinaxy": 215,
+    "ranking": 205,
+    "wurank": 343,
+    "avg": 254.33,
+    "id": 291
+  },
+  {
+    "name": "西北政法大学",
+    "chinaxy": 182,
+    "wurank": 327,
+    "avg": 254.5,
+    "id": 292
+  },
+  {
+    "name": "浙江中医药大学",
+    "chinaxy": 259,
+    "wurank": 250,
+    "avg": 254.5,
+    "id": 293
+  },
+  {
+    "name": "山东建筑大学",
+    "chinaxy": 236,
+    "ranking": 242,
+    "wurank": 291,
+    "avg": 256.33,
+    "id": 294
+  },
+  {
+    "name": "沈阳师范大学",
+    "chinaxy": 212,
+    "ranking": 255,
+    "wurank": 306,
+    "avg": 257.67,
+    "id": 295
+  },
+  {
+    "name": "东北石油大学",
+    "chinaxy": 229,
+    "ranking": 212,
+    "wurank": 336,
+    "avg": 259.0,
+    "id": 296
+  },
+  {
+    "name": "郑州轻工业大学",
+    "chinaxy": 240,
+    "ranking": 250,
+    "wurank": 289,
+    "avg": 259.67,
+    "id": 297
+  },
+  {
+    "name": "河南财经政法大学",
+    "chinaxy": 249,
+    "wurank": 271,
+    "avg": 260.0,
+    "id": 298
+  },
+  {
+    "name": "上海体育学院",
+    "chinaxy": 210,
+    "wurank": 312,
+    "avg": 261.0,
+    "id": 299
+  },
+  {
+    "name": "徐州医科大学",
+    "chinaxy": 263,
+    "wurank": 260,
+    "avg": 261.5,
+    "id": 300
+  },
+  {
+    "name": "中央音乐学院",
+    "chinaxy": 178,
+    "wurank": 346,
+    "avg": 262.0,
+    "id": 301
+  },
+  {
+    "name": "山西财经大学",
+    "chinaxy": 186,
+    "wurank": 338,
+    "avg": 262.0,
+    "id": 302
+  },
+  {
+    "name": "苏州科技大学",
+    "chinaxy": 297,
+    "ranking": 211,
+    "wurank": 279,
+    "avg": 262.33,
+    "id": 303
+  },
+  {
+    "name": "南京工程学院",
+    "chinaxy": 283,
+    "ranking": 246,
+    "wurank": 261,
+    "avg": 263.33,
+    "id": 304
+  },
+  {
+    "name": "内蒙古师范大学",
+    "chinaxy": 180,
+    "ranking": 253,
+    "wurank": 359,
+    "avg": 264.0,
+    "id": 305
+  },
+  {
+    "name": "大连工业大学",
+    "chinaxy": 202,
+    "ranking": 235,
+    "wurank": 355,
+    "avg": 264.0,
+    "id": 306
+  },
+  {
+    "name": "贵州师范大学",
+    "chinaxy": 208,
+    "ranking": 266,
+    "wurank": 318,
+    "avg": 264.0,
+    "id": 307
+  },
+  {
+    "name": "西安邮电大学",
+    "chinaxy": 309,
+    "ranking": 192,
+    "wurank": 294,
+    "avg": 265.0,
+    "id": 308
+  },
+  {
+    "name": "北京信息科技大学",
+    "chinaxy": 225,
+    "ranking": 207,
+    "wurank": 367,
+    "avg": 266.33,
+    "id": 309
+  },
+  {
+    "name": "云南民族大学",
+    "chinaxy": 130,
+    "wurank": 403,
+    "avg": 266.5,
+    "id": 310
+  },
+  { "name": "信阳师范大学", "ranking": 269, "avg": 269.0, "id": 311 },
+  {
+    "name": "海南师范大学",
+    "chinaxy": 205,
+    "ranking": 225,
+    "wurank": 378,
+    "avg": 269.33,
+    "id": 312
+  },
+  {
+    "name": "外交学院",
+    "chinaxy": 120,
+    "wurank": 419,
+    "avg": 269.5,
+    "id": 313
+  },
+  {
+    "name": "湖南工业大学",
+    "chinaxy": 273,
+    "ranking": 264,
+    "wurank": 272,
+    "avg": 269.67,
+    "id": 314
+  },
+  {
+    "name": "北京联合大学",
+    "chinaxy": 205,
+    "ranking": 276,
+    "wurank": 331,
+    "avg": 270.67,
+    "id": 315
+  },
+  {
+    "name": "沈阳建筑大学",
+    "chinaxy": 194,
+    "ranking": 247,
+    "wurank": 373,
+    "avg": 271.33,
+    "id": 316
+  },
+  {
+    "name": "山西农业大学",
+    "chinaxy": 309,
+    "ranking": 220,
+    "wurank": 288,
+    "avg": 272.33,
+    "id": 317
+  },
+  {
+    "name": "浙江海洋大学",
+    "chinaxy": 297,
+    "ranking": 193,
+    "wurank": 329,
+    "avg": 273.0,
+    "id": 318
+  },
+  {
+    "name": "西安工业大学",
+    "chinaxy": 263,
+    "ranking": 249,
+    "wurank": 313,
+    "avg": 275.0,
+    "id": 319
+  },
+  {
+    "name": "西华大学",
+    "chinaxy": 263,
+    "ranking": 285,
+    "wurank": 277,
+    "avg": 275.0,
+    "id": 320
+  },
+  {
+    "name": "渤海大学",
+    "chinaxy": 263,
+    "ranking": 289,
+    "wurank": 276,
+    "avg": 276.0,
+    "id": 321
+  },
+  {
+    "name": "河北工程大学",
+    "chinaxy": 283,
+    "ranking": 287,
+    "wurank": 264,
+    "avg": 278.0,
+    "id": 322
+  },
+  {
+    "name": "上海电力大学",
+    "chinaxy": 335,
+    "ranking": 200,
+    "wurank": 300,
+    "avg": 278.33,
+    "id": 323
+  },
+  {
+    "name": "大连大学",
+    "chinaxy": 195,
+    "ranking": 257,
+    "wurank": 387,
+    "avg": 279.67,
+    "id": 324
+  },
+  {
+    "name": "安徽工程大学",
+    "chinaxy": 274,
+    "ranking": 243,
+    "wurank": 322,
+    "avg": 279.67,
+    "id": 325
+  },
+  {
+    "name": "宁夏医科大学",
+    "chinaxy": 200,
+    "wurank": 361,
+    "avg": 280.5,
+    "id": 326
+  },
+  {
+    "name": "成都信息工程大学",
+    "chinaxy": 291,
+    "ranking": 240,
+    "wurank": 314,
+    "avg": 281.67,
+    "id": 327
+  },
+  {
+    "name": "新乡医学院",
+    "chinaxy": 317,
+    "wurank": 252,
+    "avg": 284.5,
+    "id": 328
+  },
+  {
+    "name": "西南医科大学",
+    "chinaxy": 330,
+    "wurank": 241,
+    "avg": 285.5,
+    "id": 329
+  },
+  {
+    "name": "嘉兴学院",
+    "chinaxy": 324,
+    "ranking": 224,
+    "wurank": 315,
+    "avg": 287.67,
+    "id": 330
+  },
+  {
+    "name": "贵州医科大学",
+    "chinaxy": 259,
+    "wurank": 317,
+    "avg": 288.0,
+    "id": 331
+  },
+  {
+    "name": "安徽建筑大学",
+    "chinaxy": 283,
+    "ranking": 237,
+    "wurank": 345,
+    "avg": 288.33,
+    "id": 332
+  },
+  {
+    "name": "吉林师范大学",
+    "chinaxy": 263,
+    "ranking": 270,
+    "wurank": 333,
+    "avg": 288.67,
+    "id": 333
+  },
+  {
+    "name": "赣南师范大学",
+    "chinaxy": 294,
+    "ranking": 248,
+    "wurank": 328,
+    "avg": 290.0,
+    "id": 334
+  },
+  {
+    "name": "吉首大学",
+    "chinaxy": 243,
+    "ranking": 294,
+    "wurank": 337,
+    "avg": 291.33,
+    "id": 335
+  },
+  {
+    "name": "临沂大学",
+    "chinaxy": 294,
+    "ranking": 273,
+    "wurank": 308,
+    "avg": 291.67,
+    "id": 336
+  },
+  {
+    "name": "北京师范大学-香港浸会大学联合国际学院",
+    "wurank": 292,
+    "avg": 292.0,
+    "id": 337
+  },
+  {
+    "name": "江汉大学",
+    "chinaxy": 257,
+    "ranking": 271,
+    "wurank": 349,
+    "avg": 292.33,
+    "id": 338
+  },
+  {
+    "name": "辽宁中医药大学",
+    "chinaxy": 260,
+    "wurank": 330,
+    "avg": 295.0,
+    "id": 339
+  },
+  {
+    "name": "台州学院",
+    "chinaxy": 192,
+    "ranking": 316,
+    "wurank": 381,
+    "avg": 296.33,
+    "id": 340
+  },
+  {
+    "name": "西安石油大学",
+    "chinaxy": 297,
+    "ranking": 245,
+    "wurank": 347,
+    "avg": 296.33,
+    "id": 341
+  },
+  {
+    "name": "湖州师范学院",
+    "chinaxy": 225,
+    "ranking": 226,
+    "wurank": 439,
+    "avg": 296.67,
+    "id": 342
+  },
+  {
+    "name": "信阳师范学院",
+    "chinaxy": 307,
+    "wurank": 287,
+    "avg": 297.0,
+    "id": 343
+  },
+  {
+    "name": "中国民航大学",
+    "chinaxy": 301,
+    "ranking": 268,
+    "wurank": 324,
+    "avg": 297.67,
+    "id": 344
+  },
+  {
+    "name": "上海应用技术大学",
+    "chinaxy": 309,
+    "ranking": 259,
+    "wurank": 326,
+    "avg": 298.0,
+    "id": 345
+  },
+  {
+    "name": "成都大学",
+    "chinaxy": 335,
+    "ranking": 238,
+    "wurank": 321,
+    "avg": 298.0,
+    "id": 346
+  },
+  {
+    "name": "云南农业大学",
+    "chinaxy": 164,
+    "ranking": 327,
+    "wurank": 406,
+    "avg": 299.0,
+    "id": 347
+  },
+  {
+    "name": "太原科技大学",
+    "chinaxy": 234,
+    "ranking": 297,
+    "wurank": 366,
+    "avg": 299.0,
+    "id": 348
+  },
+  {
+    "name": "广东医科大学",
+    "chinaxy": 335,
+    "wurank": 266,
+    "avg": 300.5,
+    "id": 349
+  },
+  {
+    "name": "潍坊医学院",
+    "chinaxy": 309,
+    "wurank": 293,
+    "avg": 301.0,
+    "id": 350
+  },
+  {
+    "name": "绍兴文理学院",
+    "chinaxy": 280,
+    "ranking": 274,
+    "wurank": 351,
+    "avg": 301.67,
+    "id": 351
+  },
+  {
+    "name": "济宁医学院",
+    "chinaxy": 330,
+    "wurank": 274,
+    "avg": 302.0,
+    "id": 352
+  },
+  {
+    "name": "内蒙古工业大学",
+    "chinaxy": 214,
+    "ranking": 304,
+    "wurank": 389,
+    "avg": 302.33,
+    "id": 353
+  },
+  {
+    "name": "西安工程大学",
+    "chinaxy": 269,
+    "ranking": 282,
+    "wurank": 357,
+    "avg": 302.67,
+    "id": 354
+  },
+  {
+    "name": "遵义医科大学",
+    "chinaxy": 283,
+    "wurank": 323,
+    "avg": 303.0,
+    "id": 355
+  },
+  {
+    "name": "盐城工学院",
+    "chinaxy": 342,
+    "ranking": 277,
+    "wurank": 290,
+    "avg": 303.0,
+    "id": 356
+  },
+  {
+    "name": "西安外国语大学",
+    "chinaxy": 243,
+    "wurank": 364,
+    "avg": 303.5,
+    "id": 357
+  },
+  {
+    "name": "江西中医药大学",
+    "chinaxy": 288,
+    "wurank": 320,
+    "avg": 304.0,
+    "id": 358
+  },
+  {
+    "name": "长春中医药大学",
+    "chinaxy": 247,
+    "wurank": 362,
+    "avg": 304.5,
+    "id": 359
+  },
+  {
+    "name": "广东财经大学",
+    "chinaxy": 249,
+    "wurank": 360,
+    "avg": 304.5,
+    "id": 360
+  },
+  {
+    "name": "沈阳化工大学",
+    "chinaxy": 245,
+    "ranking": 256,
+    "wurank": 413,
+    "avg": 304.67,
+    "id": 361
+  },
+  { "name": "深圳北理莫斯科大学", "wurank": 305, "avg": 305.0, "id": 362 },
+  {
+    "name": "云南财经大学",
+    "chinaxy": 212,
+    "wurank": 401,
+    "avg": 306.5,
+    "id": 363
+  },
+  {
+    "name": "河北经贸大学",
+    "chinaxy": 215,
+    "wurank": 399,
+    "avg": 307.0,
+    "id": 364
+  },
+  {
+    "name": "安徽中医药大学",
+    "chinaxy": 274,
+    "wurank": 340,
+    "avg": 307.0,
+    "id": 365
+  },
+  {
+    "name": "广西民族大学",
+    "chinaxy": 223,
+    "wurank": 394,
+    "avg": 308.5,
+    "id": 366
+  },
+  {
+    "name": "天津商业大学",
+    "chinaxy": 245,
+    "wurank": 372,
+    "avg": 308.5,
+    "id": 367
+  },
+  { "name": "中国青年政治学院", "chinaxy": 309, "avg": 309.0, "id": 368 },
+  { "name": "香港中文大学（深圳）", "wurank": 310, "avg": 310.0, "id": 369 },
+  {
+    "name": "新疆农业大学",
+    "chinaxy": 189,
+    "ranking": 306,
+    "wurank": 436,
+    "avg": 310.33,
+    "id": 370
+  },
+  {
+    "name": "辽宁石油化工大学",
+    "chinaxy": 280,
+    "ranking": 262,
+    "wurank": 390,
+    "avg": 310.67,
+    "id": 371
+  },
+  {
+    "name": "淮北师范大学",
+    "chinaxy": 309,
+    "ranking": 301,
+    "wurank": 325,
+    "avg": 311.67,
+    "id": 372
+  },
+  {
+    "name": "湖南中医药大学",
+    "chinaxy": 328,
+    "wurank": 296,
+    "avg": 312.0,
+    "id": 373
+  },
+  {
+    "name": "长春工业大学",
+    "chinaxy": 269,
+    "ranking": 283,
+    "wurank": 386,
+    "avg": 312.67,
+    "id": 374
+  },
+  {
+    "name": "佛山科学技术学院",
+    "chinaxy": 330,
+    "ranking": 217,
+    "wurank": 391,
+    "avg": 312.67,
+    "id": 375
+  },
+  {
+    "name": "新疆师范大学",
+    "chinaxy": 193,
+    "ranking": 305,
+    "wurank": 441,
+    "avg": 313.0,
+    "id": 376
+  },
+  {
+    "name": "北京第二外国语学院",
+    "chinaxy": 185,
+    "wurank": 443,
+    "avg": 314.0,
+    "id": 377
+  },
+  {
+    "name": "西北民族大学",
+    "chinaxy": 219,
+    "wurank": 412,
+    "avg": 315.5,
+    "id": 378
+  },
+  {
+    "name": "中原工学院",
+    "chinaxy": 294,
+    "ranking": 272,
+    "wurank": 383,
+    "avg": 316.33,
+    "id": 379
+  },
+  {
+    "name": "中央美术学院",
+    "chinaxy": 182,
+    "wurank": 452,
+    "avg": 317.0,
+    "id": 380
+  },
+  {
+    "name": "内蒙古民族大学",
+    "chinaxy": 236,
+    "wurank": 398,
+    "avg": 317.0,
+    "id": 381
+  },
+  {
+    "name": "延安大学",
+    "chinaxy": 274,
+    "ranking": 275,
+    "wurank": 402,
+    "avg": 317.0,
+    "id": 382
+  },
+  {
+    "name": "北华大学",
+    "chinaxy": 247,
+    "ranking": 312,
+    "wurank": 395,
+    "avg": 318.0,
+    "id": 383
+  },
+  {
+    "name": "黑龙江八一农垦大学",
+    "chinaxy": 260,
+    "ranking": 288,
+    "wurank": 409,
+    "avg": 319.0,
+    "id": 384
+  },
+  {
+    "name": "福建中医药大学",
+    "chinaxy": 236,
+    "wurank": 404,
+    "avg": 320.0,
+    "id": 385
+  },
+  {
+    "name": "大连交通大学",
+    "chinaxy": 254,
+    "ranking": 290,
+    "wurank": 416,
+    "avg": 320.0,
+    "id": 386
+  },
+  {
+    "name": "浙江科技学院",
+    "chinaxy": 269,
+    "ranking": 296,
+    "wurank": 396,
+    "avg": 320.33,
+    "id": 387
+  },
+  {
+    "name": "上海音乐学院",
+    "chinaxy": 184,
+    "wurank": 457,
+    "avg": 320.5,
+    "id": 388
+  },
+  {
+    "name": "锦州医科大学",
+    "chinaxy": 274,
+    "wurank": 369,
+    "avg": 321.5,
+    "id": 389
+  },
+  {
+    "name": "北方民族大学",
+    "chinaxy": 198,
+    "wurank": 446,
+    "avg": 322.0,
+    "id": 390
+  },
+  {
+    "name": "南京艺术学院",
+    "chinaxy": 200,
+    "wurank": 447,
+    "avg": 323.5,
+    "id": 391
+  },
+  {
+    "name": "湖北医药学院",
+    "chinaxy": 205,
+    "wurank": 442,
+    "avg": 323.5,
+    "id": 392
+  },
+  {
+    "name": "哈尔滨商业大学",
+    "chinaxy": 225,
+    "wurank": 424,
+    "avg": 324.5,
+    "id": 393
+  },
+  {
+    "name": "北京电影学院",
+    "chinaxy": 130,
+    "wurank": 520,
+    "avg": 325.0,
+    "id": 394
+  },
+  {
+    "name": "四川轻化工大学",
+    "chinaxy": 328,
+    "ranking": 330,
+    "wurank": 319,
+    "avg": 325.67,
+    "id": 395
+  },
+  { "name": "中国刑事警察学院", "chinaxy": 326, "avg": 326.0, "id": 396 },
+  {
+    "name": "辽宁科技大学",
+    "chinaxy": 269,
+    "ranking": 318,
+    "wurank": 392,
+    "avg": 326.33,
+    "id": 397
+  },
+  {
+    "name": "南宁师范大学",
+    "chinaxy": 263,
+    "ranking": 300,
+    "wurank": 418,
+    "avg": 327.0,
+    "id": 398
+  },
+  {
+    "name": "洛阳师范学院",
+    "chinaxy": 330,
+    "ranking": 319,
+    "wurank": 332,
+    "avg": 327.0,
+    "id": 399
+  },
+  {
+    "name": "中央戏剧学院",
+    "chinaxy": 134,
+    "wurank": 522,
+    "avg": 328.0,
+    "id": 400
+  },
+  {
+    "name": "景德镇陶瓷大学",
+    "chinaxy": 200,
+    "ranking": 292,
+    "wurank": 493,
+    "avg": 328.33,
+    "id": 401
+  },
+  {
+    "name": "河南科技学院",
+    "chinaxy": 263,
+    "ranking": 342,
+    "wurank": 380,
+    "avg": 328.33,
+    "id": 402
+  },
+  {
+    "name": "淮阴工学院",
+    "chinaxy": 351,
+    "ranking": 293,
+    "wurank": 342,
+    "avg": 328.67,
+    "id": 403
+  },
+  {
+    "name": "湖北经济学院",
+    "chinaxy": 205,
+    "wurank": 454,
+    "avg": 329.5,
+    "id": 404
+  },
+  {
+    "name": "江西科技师范大学",
+    "chinaxy": 324,
+    "ranking": 315,
+    "wurank": 350,
+    "avg": 329.67,
+    "id": 405
+  },
+  {
+    "name": "贵州民族大学",
+    "chinaxy": 280,
+    "wurank": 382,
+    "avg": 331.0,
+    "id": 406
+  },
+  {
+    "name": "湖北中医药大学",
+    "chinaxy": 328,
+    "wurank": 335,
+    "avg": 331.5,
+    "id": 407
+  },
+  {
+    "name": "辽宁工业大学",
+    "chinaxy": 317,
+    "ranking": 267,
+    "wurank": 414,
+    "avg": 332.67,
+    "id": 408
+  },
+  {
+    "name": "淮阴师范学院",
+    "chinaxy": 324,
+    "ranking": 310,
+    "wurank": 365,
+    "avg": 333.0,
+    "id": 409
+  },
+  {
+    "name": "厦门理工学院",
+    "chinaxy": 367,
+    "ranking": 261,
+    "wurank": 371,
+    "avg": 333.0,
+    "id": 410
+  },
+  { "name": "福建理工大学", "ranking": 334, "avg": 334.0, "id": 411 },
+  {
+    "name": "重庆文理学院",
+    "chinaxy": 301,
+    "ranking": 339,
+    "wurank": 363,
+    "avg": 334.33,
+    "id": 412
+  },
+  {
+    "name": "滨州医学院",
+    "chinaxy": 367,
+    "wurank": 302,
+    "avg": 334.5,
+    "id": 413
+  },
+  {
+    "name": "合肥学院",
+    "chinaxy": 249,
+    "ranking": 260,
+    "wurank": 495,
+    "avg": 334.67,
+    "id": 414
+  },
+  {
+    "name": "北京农学院",
+    "chinaxy": 303,
+    "ranking": 233,
+    "wurank": 468,
+    "avg": 334.67,
+    "id": 415
+  },
+  {
+    "name": "广东海洋大学",
+    "chinaxy": 351,
+    "ranking": 313,
+    "wurank": 341,
+    "avg": 335.0,
+    "id": 416
+  },
+  {
+    "name": "中国美术学院",
+    "chinaxy": 186,
+    "wurank": 485,
+    "avg": 335.5,
+    "id": 417
+  },
+  {
+    "name": "内蒙古医科大学",
+    "chinaxy": 283,
+    "wurank": 388,
+    "avg": 335.5,
+    "id": 418
+  },
+  {
+    "name": "中国音乐学院",
+    "chinaxy": 245,
+    "wurank": 429,
+    "avg": 337.0,
+    "id": 419
+  },
+  {
+    "name": "长江师范学院",
+    "chinaxy": 330,
+    "ranking": 311,
+    "wurank": 374,
+    "avg": 338.33,
+    "id": 420
+  },
+  {
+    "name": "上海立信会计金融学院",
+    "chinaxy": 303,
+    "wurank": 375,
+    "avg": 339.0,
+    "id": 421
+  },
+  {
+    "name": "广东药科大学",
+    "chinaxy": 393,
+    "wurank": 285,
+    "avg": 339.0,
+    "id": 422
+  },
+  { "name": "上海纽约大学", "wurank": 339, "avg": 339.0, "id": 423 },
+  {
+    "name": "大连外国语大学",
+    "chinaxy": 219,
+    "wurank": 460,
+    "avg": 339.5,
+    "id": 424
+  },
+  {
+    "name": "四川外国语大学",
+    "chinaxy": 263,
+    "wurank": 417,
+    "avg": 340.0,
+    "id": 425
+  },
+  {
+    "name": "北京印刷学院",
+    "chinaxy": 324,
+    "ranking": 252,
+    "wurank": 444,
+    "avg": 340.0,
+    "id": 426
+  },
+  {
+    "name": "井冈山大学",
+    "chinaxy": 257,
+    "ranking": 284,
+    "wurank": 482,
+    "avg": 341.0,
+    "id": 427
+  },
+  {
+    "name": "青海师范大学",
+    "chinaxy": 225,
+    "ranking": 254,
+    "wurank": 546,
+    "avg": 341.67,
+    "id": 428
+  },
+  {
+    "name": "西南林业大学",
+    "chinaxy": 249,
+    "ranking": 351,
+    "wurank": 425,
+    "avg": 341.67,
+    "id": 429
+  },
+  {
+    "name": "大连民族大学",
+    "chinaxy": 274,
+    "wurank": 411,
+    "avg": 342.5,
+    "id": 430
+  },
+  {
+    "name": "江苏理工学院",
+    "chinaxy": 328,
+    "ranking": 332,
+    "wurank": 368,
+    "avg": 342.67,
+    "id": 431
+  },
+  {
+    "name": "盐城师范学院",
+    "chinaxy": 328,
+    "ranking": 323,
+    "wurank": 377,
+    "avg": 342.67,
+    "id": 432
+  },
+  {
+    "name": "蚌埠医学院",
+    "chinaxy": 328,
+    "wurank": 358,
+    "avg": 343.0,
+    "id": 433
+  },
+  {
+    "name": "齐齐哈尔大学",
+    "chinaxy": 283,
+    "ranking": 377,
+    "wurank": 370,
+    "avg": 343.33,
+    "id": 434
+  },
+  {
+    "name": "安庆师范大学",
+    "chinaxy": 309,
+    "ranking": 291,
+    "wurank": 434,
+    "avg": 344.67,
+    "id": 435
+  },
+  {
+    "name": "湖北文理学院",
+    "chinaxy": 205,
+    "ranking": 348,
+    "wurank": 484,
+    "avg": 345.67,
+    "id": 436
+  },
+  {
+    "name": "闽南师范大学",
+    "chinaxy": 328,
+    "ranking": 302,
+    "wurank": 408,
+    "avg": 346.0,
+    "id": 437
+  },
+  {
+    "name": "浙江传媒学院",
+    "chinaxy": 288,
+    "wurank": 407,
+    "avg": 347.5,
+    "id": 438
+  },
+  {
+    "name": "广西中医药大学",
+    "chinaxy": 259,
+    "wurank": 440,
+    "avg": 349.5,
+    "id": 439
+  },
+  {
+    "name": "贵州财经大学",
+    "chinaxy": 263,
+    "wurank": 437,
+    "avg": 350.0,
+    "id": 440
+  },
+  {
+    "name": "重庆科技学院",
+    "chinaxy": 288,
+    "ranking": 298,
+    "wurank": 464,
+    "avg": 350.0,
+    "id": 441
+  },
+  {
+    "name": "常熟理工学院",
+    "chinaxy": 359,
+    "ranking": 309,
+    "wurank": 385,
+    "avg": 351.0,
+    "id": 442
+  },
+  {
+    "name": "西藏大学",
+    "chinaxy": 219,
+    "ranking": 234,
+    "wurank": 602,
+    "avg": 351.67,
+    "id": 443
+  },
+  {
+    "name": "郑州航空工业管理学院",
+    "chinaxy": 291,
+    "wurank": 415,
+    "avg": 353.0,
+    "id": 444
+  },
+  {
+    "name": "黄冈师范学院",
+    "chinaxy": 225,
+    "ranking": 338,
+    "wurank": 497,
+    "avg": 353.33,
+    "id": 445
+  },
+  {
+    "name": "湖南工商大学",
+    "chinaxy": 259,
+    "wurank": 451,
+    "avg": 355.0,
+    "id": 446
+  },
+  {
+    "name": "湖南理工学院",
+    "chinaxy": 317,
+    "ranking": 295,
+    "wurank": 453,
+    "avg": 355.0,
+    "id": 447
+  },
+  {
+    "name": "沈阳大学",
+    "chinaxy": 176,
+    "ranking": 340,
+    "wurank": 550,
+    "avg": 355.33,
+    "id": 448
+  },
+  {
+    "name": "海南医学院",
+    "chinaxy": 280,
+    "wurank": 432,
+    "avg": 356.0,
+    "id": 449
+  },
+  {
+    "name": "皖南医学院",
+    "chinaxy": 314,
+    "wurank": 400,
+    "avg": 357.0,
+    "id": 450
+  },
+  {
+    "name": "金陵科技学院",
+    "chinaxy": 342,
+    "ranking": 307,
+    "wurank": 422,
+    "avg": 357.0,
+    "id": 451
+  },
+  {
+    "name": "福建工程学院",
+    "chinaxy": 288,
+    "wurank": 427,
+    "avg": 357.5,
+    "id": 452
+  },
+  {
+    "name": "沈阳理工大学",
+    "chinaxy": 314,
+    "ranking": 299,
+    "wurank": 461,
+    "avg": 358.0,
+    "id": 453
+  },
+  {
+    "name": "上海对外经贸大学",
+    "chinaxy": 335,
+    "wurank": 384,
+    "avg": 359.5,
+    "id": 454
+  },
+  {
+    "name": "陕西中医药大学",
+    "chinaxy": 367,
+    "wurank": 353,
+    "avg": 360.0,
+    "id": 455
+  },
+  {
+    "name": "湖北师范大学",
+    "chinaxy": 317,
+    "ranking": 320,
+    "wurank": 445,
+    "avg": 360.67,
+    "id": 456
+  },
+  {
+    "name": "国际关系学院",
+    "chinaxy": 393,
+    "ranking": 202,
+    "wurank": 491,
+    "avg": 362.0,
+    "id": 457
+  },
+  {
+    "name": "天津城建大学",
+    "chinaxy": 307,
+    "ranking": 354,
+    "wurank": 428,
+    "avg": 363.0,
+    "id": 458
+  },
+  {
+    "name": "南阳师范学院",
+    "chinaxy": 330,
+    "ranking": 381,
+    "wurank": 379,
+    "avg": 363.33,
+    "id": 459
+  },
+  {
+    "name": "安徽科技学院",
+    "chinaxy": 330,
+    "ranking": 349,
+    "wurank": 420,
+    "avg": 366.33,
+    "id": 460
+  },
+  { "name": "深圳技术大学", "chinaxy": 367, "avg": 367.0, "id": 461 },
+  {
+    "name": "宁波工程学院",
+    "chinaxy": 351,
+    "ranking": 303,
+    "wurank": 448,
+    "avg": 367.33,
+    "id": 462
+  },
+  {
+    "name": "安阳师范学院",
+    "chinaxy": 330,
+    "ranking": 379,
+    "wurank": 397,
+    "avg": 368.67,
+    "id": 463
+  },
+  {
+    "name": "大连海洋大学",
+    "chinaxy": 274,
+    "ranking": 317,
+    "wurank": 516,
+    "avg": 369.0,
+    "id": 464
+  },
+  {
+    "name": "长春师范大学",
+    "chinaxy": 313,
+    "ranking": 325,
+    "wurank": 469,
+    "avg": 369.0,
+    "id": 465
+  },
+  {
+    "name": "山东交通学院",
+    "chinaxy": 330,
+    "ranking": 358,
+    "wurank": 421,
+    "avg": 369.67,
+    "id": 466
+  },
+  {
+    "name": "天津外国语大学",
+    "chinaxy": 225,
+    "wurank": 518,
+    "avg": 371.5,
+    "id": 467
+  },
+  {
+    "name": "江苏海洋大学",
+    "chinaxy": 359,
+    "ranking": 326,
+    "wurank": 430,
+    "avg": 371.67,
+    "id": 468
+  },
+  {
+    "name": "山西大同大学",
+    "chinaxy": 351,
+    "ranking": 425,
+    "wurank": 348,
+    "avg": 374.67,
+    "id": 469
+  },
+  {
+    "name": "大理大学",
+    "chinaxy": 283,
+    "ranking": 329,
+    "wurank": 513,
+    "avg": 375.0,
+    "id": 470
+  },
+  {
+    "name": "岭南师范学院",
+    "chinaxy": 335,
+    "ranking": 369,
+    "wurank": 423,
+    "avg": 375.67,
+    "id": 471
+  },
+  {
+    "name": "吉林财经大学",
+    "chinaxy": 263,
+    "wurank": 489,
+    "avg": 376.0,
+    "id": 472
+  },
+  { "name": "广东以色列理工学院", "wurank": 376, "avg": 376.0, "id": 473 },
+  {
+    "name": "南昌工程学院",
+    "chinaxy": 342,
+    "ranking": 308,
+    "wurank": 487,
+    "avg": 379.0,
+    "id": 474
+  },
+  {
+    "name": "闽江学院",
+    "chinaxy": 307,
+    "ranking": 331,
+    "wurank": 500,
+    "avg": 379.33,
+    "id": 475
+  },
+  {
+    "name": "五邑大学",
+    "chinaxy": 335,
+    "ranking": 343,
+    "wurank": 463,
+    "avg": 380.33,
+    "id": 476
+  },
+  {
+    "name": "长沙学院",
+    "chinaxy": 317,
+    "ranking": 328,
+    "wurank": 498,
+    "avg": 381.0,
+    "id": 477
+  },
+  {
+    "name": "陕西理工大学",
+    "chinaxy": 335,
+    "ranking": 385,
+    "wurank": 426,
+    "avg": 382.0,
+    "id": 478
+  },
+  {
+    "name": "湖北民族大学",
+    "chinaxy": 291,
+    "wurank": 474,
+    "avg": 382.5,
+    "id": 479
+  },
+  {
+    "name": "塔里木大学",
+    "chinaxy": 249,
+    "ranking": 337,
+    "wurank": 571,
+    "avg": 385.67,
+    "id": 480
+  },
+  {
+    "name": "河北北方学院",
+    "chinaxy": 317,
+    "wurank": 458,
+    "avg": 387.5,
+    "id": 481
+  },
+  {
+    "name": "佳木斯大学",
+    "chinaxy": 274,
+    "ranking": 416,
+    "wurank": 475,
+    "avg": 388.33,
+    "id": 482
+  },
+  {
+    "name": "常州工学院",
+    "chinaxy": 342,
+    "ranking": 322,
+    "wurank": 502,
+    "avg": 388.67,
+    "id": 483
+  },
+  {
+    "name": "武汉体育学院",
+    "chinaxy": 314,
+    "wurank": 465,
+    "avg": 389.5,
+    "id": 484
+  },
+  {
+    "name": "北京石油化工学院",
+    "chinaxy": 330,
+    "ranking": 278,
+    "wurank": 563,
+    "avg": 390.33,
+    "id": 485
+  },
+  {
+    "name": "周口师范学院",
+    "chinaxy": 380,
+    "ranking": 388,
+    "wurank": 410,
+    "avg": 392.67,
+    "id": 486
+  },
+  { "name": "四川警察学院", "chinaxy": 393, "avg": 393.0, "id": 487 },
+  {
+    "name": "南京晓庄学院",
+    "chinaxy": 342,
+    "ranking": 367,
+    "wurank": 472,
+    "avg": 393.67,
+    "id": 488
+  },
+  {
+    "name": "河北地质大学",
+    "chinaxy": 260,
+    "wurank": 528,
+    "avg": 394.0,
+    "id": 489
+  },
+  {
+    "name": "徐州工程学院",
+    "chinaxy": 367,
+    "ranking": 387,
+    "wurank": 431,
+    "avg": 395.0,
+    "id": 490
+  },
+  {
+    "name": "湖北科技学院",
+    "chinaxy": 351,
+    "ranking": 362,
+    "wurank": 477,
+    "avg": 396.67,
+    "id": 491
+  },
+  {
+    "name": "川北医学院",
+    "chinaxy": 402,
+    "wurank": 393,
+    "avg": 397.5,
+    "id": 492
+  },
+  {
+    "name": "泉州师范学院",
+    "chinaxy": 330,
+    "ranking": 357,
+    "wurank": 506,
+    "avg": 397.67,
+    "id": 493
+  },
+  {
+    "name": "吉林建筑大学",
+    "chinaxy": 380,
+    "ranking": 333,
+    "wurank": 480,
+    "avg": 397.67,
+    "id": 494
+  },
+  {
+    "name": "甘肃中医药大学",
+    "chinaxy": 330,
+    "wurank": 466,
+    "avg": 398.0,
+    "id": 495
+  },
+  {
+    "name": "浙江万里学院",
+    "chinaxy": 314,
+    "ranking": 350,
+    "wurank": 532,
+    "avg": 398.67,
+    "id": 496
+  },
+  {
+    "name": "阜阳师范大学",
+    "chinaxy": 330,
+    "ranking": 366,
+    "wurank": 503,
+    "avg": 399.67,
+    "id": 497
+  },
+  {
+    "name": "滨州学院",
+    "chinaxy": 417,
+    "ranking": 347,
+    "wurank": 435,
+    "avg": 399.67,
+    "id": 498
+  },
+  {
+    "name": "湖南文理学院",
+    "chinaxy": 314,
+    "ranking": 372,
+    "wurank": 514,
+    "avg": 400.0,
+    "id": 499
+  },
+  {
+    "name": "桂林医学院",
+    "chinaxy": 342,
+    "wurank": 462,
+    "avg": 402.0,
+    "id": 500
+  },
+  { "name": "中国人民警察大学", "chinaxy": 402, "avg": 402.0, "id": 501 },
+  {
+    "name": "天津职业技术师范大学",
+    "chinaxy": 283,
+    "ranking": 361,
+    "wurank": 565,
+    "avg": 403.0,
+    "id": 502
+  },
+  {
+    "name": "德州学院",
+    "chinaxy": 380,
+    "ranking": 383,
+    "wurank": 450,
+    "avg": 404.33,
+    "id": 503
+  },
+  {
+    "name": "上海戏剧学院",
+    "chinaxy": 205,
+    "wurank": 605,
+    "avg": 405.0,
+    "id": 504
+  },
+  { "name": "温州肯恩大学", "wurank": 405, "avg": 405.0, "id": 505 },
+  {
+    "name": "天津农学院",
+    "chinaxy": 317,
+    "ranking": 352,
+    "wurank": 557,
+    "avg": 408.67,
+    "id": 506
+  },
+  {
+    "name": "广西科技大学",
+    "chinaxy": 326,
+    "ranking": 396,
+    "wurank": 507,
+    "avg": 409.67,
+    "id": 507
+  },
+  {
+    "name": "衡阳师范学院",
+    "chinaxy": 330,
+    "ranking": 360,
+    "wurank": 540,
+    "avg": 410.0,
+    "id": 508
+  },
+  {
+    "name": "浙大城市学院",
+    "chinaxy": 505,
+    "ranking": 280,
+    "wurank": 449,
+    "avg": 411.33,
+    "id": 509
+  },
+  {
+    "name": "潍坊学院",
+    "chinaxy": 367,
+    "ranking": 400,
+    "wurank": 473,
+    "avg": 413.33,
+    "id": 510
+  },
+  {
+    "name": "黑龙江科技大学",
+    "chinaxy": 309,
+    "ranking": 414,
+    "wurank": 519,
+    "avg": 414.0,
+    "id": 511
+  },
+  {
+    "name": "内蒙古财经大学",
+    "chinaxy": 303,
+    "wurank": 527,
+    "avg": 415.0,
+    "id": 512
+  },
+  {
+    "name": "浙大宁波理工学院",
+    "chinaxy": 501,
+    "ranking": 258,
+    "wurank": 486,
+    "avg": 415.0,
+    "id": 513
+  },
+  {
+    "name": "南阳理工学院",
+    "chinaxy": 402,
+    "ranking": 375,
+    "wurank": 470,
+    "avg": 415.67,
+    "id": 514
+  },
+  {
+    "name": "北京服装学院",
+    "chinaxy": 274,
+    "wurank": 558,
+    "avg": 416.0,
+    "id": 515
+  },
+  {
+    "name": "广东技术师范大学",
+    "chinaxy": 306,
+    "ranking": 314,
+    "wurank": 628,
+    "avg": 416.0,
+    "id": 516
+  },
+  {
+    "name": "合肥师范学院",
+    "chinaxy": 351,
+    "ranking": 356,
+    "wurank": 541,
+    "avg": 416.0,
+    "id": 517
+  },
+  {
+    "name": "商丘师范学院",
+    "chinaxy": 359,
+    "ranking": 419,
+    "wurank": 471,
+    "avg": 416.33,
+    "id": 518
+  },
+  {
+    "name": "湖南第一师范学院",
+    "chinaxy": 330,
+    "ranking": 344,
+    "wurank": 577,
+    "avg": 417.0,
+    "id": 519
+  },
+  { "name": "中央司法警官学院", "chinaxy": 417, "avg": 417.0, "id": 520 },
+  {
+    "name": "宜春学院",
+    "chinaxy": 380,
+    "ranking": 364,
+    "wurank": 508,
+    "avg": 417.33,
+    "id": 521
+  },
+  {
+    "name": "太原师范学院",
+    "chinaxy": 351,
+    "ranking": 446,
+    "wurank": 456,
+    "avg": 417.67,
+    "id": 522
+  },
+  {
+    "name": "贵州中医药大学",
+    "chinaxy": 307,
+    "wurank": 529,
+    "avg": 418.0,
+    "id": 523
+  },
+  {
+    "name": "滁州学院",
+    "chinaxy": 367,
+    "ranking": 398,
+    "wurank": 494,
+    "avg": 419.67,
+    "id": 524
+  },
+  {
+    "name": "绵阳师范学院",
+    "chinaxy": 393,
+    "ranking": 345,
+    "wurank": 521,
+    "avg": 419.67,
+    "id": 525
+  },
+  {
+    "name": "上海政法学院",
+    "chinaxy": 402,
+    "wurank": 438,
+    "avg": 420.0,
+    "id": 526
+  },
+  {
+    "name": "九江学院",
+    "chinaxy": 402,
+    "ranking": 433,
+    "wurank": 433,
+    "avg": 422.67,
+    "id": 527
+  },
+  {
+    "name": "上海电机学院",
+    "chinaxy": 342,
+    "ranking": 321,
+    "wurank": 606,
+    "avg": 423.0,
+    "id": 528
+  },
+  {
+    "name": "黄淮学院",
+    "chinaxy": 380,
+    "ranking": 380,
+    "wurank": 509,
+    "avg": 423.0,
+    "id": 529
+  },
+  {
+    "name": "广东金融学院",
+    "chinaxy": 359,
+    "wurank": 488,
+    "avg": 423.5,
+    "id": 530
+  },
+  {
+    "name": "仲恺农业工程学院",
+    "chinaxy": 402,
+    "ranking": 365,
+    "wurank": 504,
+    "avg": 423.67,
+    "id": 531
+  },
+  { "name": "江苏警官学院", "chinaxy": 426, "avg": 426.0, "id": 532 },
+  { "name": "云南警官学院", "chinaxy": 426, "avg": 426.0, "id": 533 },
+  {
+    "name": "西藏民族大学",
+    "chinaxy": 231,
+    "wurank": 622,
+    "avg": 426.5,
+    "id": 534
+  },
+  {
+    "name": "长春大学",
+    "chinaxy": 326,
+    "ranking": 355,
+    "wurank": 599,
+    "avg": 426.67,
+    "id": 535
+  },
+  {
+    "name": "广西艺术学院",
+    "chinaxy": 303,
+    "wurank": 551,
+    "avg": 427.0,
+    "id": 536
+  },
+  {
+    "name": "广东石油化工学院",
+    "chinaxy": 393,
+    "ranking": 397,
+    "wurank": 492,
+    "avg": 427.33,
+    "id": 537
+  },
+  {
+    "name": "内江师范学院",
+    "chinaxy": 426,
+    "ranking": 373,
+    "wurank": 483,
+    "avg": 427.33,
+    "id": 538
+  },
+  {
+    "name": "丽水学院",
+    "chinaxy": 367,
+    "ranking": 376,
+    "wurank": 543,
+    "avg": 428.67,
+    "id": 539
+  },
+  {
+    "name": "惠州学院",
+    "chinaxy": 359,
+    "ranking": 371,
+    "wurank": 559,
+    "avg": 429.67,
+    "id": 540
+  },
+  {
+    "name": "上海第二工业大学",
+    "chinaxy": 380,
+    "ranking": 346,
+    "wurank": 564,
+    "avg": 430.0,
+    "id": 541
+  },
+  {
+    "name": "重庆三峡学院",
+    "chinaxy": 367,
+    "ranking": 393,
+    "wurank": 531,
+    "avg": 430.33,
+    "id": 542
+  },
+  {
+    "name": "山东艺术学院",
+    "chinaxy": 335,
+    "wurank": 526,
+    "avg": 430.5,
+    "id": 543
+  },
+  {
+    "name": "承德医学院",
+    "chinaxy": 351,
+    "wurank": 512,
+    "avg": 431.5,
+    "id": 544
+  },
+  {
+    "name": "贵州师范学院",
+    "chinaxy": 335,
+    "ranking": 336,
+    "wurank": 624,
+    "avg": 431.67,
+    "id": 545
+  },
+  { "name": "兰州石化职业技术大学", "ranking": 432, "avg": 432.0, "id": 546 },
+  {
+    "name": "湖南工程学院",
+    "chinaxy": 330,
+    "ranking": 415,
+    "wurank": 552,
+    "avg": 432.33,
+    "id": 547
+  },
+  {
+    "name": "西安财经大学",
+    "chinaxy": 317,
+    "wurank": 548,
+    "avg": 432.5,
+    "id": 548
+  },
+  {
+    "name": "湖北工程学院",
+    "chinaxy": 351,
+    "ranking": 402,
+    "wurank": 547,
+    "avg": 433.33,
+    "id": 549
+  },
+  {
+    "name": "沈阳医学院",
+    "chinaxy": 330,
+    "wurank": 539,
+    "avg": 434.5,
+    "id": 550
+  },
+  {
+    "name": "湖南城市学院",
+    "chinaxy": 359,
+    "ranking": 406,
+    "wurank": 544,
+    "avg": 436.33,
+    "id": 551
+  },
+  {
+    "name": "韶关学院",
+    "chinaxy": 367,
+    "ranking": 487,
+    "wurank": 455,
+    "avg": 436.33,
+    "id": 552
+  },
+  {
+    "name": "成都医学院",
+    "chinaxy": 417,
+    "wurank": 459,
+    "avg": 438.0,
+    "id": 553
+  },
+  {
+    "name": "兰州财经大学",
+    "chinaxy": 317,
+    "wurank": 562,
+    "avg": 439.5,
+    "id": 554
+  },
+  {
+    "name": "河南牧业经济学院",
+    "chinaxy": 342,
+    "ranking": 444,
+    "wurank": 533,
+    "avg": 439.67,
+    "id": 555
+  },
+  {
+    "name": "湖北第二师范学院",
+    "chinaxy": 426,
+    "ranking": 324,
+    "wurank": 573,
+    "avg": 441.0,
+    "id": 556
+  },
+  {
+    "name": "赣南医学院",
+    "chinaxy": 402,
+    "wurank": 481,
+    "avg": 441.5,
+    "id": 557
+  },
+  {
+    "name": "怀化学院",
+    "chinaxy": 342,
+    "ranking": 405,
+    "wurank": 578,
+    "avg": 441.67,
+    "id": 558
+  },
+  {
+    "name": "广西财经学院",
+    "chinaxy": 313,
+    "wurank": 572,
+    "avg": 442.5,
+    "id": 559
+  },
+  {
+    "name": "邵阳学院",
+    "chinaxy": 335,
+    "ranking": 438,
+    "wurank": 555,
+    "avg": 442.67,
+    "id": 560
+  },
+  {
+    "name": "湖北理工学院",
+    "chinaxy": 380,
+    "ranking": 403,
+    "wurank": 549,
+    "avg": 444.0,
+    "id": 561
+  },
+  {
+    "name": "河北科技师范学院",
+    "chinaxy": 393,
+    "ranking": 450,
+    "wurank": 490,
+    "avg": 444.33,
+    "id": 562
+  },
+  {
+    "name": "许昌学院",
+    "chinaxy": 380,
+    "ranking": 476,
+    "wurank": 479,
+    "avg": 445.0,
+    "id": 563
+  },
+  {
+    "name": "上饶师范学院",
+    "chinaxy": 417,
+    "ranking": 382,
+    "wurank": 536,
+    "avg": 445.0,
+    "id": 564
+  },
+  {
+    "name": "青海民族大学",
+    "chinaxy": 219,
+    "wurank": 672,
+    "avg": 445.5,
+    "id": 565
+  },
+  {
+    "name": "湖南科技学院",
+    "chinaxy": 367,
+    "ranking": 404,
+    "wurank": 566,
+    "avg": 445.67,
+    "id": 566
+  },
+  {
+    "name": "攀枝花学院",
+    "chinaxy": 434,
+    "ranking": 363,
+    "wurank": 542,
+    "avg": 446.33,
+    "id": 567
+  },
+  {
+    "name": "吉林化工学院",
+    "chinaxy": 247,
+    "ranking": 479,
+    "wurank": 616,
+    "avg": 447.33,
+    "id": 568
+  },
+  {
+    "name": "山东工商学院",
+    "chinaxy": 417,
+    "wurank": 478,
+    "avg": 447.5,
+    "id": 569
+  },
+  {
+    "name": "泰山学院",
+    "chinaxy": 453,
+    "ranking": 389,
+    "wurank": 501,
+    "avg": 447.67,
+    "id": 570
+  },
+  {
+    "name": "洛阳理工学院",
+    "chinaxy": 393,
+    "ranking": 484,
+    "wurank": 467,
+    "avg": 448.0,
+    "id": 571
+  },
+  {
+    "name": "北京电子科技学院",
+    "chinaxy": 359,
+    "ranking": 210,
+    "wurank": 776,
+    "avg": 448.33,
+    "id": 572
+  },
+  {
+    "name": "四川美术学院",
+    "chinaxy": 263,
+    "wurank": 635,
+    "avg": 449.0,
+    "id": 573
+  },
+  {
+    "name": "浙江外国语学院",
+    "chinaxy": 317,
+    "wurank": 581,
+    "avg": 449.0,
+    "id": 574
+  },
+  {
+    "name": "河北中医学院",
+    "chinaxy": 393,
+    "wurank": 505,
+    "avg": 449.0,
+    "id": 575
+  },
+  {
+    "name": "宝鸡文理学院",
+    "chinaxy": 402,
+    "ranking": 449,
+    "wurank": 496,
+    "avg": 449.0,
+    "id": 576
+  },
+  {
+    "name": "皖西学院",
+    "chinaxy": 380,
+    "ranking": 451,
+    "wurank": 517,
+    "avg": 449.33,
+    "id": 577
+  },
+  {
+    "name": "湖北汽车工业学院",
+    "chinaxy": 297,
+    "ranking": 394,
+    "wurank": 660,
+    "avg": 450.33,
+    "id": 578
+  },
+  {
+    "name": "河南工程学院",
+    "chinaxy": 426,
+    "ranking": 453,
+    "wurank": 476,
+    "avg": 451.67,
+    "id": 579
+  },
+  { "name": "广东警官学院", "chinaxy": 453, "avg": 453.0, "id": 580 },
+  {
+    "name": "衢州学院",
+    "chinaxy": 434,
+    "ranking": 353,
+    "wurank": 579,
+    "avg": 455.33,
+    "id": 581
+  },
+  {
+    "name": "黑龙江工程学院",
+    "chinaxy": 342,
+    "ranking": 374,
+    "wurank": 655,
+    "avg": 457.0,
+    "id": 582
+  },
+  {
+    "name": "沈阳音乐学院",
+    "chinaxy": 359,
+    "wurank": 556,
+    "avg": 457.5,
+    "id": 583
+  },
+  {
+    "name": "乐山师范学院",
+    "chinaxy": 380,
+    "ranking": 413,
+    "wurank": 584,
+    "avg": 459.0,
+    "id": 584
+  },
+  {
+    "name": "淮南师范学院",
+    "chinaxy": 351,
+    "ranking": 463,
+    "wurank": 570,
+    "avg": 461.33,
+    "id": 585
+  },
+  {
+    "name": "曲靖师范学院",
+    "chinaxy": 367,
+    "ranking": 422,
+    "wurank": 595,
+    "avg": 461.33,
+    "id": 586
+  },
+  {
+    "name": "广州美术学院",
+    "chinaxy": 274,
+    "wurank": 649,
+    "avg": 461.5,
+    "id": 587
+  },
+  {
+    "name": "西昌学院",
+    "chinaxy": 367,
+    "ranking": 421,
+    "wurank": 598,
+    "avg": 462.0,
+    "id": 588
+  },
+  {
+    "name": "首都体育学院",
+    "chinaxy": 324,
+    "wurank": 601,
+    "avg": 462.5,
+    "id": 589
+  },
+  {
+    "name": "齐齐哈尔医学院",
+    "chinaxy": 402,
+    "wurank": 523,
+    "avg": 462.5,
+    "id": 590
+  },
+  {
+    "name": "成都体育学院",
+    "chinaxy": 351,
+    "wurank": 575,
+    "avg": 463.0,
+    "id": 591
+  },
+  {
+    "name": "铜仁学院",
+    "chinaxy": 402,
+    "ranking": 341,
+    "wurank": 648,
+    "avg": 463.67,
+    "id": 592
+  },
+  {
+    "name": "云南中医药大学",
+    "chinaxy": 342,
+    "wurank": 588,
+    "avg": 465.0,
+    "id": 593
+  },
+  { "name": "贵阳康养职业大学", "ranking": 465, "avg": 465.0, "id": 594 },
+  {
+    "name": "玉林师范学院",
+    "chinaxy": 426,
+    "ranking": 384,
+    "wurank": 586,
+    "avg": 465.33,
+    "id": 595
+  },
+  {
+    "name": "平顶山学院",
+    "chinaxy": 453,
+    "ranking": 430,
+    "wurank": 515,
+    "avg": 466.0,
+    "id": 596
+  },
+  { "name": "吉林警察学院", "chinaxy": 466, "avg": 466.0, "id": 597 },
+  {
+    "name": "北京物资学院",
+    "chinaxy": 380,
+    "wurank": 553,
+    "avg": 466.5,
+    "id": 598
+  },
+  {
+    "name": "枣庄学院",
+    "chinaxy": 472,
+    "ranking": 392,
+    "wurank": 538,
+    "avg": 467.33,
+    "id": 599
+  },
+  {
+    "name": "中国戏曲学院",
+    "chinaxy": 291,
+    "wurank": 644,
+    "avg": 467.5,
+    "id": 600
+  },
+  {
+    "name": "郑州师范学院",
+    "chinaxy": 393,
+    "ranking": 511,
+    "wurank": 499,
+    "avg": 467.67,
+    "id": 601
+  },
+  {
+    "name": "四川音乐学院",
+    "chinaxy": 426,
+    "wurank": 511,
+    "avg": 468.5,
+    "id": 602
+  },
+  {
+    "name": "西藏农牧学院",
+    "chinaxy": 306,
+    "ranking": 370,
+    "wurank": 730,
+    "avg": 468.67,
+    "id": 603
+  },
+  {
+    "name": "中国民用航空飞行学院",
+    "chinaxy": 351,
+    "ranking": 417,
+    "wurank": 638,
+    "avg": 468.67,
+    "id": 604
+  },
+  {
+    "name": "榆林学院",
+    "chinaxy": 434,
+    "ranking": 448,
+    "wurank": 524,
+    "avg": 468.67,
+    "id": 605
+  },
+  {
+    "name": "长治医学院",
+    "chinaxy": 351,
+    "wurank": 587,
+    "avg": 469.0,
+    "id": 606
+  },
+  {
+    "name": "西安美术学院",
+    "chinaxy": 309,
+    "wurank": 630,
+    "avg": 469.5,
+    "id": 607
+  },
+  {
+    "name": "湘南学院",
+    "chinaxy": 434,
+    "ranking": 408,
+    "wurank": 568,
+    "avg": 470.0,
+    "id": 608
+  },
+  {
+    "name": "天水师范学院",
+    "chinaxy": 351,
+    "ranking": 439,
+    "wurank": 625,
+    "avg": 471.67,
+    "id": 609
+  },
+  {
+    "name": "长春工程学院",
+    "chinaxy": 351,
+    "ranking": 412,
+    "wurank": 653,
+    "avg": 472.0,
+    "id": 610
+  },
+  { "name": "福建警察学院", "chinaxy": 472, "avg": 472.0, "id": 611 },
+  { "name": "河南警察学院", "chinaxy": 472, "avg": 472.0, "id": 612 },
+  { "name": "湖南警察学院", "chinaxy": 472, "avg": 472.0, "id": 613 },
+  {
+    "name": "三明学院",
+    "chinaxy": 359,
+    "ranking": 391,
+    "wurank": 667,
+    "avg": 472.33,
+    "id": 614
+  },
+  {
+    "name": "新乡学院",
+    "chinaxy": 453,
+    "ranking": 455,
+    "wurank": 510,
+    "avg": 472.67,
+    "id": 615
+  },
+  {
+    "name": "肇庆学院",
+    "chinaxy": 393,
+    "ranking": 466,
+    "wurank": 560,
+    "avg": 473.0,
+    "id": 616
+  },
+  {
+    "name": "西安医学院",
+    "chinaxy": 417,
+    "wurank": 534,
+    "avg": 475.5,
+    "id": 617
+  },
+  {
+    "name": "黄山学院",
+    "chinaxy": 367,
+    "ranking": 493,
+    "wurank": 567,
+    "avg": 475.67,
+    "id": 618
+  },
+  {
+    "name": "新疆财经大学",
+    "chinaxy": 294,
+    "wurank": 659,
+    "avg": 476.5,
+    "id": 619
+  },
+  {
+    "name": "成都师范学院",
+    "chinaxy": 393,
+    "ranking": 395,
+    "wurank": 643,
+    "avg": 477.0,
+    "id": 620
+  },
+  {
+    "name": "山西中医药大学",
+    "chinaxy": 417,
+    "wurank": 537,
+    "avg": 477.0,
+    "id": 621
+  },
+  {
+    "name": "咸阳师范学院",
+    "chinaxy": 380,
+    "ranking": 472,
+    "wurank": 580,
+    "avg": 477.33,
+    "id": 622
+  },
+  {
+    "name": "福建技术师范学院",
+    "chinaxy": 508,
+    "ranking": 447,
+    "avg": 477.5,
+    "id": 623
+  },
+  {
+    "name": "牡丹江师范学院",
+    "chinaxy": 380,
+    "ranking": 460,
+    "wurank": 594,
+    "avg": 478.0,
+    "id": 624
+  },
+  {
+    "name": "龙岩学院",
+    "chinaxy": 434,
+    "ranking": 418,
+    "wurank": 582,
+    "avg": 478.0,
+    "id": 625
+  },
+  {
+    "name": "华北科技学院",
+    "chinaxy": 335,
+    "ranking": 539,
+    "wurank": 561,
+    "avg": 478.33,
+    "id": 626
+  },
+  {
+    "name": "成都工业学院",
+    "chinaxy": 342,
+    "ranking": 427,
+    "wurank": 666,
+    "avg": 478.33,
+    "id": 627
+  },
+  {
+    "name": "武汉音乐学院",
+    "chinaxy": 367,
+    "wurank": 592,
+    "avg": 479.5,
+    "id": 628
+  },
+  {
+    "name": "浙江水利水电学院",
+    "chinaxy": 426,
+    "ranking": 378,
+    "wurank": 641,
+    "avg": 481.67,
+    "id": 629
+  },
+  {
+    "name": "莆田学院",
+    "chinaxy": 393,
+    "ranking": 420,
+    "wurank": 633,
+    "avg": 482.0,
+    "id": 630
+  },
+  {
+    "name": "河西学院",
+    "chinaxy": 380,
+    "ranking": 437,
+    "wurank": 631,
+    "avg": 482.67,
+    "id": 631
+  },
+  {
+    "name": "安阳工学院",
+    "chinaxy": 453,
+    "ranking": 461,
+    "wurank": 535,
+    "avg": 483.0,
+    "id": 632
+  },
+  { "name": "湖北警官学院", "chinaxy": 483, "avg": 483.0, "id": 633 },
+  { "name": "江西警察学院", "chinaxy": 483, "avg": 483.0, "id": 634 },
+  { "name": "南京森林警察学院", "chinaxy": 483, "avg": 483.0, "id": 635 },
+  {
+    "name": "北部湾大学",
+    "chinaxy": 380,
+    "ranking": 456,
+    "wurank": 614,
+    "avg": 483.33,
+    "id": 636
+  },
+  {
+    "name": "宜宾学院",
+    "chinaxy": 426,
+    "ranking": 435,
+    "wurank": 591,
+    "avg": 484.0,
+    "id": 637
+  },
+  {
+    "name": "河南城建学院",
+    "chinaxy": 472,
+    "ranking": 426,
+    "wurank": 554,
+    "avg": 484.0,
+    "id": 638
+  },
+  {
+    "name": "贵州理工学院",
+    "chinaxy": 359,
+    "ranking": 409,
+    "wurank": 685,
+    "avg": 484.33,
+    "id": 639
+  },
+  {
+    "name": "北华航天工业学院",
+    "chinaxy": 417,
+    "ranking": 411,
+    "wurank": 626,
+    "avg": 484.67,
+    "id": 640
+  },
+  {
+    "name": "西安文理学院",
+    "chinaxy": 453,
+    "ranking": 386,
+    "wurank": 615,
+    "avg": 484.67,
+    "id": 641
+  },
+  {
+    "name": "南京体育学院",
+    "chinaxy": 342,
+    "wurank": 629,
+    "avg": 485.5,
+    "id": 642
+  },
+  {
+    "name": "广东第二师范学院",
+    "chinaxy": 402,
+    "ranking": 399,
+    "wurank": 656,
+    "avg": 485.67,
+    "id": 643
+  },
+  {
+    "name": "遵义师范学院",
+    "chinaxy": 402,
+    "ranking": 424,
+    "wurank": 632,
+    "avg": 486.0,
+    "id": 644
+  },
+  {
+    "name": "防灾科技学院",
+    "chinaxy": 393,
+    "ranking": 401,
+    "wurank": 665,
+    "avg": 486.33,
+    "id": 645
+  },
+  {
+    "name": "湖南人文科技学院",
+    "chinaxy": 417,
+    "ranking": 436,
+    "wurank": 608,
+    "avg": 487.0,
+    "id": 646
+  },
+  {
+    "name": "江苏第二师范学院",
+    "chinaxy": 426,
+    "ranking": 368,
+    "wurank": 671,
+    "avg": 488.33,
+    "id": 647
+  },
+  {
+    "name": "渭南师范学院",
+    "chinaxy": 393,
+    "ranking": 458,
+    "wurank": 618,
+    "avg": 489.67,
+    "id": 648
+  },
+  {
+    "name": "云南艺术学院",
+    "chinaxy": 328,
+    "wurank": 654,
+    "avg": 491.0,
+    "id": 649
+  },
+  {
+    "name": "齐鲁师范学院",
+    "chinaxy": 472,
+    "ranking": 428,
+    "wurank": 574,
+    "avg": 491.33,
+    "id": 650
+  },
+  {
+    "name": "铜陵学院",
+    "chinaxy": 393,
+    "wurank": 593,
+    "avg": 493.0,
+    "id": 651
+  },
+  {
+    "name": "北京舞蹈学院",
+    "chinaxy": 342,
+    "wurank": 646,
+    "avg": 494.0,
+    "id": 652
+  },
+  {
+    "name": "河北科技工程职业技术大学",
+    "ranking": 494,
+    "avg": 494.0,
+    "id": 653
+  },
+  {
+    "name": "太原工业学院",
+    "chinaxy": 434,
+    "ranking": 504,
+    "wurank": 545,
+    "avg": 494.33,
+    "id": 654
+  },
+  {
+    "name": "重庆第二师范学院",
+    "chinaxy": 434,
+    "ranking": 423,
+    "wurank": 627,
+    "avg": 494.67,
+    "id": 655
+  },
+  {
+    "name": "信阳农林学院",
+    "chinaxy": 483,
+    "ranking": 390,
+    "wurank": 612,
+    "avg": 495.0,
+    "id": 656
+  },
+  {
+    "name": "韩山师范学院",
+    "chinaxy": 453,
+    "ranking": 440,
+    "wurank": 597,
+    "avg": 496.67,
+    "id": 657
+  },
+  {
+    "name": "沈阳体育学院",
+    "chinaxy": 313,
+    "wurank": 683,
+    "avg": 498.0,
+    "id": 658
+  },
+  {
+    "name": "宁夏师范学院",
+    "chinaxy": 330,
+    "ranking": 441,
+    "wurank": 729,
+    "avg": 500.0,
+    "id": 659
+  },
+  {
+    "name": "唐山师范学院",
+    "chinaxy": 434,
+    "ranking": 462,
+    "wurank": 607,
+    "avg": 501.0,
+    "id": 660
+  },
+  { "name": "浙江警察学院", "chinaxy": 501, "avg": 501.0, "id": 661 },
+  { "name": "重庆警察学院", "chinaxy": 501, "avg": 501.0, "id": 662 },
+  {
+    "name": "海南热带海洋学院",
+    "chinaxy": 367,
+    "ranking": 434,
+    "wurank": 703,
+    "avg": 501.33,
+    "id": 663
+  },
+  {
+    "name": "吉林艺术学院",
+    "chinaxy": 380,
+    "wurank": 623,
+    "avg": 501.5,
+    "id": 664
+  },
+  {
+    "name": "嘉应学院",
+    "chinaxy": 417,
+    "ranking": 471,
+    "wurank": 617,
+    "avg": 501.67,
+    "id": 665
+  },
+  {
+    "name": "宿州学院",
+    "chinaxy": 434,
+    "ranking": 468,
+    "wurank": 604,
+    "avg": 502.0,
+    "id": 666
+  },
+  {
+    "name": "星海音乐学院",
+    "chinaxy": 351,
+    "wurank": 658,
+    "avg": 504.5,
+    "id": 667
+  },
+  {
+    "name": "运城学院",
+    "chinaxy": 453,
+    "ranking": 536,
+    "wurank": 525,
+    "avg": 504.67,
+    "id": 668
+  },
+  {
+    "name": "吉林工程技术师范学院",
+    "chinaxy": 367,
+    "ranking": 442,
+    "wurank": 706,
+    "avg": 505.0,
+    "id": 669
+  },
+  { "name": "上海公安学院", "chinaxy": 505, "avg": 505.0, "id": 670 },
+  { "name": "新疆警察学院", "chinaxy": 505, "avg": 505.0, "id": 671 },
+  {
+    "name": "无锡学院",
+    "chinaxy": 511,
+    "ranking": 359,
+    "wurank": 651,
+    "avg": 507.0,
+    "id": 672
+  },
+  {
+    "name": "鲁迅美术学院",
+    "chinaxy": 359,
+    "wurank": 657,
+    "avg": 508.0,
+    "id": 673
+  },
+  { "name": "北京警察学院", "chinaxy": 508, "avg": 508.0, "id": 674 },
+  { "name": "山东警察学院", "chinaxy": 508, "avg": 508.0, "id": 675 },
+  {
+    "name": "山东青年政治学院",
+    "chinaxy": 402,
+    "ranking": 445,
+    "wurank": 680,
+    "avg": 509.0,
+    "id": 676
+  },
+  { "name": "广西职业师范学院", "chinaxy": 509, "avg": 509.0, "id": 677 },
+  { "name": "铁道警察学院", "chinaxy": 509, "avg": 509.0, "id": 678 },
+  {
+    "name": "湖南工学院",
+    "chinaxy": 426,
+    "ranking": 489,
+    "wurank": 613,
+    "avg": 509.33,
+    "id": 679
+  },
+  {
+    "name": "右江民族医学院",
+    "chinaxy": 367,
+    "wurank": 652,
+    "avg": 509.5,
+    "id": 680
+  },
+  {
+    "name": "中国劳动关系学院",
+    "chinaxy": 359,
+    "wurank": 662,
+    "avg": 510.5,
+    "id": 681
+  },
+  {
+    "name": "河北金融学院",
+    "chinaxy": 402,
+    "wurank": 620,
+    "avg": 511.0,
+    "id": 682
+  },
+  { "name": "广西警察学院", "chinaxy": 511, "avg": 511.0, "id": 683 },
+  { "name": "贵州警察学院", "chinaxy": 511, "avg": 511.0, "id": 684 },
+  { "name": "辽宁警察学院", "chinaxy": 511, "avg": 511.0, "id": 685 },
+  { "name": "山西警察学院", "chinaxy": 511, "avg": 511.0, "id": 686 },
+  { "name": "中国消防救援学院", "chinaxy": 511, "avg": 511.0, "id": 687 },
+  {
+    "name": "伊犁师范大学",
+    "chinaxy": 351,
+    "ranking": 495,
+    "wurank": 691,
+    "avg": 512.33,
+    "id": 688
+  },
+  {
+    "name": "上海海关学院",
+    "chinaxy": 491,
+    "ranking": 286,
+    "wurank": 760,
+    "avg": 512.33,
+    "id": 689
+  },
+  {
+    "name": "昆明学院",
+    "chinaxy": 472,
+    "ranking": 497,
+    "wurank": 569,
+    "avg": 512.67,
+    "id": 690
+  },
+  {
+    "name": "陇东学院",
+    "chinaxy": 393,
+    "ranking": 475,
+    "wurank": 675,
+    "avg": 514.33,
+    "id": 691
+  },
+  {
+    "name": "甘肃政法大学",
+    "chinaxy": 335,
+    "wurank": 694,
+    "avg": 514.5,
+    "id": 692
+  },
+  {
+    "name": "牡丹江医学院",
+    "chinaxy": 453,
+    "wurank": 576,
+    "avg": 514.5,
+    "id": 693
+  },
+  { "name": "首钢工学院", "chinaxy": 516, "avg": 516.0, "id": 694 },
+  { "name": "安徽艺术学院", "chinaxy": 516, "avg": 516.0, "id": 695 },
+  {
+    "name": "长治学院",
+    "chinaxy": 434,
+    "ranking": 481,
+    "wurank": 636,
+    "avg": 517.0,
+    "id": 696
+  },
+  {
+    "name": "武夷学院",
+    "chinaxy": 367,
+    "ranking": 515,
+    "wurank": 670,
+    "avg": 517.33,
+    "id": 697
+  },
+  {
+    "name": "山东工艺美术学院",
+    "chinaxy": 335,
+    "wurank": 700,
+    "avg": 517.5,
+    "id": 698
+  },
+  {
+    "name": "杭州医学院",
+    "chinaxy": 505,
+    "wurank": 530,
+    "avg": 517.5,
+    "id": 699
+  },
+  {
+    "name": "天津体育学院",
+    "chinaxy": 342,
+    "wurank": 697,
+    "avg": 519.5,
+    "id": 700
+  },
+  {
+    "name": "赤峰学院",
+    "chinaxy": 402,
+    "ranking": 499,
+    "wurank": 661,
+    "avg": 520.67,
+    "id": 701
+  },
+  {
+    "name": "通化师范学院",
+    "chinaxy": 426,
+    "ranking": 429,
+    "wurank": 707,
+    "avg": 520.67,
+    "id": 702
+  },
+  {
+    "name": "桂林航天工业学院",
+    "chinaxy": 426,
+    "ranking": 529,
+    "wurank": 609,
+    "avg": 521.33,
+    "id": 703
+  },
+  {
+    "name": "巢湖学院",
+    "chinaxy": 453,
+    "ranking": 501,
+    "wurank": 610,
+    "avg": 521.33,
+    "id": 704
+  },
+  {
+    "name": "石家庄学院",
+    "chinaxy": 472,
+    "ranking": 473,
+    "wurank": 619,
+    "avg": 521.33,
+    "id": 705
+  },
+  {
+    "name": "西安音乐学院",
+    "chinaxy": 453,
+    "wurank": 590,
+    "avg": 521.5,
+    "id": 706
+  },
+  {
+    "name": "福建江夏学院",
+    "chinaxy": 402,
+    "wurank": 642,
+    "avg": 522.0,
+    "id": 707
+  },
+  {
+    "name": "湖南财政经济学院",
+    "chinaxy": 402,
+    "wurank": 645,
+    "avg": 523.5,
+    "id": 708
+  },
+  {
+    "name": "兰州城市学院",
+    "chinaxy": 434,
+    "ranking": 500,
+    "wurank": 637,
+    "avg": 523.67,
+    "id": 709
+  },
+  {
+    "name": "宿迁学院",
+    "chinaxy": 516,
+    "ranking": 407,
+    "wurank": 650,
+    "avg": 524.33,
+    "id": 710
+  },
+  {
+    "name": "玉溪师范学院",
+    "chinaxy": 417,
+    "ranking": 469,
+    "wurank": 690,
+    "avg": 525.33,
+    "id": 711
+  },
+  {
+    "name": "南昌师范学院",
+    "chinaxy": 453,
+    "ranking": 410,
+    "wurank": 715,
+    "avg": 526.0,
+    "id": 712
+  },
+  {
+    "name": "西安航空学院",
+    "chinaxy": 434,
+    "ranking": 457,
+    "wurank": 689,
+    "avg": 526.67,
+    "id": 713
+  },
+  {
+    "name": "菏泽学院",
+    "chinaxy": 466,
+    "ranking": 512,
+    "wurank": 603,
+    "avg": 527.0,
+    "id": 714
+  },
+  {
+    "name": "喀什大学",
+    "chinaxy": 380,
+    "ranking": 508,
+    "wurank": 695,
+    "avg": 527.67,
+    "id": 715
+  },
+  {
+    "name": "辽东学院",
+    "chinaxy": 426,
+    "ranking": 459,
+    "wurank": 699,
+    "avg": 528.0,
+    "id": 716
+  },
+  {
+    "name": "济宁学院",
+    "chinaxy": 492,
+    "ranking": 496,
+    "wurank": 596,
+    "avg": 528.0,
+    "id": 717
+  },
+  {
+    "name": "红河学院",
+    "chinaxy": 393,
+    "ranking": 505,
+    "wurank": 687,
+    "avg": 528.33,
+    "id": 718
+  },
+  {
+    "name": "天津美术学院",
+    "chinaxy": 393,
+    "wurank": 664,
+    "avg": 528.5,
+    "id": 719
+  },
+  {
+    "name": "楚雄师范学院",
+    "chinaxy": 367,
+    "ranking": 525,
+    "wurank": 701,
+    "avg": 531.0,
+    "id": 720
+  },
+  {
+    "name": "河北建筑工程学院",
+    "chinaxy": 402,
+    "ranking": 514,
+    "wurank": 679,
+    "avg": 531.67,
+    "id": 721
+  },
+  {
+    "name": "黔南民族师范学院",
+    "chinaxy": 434,
+    "ranking": 492,
+    "wurank": 669,
+    "avg": 531.67,
+    "id": 722
+  },
+  {
+    "name": "上海商学院",
+    "chinaxy": 380,
+    "wurank": 688,
+    "avg": 534.0,
+    "id": 723
+  },
+  {
+    "name": "浙江音乐学院",
+    "chinaxy": 483,
+    "wurank": 585,
+    "avg": 534.0,
+    "id": 724
+  },
+  {
+    "name": "贵阳学院",
+    "chinaxy": 434,
+    "ranking": 452,
+    "wurank": 718,
+    "avg": 534.67,
+    "id": 725
+  },
+  {
+    "name": "忻州师范学院",
+    "chinaxy": 453,
+    "ranking": 544,
+    "wurank": 611,
+    "avg": 536.0,
+    "id": 726
+  },
+  {
+    "name": "蚌埠学院",
+    "chinaxy": 472,
+    "ranking": 498,
+    "wurank": 639,
+    "avg": 536.33,
+    "id": 727
+  },
+  {
+    "name": "凯里学院",
+    "chinaxy": 426,
+    "ranking": 486,
+    "wurank": 698,
+    "avg": 536.67,
+    "id": 728
+  },
+  {
+    "name": "廊坊师范学院",
+    "chinaxy": 453,
+    "ranking": 575,
+    "wurank": 583,
+    "avg": 537.0,
+    "id": 729
+  },
+  {
+    "name": "吉林农业科技学院",
+    "chinaxy": 393,
+    "ranking": 510,
+    "wurank": 710,
+    "avg": 537.67,
+    "id": 730
+  },
+  {
+    "name": "贺州学院",
+    "chinaxy": 417,
+    "ranking": 528,
+    "wurank": 678,
+    "avg": 541.0,
+    "id": 731
+  },
+  {
+    "name": "山东女子学院",
+    "chinaxy": 434,
+    "ranking": 470,
+    "wurank": 722,
+    "avg": 542.0,
+    "id": 732
+  },
+  {
+    "name": "哈尔滨学院",
+    "chinaxy": 466,
+    "ranking": 464,
+    "wurank": 696,
+    "avg": 542.0,
+    "id": 733
+  },
+  {
+    "name": "湖北美术学院",
+    "chinaxy": 453,
+    "wurank": 634,
+    "avg": 543.5,
+    "id": 734
+  },
+  {
+    "name": "鞍山师范学院",
+    "chinaxy": 434,
+    "ranking": 478,
+    "wurank": 720,
+    "avg": 544.0,
+    "id": 735
+  },
+  {
+    "name": "广州体育学院",
+    "chinaxy": 380,
+    "wurank": 711,
+    "avg": 545.5,
+    "id": 736
+  },
+  {
+    "name": "百色学院",
+    "chinaxy": 402,
+    "ranking": 553,
+    "wurank": 682,
+    "avg": 545.67,
+    "id": 737
+  },
+  {
+    "name": "吕梁学院",
+    "chinaxy": 472,
+    "ranking": 565,
+    "wurank": 600,
+    "avg": 545.67,
+    "id": 738
+  },
+  {
+    "name": "荆楚理工学院",
+    "chinaxy": 402,
+    "ranking": 523,
+    "wurank": 713,
+    "avg": 546.0,
+    "id": 739
+  },
+  {
+    "name": "四川文理学院",
+    "chinaxy": 483,
+    "ranking": 509,
+    "wurank": 647,
+    "avg": 546.33,
+    "id": 740
+  },
+  {
+    "name": "山东政法学院",
+    "chinaxy": 453,
+    "wurank": 640,
+    "avg": 546.5,
+    "id": 741
+  },
+  {
+    "name": "池州学院",
+    "chinaxy": 466,
+    "ranking": 502,
+    "wurank": 674,
+    "avg": 547.33,
+    "id": 742
+  },
+  {
+    "name": "山东管理学院",
+    "chinaxy": 483,
+    "ranking": 454,
+    "wurank": 705,
+    "avg": 547.33,
+    "id": 743
+  },
+  {
+    "name": "晋中学院",
+    "chinaxy": 472,
+    "ranking": 560,
+    "wurank": 621,
+    "avg": 551.0,
+    "id": 744
+  },
+  {
+    "name": "商洛学院",
+    "chinaxy": 466,
+    "ranking": 503,
+    "wurank": 686,
+    "avg": 551.67,
+    "id": 745
+  },
+  {
+    "name": "南昌医学院",
+    "chinaxy": 516,
+    "wurank": 589,
+    "avg": 552.5,
+    "id": 746
+  },
+  {
+    "name": "萍乡学院",
+    "chinaxy": 492,
+    "ranking": 485,
+    "wurank": 681,
+    "avg": 552.67,
+    "id": 747
+  },
+  {
+    "name": "天津音乐学院",
+    "chinaxy": 417,
+    "wurank": 692,
+    "avg": 554.5,
+    "id": 748
+  },
+  {
+    "name": "梧州学院",
+    "chinaxy": 434,
+    "ranking": 527,
+    "wurank": 704,
+    "avg": 555.0,
+    "id": 749
+  },
+  {
+    "name": "辽宁科技学院",
+    "chinaxy": 453,
+    "ranking": 482,
+    "wurank": 732,
+    "avg": 555.67,
+    "id": 750
+  },
+  {
+    "name": "沈阳工程学院",
+    "chinaxy": 417,
+    "ranking": 583,
+    "wurank": 668,
+    "avg": 556.0,
+    "id": 751
+  },
+  {
+    "name": "山东农业工程学院",
+    "chinaxy": 492,
+    "ranking": 483,
+    "wurank": 693,
+    "avg": 556.0,
+    "id": 752
+  },
+  {
+    "name": "呼伦贝尔学院",
+    "chinaxy": 417,
+    "ranking": 516,
+    "wurank": 740,
+    "avg": 557.67,
+    "id": 753
+  },
+  {
+    "name": "宁德师范学院",
+    "chinaxy": 434,
+    "ranking": 491,
+    "wurank": 756,
+    "avg": 560.33,
+    "id": 754
+  },
+  {
+    "name": "广州航海学院",
+    "chinaxy": 453,
+    "ranking": 507,
+    "wurank": 721,
+    "avg": 560.33,
+    "id": 755
+  },
+  {
+    "name": "营口理工学院",
+    "chinaxy": 501,
+    "ranking": 431,
+    "wurank": 755,
+    "avg": 562.33,
+    "id": 756
+  },
+  {
+    "name": "西藏藏医药大学",
+    "chinaxy": 342,
+    "wurank": 785,
+    "avg": 563.5,
+    "id": 757
+  },
+  {
+    "name": "大庆师范学院",
+    "chinaxy": 426,
+    "ranking": 522,
+    "wurank": 744,
+    "avg": 564.0,
+    "id": 758
+  },
+  {
+    "name": "安康学院",
+    "chinaxy": 434,
+    "ranking": 532,
+    "wurank": 727,
+    "avg": 564.33,
+    "id": 759
+  },
+  {
+    "name": "吉林医药学院",
+    "chinaxy": 453,
+    "wurank": 676,
+    "avg": 564.5,
+    "id": 760
+  },
+  {
+    "name": "泰州学院",
+    "chinaxy": 501,
+    "ranking": 467,
+    "wurank": 731,
+    "avg": 566.33,
+    "id": 761
+  },
+  {
+    "name": "贵州工程应用技术学院",
+    "chinaxy": 402,
+    "ranking": 551,
+    "wurank": 747,
+    "avg": 566.67,
+    "id": 762
+  },
+  {
+    "name": "白城师范学院",
+    "chinaxy": 453,
+    "ranking": 519,
+    "wurank": 728,
+    "avg": 566.67,
+    "id": 763
+  },
+  {
+    "name": "西安体育学院",
+    "chinaxy": 426,
+    "wurank": 708,
+    "avg": 567.0,
+    "id": 764
+  },
+  {
+    "name": "唐山学院",
+    "chinaxy": 483,
+    "ranking": 534,
+    "wurank": 684,
+    "avg": 567.0,
+    "id": 765
+  },
+  {
+    "name": "保定学院",
+    "chinaxy": 453,
+    "ranking": 537,
+    "wurank": 714,
+    "avg": 568.0,
+    "id": 766
+  },
+  {
+    "name": "广西民族师范学院",
+    "chinaxy": 434,
+    "ranking": 555,
+    "wurank": 716,
+    "avg": 568.33,
+    "id": 767
+  },
+  {
+    "name": "吉林体育学院",
+    "chinaxy": 367,
+    "wurank": 772,
+    "avg": 569.5,
+    "id": 768
+  },
+  {
+    "name": "上海健康医学院",
+    "chinaxy": 466,
+    "wurank": 673,
+    "avg": 569.5,
+    "id": 769
+  },
+  {
+    "name": "黑河学院",
+    "chinaxy": 426,
+    "ranking": 552,
+    "wurank": 733,
+    "avg": 570.33,
+    "id": 770
+  },
+  {
+    "name": "安顺学院",
+    "chinaxy": 434,
+    "ranking": 513,
+    "wurank": 766,
+    "avg": 571.0,
+    "id": 771
+  },
+  {
+    "name": "湖南医药学院",
+    "chinaxy": 466,
+    "wurank": 677,
+    "avg": 571.5,
+    "id": 772
+  },
+  {
+    "name": "苏州城市学院",
+    "chinaxy": 516,
+    "ranking": 490,
+    "wurank": 709,
+    "avg": 571.67,
+    "id": 773
+  },
+  {
+    "name": "新余学院",
+    "chinaxy": 472,
+    "ranking": 518,
+    "wurank": 726,
+    "avg": 572.0,
+    "id": 774
+  },
+  {
+    "name": "天津中德应用技术大学",
+    "chinaxy": 453,
+    "ranking": 480,
+    "wurank": 786,
+    "avg": 573.0,
+    "id": 775
+  },
+  {
+    "name": "长沙师范学院",
+    "chinaxy": 466,
+    "ranking": 530,
+    "wurank": 723,
+    "avg": 573.0,
+    "id": 776
+  },
+  {
+    "name": "四川旅游学院",
+    "chinaxy": 492,
+    "ranking": 474,
+    "wurank": 754,
+    "avg": 573.33,
+    "id": 777
+  },
+  {
+    "name": "河北民族师范学院",
+    "chinaxy": 453,
+    "ranking": 559,
+    "wurank": 712,
+    "avg": 574.67,
+    "id": 778
+  },
+  {
+    "name": "亳州学院",
+    "chinaxy": 511,
+    "ranking": 443,
+    "wurank": 773,
+    "avg": 575.67,
+    "id": 779
+  },
+  {
+    "name": "景德镇学院",
+    "chinaxy": 466,
+    "ranking": 506,
+    "wurank": 757,
+    "avg": 576.33,
+    "id": 780
+  },
+  {
+    "name": "中华女子学院",
+    "chinaxy": 453,
+    "wurank": 702,
+    "avg": 577.5,
+    "id": 781
+  },
+  {
+    "name": "邯郸学院",
+    "chinaxy": 466,
+    "ranking": 550,
+    "wurank": 717,
+    "avg": 577.67,
+    "id": 782
+  },
+  {
+    "name": "陕西学前师范学院",
+    "chinaxy": 472,
+    "ranking": 521,
+    "wurank": 743,
+    "avg": 578.67,
+    "id": 783
+  },
+  {
+    "name": "兰州文理学院",
+    "chinaxy": 434,
+    "ranking": 540,
+    "wurank": 764,
+    "avg": 579.33,
+    "id": 784
+  },
+  {
+    "name": "兰州工业学院",
+    "chinaxy": 434,
+    "ranking": 542,
+    "wurank": 768,
+    "avg": 581.33,
+    "id": 785
+  },
+  {
+    "name": "哈尔滨体育学院",
+    "chinaxy": 417,
+    "wurank": 746,
+    "avg": 581.5,
+    "id": 786
+  },
+  {
+    "name": "新疆工程学院",
+    "chinaxy": 402,
+    "ranking": 562,
+    "wurank": 782,
+    "avg": 582.0,
+    "id": 787
+  },
+  { "name": "河北工业职业技术大学", "ranking": 584, "avg": 584.0, "id": 788 },
+  {
+    "name": "郑州工程技术学院",
+    "chinaxy": 505,
+    "ranking": 524,
+    "wurank": 724,
+    "avg": 584.33,
+    "id": 789
+  },
+  {
+    "name": "内蒙古科技大学包头师范学院",
+    "ranking": 585,
+    "avg": 585.0,
+    "id": 790
+  },
+  {
+    "name": "河池学院",
+    "chinaxy": 434,
+    "ranking": 571,
+    "wurank": 751,
+    "avg": 585.33,
+    "id": 791
+  },
+  {
+    "name": "哈尔滨音乐学院",
+    "chinaxy": 509,
+    "wurank": 663,
+    "avg": 586.0,
+    "id": 792
+  },
+  { "name": "河北石油职业技术大学", "ranking": 586, "avg": 586.0, "id": 793 },
+  {
+    "name": "昭通学院",
+    "chinaxy": 417,
+    "ranking": 579,
+    "wurank": 765,
+    "avg": 587.0,
+    "id": 794
+  },
+  { "name": "山西工程科技职业大学", "ranking": 587, "avg": 587.0, "id": 795 },
+  {
+    "name": "衡水学院",
+    "chinaxy": 492,
+    "ranking": 554,
+    "wurank": 719,
+    "avg": 588.33,
+    "id": 796
+  },
+  {
+    "name": "温州理工学院",
+    "chinaxy": 516,
+    "ranking": 488,
+    "wurank": 763,
+    "avg": 589.0,
+    "id": 797
+  },
+  { "name": "广西农业职业技术大学", "ranking": 589, "avg": 589.0, "id": 798 },
+  {
+    "name": "邢台学院",
+    "chinaxy": 483,
+    "ranking": 548,
+    "wurank": 737,
+    "avg": 589.33,
+    "id": 799
+  },
+  {
+    "name": "河南工学院",
+    "chinaxy": 505,
+    "ranking": 533,
+    "wurank": 739,
+    "avg": 592.33,
+    "id": 800
+  },
+  {
+    "name": "阿坝师范学院",
+    "chinaxy": 505,
+    "ranking": 520,
+    "wurank": 752,
+    "avg": 592.33,
+    "id": 801
+  },
+  {
+    "name": "绥化学院",
+    "chinaxy": 472,
+    "ranking": 556,
+    "wurank": 750,
+    "avg": 592.67,
+    "id": 802
+  },
+  {
+    "name": "山西工程技术学院",
+    "chinaxy": 453,
+    "ranking": 569,
+    "wurank": 758,
+    "avg": 593.33,
+    "id": 803
+  },
+  {
+    "name": "沧州师范学院",
+    "chinaxy": 492,
+    "ranking": 546,
+    "wurank": 742,
+    "avg": 593.33,
+    "id": 804
+  },
+  {
+    "name": "六盘水师范学院",
+    "chinaxy": 483,
+    "ranking": 526,
+    "wurank": 774,
+    "avg": 594.33,
+    "id": 805
+  },
+  {
+    "name": "武汉商学院",
+    "chinaxy": 453,
+    "wurank": 736,
+    "avg": 594.5,
+    "id": 806
+  },
+  {
+    "name": "太原学院",
+    "chinaxy": 483,
+    "ranking": 567,
+    "wurank": 734,
+    "avg": 594.67,
+    "id": 807
+  },
+  {
+    "name": "湖州学院",
+    "chinaxy": 528,
+    "ranking": 477,
+    "wurank": 781,
+    "avg": 595.33,
+    "id": 808
+  },
+  {
+    "name": "山东体育学院",
+    "chinaxy": 466,
+    "wurank": 725,
+    "avg": 595.5,
+    "id": 809
+  },
+  {
+    "name": "赣南科技学院",
+    "chinaxy": 516,
+    "ranking": 541,
+    "wurank": 738,
+    "avg": 598.33,
+    "id": 810
+  },
+  {
+    "name": "四川民族学院",
+    "chinaxy": 472,
+    "ranking": 549,
+    "wurank": 775,
+    "avg": 598.67,
+    "id": 811
+  },
+  {
+    "name": "山东石油化工学院",
+    "chinaxy": 516,
+    "ranking": 545,
+    "wurank": 735,
+    "avg": 598.67,
+    "id": 812
+  },
+  {
+    "name": "集宁师范学院",
+    "chinaxy": 466,
+    "ranking": 566,
+    "wurank": 767,
+    "avg": 599.67,
+    "id": 813
+  },
+  {
+    "name": "保山学院",
+    "chinaxy": 492,
+    "ranking": 538,
+    "wurank": 771,
+    "avg": 600.33,
+    "id": 814
+  },
+  {
+    "name": "山西传媒学院",
+    "chinaxy": 453,
+    "wurank": 748,
+    "avg": 600.5,
+    "id": 815
+  },
+  {
+    "name": "南京特殊教育师范学院",
+    "chinaxy": 508,
+    "ranking": 517,
+    "wurank": 777,
+    "avg": 600.67,
+    "id": 816
+  },
+  {
+    "name": "吉林工商学院",
+    "chinaxy": 434,
+    "wurank": 769,
+    "avg": 601.5,
+    "id": 817
+  },
+  {
+    "name": "河北体育学院",
+    "chinaxy": 417,
+    "wurank": 788,
+    "avg": 602.5,
+    "id": 818
+  },
+  {
+    "name": "甘肃民族师范学院",
+    "chinaxy": 453,
+    "ranking": 577,
+    "wurank": 779,
+    "avg": 603.0,
+    "id": 819
+  },
+  {
+    "name": "昌吉学院",
+    "chinaxy": 434,
+    "ranking": 581,
+    "wurank": 795,
+    "avg": 603.33,
+    "id": 820
+  },
+  {
+    "name": "河北环境工程学院",
+    "chinaxy": 516,
+    "ranking": 535,
+    "wurank": 759,
+    "avg": 603.33,
+    "id": 821
+  },
+  {
+    "name": "文山学院",
+    "chinaxy": 472,
+    "ranking": 561,
+    "wurank": 780,
+    "avg": 604.33,
+    "id": 822
+  },
+  {
+    "name": "豫章师范学院",
+    "chinaxy": 511,
+    "ranking": 531,
+    "wurank": 787,
+    "avg": 609.67,
+    "id": 823
+  },
+  {
+    "name": "兴义民族师范学院",
+    "chinaxy": 492,
+    "ranking": 543,
+    "wurank": 796,
+    "avg": 610.33,
+    "id": 824
+  },
+  {
+    "name": "内蒙古艺术学院",
+    "chinaxy": 472,
+    "wurank": 753,
+    "avg": 612.5,
+    "id": 825
+  },
+  {
+    "name": "普洱学院",
+    "chinaxy": 492,
+    "ranking": 557,
+    "wurank": 791,
+    "avg": 613.33,
+    "id": 826
+  },
+  {
+    "name": "湖南女子学院",
+    "chinaxy": 466,
+    "wurank": 761,
+    "avg": 613.5,
+    "id": 827
+  },
+  {
+    "name": "新疆艺术学院",
+    "chinaxy": 483,
+    "wurank": 745,
+    "avg": 614.0,
+    "id": 828
+  },
+  {
+    "name": "汉江师范学院",
+    "chinaxy": 492,
+    "ranking": 558,
+    "wurank": 792,
+    "avg": 614.0,
+    "id": 829
+  },
+  {
+    "name": "张家口学院",
+    "chinaxy": 501,
+    "ranking": 570,
+    "wurank": 783,
+    "avg": 618.0,
+    "id": 830
+  },
+  {
+    "name": "琼台师范学院",
+    "chinaxy": 508,
+    "ranking": 547,
+    "wurank": 799,
+    "avg": 618.0,
+    "id": 831
+  },
+  {
+    "name": "山西能源学院",
+    "chinaxy": 516,
+    "ranking": 578,
+    "wurank": 762,
+    "avg": 618.67,
+    "id": 832
+  },
+  {
+    "name": "广西科技师范学院",
+    "chinaxy": 511,
+    "ranking": 568,
+    "wurank": 778,
+    "avg": 619.0,
+    "id": 833
+  },
+  {
+    "name": "哈尔滨金融学院",
+    "chinaxy": 472,
+    "wurank": 770,
+    "avg": 621.0,
+    "id": 834
+  },
+  {
+    "name": "黑龙江工业学院",
+    "chinaxy": 492,
+    "ranking": 574,
+    "wurank": 802,
+    "avg": 622.67,
+    "id": 835
+  },
+  {
+    "name": "赣东学院",
+    "chinaxy": 516,
+    "ranking": 564,
+    "wurank": 794,
+    "avg": 624.67,
+    "id": 836
+  },
+  {
+    "name": "河套学院",
+    "chinaxy": 509,
+    "ranking": 572,
+    "wurank": 797,
+    "avg": 626.0,
+    "id": 837
+  },
+  {
+    "name": "厦门医学院",
+    "chinaxy": 511,
+    "wurank": 741,
+    "avg": 626.0,
+    "id": 838
+  },
+  {
+    "name": "滇西科技师范学院",
+    "chinaxy": 505,
+    "ranking": 573,
+    "wurank": 801,
+    "avg": 626.33,
+    "id": 839
+  },
+  {
+    "name": "鄂尔多斯应用技术学院",
+    "chinaxy": 511,
+    "ranking": 563,
+    "wurank": 806,
+    "avg": 626.67,
+    "id": 840
+  },
+  {
+    "name": "滇西应用技术大学",
+    "chinaxy": 492,
+    "ranking": 582,
+    "wurank": 811,
+    "avg": 628.33,
+    "id": 841
+  },
+  {
+    "name": "河北水利电力学院",
+    "chinaxy": 516,
+    "ranking": 576,
+    "wurank": 793,
+    "avg": 628.33,
+    "id": 842
+  },
+  {
+    "name": "河南财政金融学院",
+    "chinaxy": 508,
+    "wurank": 749,
+    "avg": 628.5,
+    "id": 843
+  },
+  {
+    "name": "新疆理工学院",
+    "chinaxy": 516,
+    "ranking": 580,
+    "wurank": 808,
+    "avg": 634.67,
+    "id": 844
+  },
+  {
+    "name": "桂林旅游学院",
+    "chinaxy": 483,
+    "wurank": 789,
+    "avg": 636.0,
+    "id": 845
+  },
+  {
+    "name": "新疆政法学院",
+    "chinaxy": 516,
+    "ranking": 590,
+    "wurank": 810,
+    "avg": 638.67,
+    "id": 846
+  },
+  {
+    "name": "呼和浩特民族学院",
+    "chinaxy": 483,
+    "wurank": 803,
+    "avg": 643.0,
+    "id": 847
+  },
+  {
+    "name": "甘肃医学院",
+    "chinaxy": 509,
+    "wurank": 790,
+    "avg": 649.5,
+    "id": 848
+  },
+  {
+    "name": "嘉兴南湖学院",
+    "chinaxy": 516,
+    "wurank": 784,
+    "avg": 650.0,
+    "id": 849
+  },
+  {
+    "name": "贵州商学院",
+    "chinaxy": 509,
+    "wurank": 798,
+    "avg": 653.5,
+    "id": 850
+  },
+  {
+    "name": "福建商学院",
+    "chinaxy": 511,
+    "wurank": 804,
+    "avg": 657.5,
+    "id": 851
+  },
+  {
+    "name": "新疆科技学院",
+    "chinaxy": 511,
+    "wurank": 809,
+    "avg": 660.0,
+    "id": 852
+  },
+  {
+    "name": "山西工学院",
+    "chinaxy": 528,
+    "wurank": 800,
+    "avg": 664.0,
+    "id": 853
+  },
+  {
+    "name": "新疆第二医学院",
+    "chinaxy": 528,
+    "wurank": 805,
+    "avg": 666.5,
+    "id": 854
+  },
+  {
+    "name": "山西科技学院",
+    "ranking": 588,
+    "wurank": 807,
+    "avg": 697.5,
+    "id": 855
+  }
+]
