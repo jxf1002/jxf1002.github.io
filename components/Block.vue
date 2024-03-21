@@ -14,7 +14,7 @@ const props = defineProps({
 <template>
   <div class="px-4 md:px-20">
     <UDivider>
-      <h2 class="text-purple-500 dark:text-purple-400 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
+      <h2 class="text-primary-500 dark:text-primary-400 font-bold text-[18px] mb-[5px]">{{ title }}</h2>
     </UDivider>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div class="text-sm leading-6" v-for="item in data" :key="item.id">
