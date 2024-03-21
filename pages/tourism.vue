@@ -25,7 +25,6 @@ if (isMobile) {
       <UInput v-model="q" placeholder="请输入景点名称" class="w-full md:w-60" />
       <USelectMenu v-model="p" placeholder="请选择地区" :options="provinces" class="ml-[20px] w-full md:w-60" />
     </div>
-    <UTable class="p-4" :columns="cols" :rows="data" />
-    {{ isMobile }}
+    <UTable class="p-4" :columns="cols" :rows="data" :ui="{ td: { base: 'whitespace-normal' } }" />
   </div>
 </template>
