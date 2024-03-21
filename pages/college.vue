@@ -5,16 +5,25 @@ useSeoMeta({
   keywords: '贾师傅,大学排行榜,大学排行榜数据',
 })
 
-const { q, columns, colleges } = useCollege()
+const { isMobile } = useDevice()
+
+const { q, columns, mobileColumns, colleges } = useCollege()
+
+const cols = ref([])
+if (isMobile) {
+  cols.value = mobileColumns
+} else {
+  cols.value = columns
+}
 </script>
 
 <template>
   <div class="mx-auto text-center md:px-24">
     <h1 class="mx-auto text-[40px] bold pt-[20px]">大学排行榜</h1>
-    <p class="mx-auto text-[14px] mt-[10px] text-gray-500">（基于2023年数据制作）</p>
+    <p class="mx-auto text-[14px] mt-[10px] text-gray-500">（基于2023年数据制作，使用3个排行榜平均值排名）</p>
     <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
       <UInput v-model="q" placeholder="请输入大学名称" class="w-full md:w-auto" />
     </div>
-    <UTable class="p-4" :columns="columns" :rows="colleges" />
+    <UTable class="p-4" :columns="cols" :rows="colleges" :ui="{ td: { base: 'whitespace-normal' } }" />
   </div>
 </template>
