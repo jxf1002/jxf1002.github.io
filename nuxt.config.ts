@@ -5,4 +5,7 @@ export default defineNuxtConfig({
   site: {
     url: "https://www.justful.cn",
   },
+  sitemap: {
+    autoLastmod: true,
+  },
 })
