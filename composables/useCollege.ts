@@ -1,4 +1,4 @@
-import collegesJson from "@/assets/colleges.json"
+import collegesJson from "@/assets/data/colleges.json"
 
 export default function () {
   type College = {

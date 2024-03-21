@@ -21,9 +21,9 @@ const props = defineProps({
         <NuxtLink :to="item.route">
           <UCard class="bg-gray-50 hover:bg-gray-100">
             <template #header>
-              <p class="text-xl bold">{{ item.title }}</p>
+              <p class="text-xl bold h-4">{{ item.title }}</p>
             </template>
-            <p>{{ item.description }}</p>
+            <p class="h-16">{{ item.description }}</p>
           </UCard>
         </NuxtLink>
       </div>

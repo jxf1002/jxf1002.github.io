@@ -1,0 +1,2722 @@
+[
+  {
+    "id": 58018,
+    "name": "故宫博物院",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58019,
+    "name": "天坛公园",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58020,
+    "name": "颐和园",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58021,
+    "name": "八达岭—慕田峪长城旅游区",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58022,
+    "name": "明十三陵景区",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58023,
+    "name": "恭王府景区",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58024,
+    "name": "北京奥林匹克公园",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58025,
+    "name": "圆明园遗址公园景区",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58026,
+    "name": "北京（通州）大运河文化旅游景区",
+    "provinceCode": "110000",
+    "provinceName": "北京",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58027,
+    "name": "天津古文化街旅游区（津门故里）",
+    "provinceCode": "120000",
+    "provinceName": "天津",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58028,
+    "name": "盘山风景名胜区",
+    "provinceCode": "120000",
+    "provinceName": "天津",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58029,
+    "name": "承德市承德避暑山庄及周围寺庙景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58030,
+    "name": "保定市白洋淀景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58031,
+    "name": "保定市野三坡景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58032,
+    "name": "石家庄西柏坡景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58033,
+    "name": "唐山市清东陵景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58034,
+    "name": "邯郸市娲皇宫景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58035,
+    "name": "邯郸市广府古城景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58036,
+    "name": "保定市白石山景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58037,
+    "name": "秦皇岛市山海关景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2007/2018年"
+  },
+  {
+    "id": 58038,
+    "name": "保定市清西陵景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58039,
+    "name": "承德市金山岭长城景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58040,
+    "name": "唐山市南湖·开滦旅游景区",
+    "provinceCode": "130000",
+    "provinceName": "河北",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58041,
+    "name": "大同市云冈石窟景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58042,
+    "name": "忻州市五台山风景名胜区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58043,
+    "name": "晋城市皇城相府生态文化旅游区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58044,
+    "name": "晋中市绵山风景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58045,
+    "name": "晋中市平遥古城景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58046,
+    "name": "忻州市雁门关景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58047,
+    "name": "临汾市洪洞大槐树寻根祭祖园旅游景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58048,
+    "name": "长治市太行山大峡谷八泉峡景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58049,
+    "name": "临汾市云丘山景区",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58050,
+    "name": "黄河壶口瀑布旅游区(陕西省延安市·山西省临汾市)",
+    "provinceCode": "140000",
+    "provinceName": "山西",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58051,
+    "name": "鄂尔多斯市响沙湾旅游景区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58052,
+    "name": "鄂尔多斯市成吉思汗陵旅游区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58053,
+    "name": "呼伦贝尔市中俄边境旅游区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58054,
+    "name": "兴安盟阿尔山-柴河旅游景区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58055,
+    "name": "赤峰市阿斯哈图石林景区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58056,
+    "name": "阿拉善盟胡杨林旅游区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58057,
+    "name": "呼伦贝尔市呼伦贝尔大草原·莫尔格勒河景区",
+    "provinceCode": "150000",
+    "provinceName": "内蒙古",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58058,
+    "name": "沈阳市沈阳植物园",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58059,
+    "name": "大连市老虎滩海洋公园—老虎滩极地馆",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58060,
+    "name": "大连市金石滩景区",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58061,
+    "name": "本溪市本溪水洞景区",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58062,
+    "name": "鞍山市千山景区",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58063,
+    "name": "盘锦市红海滩风景廊道景区",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58064,
+    "name": "本溪市五女山景区",
+    "provinceCode": "210000",
+    "provinceName": "辽宁",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58065,
+    "name": "延边朝鲜族自治州长白山景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58066,
+    "name": "长春市伪满皇宫博物馆",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58067,
+    "name": "长春市净月潭景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58068,
+    "name": "长春市长影世纪城景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58069,
+    "name": "延边州六鼎山文化旅游区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58070,
+    "name": "长春市世界雕塑公园景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58071,
+    "name": "通化市高句丽文物古迹旅游景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58072,
+    "name": "松原市前郭查干湖景区",
+    "provinceCode": "220000",
+    "provinceName": "吉林",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58073,
+    "name": "哈尔滨市太阳岛景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58074,
+    "name": "黑河市五大连池景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58075,
+    "name": "牡丹江市镜泊湖景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58076,
+    "name": "伊春市林海奇石景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58077,
+    "name": "大兴安岭地区北极村旅游景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58078,
+    "name": "鸡西市虎头旅游景区",
+    "provinceCode": "230000",
+    "provinceName": "黑龙江",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58079,
+    "name": "东方明珠广播电视塔",
+    "provinceCode": "310000",
+    "provinceName": "上海",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58080,
+    "name": "上海野生动物园",
+    "provinceCode": "310000",
+    "provinceName": "上海",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58081,
+    "name": "上海科技馆",
+    "provinceCode": "310000",
+    "provinceName": "上海",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58082,
+    "name": "中国共产党一大•二大•四大纪念馆景区",
+    "provinceCode": "310000",
+    "provinceName": "上海",
+    "gradesName": "5A",
+    "year": "2021年"
+  },
+  {
+    "id": 58083,
+    "name": "西沙明珠湖景区",
+    "provinceCode": "310000",
+    "provinceName": "上海",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58084,
+    "name": "苏州市苏州园林（拙政园－留园－虎丘）",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58085,
+    "name": "苏州市周庄古镇景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58086,
+    "name": "南京市钟山风景名胜区－中山陵园风景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58087,
+    "name": "无锡市中央电视台无锡影视基地三国水浒城景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58088,
+    "name": "无锡市灵山大佛景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2009年"
+  },
+  {
+    "id": 58089,
+    "name": "苏州市同里古镇景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58090,
+    "name": "南京市夫子庙－秦淮河风光带",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58091,
+    "name": "常州市环球恐龙城休闲旅游区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58092,
+    "name": "扬州市瘦西湖风景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58093,
+    "name": "南通市濠河风景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58094,
+    "name": "泰州市溱湖旅游景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58095,
+    "name": "苏州市金鸡湖旅游区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58096,
+    "name": "镇江市金山•焦山•北固山风景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58097,
+    "name": "无锡市鼋头渚旅游风景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58098,
+    "name": "苏州市太湖旅游区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58099,
+    "name": "苏州市沙家浜－虞山尚湖旅游区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58100,
+    "name": "常州市天目湖景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58101,
+    "name": "镇江市茅山景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58102,
+    "name": "淮安市周恩来故里景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58103,
+    "name": "盐城市中华麋鹿园景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58104,
+    "name": "徐州市云龙湖景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58105,
+    "name": "连云港市花果山景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58106,
+    "name": "常州市春秋淹城旅游区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58107,
+    "name": "无锡市惠山古镇景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58108,
+    "name": "宿迁市洪泽湖湿地景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58109,
+    "name": "连云港市连岛景区",
+    "provinceCode": "320000",
+    "provinceName": "江苏",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58110,
+    "name": "杭州市杭州西湖风景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58111,
+    "name": "温州市雁荡山风景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58112,
+    "name": "舟山市普陀山风景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58113,
+    "name": "杭州市千岛湖风景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58114,
+    "name": "嘉兴市乌镇古镇旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58115,
+    "name": "宁波市溪口－滕头旅游景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58116,
+    "name": "金华市横店影视城景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2010年"
+  },
+  {
+    "id": 58117,
+    "name": "嘉兴市南湖旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58118,
+    "name": "杭州市西溪湿地旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58119,
+    "name": "绍兴市鲁迅故里•沈园景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58120,
+    "name": "衢州市根宫佛国文化旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58121,
+    "name": "湖州市南浔古镇景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58122,
+    "name": "台州市天台山景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58123,
+    "name": "台州市神仙居景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58124,
+    "name": "嘉兴市西塘古镇旅游景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58125,
+    "name": "衢州市江郎山•廿八都旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58126,
+    "name": "宁波市天一阁•月湖景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58127,
+    "name": "丽水市缙云仙都景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58128,
+    "name": "温州市刘伯温故里景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58129,
+    "name": "台州市台州府城文化旅游区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58130,
+    "name": "丽水市云和梯田景区",
+    "provinceCode": "330000",
+    "provinceName": "浙江",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58131,
+    "name": "黄山市黄山风景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58132,
+    "name": "池州市九华山风景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58133,
+    "name": "安庆市天柱山风景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58134,
+    "name": "黄山市皖南古村落－西递宏村",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58135,
+    "name": "六安市天堂寨旅游景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58136,
+    "name": "宣城市龙川景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58137,
+    "name": "阜阳市八里河风景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58138,
+    "name": "黄山市古徽州文化旅游区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58139,
+    "name": "合肥市三河古镇景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58140,
+    "name": "芜湖市方特旅游区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58141,
+    "name": "六安市万佛湖风景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58142,
+    "name": "马鞍山市长江采石矶文化生态旅游区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58143,
+    "name": "滁州市琅琊山景区",
+    "provinceCode": "340000",
+    "provinceName": "安徽",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58144,
+    "name": "厦门市鼓浪屿风景名胜区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58145,
+    "name": "南平市武夷山风景名胜区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58146,
+    "name": "三明市泰宁风景旅游区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58147,
+    "name": "福建土楼（永定•南靖）旅游景区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58148,
+    "name": "宁德市（白水洋•鸳鸯溪）旅游景区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58149,
+    "name": "泉州市清源山风景名胜区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58150,
+    "name": "宁德市太姥山旅游区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58151,
+    "name": "福州市三坊七巷景区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58152,
+    "name": "龙岩市古田旅游区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58153,
+    "name": "莆田市湄洲岛妈祖文化旅游区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58154,
+    "name": "厦门市厦门园林植物园景区",
+    "provinceCode": "350000",
+    "provinceName": "福建",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58155,
+    "name": "九江市庐山市庐山风景名胜区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58156,
+    "name": "吉安市井冈山市井冈山风景旅游区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58157,
+    "name": "上饶市玉山县三清山风景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58158,
+    "name": "鹰潭市贵溪市龙虎山风景名胜区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58159,
+    "name": "上饶市婺源县江湾景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58160,
+    "name": "景德镇市昌江区古窑民俗博览区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58161,
+    "name": "赣州市瑞金市共和国摇篮景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58162,
+    "name": "宜春市袁州区明月山旅游区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58163,
+    "name": "抚州市资溪县大觉山景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58164,
+    "name": "上饶市弋阳县龟峰景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58165,
+    "name": "南昌市东湖区滕王阁旅游区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58166,
+    "name": "萍乡市芦溪县萍乡武功山景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58167,
+    "name": "九江市永修县庐山西海景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58168,
+    "name": "赣州市三百山景区",
+    "provinceCode": "360000",
+    "provinceName": "江西",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58169,
+    "name": "泰安市泰山景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58170,
+    "name": "烟台市蓬莱阁-三仙山-八仙过海旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58171,
+    "name": "济宁市明故城三孔旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58172,
+    "name": "青岛市崂山景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58173,
+    "name": "威海市刘公岛景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58174,
+    "name": "烟台市南山景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58175,
+    "name": "枣庄市台儿庄古城景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58176,
+    "name": "济南市天下第一泉景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58177,
+    "name": "沂蒙山旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58178,
+    "name": "潍坊市青州古城景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58179,
+    "name": "威海市威海华夏城景区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58180,
+    "name": "东营市黄河口生态旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58181,
+    "name": "临沂市萤火虫水洞•地下大峡谷旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58182,
+    "name": "济宁市微山湖旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58183,
+    "name": "青岛市奥帆海洋文化旅游区",
+    "provinceCode": "370000",
+    "provinceName": "山东",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58184,
+    "name": "郑州市嵩山少林景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58185,
+    "name": "洛阳市龙门石窟景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58186,
+    "name": "焦作市云台山－神农山－青天河风景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58187,
+    "name": "安阳市殷墟景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58188,
+    "name": "洛阳市白云山景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58189,
+    "name": "开封市清明上河园景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58190,
+    "name": "平顶山市尧山－中原大佛景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58191,
+    "name": "洛阳市老君山－鸡冠洞旅游区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58192,
+    "name": "洛阳市龙潭大峡谷景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58193,
+    "name": "南阳市西峡恐龙遗迹园-伏牛山-老界岭旅游区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58194,
+    "name": "驻马店市嵖岈山旅游景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58195,
+    "name": "安阳市红旗渠－太行大峡谷旅游景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58196,
+    "name": "商丘市芒砀山汉文化旅游景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58197,
+    "name": "新乡市八里沟景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58198,
+    "name": "信阳市鸡公山景区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58199,
+    "name": "周口市太昊伏羲陵文化旅游区",
+    "provinceCode": "410000",
+    "provinceName": "河南",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58200,
+    "name": "武汉市黄鹤楼公园",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58201,
+    "name": "宜昌市三峡大坝－屈原故里文化旅游区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58202,
+    "name": "宜昌市三峡人家风景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58203,
+    "name": "十堰市武当山风景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58204,
+    "name": "恩施州神农溪纤夫文化旅游区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58205,
+    "name": "神农架生态旅游区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58206,
+    "name": "宜昌市清江画廊景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58207,
+    "name": "武汉市中国武汉-东湖生态旅游风景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58208,
+    "name": "武汉市木兰文化生态旅游区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58209,
+    "name": "恩施州恩施大峡谷景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58210,
+    "name": "咸宁市三国赤壁古战场景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58211,
+    "name": "襄阳市古隆中景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58212,
+    "name": "恩施州腾龙洞景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58213,
+    "name": "宜昌市三峡大瀑布景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58214,
+    "name": "荆门市明显陵文化旅游景区",
+    "provinceCode": "420000",
+    "provinceName": "湖北",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58215,
+    "name": "张家界市武陵源－天门山旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58216,
+    "name": "衡阳市衡山旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58217,
+    "name": "湘潭市韶山旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58218,
+    "name": "岳阳市岳阳楼－君山岛景区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58219,
+    "name": "长沙市岳麓山-橘子洲旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58220,
+    "name": "长沙市花明楼景区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58221,
+    "name": "郴州市东江湖旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58222,
+    "name": "邵阳市崀山景区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58223,
+    "name": "株洲市炎帝陵景区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58224,
+    "name": "常德市桃花源旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58225,
+    "name": "湘西州吉首市矮寨·十八洞•德夯大峡谷景区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2021年"
+  },
+  {
+    "id": 58226,
+    "name": "湘西州凤凰古城旅游区",
+    "provinceCode": "430000",
+    "provinceName": "湖南",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58227,
+    "name": "广州市番禺区长隆旅游度假区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58228,
+    "name": "深圳市南山区华侨城旅游度假区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58229,
+    "name": "广州市白云区白云山景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58230,
+    "name": "梅州市梅县区雁南飞茶田景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58231,
+    "name": "深圳市龙华区观澜湖休闲旅游区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58232,
+    "name": "清远市连州市地下河旅游景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58233,
+    "name": "韶关市仁化县丹霞山景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58234,
+    "name": "佛山市南海区西樵山景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58235,
+    "name": "惠州市博罗县罗浮山景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58236,
+    "name": "佛山市顺德区长鹿旅游休博园",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58237,
+    "name": "阳江市江城区海陵岛大角湾海上丝路旅游区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58238,
+    "name": "中山市孙中山故里旅游区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58239,
+    "name": "惠州市惠城区惠州西湖旅游景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58240,
+    "name": "肇庆市端州区星湖旅游景区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58241,
+    "name": "江门市开平市开平碉楼文化旅游区",
+    "provinceCode": "440000",
+    "provinceName": "广东",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58242,
+    "name": "桂林市漓江风景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58243,
+    "name": "桂林市乐满地度假世界",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58244,
+    "name": "桂林市独秀峰•靖江王城景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58245,
+    "name": "南宁市青秀山风景名胜旅游区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58246,
+    "name": "桂林市两江四湖•象山景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58247,
+    "name": "崇左市德天跨国瀑布景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58248,
+    "name": "百色市百色起义纪念园景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58249,
+    "name": "北海市涠洲岛南湾鳄鱼山景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58250,
+    "name": "贺州市黄姚古镇景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58251,
+    "name": "柳州市程阳八寨景区",
+    "provinceCode": "450000",
+    "provinceName": "广西",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58252,
+    "name": "三亚市南山文化旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58253,
+    "name": "三亚市南山大小洞天旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58254,
+    "name": "保亭县呀诺达雨林文化旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58255,
+    "name": "陵水县分界洲岛旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58256,
+    "name": "保亭县海南槟榔谷黎苗文化旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58257,
+    "name": "三亚市蜈支洲岛旅游区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58258,
+    "name": "三亚市天涯海角游览区",
+    "provinceCode": "460000",
+    "provinceName": "海南",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58259,
+    "name": "大足石刻景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58260,
+    "name": "小三峡－小小三峡旅游区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58261,
+    "name": "喀斯特旅游区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58262,
+    "name": "桃花源旅游景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58263,
+    "name": "万盛黑山谷-龙鳞石海风景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58264,
+    "name": "金佛山景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58265,
+    "name": "四面山景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58266,
+    "name": "龙缸景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58267,
+    "name": "阿依河景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58268,
+    "name": "濯水景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58269,
+    "name": "白帝城•瞿塘峡景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58270,
+    "name": "武陵山大裂谷景区",
+    "provinceCode": "500000",
+    "provinceName": "重庆",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58271,
+    "name": "成都市青城山－都江堰旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58272,
+    "name": "乐山市峨眉山景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58273,
+    "name": "阿坝州九寨沟景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58274,
+    "name": "乐山市乐山大佛景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58275,
+    "name": "阿坝州黄龙风景名胜区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58276,
+    "name": "绵阳市羌城旅游区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58277,
+    "name": "阿坝州汶川特别旅游区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58278,
+    "name": "南充市阆中古城旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58279,
+    "name": "广安市邓小平故里旅游区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58280,
+    "name": "广元市剑门蜀道剑门关旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58281,
+    "name": "南充市朱德故里景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58282,
+    "name": "甘孜州海螺沟景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58283,
+    "name": "雅安市碧峰峡旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58284,
+    "name": "巴中市光雾山旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58285,
+    "name": "甘孜州稻城亚丁旅游景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58286,
+    "name": "成都市安仁古镇景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58287,
+    "name": "阿坝州四姑娘山景区",
+    "provinceCode": "510000",
+    "provinceName": "四川",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58288,
+    "name": "安顺市黄果树瀑布景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58289,
+    "name": "安顺市西秀区龙宫景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58290,
+    "name": "毕节市黔西县百里杜鹃景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58291,
+    "name": "黔南布依族苗族自治州荔波县樟江景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58292,
+    "name": "贵阳市花溪区青岩古镇景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58293,
+    "name": "铜仁市江口县梵净山旅游区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58294,
+    "name": "黔东南州镇远县镇远古城旅游景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58295,
+    "name": "遵义市赤水市赤水丹霞旅游区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58296,
+    "name": "毕节市织金洞景区",
+    "provinceCode": "520000",
+    "provinceName": "贵州",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58297,
+    "name": "昆明市石林风景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58298,
+    "name": "丽江市玉龙雪山景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58299,
+    "name": "丽江市丽江古城景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58300,
+    "name": "大理州崇圣寺三塔文化旅游区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58301,
+    "name": "西双版纳州中科院西双版纳热带植物园",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58302,
+    "name": "迪庆州普达措国家公园",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58303,
+    "name": "昆明市昆明世博园景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58304,
+    "name": "保山市火山热海旅游区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58305,
+    "name": "文山州普者黑旅游景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58306,
+    "name": "腾冲市和顺古镇景区",
+    "provinceCode": "530000",
+    "provinceName": "云南",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58307,
+    "name": "拉萨市布达拉宫景区",
+    "provinceCode": "540000",
+    "provinceName": "西藏",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58308,
+    "name": "拉萨市大昭寺景区",
+    "provinceCode": "540000",
+    "provinceName": "西藏",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58309,
+    "name": "林芝市巴松措景区",
+    "provinceCode": "540000",
+    "provinceName": "西藏",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58310,
+    "name": "日喀则市扎什伦布寺景区",
+    "provinceCode": "540000",
+    "provinceName": "西藏",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58311,
+    "name": "林芝市雅鲁藏布大峡谷景区",
+    "provinceCode": "540000",
+    "provinceName": "西藏",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58312,
+    "name": "西安市秦始皇帝陵博物院景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58313,
+    "name": "西安市华清宫景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58314,
+    "name": "延安市黄帝陵景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58315,
+    "name": "西安市大雁塔－大唐芙蓉园景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58316,
+    "name": "渭南市华山风景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58317,
+    "name": "宝鸡市法门文化景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58318,
+    "name": "商洛市金丝峡景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58319,
+    "name": "宝鸡市太白山旅游景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58320,
+    "name": "西安市城墙•碑林历史文化景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2018年"
+  },
+  {
+    "id": 58321,
+    "name": "延安市延安革命纪念地景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58322,
+    "name": "西安市大明宫旅游景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58323,
+    "name": "黄河壶口瀑布旅游区(陕西省延安市·山西省临汾市)",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58324,
+    "name": "延安市延川黄河乾坤湾景区",
+    "provinceCode": "610000",
+    "provinceName": "陕西",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58325,
+    "name": "嘉峪关市嘉峪关文物景区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58326,
+    "name": "平凉市崆峒山风景名胜区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58327,
+    "name": "天水市麦积山景区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58328,
+    "name": "酒泉市鸣沙山月牙泉景区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58329,
+    "name": "张掖市七彩丹霞景区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58330,
+    "name": "临夏州炳灵寺世界文化遗产旅游区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58331,
+    "name": "陇南市官鹅沟景区",
+    "provinceCode": "620000",
+    "provinceName": "甘肃",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58332,
+    "name": "青海湖风景区",
+    "provinceCode": "630000",
+    "provinceName": "青海",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58333,
+    "name": "西宁市塔尔寺景区",
+    "provinceCode": "630000",
+    "provinceName": "青海",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58334,
+    "name": "海东市互助土族故土园旅游区",
+    "provinceCode": "630000",
+    "provinceName": "青海",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58335,
+    "name": "海北州阿咪东索景区",
+    "provinceCode": "630000",
+    "provinceName": "青海",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58336,
+    "name": "石嘴山市沙湖旅游景区",
+    "provinceCode": "640000",
+    "provinceName": "宁夏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58337,
+    "name": "中卫市沙坡头旅游景区",
+    "provinceCode": "640000",
+    "provinceName": "宁夏",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58338,
+    "name": "银川市宁夏镇北堡西部影视城",
+    "provinceCode": "640000",
+    "provinceName": "宁夏",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58339,
+    "name": "银川市水洞沟旅游区",
+    "provinceCode": "640000",
+    "provinceName": "宁夏",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58340,
+    "name": "吴忠市青铜峡黄河大峡谷旅游区",
+    "provinceCode": "640000",
+    "provinceName": "宁夏",
+    "gradesName": "5A",
+    "year": "2024年"
+  },
+  {
+    "id": 58341,
+    "name": "昌吉回族自治州天山天池风景名胜区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58342,
+    "name": "吐鲁番市葡萄沟风景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58343,
+    "name": "阿勒泰地区喀纳斯景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2007年"
+  },
+  {
+    "id": 58344,
+    "name": "伊犁哈萨克自治州那拉提旅游风景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2011年"
+  },
+  {
+    "id": 58345,
+    "name": "阿勒泰地区可可托海景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2012年"
+  },
+  {
+    "id": 58346,
+    "name": "喀什地区金湖杨景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58347,
+    "name": "乌鲁木齐市天山大峡谷",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2013年"
+  },
+  {
+    "id": 58348,
+    "name": "巴音郭楞蒙古自治州博斯腾湖景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2014年"
+  },
+  {
+    "id": 58349,
+    "name": "喀什地区喀什古城景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2015年"
+  },
+  {
+    "id": 58350,
+    "name": "伊犁哈萨克自治州喀拉峻景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58351,
+    "name": "巴音郭楞蒙古自治州巴音布鲁克景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2016年"
+  },
+  {
+    "id": 58352,
+    "name": "喀什地区帕米尔旅游区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2019年"
+  },
+  {
+    "id": 58353,
+    "name": "克拉玛依市世界魔鬼城景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2020年"
+  },
+  {
+    "id": 58354,
+    "name": "博尔塔拉蒙古自治州赛里木湖景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2021年"
+  },
+  {
+    "id": 58355,
+    "name": "昌吉回族自治州江布拉克景区",
+    "provinceCode": "650000",
+    "provinceName": "新疆",
+    "gradesName": "5A",
+    "year": "2022年"
+  },
+  {
+    "id": 58356,
+    "name": "兵团十师185团白沙湖景区（阿勒泰地区）",
+    "provinceCode": "650091",
+    "provinceName": "新疆生产建设兵团",
+    "gradesName": "5A",
+    "year": "2017年"
+  },
+  {
+    "id": 58357,
+    "name": "兵团阿拉尔市塔克拉玛干•三五九旅文化旅游区",
+    "provinceCode": "650091",
+    "provinceName": "新疆生产建设兵团",
+    "gradesName": "5A",
+    "year": "2021年"
+  }
+]
