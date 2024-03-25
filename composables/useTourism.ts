@@ -37,6 +37,32 @@ export default function () {
       return item.name.includes(q.value) && item.provinceName.includes(p2)
     })
   })
+  // p,q变化时，重置分页
+  watch([q, p], () => {
+    page.value = 1
+  })
+  // 分页功能
+  const page = ref(1)
+  const pageCount = ref(10)
+  const rows = computed(() => {
+    return data.value.slice(
+      (page.value - 1) * pageCount.value,
+      page.value * pageCount.value
+    )
+  })
+  const total = computed(() => {
+    return data.value.length
+  })
 
-  return { columns, mobileColumns, data, q, p, provinces }
+  return {
+    columns,
+    mobileColumns,
+    rows,
+    q,
+    p,
+    provinces,
+    page,
+    pageCount,
+    total,
+  }
 }
