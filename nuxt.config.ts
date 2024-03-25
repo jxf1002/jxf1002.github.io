@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   router: {
     options: {
-      strict: true,
+      strict: false,
     },
   },
   modules: [
@@ -14,11 +14,19 @@ export default defineNuxtConfig({
   ],
   site: {
     url: "https://www.justful.cn",
+    trailingSlash: true,
   },
   sitemap: {
     autoLastmod: true,
   },
   gtm: {
     id: "GTM-PBRKZL5T",
+  },
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        trailingSlash: "append", // can be 'append' or 'remove'
+      },
+    },
   },
 })
