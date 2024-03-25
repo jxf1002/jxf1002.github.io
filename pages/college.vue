@@ -7,7 +7,7 @@ useSeoMeta({
 
 const { isMobile } = useDevice()
 
-const { q, columns, mobileColumns, colleges } = useCollege()
+const { q, columns, mobileColumns, rows, page, pageCount, total, sort } = useCollege()
 
 const cols = ref([])
 if (isMobile) {
@@ -19,11 +19,24 @@ if (isMobile) {
 
 <template>
   <div class="mx-auto text-center md:px-24">
-    <h1 class="mx-auto text-[40px] bold pt-[20px]">大学排行榜</h1>
-    <p class="mx-auto text-[14px] mt-[10px] text-gray-500">（基于2023年数据制作，使用3个排行榜平均值排名）</p>
-    <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
-      <UInput v-model="q" placeholder="请输入大学名称" class="w-full md:w-auto" />
-    </div>
-    <UTable class="p-4" :columns="cols" :rows="colleges" :ui="{ td: { base: 'whitespace-normal' } }" />
+    <UCard class="w-full my-4" :ui="{
+      divide: 'divide-y divide-gray-200 dark:divide-gray-700',
+      header: { padding: 'px-4 py-5' },
+      body: { padding: '', base: 'divide-y divide-gray-200 dark:divide-gray-700' },
+      footer: { padding: 'p-4' }
+    }">
+      <template #header>
+        <h1 class="mx-auto text-[40px] bold">大学排行榜</h1>
+        <p class="mx-auto text-[14px] mt-[10px] text-gray-500">（基于2023年数据制作，使用3个排行榜平均值排名）</p>
+      </template>
+      <div class="flex px-3 py-3.5">
+        <UInput v-model="q" placeholder="请输入大学名称" class="w-full md:w-auto" />
+      </div>
+      <UTable :columns="cols" :rows="rows" :ui="{ td: { base: 'whitespace-normal' } }" @update:sort="sort"
+        sort-mode="manual" />
+      <template #footer>
+        <UPagination class="justify-center" size="lg" v-model="page" :page-count="pageCount" :total="total" />
+      </template>
+    </UCard>
   </div>
 </template>

@@ -10,6 +10,13 @@ export default function () {
     avg: number
   }
 
+  type SortableCollege = {
+    id: number
+    chinaxy: number
+    ranking: number
+    wurank: number
+  }
+
   const columns = [
     { key: "id", label: "排名", class: "text-center" },
     { key: "name", label: "学校名称", class: "text-center" },
@@ -25,14 +32,50 @@ export default function () {
     { key: "avg", label: "排名平均值", class: "text-center whitespace-nowrap" },
   ]
   // 从json文件中加载数据
-  const rawData = jsonData as College[]
+  const rawData = ref(jsonData as College[])
+  // 排序功能
+  function sort(params: {
+    column: keyof SortableCollege
+    direction: "asc" | "desc"
+  }) {
+    let { column, direction } = params
+    if (!column) {
+      column = "id"
+    }
+    rawData.value.sort((a, b) => {
+      if (direction === "asc") {
+        if (a[column] === undefined) return 1
+        if (b[column] === undefined) return -1
+        return a[column] - b[column]
+      } else {
+        if (a[column] === undefined) return -1
+        if (b[column] === undefined) return 1
+        return b[column] - a[column]
+      }
+    })
+  }
   // 搜索功能
   const q = ref("")
+  watch(q, () => {
+    page.value = 1
+  })
   const colleges = computed(() => {
-    return rawData.filter((college) => {
+    return rawData.value.filter((college) => {
       return college.name.includes(q.value)
     })
   })
+  // 分页功能
+  const page = ref(1)
+  const pageCount = ref(10)
+  const rows = computed(() => {
+    return colleges.value.slice(
+      (page.value - 1) * pageCount.value,
+      page.value * pageCount.value
+    )
+  })
+  const total = computed(() => {
+    return colleges.value.length
+  })
 
-  return { columns, mobileColumns, colleges, q }
+  return { q, columns, mobileColumns, rows, page, pageCount, total, sort }
 }
