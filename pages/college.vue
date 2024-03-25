@@ -18,9 +18,11 @@ if (isMobile) {
 </script>
 
 <template>
-  <div class="mx-auto text-center md:px-24">
-    <UCard class="w-full my-4" :ui="{
+  <div class="mx-auto text-center md:px-24 md:py-4">
+    <UCard :ui="{
+      base: 'w-full',
       divide: 'divide-y divide-gray-200 dark:divide-gray-700',
+      rounded: 'rounded-none md:rounded-lg',
       header: { padding: 'px-4 py-5' },
       body: { padding: '', base: 'divide-y divide-gray-200 dark:divide-gray-700' },
       footer: { padding: 'p-4' }
