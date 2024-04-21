@@ -1,19 +1,27 @@
 <script setup>
 useSeoMeta({
   title: '大学排行榜-数据-贾师傅的小站',
-  description: '提供基于2023年校友会、软科、武书连数据的中国大学排行榜。',
+  description: '提供基于校友会、软科、武书连数据的中国大学排行榜。',
   keywords: '贾师傅,大学排行榜,大学排行榜数据',
 })
 
 const { isMobile } = useDevice()
 
-const { q, columns, mobileColumns, rows, page, pageCount, total, sort } = useCollege()
+const route = useRoute()
+const year = parseInt(route.query.year) || 2024
+
+const { q, columns, mobileColumns, rows, page, pageCount, total, sort } = useCollege(year)
 
 const cols = ref([])
 if (isMobile) {
   cols.value = mobileColumns
 } else {
   cols.value = columns
+}
+
+const toYear = (year) => {
+  window.location.href = `/college/?year=${year}`
+  // window.location.reload()
 }
 </script>
 
@@ -29,7 +37,11 @@ if (isMobile) {
     }">
       <template #header>
         <h1 class="mx-auto text-[40px] bold">大学排行榜</h1>
-        <p class="mx-auto text-[14px] mt-[10px] text-gray-500">（基于2023年数据制作，使用3个排行榜平均值排名）</p>
+        <p class="mx-auto text-[14px] mt-[10px] mb-[5px] text-gray-500">（基于{{ year }}年数据制作，使用3个排行榜平均值排名）</p>
+        <UButton label="2024年" :disabled="year === 2024" @click="toYear(2024)"
+          :color="year === 2024 ? 'gray' : 'purple'" />
+        <UButton label="2023年" class="ml-[20px]" :disabled="year === 2023" @click="toYear(2023)"
+          :color="year === 2023 ? 'gray' : 'purple'" />
       </template>
       <div class="flex px-3 py-3.5">
         <UInput v-model="q" placeholder="请输入大学名称" class="w-full md:w-auto" />

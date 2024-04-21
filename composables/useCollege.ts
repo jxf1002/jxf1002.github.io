@@ -1,6 +1,7 @@
-import jsonData from "@/assets/data/colleges.json"
+import jsonData2023 from "@/assets/data/colleges2023.json"
+import jsonData2024 from "@/assets/data/colleges2024.json"
 
-export default function () {
+export default function (year: number) {
   type College = {
     id: number
     name: string
@@ -32,7 +33,13 @@ export default function () {
     { key: "avg", label: "排名平均值", class: "text-center whitespace-nowrap" },
   ]
   // 从json文件中加载数据
-  const rawData = ref(jsonData as College[])
+  let jsonData: College[] = []
+  if (year === 2023) {
+    jsonData = jsonData2023 as College[]
+  } else if (year === 2024) {
+    jsonData = jsonData2024 as College[]
+  }
+  const rawData = ref(jsonData)
   // 排序功能
   function sort(params: {
     column: keyof SortableCollege
