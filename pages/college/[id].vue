@@ -18,11 +18,6 @@ if (isMobile) {
 } else {
   cols.value = columns
 }
-
-const toYear = (year) => {
-  const router = useRouter()
-  router.push({ name: 'college-id', params: { id: year } })
-}
 </script>
 
 <template>
