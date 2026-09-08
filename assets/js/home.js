@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
       title: "工具",
       items: [
         {
-          href: "/dcf.html",
+          href: "/dcf/",
           title: "DCF 计算器",
           description: "使用 DCF 模型对企业进行估值。",
         },
         {
-          href: "/rent.html",
+          href: "/rent/",
           title: "租金计算器",
           description: "计算投资房屋出租收益。",
         },

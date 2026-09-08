@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var year = document.body.dataset.year
+  var year = document.body.dataset.rankingYear
   var state = {
     rows: [],
     filtered: [],
