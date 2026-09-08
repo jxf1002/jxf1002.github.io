@@ -13,7 +13,20 @@ export default function () {
       description: "全国5A景区汇总。",
     },
   ]
-  const toolTypes = [{}]
+  const toolTypes = [
+    {
+      id: 1,
+      route: "/dcf.html",
+      title: "DCF 计算器",
+      description: "使用 DCF 模型对企业进行估值。",
+    },
+    {
+      id: 2,
+      route: "/rent.html",
+      title: "租金计算器",
+      description: "计算投资房屋出租收益。",
+    },
+  ]
 
   return { dataTypes, toolTypes }
 }
