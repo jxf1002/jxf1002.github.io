@@ -1,75 +1,19 @@
-# Nuxt 3 Minimal Starter
+# 贾师傅的小站
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+这是一个无需构建的原生静态 HTML 项目，页面使用 CSS 和浏览器原生 JavaScript 实现。
 
-## Setup
-
-Make sure to install the dependencies:
+## 本地预览
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+python3 -m http.server 3000
 ```
 
-## Development Server
+然后访问 `http://localhost:3000/`。旅游景区和大学排行榜会从 `assets/data/` 加载 JSON 数据。
 
-Start the development server on `http://localhost:3000`:
+## 页面
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- `/`：首页
+- `/tourism/`：5A级旅游景区
+- `/college/2023/`、`/college/2024/`：大学排行榜
+- `/dcf.html`：DCF 企业估值计算器
+- `/rent.html`：房产租金计算器

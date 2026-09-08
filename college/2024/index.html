@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="提供基于校友会、软科、武书连数据的中国大学排行榜。"
+    />
+    <meta name="keywords" content="贾师傅,大学排行榜,大学排行榜数据" />
+    <title>大学排行榜-数据-贾师傅的小站</title>
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <script src="/assets/js/common.js"></script>
+  </head>
+  <body data-year="2024">
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><span class="site-home-icon">⌂</span><span>贾师傅的小站</span></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
+    <main class="data-page">
+      <section class="data-panel">
+        <header class="data-header">
+          <h1>大学排行榜</h1>
+          <p>（基于2024年数据制作，使用3个排行榜平均值排名）</p>
+          <div class="year-links">
+            <a class="button" aria-current="page" href="/college/2024/"
+              >2024年</a
+            ><a class="button" href="/college/2023/">2023年</a>
+          </div>
+        </header>
+        <div class="filters">
+          <input
+            class="control"
+            data-query
+            type="search"
+            placeholder="请输入大学名称"
+          />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>学校名称</th>
+                <th class="desktop-only">
+                  <button class="sort-button" data-sort="chinaxy">
+                    校友会 ↕
+                  </button>
+                </th>
+                <th class="desktop-only">
+                  <button class="sort-button" data-sort="ranking">
+                    软科 ↕
+                  </button>
+                </th>
+                <th class="desktop-only">
+                  <button class="sort-button" data-sort="wurank">
+                    武书连 ↕
+                  </button>
+                </th>
+                <th>排名平均值</th>
+              </tr>
+            </thead>
+            <tbody data-table-body>
+              <tr>
+                <td class="empty" colspan="6">正在加载...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" data-pagination></div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> justful.cn版权所有</p>
+      <p>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer"
+          >京ICP备18007833号-1</a
+        >
+      </p>
+    </footer>
+    <script src="/assets/js/college.js"></script>
+  </body>
+</html>
