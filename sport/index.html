@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>奔跑练习</title>
+    <style>
+      :root {
+        --ink: #17324d;
+        --muted: #6b8194;
+        --sky: #dff5f5;
+        --mint: #bfe8d2;
+        --track: #f3c987;
+        --track-line: #fff4d6;
+        --orange: #f07842;
+        --blue: #3678c8;
+        --yellow: #ffd36b;
+        --runner-duration: 0.52s;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        background: var(--sky);
+        color: var(--ink);
+        font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 28px 20px;
+        background:
+          radial-gradient(
+            circle at 18% 18%,
+            rgba(255, 255, 255, 0.9) 0 7%,
+            transparent 7.3%
+          ),
+          radial-gradient(
+            circle at 82% 12%,
+            rgba(255, 255, 255, 0.72) 0 5%,
+            transparent 5.3%
+          ),
+          linear-gradient(180deg, #dff5f5 0 57%, #bfe8d2 57% 100%);
+      }
+
+      .app {
+        width: min(940px, 100%);
+        overflow: hidden;
+        border: 3px solid var(--ink);
+        border-radius: 28px;
+        background: #fffdf5;
+        box-shadow: 10px 12px 0 rgba(23, 50, 77, 0.16);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px 28px 18px;
+        border-bottom: 3px solid var(--ink);
+      }
+
+      .eyebrow {
+        margin: 0 0 4px;
+        color: var(--orange);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(26px, 5vw, 42px);
+        line-height: 1;
+      }
+
+      .pace-badge {
+        min-width: 116px;
+        padding: 10px 14px;
+        border: 2px solid var(--ink);
+        border-radius: 14px;
+        background: var(--yellow);
+        text-align: center;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .pace-badge strong {
+        display: block;
+        font-size: 25px;
+        line-height: 1;
+      }
+
+      .scene {
+        position: relative;
+        height: 470px;
+        overflow: hidden;
+        background: linear-gradient(
+          180deg,
+          #bceeee 0%,
+          #eaf9e9 68%,
+          #d5efcf 100%
+        );
+      }
+
+      .cloud {
+        position: absolute;
+        width: 92px;
+        height: 24px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.82);
+      }
+      .cloud::before,
+      .cloud::after {
+        position: absolute;
+        content: "";
+        border-radius: 50%;
+        background: inherit;
+      }
+      .cloud::before {
+        width: 38px;
+        height: 38px;
+        left: 18px;
+        bottom: 7px;
+      }
+      .cloud::after {
+        width: 30px;
+        height: 30px;
+        right: 15px;
+        bottom: 5px;
+      }
+      .cloud.one {
+        top: 62px;
+        left: 9%;
+      }
+      .cloud.two {
+        top: 116px;
+        right: 8%;
+        transform: scale(0.72);
+      }
+
+      .tree-line {
+        position: absolute;
+        right: 0;
+        bottom: 126px;
+        left: 0;
+        height: 112px;
+        background: repeating-linear-gradient(
+          110deg,
+          transparent 0 45px,
+          #73be88 45px 52px,
+          transparent 52px 96px
+        );
+        opacity: 0.48;
+      }
+
+      .track {
+        position: absolute;
+        right: -5%;
+        bottom: -18px;
+        left: -5%;
+        height: 170px;
+        transform: perspective(300px) rotateX(10deg);
+        background: var(--track);
+        border-top: 5px solid var(--ink);
+      }
+
+      .track::before,
+      .track::after {
+        position: absolute;
+        content: "";
+        right: -10%;
+        left: -10%;
+        height: 7px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--track-line) 0 42px,
+          transparent 42px 82px
+        );
+        animation: road var(--runner-duration) linear infinite;
+      }
+      .track::before {
+        top: 45px;
+      }
+      .track::after {
+        top: 104px;
+        animation-direction: reverse;
+      }
+
+      .runner {
+        position: absolute;
+        z-index: 2;
+        bottom: 96px;
+        left: 50%;
+        width: 136px;
+        height: 270px;
+        transform: translateX(-50%);
+      }
+
+      .runner-shadow {
+        position: absolute;
+        right: 5px;
+        bottom: -3px;
+        left: 7px;
+        height: 18px;
+        border-radius: 50%;
+        background: rgba(23, 50, 77, 0.2);
+        animation: shadow var(--runner-duration) ease-in-out infinite;
+      }
+
+      .head {
+        position: absolute;
+        z-index: 4;
+        top: 4px;
+        left: 39px;
+        width: 76px;
+        height: 78px;
+        border: 3px solid var(--ink);
+        border-radius: 46% 48% 45% 48%;
+        background: #f4b27d;
+        transform-origin: 50% 100%;
+        animation: bob var(--runner-duration) ease-in-out infinite;
+      }
+
+      .hair {
+        position: absolute;
+        top: -12px;
+        left: -2px;
+        width: 73px;
+        height: 34px;
+        border: 3px solid var(--ink);
+        border-bottom: 0;
+        border-radius: 48% 55% 20% 20%;
+        background: #273c53;
+        transform: rotate(-5deg);
+      }
+      .hair::after {
+        position: absolute;
+        top: 17px;
+        left: 3px;
+        width: 20px;
+        height: 18px;
+        border-radius: 50%;
+        background: #273c53;
+        content: "";
+      }
+      .eye {
+        position: absolute;
+        top: 36px;
+        width: 7px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--ink);
+      }
+      .eye.left {
+        left: 20px;
+      }
+      .eye.right {
+        right: 18px;
+      }
+      .smile {
+        position: absolute;
+        right: 17px;
+        bottom: 16px;
+        width: 19px;
+        height: 9px;
+        border-bottom: 3px solid var(--ink);
+        border-radius: 50%;
+      }
+
+      .neck {
+        position: absolute;
+        z-index: 3;
+        top: 72px;
+        left: 60px;
+        width: 29px;
+        height: 26px;
+        border: 3px solid var(--ink);
+        border-top: 0;
+        background: #efa876;
+      }
+      .shirt {
+        position: absolute;
+        z-index: 2;
+        top: 82px;
+        left: 28px;
+        width: 92px;
+        height: 108px;
+        border: 3px solid var(--ink);
+        border-radius: 28px 28px 20px 20px;
+        background: var(--blue);
+        transform: rotate(3deg);
+      }
+      .shirt::after {
+        position: absolute;
+        top: 13px;
+        left: 39px;
+        width: 16px;
+        height: 70px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.18);
+        content: "";
+      }
+      .shorts {
+        position: absolute;
+        z-index: 3;
+        top: 174px;
+        left: 29px;
+        width: 88px;
+        height: 48px;
+        border: 3px solid var(--ink);
+        border-radius: 8px 8px 18px 18px;
+        background: #263f68;
+      }
+
+      .arm,
+      .leg {
+        position: absolute;
+        z-index: 1;
+        transform-origin: 50% 12px;
+      }
+      .arm {
+        top: 94px;
+        left: 22px;
+        width: 22px;
+        height: 108px;
+        border: 3px solid var(--ink);
+        border-radius: 15px;
+        background: #f1ad79;
+      }
+      .arm.back {
+        z-index: 0;
+        left: 93px;
+        height: 100px;
+        animation: arm-back var(--runner-duration) ease-in-out infinite;
+      }
+      .arm.front {
+        animation: arm-front var(--runner-duration) ease-in-out infinite;
+      }
+      .hand {
+        position: absolute;
+        bottom: -14px;
+        left: -3px;
+        width: 24px;
+        height: 25px;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        background: #f1ad79;
+      }
+      .leg {
+        top: 208px;
+        left: 44px;
+        width: 25px;
+        height: 94px;
+        border: 3px solid var(--ink);
+        border-radius: 16px;
+        background: #f1ad79;
+      }
+      .leg.back {
+        left: 75px;
+        animation: leg-back var(--runner-duration) ease-in-out infinite;
+      }
+      .leg.front {
+        animation: leg-front var(--runner-duration) ease-in-out infinite;
+      }
+      .shoe {
+        position: absolute;
+        bottom: -12px;
+        left: -14px;
+        width: 58px;
+        height: 24px;
+        border: 3px solid var(--ink);
+        border-radius: 22px 24px 12px 8px;
+        background: #f5f0e5;
+      }
+      .shoe::after {
+        position: absolute;
+        right: -4px;
+        bottom: -4px;
+        width: 52px;
+        height: 6px;
+        border-radius: 5px;
+        background: var(--orange);
+        content: "";
+      }
+
+      .controls {
+        padding: 22px 28px 26px;
+        background: #fffdf5;
+      }
+      .action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .action-row button {
+        flex: 1;
+        padding: 12px 16px;
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        background: var(--blue);
+        color: #fff;
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .action-row button:hover:not(:disabled) {
+        transform: translateY(-1px);
+      }
+      .action-row button:active:not(:disabled) {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+      .action-row button.secondary {
+        background: var(--orange);
+      }
+      .action-row button:disabled {
+        cursor: not-allowed;
+        opacity: 0.42;
+      }
+      .timer {
+        margin: 16px 0 0;
+        color: var(--muted);
+        text-align: center;
+        font-size: 13px;
+      }
+      .timer strong {
+        color: var(--ink);
+        font-size: 18px;
+        font-variant-numeric: tabular-nums;
+      }
+      .report {
+        display: none;
+        margin-top: 20px;
+        padding: 18px;
+        border: 3px solid var(--ink);
+        border-radius: 16px;
+        background: #162f49;
+        color: #eafffa;
+        box-shadow: 5px 5px 0 var(--orange);
+      }
+      .report.visible {
+        display: block;
+        animation: report-in 0.35s ease-out both;
+      }
+      .report h2 {
+        margin: 0 0 12px;
+        color: var(--yellow);
+        font-size: 18px;
+        letter-spacing: 0.08em;
+      }
+      .report-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .report-item {
+        padding: 10px;
+        border: 1px solid rgba(234, 255, 250, 0.3);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .report-item span {
+        display: block;
+        color: #9dc3c5;
+        font-size: 12px;
+      }
+      .report-item strong {
+        display: block;
+        margin-top: 3px;
+        color: #fff;
+        font-size: 21px;
+      }
+      .report-note {
+        margin: 14px 0 0;
+        color: #b8dbd4;
+        font-size: 13px;
+      }
+      .is-paused .runner *,
+      .is-paused .track::before,
+      .is-paused .track::after {
+        animation-play-state: paused;
+      }
+      @keyframes report-in {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .control-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 10px;
+      }
+      .control-head h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .control-head span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .speed-value {
+        color: var(--orange) !important;
+        font-size: 20px !important;
+        font-weight: 900;
+      }
+      input[type="range"] {
+        width: 100%;
+        height: 12px;
+        margin: 0;
+        appearance: none;
+        border-radius: 10px;
+        outline: none;
+        background: linear-gradient(90deg, var(--blue) 0 42%, #dbe6e7 42% 100%);
+        cursor: pointer;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+        appearance: none;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        background: var(--yellow);
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        background: var(--yellow);
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+      .range-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @keyframes road {
+        to {
+          transform: translateX(-82px);
+        }
+      }
+      @keyframes shadow {
+        50% {
+          transform: scaleX(0.78);
+          opacity: 0.55;
+        }
+      }
+      @keyframes bob {
+        50% {
+          transform: translateY(-7px) rotate(3deg);
+        }
+      }
+      @keyframes arm-front {
+        0%,
+        100% {
+          transform: rotate(38deg);
+        }
+        50% {
+          transform: rotate(-42deg);
+        }
+      }
+      @keyframes arm-back {
+        0%,
+        100% {
+          transform: rotate(-42deg);
+        }
+        50% {
+          transform: rotate(38deg);
+        }
+      }
+      @keyframes leg-front {
+        0%,
+        100% {
+          transform: rotate(35deg);
+        }
+        50% {
+          transform: rotate(-43deg);
+        }
+      }
+      @keyframes leg-back {
+        0%,
+        100% {
+          transform: rotate(-43deg);
+        }
+        50% {
+          transform: rotate(35deg);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          padding: 0;
+        }
+        .app {
+          min-height: 100vh;
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .topbar,
+        .controls {
+          padding-right: 20px;
+          padding-left: 20px;
+        }
+        .scene {
+          height: 430px;
+        }
+        .runner {
+          transform: translateX(-50%) scale(0.88);
+          transform-origin: bottom center;
+        }
+        .report-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .report-item strong {
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="app is-paused" aria-label="跑步速度控制器">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">RUN CLUB / 01</p>
+            <h1>今天也要跑起来</h1>
+          </div>
+          <div class="pace-badge"><strong data-speed>8</strong>公里 / 小时</div>
+        </header>
+
+        <section class="scene" aria-label="卡通学生跑步动画">
+          <div class="cloud one"></div>
+          <div class="cloud two"></div>
+          <div class="tree-line"></div>
+          <div class="runner">
+            <div class="runner-shadow"></div>
+            <div class="head">
+              <div class="hair"></div>
+              <i class="eye left"></i><i class="eye right"></i
+              ><i class="smile"></i>
+            </div>
+            <div class="neck"></div>
+            <div class="arm back"><div class="hand"></div></div>
+            <div class="shirt"></div>
+            <div class="shorts"></div>
+            <div class="arm front"><div class="hand"></div></div>
+            <div class="leg back"><div class="shoe"></div></div>
+            <div class="leg front"><div class="shoe"></div></div>
+          </div>
+          <div class="track"></div>
+        </section>
+
+        <section class="controls">
+          <div class="control-head">
+            <h2>跑步速度</h2>
+            <span class="speed-value"><span data-speed>8</span> km/h</span>
+          </div>
+          <input
+            data-speed-range
+            type="range"
+            min="1"
+            max="20"
+            value="8"
+            step="1"
+            aria-label="调整跑步速度"
+          />
+          <div class="range-labels"><span>慢跑</span><span>冲刺</span></div>
+          <div class="action-row">
+            <button data-start type="button">开始运动</button>
+            <button class="secondary" data-finish type="button" disabled>
+              结束运动
+            </button>
+          </div>
+          <p class="timer">
+            运动时间 <strong><span data-timer>00:00</span></strong>
+          </p>
+          <section class="report" data-report aria-live="polite">
+            <h2>CYBER RUN REPORT // 训练完成</h2>
+            <div class="report-grid">
+              <div class="report-item">
+                <span>运动时长</span><strong data-report-time>0 分钟</strong>
+              </div>
+              <div class="report-item">
+                <span>平均速度</span><strong data-report-speed>0 km/h</strong>
+              </div>
+              <div class="report-item">
+                <span>估算距离</span><strong data-report-distance>0 km</strong>
+              </div>
+              <div class="report-item">
+                <span>卡路里消耗</span
+                ><strong data-report-calories>0 kcal</strong>
+              </div>
+              <div class="report-item">
+                <span>平均心率</span
+                ><strong data-report-heart-rate>0 bpm</strong>
+              </div>
+              <div class="report-item">
+                <span>平均配速</span><strong data-report-pace>0:00 /km</strong>
+              </div>
+            </div>
+            <p class="report-note" data-report-note>
+              等待下一次任务上传。数据为运动模型估算。
+            </p>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script>
+      const range = document.querySelector("[data-speed-range]")
+      const speeds = document.querySelectorAll("[data-speed]")
+      const app = document.querySelector(".app")
+      const startButton = document.querySelector("[data-start]")
+      const finishButton = document.querySelector("[data-finish]")
+      const timer = document.querySelector("[data-timer]")
+      const report = document.querySelector("[data-report]")
+      const reportTime = document.querySelector("[data-report-time]")
+      const reportSpeed = document.querySelector("[data-report-speed]")
+      const reportDistance = document.querySelector("[data-report-distance]")
+      const reportCalories = document.querySelector("[data-report-calories]")
+      const reportHeartRate = document.querySelector("[data-report-heart-rate]")
+      const reportPace = document.querySelector("[data-report-pace]")
+      const reportNote = document.querySelector("[data-report-note]")
+      let startedAt = 0
+      let timerId = null
+
+      function updateSpeed() {
+        const speed = Number(range.value)
+        const progress =
+          ((speed - Number(range.min)) /
+            (Number(range.max) - Number(range.min))) *
+          100
+        const duration = 1.05 - (speed / Number(range.max)) * 0.88
+        document.documentElement.style.setProperty(
+          "--runner-duration",
+          duration.toFixed(2) + "s",
+        )
+        range.style.background = `linear-gradient(90deg, var(--blue) 0 ${progress}%, #dbe6e7 ${progress}% 100%)`
+        speeds.forEach((item) => {
+          item.textContent = speed
+        })
+      }
+
+      range.addEventListener("input", updateSpeed)
+      updateSpeed()
+
+      function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60)
+          .toString()
+          .padStart(2, "0")
+        const seconds = (totalSeconds % 60).toString().padStart(2, "0")
+        return minutes + ":" + seconds
+      }
+
+      function updateTimer() {
+        timer.textContent = formatTime(
+          Math.floor((Date.now() - startedAt) / 1000),
+        )
+      }
+
+      startButton.addEventListener("click", () => {
+        startedAt = Date.now()
+        timerId = setInterval(updateTimer, 1000)
+        updateTimer()
+        app.classList.remove("is-paused")
+        report.classList.remove("visible")
+        startButton.disabled = true
+        finishButton.disabled = false
+      })
+
+      finishButton.addEventListener("click", () => {
+        const elapsedSeconds = Math.max(
+          1,
+          Math.floor((Date.now() - startedAt) / 1000),
+        )
+        const speed = Number(range.value)
+        const distance = (speed * elapsedSeconds) / 3600
+        const minutes = elapsedSeconds / 60
+        const calories = distance * 60
+        const heartRate = Math.min(190, Math.round(108 + speed * 3.8))
+        const paceMinutes = 60 / speed
+        const paceWholeMinutes = Math.floor(paceMinutes)
+        const paceSeconds = Math.round((paceMinutes - paceWholeMinutes) * 60)
+          .toString()
+          .padStart(2, "0")
+        clearInterval(timerId)
+        timerId = null
+        updateTimer()
+        app.classList.add("is-paused")
+        startButton.disabled = false
+        finishButton.disabled = true
+        reportTime.textContent =
+          minutes < 1 ? elapsedSeconds + " 秒" : minutes.toFixed(1) + " 分钟"
+        reportSpeed.textContent = speed + " km/h"
+        reportDistance.textContent = distance.toFixed(2) + " km"
+        reportCalories.textContent = Math.round(calories) + " kcal"
+        reportHeartRate.textContent = heartRate + " bpm"
+        reportPace.textContent = paceWholeMinutes + ":" + paceSeconds + " /km"
+        reportNote.textContent =
+          minutes >= 20
+            ? "耐力协议完成，今天的你很强。卡路里按 60kg 体重模型估算。"
+            : minutes >= 5
+              ? "节奏稳定，继续保持这份能量。卡路里按 60kg 体重模型估算。"
+              : "短时冲刺完成，下一次再多跑一点。卡路里按 60kg 体重模型估算。"
+        report.classList.add("visible")
+      })
+    </script>
+  </body>
+</html>

@@ -28,6 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
           title: "租金计算器",
           description: "计算投资房屋出租收益。",
         },
+        {
+          href: "/sport/",
+          title: "赛博运动",
+          description: "调整跑步速度，生成赛博跑步报告。",
+        },
       ],
     },
   ]
