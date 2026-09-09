@@ -237,22 +237,33 @@ document.addEventListener("DOMContentLoaded", function () {
           average: total / rows.length,
         }
       })
+    stats
+      .slice()
       .sort(function (a, b) {
-        if (state.provinceStatsSortKey !== "count") {
-          return (
-            a.average - b.average ||
-            a.province.localeCompare(b.province, "zh-CN")
-          )
-        }
-        var countDifference =
-          (a.count - b.count) *
-          (state.provinceStatsDirection === "asc" ? 1 : -1)
         return (
-          countDifference ||
           a.average - b.average ||
           a.province.localeCompare(b.province, "zh-CN")
         )
       })
+      .forEach(function (item, index) {
+        item.rank = index + 1
+      })
+    stats.sort(function (a, b) {
+      if (state.provinceStatsSortKey !== "count") {
+        return (
+          a.average - b.average ||
+          a.province.localeCompare(b.province, "zh-CN")
+        )
+      }
+      var countDifference =
+        (a.count - b.count) *
+        (state.provinceStatsDirection === "asc" ? 1 : -1)
+      return (
+        countDifference ||
+        a.average - b.average ||
+        a.province.localeCompare(b.province, "zh-CN")
+      )
+    })
     if (!stats.length) {
       provinceStatsBody.innerHTML =
         '<tr><td class="empty" colspan="4">暂无省份数据</td></tr>'
@@ -267,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
           item.province +
           '" tabindex="0">' +
           "<td>" +
-          (index + 1) +
+          item.rank +
           "</td><td>" +
           item.province +
           "</td><td>" +
