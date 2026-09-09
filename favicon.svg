@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
   <title id="title">贾师傅的小站</title>
-  <path fill="#d9eee7" d="M24 3 3 21.5v20A3.5 3.5 0 0 0 6.5 45h35a3.5 3.5 0 0 0 3.5-3.5v-20L24 3Z"/>
-  <path fill="#167c6b" d="M24 5.5 5.5 22v18.5c0 1.1.9 2 2 2H40.5c1.1 0 2-.9 2-2V22L24 5.5Z"/>
-  <path fill="#f4f7f5" d="m24 10 13.5 12v18.5h-27V22L24 10Z"/>
-  <path fill="#e57b5d" d="M19 40.5V29h10v11.5H19Z"/>
-  <path fill="#167c6b" d="M14 22h6v5h-6v-5Zm14 0h6v5h-6v-5Z"/>
+  <defs>
+    <mask id="house-mask">
+      <rect width="48" height="48" fill="#000"/>
+      <path fill="#fff" d="M24 7 7 21v18a4 4 0 0 0 4 4h26a4 4 0 0 0 4-4V21L24 7Z"/>
+      <path fill="#000" d="M19 43V32a5 5 0 0 1 10 0v11Z"/>
+    </mask>
+  </defs>
+  <path fill="#167c6b" d="M31 18V7a2 2 0 0 1 2-2h5v16Z"/>
+  <path fill="#167c6b" stroke="#167c6b" stroke-linejoin="round" stroke-width="2" d="M24 7 7 21v18a4 4 0 0 0 4 4h26a4 4 0 0 0 4-4V21L24 7Z" mask="url(#house-mask)"/>
 </svg>
