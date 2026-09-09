@@ -32,6 +32,46 @@ document.addEventListener("DOMContentLoaded", function () {
   var pagination = document.querySelector("[data-pagination]")
   var pageSizeSelect = document.querySelector("[data-page-size]")
   var source = "/assets/data/colleges" + year + ".json"
+  var provinceNames = {
+    京: "北京市",
+    津: "天津市",
+    沪: "上海市",
+    渝: "重庆市",
+    冀: "河北省",
+    晋: "山西省",
+    辽: "辽宁省",
+    吉: "吉林省",
+    黑: "黑龙江省",
+    苏: "江苏省",
+    浙: "浙江省",
+    皖: "安徽省",
+    闽: "福建省",
+    赣: "江西省",
+    鲁: "山东省",
+    豫: "河南省",
+    鄂: "湖北省",
+    湘: "湖南省",
+    粤: "广东省",
+    桂: "广西壮族自治区",
+    琼: "海南省",
+    川: "四川省",
+    贵: "贵州省",
+    云: "云南省",
+    藏: "西藏自治区",
+    陕: "陕西省",
+    甘: "甘肃省",
+    青: "青海省",
+    宁: "宁夏回族自治区",
+    新: "新疆维吾尔自治区",
+    蒙: "内蒙古自治区",
+    港: "香港特别行政区",
+    澳: "澳门特别行政区",
+    台: "台湾省",
+  }
+
+  function provinceLabel(abbr) {
+    return (provinceNames[abbr] || abbr) + "（" + abbr + "）"
+  }
 
   query.value = state.query
   province.value = state.province
@@ -76,7 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
         ? '<option value="">全部省份</option>' +
           provinces
             .map(function (item) {
-              return '<option value="' + item + '">' + item + "</option>"
+              return (
+                '<option value="' +
+                item +
+                '">' +
+                provinceLabel(item) +
+                "</option>"
+              )
             })
             .join("")
         : '<option value="">暂无省份数据</option>'
@@ -225,24 +271,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!groups[row.province_abbr]) groups[row.province_abbr] = []
       groups[row.province_abbr].push(row)
     })
-    var stats = Object.keys(groups)
-      .map(function (provinceAbbr) {
-        var rows = groups[provinceAbbr]
-        var total = rows.reduce(function (sum, row) {
-          return sum + row.avg
-        }, 0)
-        return {
-          province: provinceAbbr,
-          count: rows.length,
-          average: total / rows.length,
-        }
-      })
+    var stats = Object.keys(groups).map(function (provinceAbbr) {
+      var rows = groups[provinceAbbr]
+      var total = rows.reduce(function (sum, row) {
+        return sum + row.avg
+      }, 0)
+      return {
+        province: provinceAbbr,
+        count: rows.length,
+        average: total / rows.length,
+      }
+    })
     stats
       .slice()
       .sort(function (a, b) {
         return (
-          a.average - b.average ||
-          a.province.localeCompare(b.province, "zh-CN")
+          a.average - b.average || a.province.localeCompare(b.province, "zh-CN")
         )
       })
       .forEach(function (item, index) {
@@ -251,13 +295,11 @@ document.addEventListener("DOMContentLoaded", function () {
     stats.sort(function (a, b) {
       if (state.provinceStatsSortKey !== "count") {
         return (
-          a.average - b.average ||
-          a.province.localeCompare(b.province, "zh-CN")
+          a.average - b.average || a.province.localeCompare(b.province, "zh-CN")
         )
       }
       var countDifference =
-        (a.count - b.count) *
-        (state.provinceStatsDirection === "asc" ? 1 : -1)
+        (a.count - b.count) * (state.provinceStatsDirection === "asc" ? 1 : -1)
       return (
         countDifference ||
         a.average - b.average ||
@@ -280,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "<td>" +
           item.rank +
           "</td><td>" +
-          item.province +
+          provinceLabel(item.province) +
           "</td><td>" +
           item.count +
           "</td><td>" +

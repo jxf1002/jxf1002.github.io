@@ -119,8 +119,44 @@ td { white-space: normal; }
 .dialog-close { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 1.5rem; line-height: 1; cursor: pointer; }
 .dialog-close:hover { background: var(--surface-muted); color: var(--text); }
 .province-dialog .table-wrap { max-height: min(65vh, 560px); overflow: auto; }
+.province-dialog .table-wrap { border: 0; border-radius: 0; }
+.province-dialog table { border-collapse: separate; border-spacing: 0; font-variant-numeric: tabular-nums; }
+.province-dialog th, .province-dialog td { padding: 13px 16px; border-top: 0; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.province-dialog th { position: sticky; top: 0; z-index: 1; background: var(--surface-muted); box-shadow: 0 1px 0 var(--border); color: var(--muted); font-size: .78rem; letter-spacing: .04em; }
+.province-dialog td:first-child { width: 80px; color: var(--primary); font-weight: 700; }
+.province-dialog td:nth-child(2) { text-align: left; font-weight: 600; }
+.province-dialog td:nth-child(3), .province-dialog td:nth-child(4) { text-align: right; }
+.province-dialog td:last-child { color: var(--primary); font-weight: 700; }
+.province-dialog tbody tr:last-child td { border-bottom: 0; }
+.province-dialog tbody tr:hover { background: var(--primary-soft); box-shadow: inset 3px 0 0 var(--primary); }
 .province-stat-row { cursor: pointer; }
 .province-stat-row:hover, .province-stat-row:focus { background: var(--surface-muted); outline: none; }
+
+.data-page .table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+.data-page table { border-collapse: separate; border-spacing: 0; font-variant-numeric: tabular-nums; }
+.data-page th, .data-page td { padding: 14px 16px; border-top: 0; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.data-page th { position: sticky; top: 0; z-index: 1; background: var(--surface-muted); box-shadow: 0 1px 0 var(--border); color: var(--muted); font-size: .78rem; letter-spacing: .04em; white-space: nowrap; }
+.data-page tbody tr { background: var(--surface); transition: background-color .16s, box-shadow .16s; }
+.data-page tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-muted) 34%, var(--surface)); }
+.data-page tbody tr:hover { background: var(--primary-soft); box-shadow: inset 3px 0 0 var(--primary); }
+.data-page tbody tr:last-child td { border-bottom: 0; }
+.data-page td { color: var(--text); }
+.data-page td:first-child { font-weight: 700; color: var(--primary); }
+.data-page td.empty { color: var(--muted); font-weight: 400; }
+.data-page .sort-button { color: inherit; font-weight: 700; }
+.data-page .sort-button:hover { color: var(--primary); }
+.ranking-page table { min-width: 680px; }
+.ranking-page th:first-child, .ranking-page td:first-child { width: 84px; }
+.ranking-page th:nth-child(2), .ranking-page td:nth-child(2) { width: 100px; }
+.ranking-page th:nth-child(3), .ranking-page td:nth-child(3) { min-width: 190px; text-align: left; }
+.ranking-page td:nth-child(3) { font-weight: 600; }
+.ranking-page th:last-child, .ranking-page td:last-child { width: 120px; }
+.ranking-page td:last-child { color: var(--primary); font-weight: 700; }
+.tourism-page table { min-width: 560px; }
+.tourism-page th:first-child, .tourism-page td:first-child { min-width: 220px; text-align: left; }
+.tourism-page td:first-child { font-weight: 600; }
+.tourism-page th:nth-child(2), .tourism-page td:nth-child(2) { min-width: 120px; text-align: left; }
+.tourism-page td:nth-child(3) { color: var(--primary); font-weight: 700; }
 
 .site-footer { margin-top: 30px; padding: 28px 20px 32px; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); text-align: center; font-size: .875rem; }
 .site-footer p { margin: 6px 0; }
@@ -198,5 +234,7 @@ td { white-space: normal; }
   .desktop-only { display: none; }
   .data-page { padding: 0; }
   .data-panel { border-right: 0; border-left: 0; border-radius: 0; }
+  .data-page .table-wrap { border-right: 0; border-left: 0; border-radius: 0; }
+  .data-page th, .data-page td { padding: 13px 14px; }
   .data-header h1 { font-size: 2rem; }
 }
