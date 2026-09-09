@@ -9,16 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
     page: 1,
     pageSize: 10,
     query: params.get("q") || "",
+    province: params.get("province") || "",
     sortKey: "",
     direction: "asc",
   }
   var body = document.querySelector("[data-table-body]")
   var query = document.querySelector("[data-query]")
+  var province = document.querySelector("[data-province]")
+  var provinceClear = document.querySelector("[data-province-clear]")
+  var provinceStatsButton = document.querySelector("[data-province-stats]")
+  var provinceDialog = document.querySelector("[data-province-dialog]")
+  var provinceDialogClose = document.querySelector(
+    "[data-province-dialog-close]",
+  )
+  var provinceStatsBody = document.querySelector("[data-province-stats-body]")
   var pagination = document.querySelector("[data-pagination]")
   var pageSizeSelect = document.querySelector("[data-page-size]")
   var source = "/assets/data/colleges" + year + ".json"
 
   query.value = state.query
+  province.value = state.province
   pageSizeSelect.value = String(state.pageSize)
 
   document.title = "大学排行榜" + year + "-数据-贾师傅的小站"
@@ -32,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
       var search = query.value.trim()
       if (search) target.searchParams.set("q", search)
       else target.searchParams.delete("q")
+      if (state.province) target.searchParams.set("province", state.province)
+      else target.searchParams.delete("province")
       link.href = target.href
     })
   })
@@ -43,11 +55,35 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then(function (rows) {
       state.rows = rows
+      var provinces = Array.from(
+        new Set(
+          rows
+            .map(function (row) {
+              return row.province_abbr
+            })
+            .filter(Boolean),
+        ),
+      ).sort(function (a, b) {
+        return a.localeCompare(b, "zh-CN")
+      })
+      province.innerHTML = provinces.length
+        ? '<option value="">全部省份</option>' +
+          provinces
+            .map(function (item) {
+              return '<option value="' + item + '">' + item + "</option>"
+            })
+            .join("")
+        : '<option value="">暂无省份数据</option>'
+      province.disabled = !provinces.length
+      if (!provinces.includes(state.province)) state.province = ""
+      province.value = state.province
+      updateProvinceClear()
+      renderProvinceStats()
       render()
     })
     .catch(function () {
       body.innerHTML =
-        '<tr><td class="empty" colspan="6">数据加载失败</td></tr>'
+        '<tr><td class="empty" colspan="7">数据加载失败</td></tr>'
     })
   query.addEventListener("input", function () {
     state.query = query.value.trim()
@@ -57,6 +93,29 @@ document.addEventListener("DOMContentLoaded", function () {
     else currentUrl.searchParams.delete("q")
     window.history.replaceState(null, "", currentUrl)
     render()
+  })
+  province.addEventListener("change", function () {
+    state.province = province.value
+    state.page = 1
+    var currentUrl = new URL(window.location.href)
+    if (state.province) currentUrl.searchParams.set("province", state.province)
+    else currentUrl.searchParams.delete("province")
+    window.history.replaceState(null, "", currentUrl)
+    updateProvinceClear()
+    render()
+  })
+  provinceClear.addEventListener("click", function () {
+    province.value = ""
+    province.dispatchEvent(new Event("change"))
+  })
+  provinceStatsButton.addEventListener("click", function () {
+    provinceDialog.showModal()
+  })
+  provinceDialogClose.addEventListener("click", function () {
+    provinceDialog.close()
+  })
+  provinceDialog.addEventListener("click", function (event) {
+    if (event.target === provinceDialog) provinceDialog.close()
   })
   pageSizeSelect.addEventListener("change", function () {
     state.pageSize = Number(pageSizeSelect.value)
@@ -75,7 +134,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function render() {
     state.filtered = state.rows.filter(function (row) {
-      return row.name.includes(state.query)
+      return (
+        row.name.includes(state.query) &&
+        (!state.province || row.province_abbr === state.province)
+      )
     })
     if (state.sortKey)
       state.filtered.sort(function (a, b) {
@@ -95,9 +157,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? Math.min(bestRank, candidate.id)
                 : bestRank
             }, row.id)
+            var provinceRank =
+              1 +
+              state.rows.filter(function (candidate) {
+                return (
+                  row.province_abbr &&
+                  candidate.province_abbr === row.province_abbr &&
+                  candidate.id < row.id
+                )
+              }).length
             return (
               "<tr><td>" +
               rank +
+              "</td><td>" +
+              (row.province_abbr
+                ? row.province_abbr + " " + provinceRank
+                : "-") +
               "</td><td>" +
               row.name +
               '</td><td class="desktop-only">' +
@@ -112,8 +187,84 @@ document.addEventListener("DOMContentLoaded", function () {
             )
           })
           .join("")
-      : '<tr><td class="empty" colspan="6">没有匹配的数据</td></tr>'
+      : '<tr><td class="empty" colspan="7">没有匹配的数据</td></tr>'
     renderPagination()
+  }
+
+  function updateProvinceClear() {
+    provinceClear.hidden = !state.province
+  }
+
+  function renderProvinceStats() {
+    var groups = {}
+    state.rows.forEach(function (row) {
+      if (!row.province_abbr) return
+      if (!groups[row.province_abbr]) groups[row.province_abbr] = []
+      groups[row.province_abbr].push(row)
+    })
+    var stats = Object.keys(groups)
+      .map(function (provinceAbbr) {
+        var rows = groups[provinceAbbr]
+        var total = rows.reduce(function (sum, row) {
+          return sum + row.avg
+        }, 0)
+        return {
+          province: provinceAbbr,
+          count: rows.length,
+          average: total / rows.length,
+        }
+      })
+      .sort(function (a, b) {
+        return (
+          a.average - b.average || a.province.localeCompare(b.province, "zh-CN")
+        )
+      })
+    if (!stats.length) {
+      provinceStatsBody.innerHTML =
+        '<tr><td class="empty" colspan="4">暂无省份数据</td></tr>'
+      provinceStatsButton.disabled = true
+      return
+    }
+    provinceStatsButton.disabled = false
+    provinceStatsBody.innerHTML = stats
+      .map(function (item, index) {
+        return (
+          '<tr class="province-stat-row" data-province-stat="' +
+          item.province +
+          '" tabindex="0">' +
+          "<td>" +
+          (index + 1) +
+          "</td><td>" +
+          item.province +
+          "</td><td>" +
+          item.count +
+          "</td><td>" +
+          item.average.toFixed(2) +
+          "</td></tr>"
+        )
+      })
+      .join("")
+    provinceStatsBody
+      .querySelectorAll("[data-province-stat]")
+      .forEach(function (row) {
+        function selectProvince() {
+          state.province = row.dataset.provinceStat
+          province.value = state.province
+          state.page = 1
+          var currentUrl = new URL(window.location.href)
+          currentUrl.searchParams.set("province", state.province)
+          window.history.replaceState(null, "", currentUrl)
+          provinceDialog.close()
+          render()
+        }
+        row.addEventListener("click", selectProvince)
+        row.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault()
+            selectProvince()
+          }
+        })
+      })
   }
 
   function renderPagination() {

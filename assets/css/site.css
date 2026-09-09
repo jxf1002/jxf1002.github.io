@@ -82,6 +82,10 @@ main { min-height: calc(100vh - 145px); }
 .button[aria-current="page"] { border-color: var(--primary); background: var(--primary); color: #fff; cursor: default; }
 .filters { display: flex; align-items: center; gap: 16px; padding: 16px; }
 .control { width: 100%; max-width: 280px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); outline-color: var(--primary); }
+.province-filter { position: relative; display: flex; align-items: center; width: 100%; max-width: 280px; }
+.province-filter .control { padding-right: 38px; }
+.province-clear { position: absolute; right: 8px; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.province-clear:hover { background: var(--surface-muted); color: var(--text); }
 .page-size-control { display: flex; align-items: center; gap: 8px; color: var(--muted); white-space: nowrap; font-size: .9rem; }
 .page-size-control .control { width: auto; min-width: 72px; }
 .table-wrap { overflow-x: auto; }
@@ -96,6 +100,15 @@ td { white-space: normal; }
 .pagination button:disabled { cursor: not-allowed; opacity: .45; }
 .pagination span { color: var(--muted); font-size: .9rem; }
 .empty { padding: 32px; color: var(--muted); text-align: center; }
+.province-dialog { width: min(720px, calc(100% - 32px)); max-height: calc(100% - 32px); padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.province-dialog::backdrop { background: rgb(0 0 0 / 45%); }
+.province-dialog-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.province-dialog-header h2 { margin: 0; font-size: 1.2rem; }
+.dialog-close { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.dialog-close:hover { background: var(--surface-muted); color: var(--text); }
+.province-dialog .table-wrap { max-height: min(65vh, 560px); overflow: auto; }
+.province-stat-row { cursor: pointer; }
+.province-stat-row:hover, .province-stat-row:focus { background: var(--surface-muted); outline: none; }
 
 .site-footer { padding: 18px 20px 24px; color: var(--muted); text-align: center; font-size: .875rem; }
 .site-footer p { margin: 6px 0; }
@@ -107,6 +120,7 @@ td { white-space: normal; }
   .card-grid { grid-template-columns: 1fr; }
   .filters { flex-direction: column; }
   .control { max-width: none; }
+  .province-filter { max-width: none; }
   .desktop-only { display: none; }
   .data-page { padding: 0; }
   .data-panel { border-right: 0; border-left: 0; border-radius: 0; }

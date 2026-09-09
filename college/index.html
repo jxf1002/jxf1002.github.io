@@ -10,7 +10,7 @@
     />
     <meta name="keywords" content="贾师傅,大学排行榜,大学排行榜数据" />
     <title>大学排行榜-数据-贾师傅的小站</title>
-    <link rel="stylesheet" href="/assets/css/site.css?v=3" />
+    <link rel="stylesheet" href="/assets/css/site.css?v=4" />
     <script src="/assets/js/common.js"></script>
   </head>
   <body>
@@ -48,6 +48,24 @@
             type="search"
             placeholder="请输入大学名称"
           />
+          <span class="province-filter">
+            <select class="control" data-province aria-label="按省份筛选">
+              <option value="">全部省份</option>
+            </select>
+            <button
+              class="province-clear"
+              type="button"
+              data-province-clear
+              aria-label="清除省份筛选"
+              title="清除省份筛选"
+              hidden
+            >
+              ×
+            </button>
+          </span>
+          <button class="button" type="button" data-province-stats>
+            省级统计
+          </button>
           <label class="page-size-control">
             每页显示
             <select class="control" data-page-size>
@@ -64,6 +82,7 @@
             <thead>
               <tr>
                 <th>排名</th>
+                <th>省内排名</th>
                 <th>学校名称</th>
                 <th class="desktop-only">
                   <button class="sort-button" data-sort="chinaxy">
@@ -85,7 +104,7 @@
             </thead>
             <tbody data-table-body>
               <tr>
-                <td class="empty" colspan="6">正在加载...</td>
+                <td class="empty" colspan="7">正在加载...</td>
               </tr>
             </tbody>
           </table>
@@ -93,6 +112,36 @@
         <div class="pagination" data-pagination></div>
       </section>
     </main>
+    <dialog class="province-dialog" data-province-dialog>
+      <div class="province-dialog-header">
+        <h2>省级统计</h2>
+        <button
+          class="dialog-close"
+          type="button"
+          data-province-dialog-close
+          aria-label="关闭省级统计"
+        >
+          ×
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>省份</th>
+              <th>大学数量</th>
+              <th>平均排名</th>
+            </tr>
+          </thead>
+          <tbody data-province-stats-body>
+            <tr>
+              <td class="empty" colspan="4">正在加载...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </dialog>
     <footer class="site-footer">
       <p>Copyright © <span data-year></span> justful.cn版权所有</p>
       <p>
@@ -101,6 +150,6 @@
         >
       </p>
     </footer>
-    <script src="/assets/js/college.js?v=2"></script>
+    <script src="/assets/js/college.js?v=3"></script>
   </body>
 </html>

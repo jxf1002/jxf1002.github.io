@@ -4,6 +4,7 @@
     "chinaxy": 2,
     "ranking": 1,
     "wurank": 1,
+    "province_abbr": "京",
     "avg": 1.33,
     "id": 1
   },
@@ -12,6 +13,7 @@
     "chinaxy": 1,
     "ranking": 2,
     "wurank": 3,
+    "province_abbr": "京",
     "avg": 2.0,
     "id": 2
   },
@@ -20,6 +22,7 @@
     "chinaxy": 4,
     "ranking": 3,
     "wurank": 2,
+    "province_abbr": "浙",
     "avg": 3.0,
     "id": 3
   },
@@ -28,6 +31,7 @@
     "chinaxy": 5,
     "ranking": 4,
     "wurank": 4,
+    "province_abbr": "沪",
     "avg": 4.33,
     "id": 4
   },
@@ -36,6 +40,7 @@
     "chinaxy": 3,
     "ranking": 5,
     "wurank": 7,
+    "province_abbr": "沪",
     "avg": 5.0,
     "id": 5
   },
@@ -44,6 +49,7 @@
     "chinaxy": 7,
     "ranking": 8,
     "wurank": 5,
+    "province_abbr": "鄂",
     "avg": 6.67,
     "id": 6
   },
@@ -52,6 +58,7 @@
     "chinaxy": 6,
     "ranking": 6,
     "wurank": 11,
+    "province_abbr": "苏",
     "avg": 7.67,
     "id": 7
   },
@@ -60,6 +67,7 @@
     "chinaxy": 10,
     "ranking": 9,
     "wurank": 6,
+    "province_abbr": "鄂",
     "avg": 8.33,
     "id": 8
   },
@@ -68,6 +76,7 @@
     "chinaxy": 8,
     "ranking": 7,
     "wurank": 16,
+    "province_abbr": "皖",
     "avg": 10.33,
     "id": 9
   },
@@ -76,6 +85,7 @@
     "chinaxy": 12,
     "ranking": 11,
     "wurank": 8,
+    "province_abbr": "粤",
     "avg": 10.33,
     "id": 10
   },
@@ -84,6 +94,7 @@
     "chinaxy": 14,
     "ranking": 10,
     "wurank": 10,
+    "province_abbr": "陕",
     "avg": 11.33,
     "id": 11
   },
@@ -92,6 +103,7 @@
     "chinaxy": 13,
     "ranking": 16,
     "wurank": 12,
+    "province_abbr": "黑",
     "avg": 13.67,
     "id": 12
   },
@@ -100,6 +112,7 @@
     "chinaxy": 18,
     "ranking": 15,
     "wurank": 9,
+    "province_abbr": "川",
     "avg": 14.0,
     "id": 13
   },
@@ -108,6 +121,7 @@
     "chinaxy": 17,
     "ranking": 12,
     "wurank": 21,
+    "province_abbr": "京",
     "avg": 16.67,
     "id": 14
   },
@@ -116,6 +130,7 @@
     "chinaxy": 11,
     "ranking": 18,
     "wurank": 22,
+    "province_abbr": "京",
     "avg": 17.0,
     "id": 15
   },
@@ -124,6 +139,7 @@
     "chinaxy": 15,
     "ranking": 22,
     "wurank": 14,
+    "province_abbr": "鲁",
     "avg": 17.0,
     "id": 16
   },
@@ -132,6 +148,7 @@
     "chinaxy": 16,
     "ranking": 17,
     "wurank": 18,
+    "province_abbr": "沪",
     "avg": 17.0,
     "id": 17
   },
@@ -140,6 +157,7 @@
     "chinaxy": 21,
     "ranking": 13,
     "wurank": 19,
+    "province_abbr": "苏",
     "avg": 17.67,
     "id": 18
   },
@@ -148,6 +166,7 @@
     "chinaxy": 20,
     "ranking": 20,
     "wurank": 17,
+    "province_abbr": "津",
     "avg": 19.0,
     "id": 19
   },
@@ -156,6 +175,7 @@
     "chinaxy": 9,
     "ranking": 21,
     "wurank": 28,
+    "province_abbr": "津",
     "avg": 19.33,
     "id": 20
   },
@@ -164,6 +184,7 @@
     "chinaxy": 14,
     "ranking": 19,
     "wurank": 32,
+    "province_abbr": "京",
     "avg": 21.67,
     "id": 21
   },
@@ -172,6 +193,7 @@
     "chinaxy": 27,
     "ranking": 25,
     "wurank": 13,
+    "province_abbr": "湘",
     "avg": 21.67,
     "id": 22
   },
@@ -180,6 +202,7 @@
     "chinaxy": 25,
     "ranking": 26,
     "wurank": 15,
+    "province_abbr": "吉",
     "avg": 22.0,
     "id": 23
   },
@@ -188,6 +211,7 @@
     "chinaxy": 19,
     "ranking": 24,
     "wurank": 26,
+    "province_abbr": "闽",
     "avg": 23.0,
     "id": 24
   },
@@ -196,6 +220,7 @@
     "chinaxy": 22,
     "ranking": 23,
     "wurank": 24,
+    "province_abbr": "陕",
     "avg": 23.0,
     "id": 25
   },
@@ -204,6 +229,7 @@
     "chinaxy": 24,
     "ranking": 14,
     "wurank": 31,
+    "province_abbr": "京",
     "avg": 23.0,
     "id": 26
   },
@@ -212,6 +238,7 @@
     "chinaxy": 23,
     "ranking": 30,
     "wurank": 20,
+    "province_abbr": "粤",
     "avg": 24.33,
     "id": 27
   },
@@ -220,6 +247,7 @@
     "chinaxy": 24,
     "ranking": 29,
     "wurank": 34,
+    "province_abbr": "沪",
     "avg": 29.0,
     "id": 28
   },
@@ -228,6 +256,7 @@
     "chinaxy": 26,
     "ranking": 28,
     "wurank": 33,
+    "province_abbr": "辽",
     "avg": 29.0,
     "id": 29
   },
@@ -236,6 +265,7 @@
     "chinaxy": 32,
     "ranking": 33,
     "wurank": 23,
+    "province_abbr": "渝",
     "avg": 29.33,
     "id": 30
   },
@@ -244,6 +274,7 @@
     "chinaxy": 29,
     "ranking": 31,
     "wurank": 30,
+    "province_abbr": "川",
     "avg": 30.0,
     "id": 31
   },
@@ -252,6 +283,7 @@
     "chinaxy": 31,
     "ranking": 32,
     "wurank": 27,
+    "province_abbr": "湘",
     "avg": 30.0,
     "id": 32
   },
@@ -260,12 +292,14 @@
     "chinaxy": 28,
     "ranking": 27,
     "wurank": 37,
+    "province_abbr": "京",
     "avg": 30.67,
     "id": 33
   },
   {
     "name": "北京协和医学院",
     "chinaxy": 32,
+    "province_abbr": "京",
     "avg": 32.0,
     "id": 34
   },
@@ -274,6 +308,7 @@
     "chinaxy": 29,
     "ranking": 39,
     "wurank": 39,
+    "province_abbr": "辽",
     "avg": 35.67,
     "id": 35
   },
@@ -282,6 +317,7 @@
     "chinaxy": 39,
     "ranking": 43,
     "wurank": 25,
+    "province_abbr": "苏",
     "avg": 35.67,
     "id": 36
   },
@@ -290,6 +326,7 @@
     "chinaxy": 34,
     "ranking": 35,
     "wurank": 42,
+    "province_abbr": "京",
     "avg": 37.0,
     "id": 37
   },
@@ -298,6 +335,7 @@
     "chinaxy": 33,
     "ranking": 38,
     "wurank": 43,
+    "province_abbr": "甘",
     "avg": 38.0,
     "id": 38
   },
@@ -306,6 +344,7 @@
     "chinaxy": 37,
     "ranking": 37,
     "wurank": 46,
+    "province_abbr": "苏",
     "avg": 40.0,
     "id": 39
   },
@@ -314,6 +353,7 @@
     "chinaxy": 35,
     "ranking": 53,
     "wurank": 35,
+    "province_abbr": "鄂",
     "avg": 41.0,
     "id": 40
   },
@@ -322,6 +362,7 @@
     "chinaxy": 49,
     "ranking": 36,
     "wurank": 38,
+    "province_abbr": "苏",
     "avg": 41.0,
     "id": 41
   },
@@ -330,6 +371,7 @@
     "chinaxy": 43,
     "ranking": 40,
     "wurank": 45,
+    "province_abbr": "陕",
     "avg": 42.67,
     "id": 42
   },
@@ -338,6 +380,7 @@
     "chinaxy": 58,
     "ranking": 50,
     "wurank": 29,
+    "province_abbr": "豫",
     "avg": 45.67,
     "id": 43
   },
@@ -346,6 +389,7 @@
     "chinaxy": 38,
     "ranking": 51,
     "wurank": 50,
+    "province_abbr": "粤",
     "avg": 46.33,
     "id": 44
   },
@@ -354,6 +398,7 @@
     "chinaxy": 36,
     "ranking": 69,
     "wurank": 36,
+    "province_abbr": "渝",
     "avg": 47.0,
     "id": 45
   },
@@ -362,6 +407,7 @@
     "chinaxy": 41,
     "ranking": 44,
     "wurank": 61,
+    "province_abbr": "沪",
     "avg": 48.67,
     "id": 46
   },
@@ -370,6 +416,7 @@
     "chinaxy": 44,
     "ranking": 49,
     "wurank": 53,
+    "province_abbr": "苏",
     "avg": 48.67,
     "id": 47
   },
@@ -378,6 +425,7 @@
     "chinaxy": 42,
     "ranking": 47,
     "wurank": 58,
+    "province_abbr": "鄂",
     "avg": 49.0,
     "id": 48
   },
@@ -386,6 +434,7 @@
     "chinaxy": 40,
     "ranking": 41,
     "wurank": 67,
+    "province_abbr": "京",
     "avg": 49.33,
     "id": 49
   },
@@ -394,6 +443,7 @@
     "chinaxy": 50,
     "ranking": 55,
     "wurank": 48,
+    "province_abbr": "苏",
     "avg": 51.0,
     "id": 50
   },
@@ -402,6 +452,7 @@
     "chinaxy": 47,
     "ranking": 58,
     "wurank": 54,
+    "province_abbr": "鄂",
     "avg": 53.0,
     "id": 51
   },
@@ -410,6 +461,7 @@
     "chinaxy": 51,
     "ranking": 52,
     "wurank": 60,
+    "province_abbr": "苏",
     "avg": 54.33,
     "id": 52
   },
@@ -418,6 +470,7 @@
     "chinaxy": 60,
     "ranking": 45,
     "wurank": 59,
+    "province_abbr": "黑",
     "avg": 54.67,
     "id": 53
   },
@@ -426,6 +479,7 @@
     "chinaxy": 52,
     "ranking": 73,
     "wurank": 41,
+    "province_abbr": "陕",
     "avg": 55.33,
     "id": 54
   },
@@ -434,6 +488,7 @@
     "chinaxy": 56,
     "ranking": 59,
     "wurank": 51,
+    "province_abbr": "川",
     "avg": 55.33,
     "id": 55
   },
@@ -442,6 +497,7 @@
     "chinaxy": 47,
     "ranking": 71,
     "wurank": 49,
+    "province_abbr": "赣",
     "avg": 55.67,
     "id": 56
   },
@@ -450,6 +506,7 @@
     "chinaxy": 71,
     "ranking": 56,
     "wurank": 44,
+    "province_abbr": "沪",
     "avg": 57.0,
     "id": 57
   },
@@ -458,6 +515,7 @@
     "chinaxy": 55,
     "ranking": 68,
     "wurank": 52,
+    "province_abbr": "京",
     "avg": 58.33,
     "id": 58
   },
@@ -466,6 +524,7 @@
     "chinaxy": 56,
     "ranking": 34,
     "wurank": 86,
+    "province_abbr": "粤",
     "avg": 58.67,
     "id": 59
   },
@@ -474,6 +533,7 @@
     "chinaxy": 58,
     "ranking": 46,
     "wurank": 72,
+    "province_abbr": "吉",
     "avg": 58.67,
     "id": 60
   },
@@ -482,6 +542,7 @@
     "chinaxy": 61,
     "ranking": 65,
     "wurank": 55,
+    "province_abbr": "苏",
     "avg": 60.33,
     "id": 61
   },
@@ -490,6 +551,7 @@
     "chinaxy": 68,
     "ranking": 54,
     "wurank": 65,
+    "province_abbr": "苏",
     "avg": 62.33,
     "id": 62
   },
@@ -498,6 +560,7 @@
     "chinaxy": 46,
     "ranking": 63,
     "wurank": 79,
+    "province_abbr": "京",
     "avg": 62.67,
     "id": 63
   },
@@ -506,6 +569,7 @@
     "chinaxy": 45,
     "ranking": 57,
     "wurank": 87,
+    "province_abbr": "鲁",
     "avg": 63.0,
     "id": 64
   },
@@ -514,6 +578,7 @@
     "chinaxy": 62,
     "ranking": 66,
     "wurank": 63,
+    "province_abbr": "京",
     "avg": 63.67,
     "id": 65
   },
@@ -522,6 +587,7 @@
     "chinaxy": 75,
     "ranking": 64,
     "wurank": 56,
+    "province_abbr": "浙",
     "avg": 65.0,
     "id": 66
   },
@@ -530,6 +596,7 @@
     "chinaxy": 77,
     "ranking": 80,
     "wurank": 40,
+    "province_abbr": "苏",
     "avg": 65.67,
     "id": 67
   },
@@ -538,6 +605,7 @@
     "chinaxy": 86,
     "ranking": 72,
     "wurank": 47,
+    "province_abbr": "粤",
     "avg": 68.33,
     "id": 68
   },
@@ -546,6 +614,7 @@
     "chinaxy": 54,
     "ranking": 83,
     "wurank": 70,
+    "province_abbr": "皖",
     "avg": 69.0,
     "id": 69
   },
@@ -554,6 +623,7 @@
     "chinaxy": 66,
     "ranking": 82,
     "wurank": 62,
+    "province_abbr": "苏",
     "avg": 70.0,
     "id": 70
   },
@@ -562,6 +632,7 @@
     "chinaxy": 75,
     "ranking": 61,
     "wurank": 74,
+    "province_abbr": "鄂",
     "avg": 70.0,
     "id": 71
   },
@@ -570,6 +641,7 @@
     "chinaxy": 66,
     "ranking": 81,
     "wurank": 64,
+    "province_abbr": "闽",
     "avg": 70.33,
     "id": 72
   },
@@ -578,6 +650,7 @@
     "chinaxy": 64,
     "ranking": 67,
     "wurank": 82,
+    "province_abbr": "陕",
     "avg": 71.0,
     "id": 73
   },
@@ -585,6 +658,7 @@
     "name": "首都医科大学",
     "chinaxy": 69,
     "wurank": 73,
+    "province_abbr": "京",
     "avg": 71.0,
     "id": 74
   },
@@ -593,6 +667,7 @@
     "chinaxy": 59,
     "ranking": 79,
     "wurank": 77,
+    "province_abbr": "粤",
     "avg": 71.67,
     "id": 75
   },
@@ -601,6 +676,7 @@
     "chinaxy": 79,
     "ranking": 62,
     "wurank": 78,
+    "province_abbr": "陕",
     "avg": 73.0,
     "id": 76
   },
@@ -609,6 +685,7 @@
     "chinaxy": 79,
     "ranking": 60,
     "wurank": 81,
+    "province_abbr": "鲁",
     "avg": 73.33,
     "id": 77
   },
@@ -617,6 +694,7 @@
     "chinaxy": 69,
     "ranking": 48,
     "wurank": 109,
+    "province_abbr": "京",
     "avg": 75.33,
     "id": 78
   },
@@ -625,6 +703,7 @@
     "chinaxy": 48,
     "ranking": 94,
     "wurank": 85,
+    "province_abbr": "粤",
     "avg": 75.67,
     "id": 79
   },
@@ -633,6 +712,7 @@
     "chinaxy": 55,
     "ranking": 86,
     "wurank": 90,
+    "province_abbr": "湘",
     "avg": 77.0,
     "id": 80
   },
@@ -640,6 +720,7 @@
     "name": "上海科技大学",
     "ranking": 42,
     "wurank": 113,
+    "province_abbr": "沪",
     "avg": 77.5,
     "id": 81
   },
@@ -648,6 +729,7 @@
     "chinaxy": 72,
     "ranking": 93,
     "wurank": 68,
+    "province_abbr": "苏",
     "avg": 77.67,
     "id": 82
   },
@@ -656,6 +738,7 @@
     "chinaxy": 65,
     "ranking": 78,
     "wurank": 97,
+    "province_abbr": "浙",
     "avg": 80.0,
     "id": 83
   },
@@ -664,6 +747,7 @@
     "chinaxy": 108,
     "ranking": 75,
     "wurank": 57,
+    "province_abbr": "京",
     "avg": 80.0,
     "id": 84
   },
@@ -672,6 +756,7 @@
     "chinaxy": 83,
     "ranking": 89,
     "wurank": 69,
+    "province_abbr": "苏",
     "avg": 80.33,
     "id": 85
   },
@@ -680,6 +765,7 @@
     "chinaxy": 81,
     "ranking": 76,
     "wurank": 88,
+    "province_abbr": "沪",
     "avg": 81.67,
     "id": 86
   },
@@ -687,6 +773,7 @@
     "name": "上海财经大学",
     "chinaxy": 53,
     "wurank": 112,
+    "province_abbr": "沪",
     "avg": 82.5,
     "id": 87
   },
@@ -694,6 +781,7 @@
     "name": "南方医科大学",
     "chinaxy": 83,
     "wurank": 84,
+    "province_abbr": "粤",
     "avg": 83.5,
     "id": 88
   },
@@ -701,6 +789,7 @@
     "name": "南京医科大学",
     "chinaxy": 104,
     "wurank": 66,
+    "province_abbr": "苏",
     "avg": 85.0,
     "id": 89
   },
@@ -709,6 +798,7 @@
     "chinaxy": 80,
     "ranking": 88,
     "wurank": 91,
+    "province_abbr": "浙",
     "avg": 86.33,
     "id": 90
   },
@@ -717,6 +807,7 @@
     "chinaxy": 89,
     "ranking": 99,
     "wurank": 76,
+    "province_abbr": "豫",
     "avg": 88.0,
     "id": 91
   },
@@ -725,6 +816,7 @@
     "chinaxy": 70,
     "ranking": 84,
     "wurank": 111,
+    "province_abbr": "京",
     "avg": 88.33,
     "id": 92
   },
@@ -733,6 +825,7 @@
     "chinaxy": 62,
     "ranking": 112,
     "wurank": 95,
+    "province_abbr": "冀",
     "avg": 89.67,
     "id": 93
   },
@@ -740,6 +833,7 @@
     "name": "中南财经政法大学",
     "chinaxy": 51,
     "wurank": 129,
+    "province_abbr": "鄂",
     "avg": 90.0,
     "id": 94
   },
@@ -748,6 +842,7 @@
     "chinaxy": 82,
     "ranking": 95,
     "wurank": 94,
+    "province_abbr": "皖",
     "avg": 90.33,
     "id": 95
   },
@@ -756,6 +851,7 @@
     "chinaxy": 84,
     "ranking": 96,
     "wurank": 92,
+    "province_abbr": "贵",
     "avg": 90.67,
     "id": 96
   },
@@ -764,6 +860,7 @@
     "chinaxy": 91,
     "ranking": 100,
     "wurank": 83,
+    "province_abbr": "粤",
     "avg": 91.33,
     "id": 97
   },
@@ -772,6 +869,7 @@
     "chinaxy": 70,
     "ranking": 87,
     "wurank": 118,
+    "province_abbr": "闽",
     "avg": 91.67,
     "id": 98
   },
@@ -780,6 +878,7 @@
     "chinaxy": 73,
     "ranking": 107,
     "wurank": 98,
+    "province_abbr": "沪",
     "avg": 92.67,
     "id": 99
   },
@@ -787,6 +886,7 @@
     "name": "对外经济贸易大学",
     "chinaxy": 59,
     "wurank": 128,
+    "province_abbr": "京",
     "avg": 93.5,
     "id": 100
   },
@@ -795,6 +895,7 @@
     "chinaxy": 88,
     "ranking": 70,
     "wurank": 124,
+    "province_abbr": "云",
     "avg": 94.0,
     "id": 101
   },
@@ -802,6 +903,7 @@
     "name": "西南财经大学",
     "chinaxy": 73,
     "wurank": 117,
+    "province_abbr": "川",
     "avg": 95.0,
     "id": 102
   },
@@ -810,6 +912,7 @@
     "chinaxy": 122,
     "ranking": 85,
     "wurank": 80,
+    "province_abbr": "苏",
     "avg": 95.67,
     "id": 103
   },
@@ -817,6 +920,7 @@
     "name": "中国政法大学",
     "chinaxy": 71,
     "wurank": 122,
+    "province_abbr": "京",
     "avg": 96.5,
     "id": 104
   },
@@ -825,6 +929,7 @@
     "chinaxy": 75,
     "ranking": 91,
     "wurank": 125,
+    "province_abbr": "京",
     "avg": 97.0,
     "id": 105
   },
@@ -833,6 +938,7 @@
     "chinaxy": 105,
     "ranking": 74,
     "wurank": 114,
+    "province_abbr": "京",
     "avg": 97.67,
     "id": 106
   },
@@ -841,6 +947,7 @@
     "chinaxy": 101,
     "ranking": 92,
     "wurank": 104,
+    "province_abbr": "陕",
     "avg": 99.0,
     "id": 107
   },
@@ -849,6 +956,7 @@
     "chinaxy": 125,
     "ranking": 103,
     "wurank": 71,
+    "province_abbr": "苏",
     "avg": 99.67,
     "id": 108
   },
@@ -856,6 +964,7 @@
     "name": "中央财经大学",
     "chinaxy": 93,
     "wurank": 108,
+    "province_abbr": "京",
     "avg": 100.5,
     "id": 109
   },
@@ -864,6 +973,7 @@
     "chinaxy": 86,
     "ranking": 101,
     "wurank": 116,
+    "province_abbr": "晋",
     "avg": 101.0,
     "id": 110
   },
@@ -871,6 +981,7 @@
     "name": "重庆医科大学",
     "chinaxy": 112,
     "wurank": 93,
+    "province_abbr": "渝",
     "avg": 102.5,
     "id": 111
   },
@@ -879,6 +990,7 @@
     "chinaxy": 116,
     "ranking": 105,
     "wurank": 89,
+    "province_abbr": "鲁",
     "avg": 103.33,
     "id": 112
   },
@@ -887,6 +999,7 @@
     "chinaxy": 117,
     "ranking": 90,
     "wurank": 106,
+    "province_abbr": "桂",
     "avg": 104.33,
     "id": 113
   },
@@ -894,6 +1007,7 @@
     "name": "中国药科大学",
     "chinaxy": 106,
     "wurank": 105,
+    "province_abbr": "苏",
     "avg": 105.5,
     "id": 114
   },
@@ -902,6 +1016,7 @@
     "chinaxy": 110,
     "ranking": 108,
     "wurank": 101,
+    "province_abbr": "晋",
     "avg": 106.33,
     "id": 115
   },
@@ -910,6 +1025,7 @@
     "chinaxy": 135,
     "ranking": 110,
     "wurank": 75,
+    "province_abbr": "鲁",
     "avg": 106.67,
     "id": 116
   },
@@ -918,6 +1034,7 @@
     "chinaxy": 102,
     "ranking": 115,
     "wurank": 107,
+    "province_abbr": "云",
     "avg": 108.0,
     "id": 117
   },
@@ -926,6 +1043,7 @@
     "chinaxy": 117,
     "ranking": 98,
     "wurank": 110,
+    "province_abbr": "粤",
     "avg": 108.33,
     "id": 118
   },
@@ -934,6 +1052,7 @@
     "chinaxy": 104,
     "ranking": 102,
     "wurank": 121,
+    "province_abbr": "湘",
     "avg": 109.0,
     "id": 119
   },
@@ -941,6 +1060,7 @@
     "name": "中国医科大学",
     "chinaxy": 101,
     "wurank": 119,
+    "province_abbr": "辽",
     "avg": 110.0,
     "id": 120
   },
@@ -948,6 +1068,7 @@
     "name": "哈尔滨医科大学",
     "chinaxy": 102,
     "wurank": 120,
+    "province_abbr": "黑",
     "avg": 111.0,
     "id": 121
   },
@@ -956,6 +1077,7 @@
     "chinaxy": 78,
     "ranking": 127,
     "wurank": 130,
+    "province_abbr": "冀",
     "avg": 111.67,
     "id": 122
   },
@@ -964,6 +1086,7 @@
     "chinaxy": 84,
     "ranking": 122,
     "wurank": 132,
+    "province_abbr": "鄂",
     "avg": 112.67,
     "id": 123
   },
@@ -972,6 +1095,7 @@
     "chinaxy": 102,
     "ranking": 77,
     "wurank": 163,
+    "province_abbr": "京",
     "avg": 114.0,
     "id": 124
   },
@@ -980,6 +1104,7 @@
     "chinaxy": 124,
     "ranking": 123,
     "wurank": 96,
+    "province_abbr": "鲁",
     "avg": 114.33,
     "id": 125
   },
@@ -988,6 +1113,7 @@
     "chinaxy": 94,
     "ranking": 125,
     "wurank": 127,
+    "province_abbr": "闽",
     "avg": 115.33,
     "id": 126
   },
@@ -996,6 +1122,7 @@
     "chinaxy": 134,
     "ranking": 97,
     "wurank": 115,
+    "province_abbr": "浙",
     "avg": 115.33,
     "id": 127
   },
@@ -1004,6 +1131,7 @@
     "chinaxy": 112,
     "ranking": 134,
     "wurank": 102,
+    "province_abbr": "川",
     "avg": 116.0,
     "id": 128
   },
@@ -1012,6 +1140,7 @@
     "chinaxy": 109,
     "ranking": 106,
     "wurank": 134,
+    "province_abbr": "浙",
     "avg": 116.33,
     "id": 129
   },
@@ -1020,6 +1149,7 @@
     "chinaxy": 114,
     "ranking": 109,
     "wurank": 126,
+    "province_abbr": "津",
     "avg": 116.33,
     "id": 130
   },
@@ -1027,6 +1157,7 @@
     "name": "天津医科大学",
     "chinaxy": 99,
     "wurank": 137,
+    "province_abbr": "津",
     "avg": 118.0,
     "id": 131
   },
@@ -1035,6 +1166,7 @@
     "chinaxy": 97,
     "ranking": 121,
     "wurank": 139,
+    "province_abbr": "黑",
     "avg": 119.0,
     "id": 132
   },
@@ -1043,6 +1175,7 @@
     "chinaxy": 96,
     "ranking": 113,
     "wurank": 154,
+    "province_abbr": "黑",
     "avg": 121.0,
     "id": 133
   },
@@ -1050,6 +1183,7 @@
     "name": "广州医科大学",
     "chinaxy": 121,
     "wurank": 123,
+    "province_abbr": "粤",
     "avg": 122.0,
     "id": 134
   },
@@ -1057,6 +1191,7 @@
     "name": "北京外国语大学",
     "chinaxy": 80,
     "wurank": 167,
+    "province_abbr": "京",
     "avg": 123.5,
     "id": 135
   },
@@ -1064,6 +1199,7 @@
     "name": "温州医科大学",
     "chinaxy": 148,
     "wurank": 99,
+    "province_abbr": "浙",
     "avg": 123.5,
     "id": 136
   },
@@ -1072,6 +1208,7 @@
     "chinaxy": 107,
     "ranking": 118,
     "wurank": 147,
+    "province_abbr": "陕",
     "avg": 124.0,
     "id": 137
   },
@@ -1080,6 +1217,7 @@
     "chinaxy": 115,
     "ranking": 130,
     "wurank": 131,
+    "province_abbr": "川",
     "avg": 125.33,
     "id": 138
   },
@@ -1088,6 +1226,7 @@
     "chinaxy": 99,
     "ranking": 144,
     "wurank": 138,
+    "province_abbr": "鲁",
     "avg": 127.0,
     "id": 139
   },
@@ -1096,6 +1235,7 @@
     "chinaxy": 121,
     "ranking": 117,
     "wurank": 144,
+    "province_abbr": "赣",
     "avg": 127.33,
     "id": 140
   },
@@ -1104,6 +1244,7 @@
     "chinaxy": 91,
     "ranking": 164,
     "wurank": 133,
+    "province_abbr": "豫",
     "avg": 129.33,
     "id": 141
   },
@@ -1112,6 +1253,7 @@
     "chinaxy": 148,
     "ranking": 104,
     "wurank": 136,
+    "province_abbr": "琼",
     "avg": 129.33,
     "id": 142
   },
@@ -1119,6 +1261,7 @@
     "name": "浙江工商大学",
     "chinaxy": 116,
     "wurank": 143,
+    "province_abbr": "浙",
     "avg": 129.5,
     "id": 143
   },
@@ -1127,6 +1270,7 @@
     "chinaxy": 128,
     "ranking": 111,
     "wurank": 150,
+    "province_abbr": "辽",
     "avg": 129.67,
     "id": 144
   },
@@ -1134,6 +1278,7 @@
     "name": "北京中医药大学",
     "chinaxy": 105,
     "wurank": 155,
+    "province_abbr": "京",
     "avg": 130.0,
     "id": 145
   },
@@ -1142,6 +1287,7 @@
     "chinaxy": 126,
     "ranking": 114,
     "wurank": 151,
+    "province_abbr": "陕",
     "avg": 130.33,
     "id": 146
   },
@@ -1150,6 +1296,7 @@
     "chinaxy": 120,
     "ranking": 126,
     "wurank": 149,
+    "province_abbr": "湘",
     "avg": 131.67,
     "id": 147
   },
@@ -1158,6 +1305,7 @@
     "chinaxy": 132,
     "ranking": 119,
     "wurank": 145,
+    "province_abbr": "沪",
     "avg": 132.0,
     "id": 148
   },
@@ -1165,6 +1313,7 @@
     "name": "江西财经大学",
     "chinaxy": 111,
     "wurank": 159,
+    "province_abbr": "赣",
     "avg": 135.0,
     "id": 149
   },
@@ -1173,6 +1322,7 @@
     "chinaxy": 114,
     "ranking": 151,
     "wurank": 140,
+    "province_abbr": "豫",
     "avg": 135.0,
     "id": 150
   },
@@ -1180,6 +1330,7 @@
     "name": "东北财经大学",
     "chinaxy": 95,
     "wurank": 177,
+    "province_abbr": "辽",
     "avg": 136.0,
     "id": 151
   },
@@ -1188,6 +1339,7 @@
     "chinaxy": 113,
     "ranking": 163,
     "wurank": 135,
+    "province_abbr": "闽",
     "avg": 137.0,
     "id": 152
   },
@@ -1196,6 +1348,7 @@
     "chinaxy": 117,
     "ranking": 139,
     "wurank": 158,
+    "province_abbr": "皖",
     "avg": 138.0,
     "id": 153
   },
@@ -1204,6 +1357,7 @@
     "chinaxy": 159,
     "ranking": 159,
     "wurank": 100,
+    "province_abbr": "苏",
     "avg": 139.33,
     "id": 154
   },
@@ -1211,6 +1365,7 @@
     "name": "中央民族大学",
     "chinaxy": 80,
     "wurank": 200,
+    "province_abbr": "京",
     "avg": 140.0,
     "id": 155
   },
@@ -1219,6 +1374,7 @@
     "chinaxy": 98,
     "ranking": 131,
     "wurank": 191,
+    "province_abbr": "辽",
     "avg": 140.0,
     "id": 156
   },
@@ -1227,6 +1383,7 @@
     "chinaxy": 100,
     "ranking": 156,
     "wurank": 169,
+    "province_abbr": "黑",
     "avg": 141.67,
     "id": 157
   },
@@ -1235,6 +1392,7 @@
     "chinaxy": 140,
     "ranking": 124,
     "wurank": 164,
+    "province_abbr": "陕",
     "avg": 142.67,
     "id": 158
   },
@@ -1243,6 +1401,7 @@
     "chinaxy": 145,
     "ranking": 180,
     "wurank": 103,
+    "province_abbr": "鲁",
     "avg": 142.67,
     "id": 159
   },
@@ -1251,6 +1410,7 @@
     "chinaxy": 90,
     "ranking": 142,
     "wurank": 197,
+    "province_abbr": "鲁",
     "avg": 143.0,
     "id": 160
   },
@@ -1259,6 +1419,7 @@
     "chinaxy": 140,
     "ranking": 133,
     "wurank": 157,
+    "province_abbr": "鄂",
     "avg": 143.33,
     "id": 161
   },
@@ -1267,6 +1428,7 @@
     "chinaxy": 140,
     "ranking": 143,
     "wurank": 153,
+    "province_abbr": "苏",
     "avg": 145.33,
     "id": 162
   },
@@ -1275,6 +1437,7 @@
     "chinaxy": 132,
     "ranking": 138,
     "wurank": 172,
+    "province_abbr": "津",
     "avg": 147.33,
     "id": 163
   },
@@ -1282,6 +1445,7 @@
     "name": "南京中医药大学",
     "chinaxy": 128,
     "wurank": 168,
+    "province_abbr": "苏",
     "avg": 148.0,
     "id": 164
   },
@@ -1290,6 +1454,7 @@
     "chinaxy": 139,
     "ranking": 120,
     "wurank": 185,
+    "province_abbr": "浙",
     "avg": 148.0,
     "id": 165
   },
@@ -1298,6 +1463,7 @@
     "chinaxy": 106,
     "ranking": 172,
     "wurank": 173,
+    "province_abbr": "湘",
     "avg": 150.33,
     "id": 166
   },
@@ -1306,6 +1472,7 @@
     "chinaxy": 117,
     "ranking": 141,
     "wurank": 194,
+    "province_abbr": "津",
     "avg": 150.67,
     "id": 167
   },
@@ -1314,6 +1481,7 @@
     "chinaxy": 146,
     "ranking": 152,
     "wurank": 156,
+    "province_abbr": "渝",
     "avg": 151.33,
     "id": 168
   },
@@ -1322,6 +1490,7 @@
     "chinaxy": 152,
     "ranking": 162,
     "wurank": 141,
+    "province_abbr": "鲁",
     "avg": 151.67,
     "id": 169
   },
@@ -1329,6 +1498,7 @@
     "name": "安徽医科大学",
     "chinaxy": 153,
     "wurank": 152,
+    "province_abbr": "皖",
     "avg": 152.5,
     "id": 170
   },
@@ -1336,6 +1506,7 @@
     "name": "中国传媒大学",
     "chinaxy": 79,
     "wurank": 230,
+    "province_abbr": "京",
     "avg": 154.5,
     "id": 171
   },
@@ -1344,6 +1515,7 @@
     "chinaxy": 157,
     "ranking": 132,
     "wurank": 175,
+    "province_abbr": "浙",
     "avg": 154.67,
     "id": 172
   },
@@ -1351,6 +1523,7 @@
     "name": "广东外语外贸大学",
     "chinaxy": 132,
     "wurank": 178,
+    "province_abbr": "粤",
     "avg": 155.0,
     "id": 173
   },
@@ -1359,6 +1532,7 @@
     "chinaxy": 117,
     "ranking": 116,
     "wurank": 234,
+    "province_abbr": "蒙",
     "avg": 155.67,
     "id": 174
   },
@@ -1367,6 +1541,7 @@
     "chinaxy": 155,
     "ranking": 154,
     "wurank": 161,
+    "province_abbr": "川",
     "avg": 156.67,
     "id": 175
   },
@@ -1374,6 +1549,7 @@
     "name": "山西医科大学",
     "chinaxy": 121,
     "wurank": 193,
+    "province_abbr": "晋",
     "avg": 157.0,
     "id": 176
   },
@@ -1381,6 +1557,7 @@
     "name": "广州中医药大学",
     "chinaxy": 132,
     "wurank": 182,
+    "province_abbr": "粤",
     "avg": 157.0,
     "id": 177
   },
@@ -1388,6 +1565,7 @@
     "name": "华东政法大学",
     "chinaxy": 126,
     "wurank": 189,
+    "province_abbr": "沪",
     "avg": 157.5,
     "id": 178
   },
@@ -1395,6 +1573,7 @@
     "name": "山东财经大学",
     "chinaxy": 121,
     "wurank": 199,
+    "province_abbr": "鲁",
     "avg": 160.0,
     "id": 179
   },
@@ -1403,6 +1582,7 @@
     "chinaxy": 128,
     "ranking": 178,
     "wurank": 176,
+    "province_abbr": "鄂",
     "avg": 160.67,
     "id": 180
   },
@@ -1411,6 +1591,7 @@
     "chinaxy": 109,
     "ranking": 171,
     "wurank": 205,
+    "province_abbr": "甘",
     "avg": 161.67,
     "id": 181
   },
@@ -1419,6 +1600,7 @@
     "chinaxy": 158,
     "ranking": 148,
     "wurank": 180,
+    "province_abbr": "豫",
     "avg": 162.0,
     "id": 182
   },
@@ -1427,6 +1609,7 @@
     "chinaxy": 138,
     "ranking": 168,
     "wurank": 181,
+    "province_abbr": "赣",
     "avg": 162.33,
     "id": 183
   },
@@ -1435,6 +1618,7 @@
     "chinaxy": 144,
     "ranking": 153,
     "wurank": 195,
+    "province_abbr": "皖",
     "avg": 164.0,
     "id": 184
   },
@@ -1443,6 +1627,7 @@
     "chinaxy": 150,
     "ranking": 203,
     "wurank": 142,
+    "province_abbr": "豫",
     "avg": 165.0,
     "id": 185
   },
@@ -1450,6 +1635,7 @@
     "name": "上海中医药大学",
     "chinaxy": 107,
     "wurank": 224,
+    "province_abbr": "沪",
     "avg": 165.5,
     "id": 186
   },
@@ -1458,6 +1644,7 @@
     "chinaxy": 139,
     "ranking": 199,
     "wurank": 160,
+    "province_abbr": "川",
     "avg": 166.0,
     "id": 187
   },
@@ -1466,6 +1653,7 @@
     "chinaxy": 127,
     "ranking": 186,
     "wurank": 188,
+    "province_abbr": "鄂",
     "avg": 167.0,
     "id": 188
   },
@@ -1473,6 +1661,7 @@
     "name": "中南民族大学",
     "chinaxy": 132,
     "wurank": 202,
+    "province_abbr": "鄂",
     "avg": 167.0,
     "id": 189
   },
@@ -1481,6 +1670,7 @@
     "chinaxy": 155,
     "ranking": 155,
     "wurank": 192,
+    "province_abbr": "桂",
     "avg": 167.33,
     "id": 190
   },
@@ -1488,6 +1678,7 @@
     "name": "河北医科大学",
     "chinaxy": 114,
     "wurank": 221,
+    "province_abbr": "冀",
     "avg": 167.5,
     "id": 191
   },
@@ -1495,6 +1686,7 @@
     "name": "首都经济贸易大学",
     "chinaxy": 122,
     "wurank": 215,
+    "province_abbr": "京",
     "avg": 168.5,
     "id": 192
   },
@@ -1503,6 +1695,7 @@
     "chinaxy": 174,
     "ranking": 129,
     "wurank": 203,
+    "province_abbr": "新",
     "avg": 168.67,
     "id": 193
   },
@@ -1511,6 +1704,7 @@
     "chinaxy": 183,
     "ranking": 137,
     "wurank": 186,
+    "province_abbr": "浙",
     "avg": 168.67,
     "id": 194
   },
@@ -1519,6 +1713,7 @@
     "chinaxy": 128,
     "ranking": 146,
     "wurank": 233,
+    "province_abbr": "鄂",
     "avg": 169.0,
     "id": 195
   },
@@ -1526,6 +1721,7 @@
     "name": "山东第一医科大学",
     "chinaxy": 117,
     "wurank": 222,
+    "province_abbr": "鲁",
     "avg": 169.5,
     "id": 196
   },
@@ -1534,6 +1730,7 @@
     "chinaxy": 137,
     "ranking": 160,
     "wurank": 216,
+    "province_abbr": "冀",
     "avg": 171.0,
     "id": 197
   },
@@ -1541,6 +1738,7 @@
     "name": "西南政法大学",
     "chinaxy": 137,
     "wurank": 207,
+    "province_abbr": "渝",
     "avg": 172.0,
     "id": 198
   },
@@ -1549,6 +1747,7 @@
     "chinaxy": 180,
     "ranking": 149,
     "wurank": 190,
+    "province_abbr": "苏",
     "avg": 173.0,
     "id": 199
   },
@@ -1557,6 +1756,7 @@
     "chinaxy": 221,
     "ranking": 136,
     "wurank": 162,
+    "province_abbr": "新",
     "avg": 173.0,
     "id": 200
   },
@@ -1565,6 +1765,7 @@
     "chinaxy": 173,
     "ranking": 181,
     "wurank": 166,
+    "province_abbr": "晋",
     "avg": 173.33,
     "id": 201
   },
@@ -1572,6 +1773,7 @@
     "name": "大连医科大学",
     "chinaxy": 185,
     "wurank": 165,
+    "province_abbr": "辽",
     "avg": 175.0,
     "id": 202
   },
@@ -1580,6 +1782,7 @@
     "chinaxy": 209,
     "ranking": 177,
     "wurank": 146,
+    "province_abbr": "鲁",
     "avg": 177.33,
     "id": 203
   },
@@ -1588,6 +1791,7 @@
     "chinaxy": 168,
     "ranking": 147,
     "wurank": 218,
+    "province_abbr": "浙",
     "avg": 177.67,
     "id": 204
   },
@@ -1596,6 +1800,7 @@
     "chinaxy": 169,
     "ranking": 128,
     "wurank": 237,
+    "province_abbr": "宁",
     "avg": 178.0,
     "id": 205
   },
@@ -1604,6 +1809,7 @@
     "chinaxy": 147,
     "ranking": 161,
     "wurank": 229,
+    "province_abbr": "津",
     "avg": 179.0,
     "id": 206
   },
@@ -1612,6 +1818,7 @@
     "chinaxy": 140,
     "ranking": 150,
     "wurank": 250,
+    "province_abbr": "辽",
     "avg": 180.0,
     "id": 207
   },
@@ -1620,6 +1827,7 @@
     "chinaxy": 229,
     "ranking": 140,
     "wurank": 174,
+    "province_abbr": "苏",
     "avg": 181.0,
     "id": 208
   },
@@ -1627,6 +1835,7 @@
     "name": "北京工商大学",
     "chinaxy": 153,
     "wurank": 210,
+    "province_abbr": "京",
     "avg": 181.5,
     "id": 209
   },
@@ -1635,6 +1844,7 @@
     "chinaxy": 136,
     "ranking": 166,
     "wurank": 244,
+    "province_abbr": "粤",
     "avg": 182.0,
     "id": 210
   },
@@ -1643,6 +1853,7 @@
     "chinaxy": 172,
     "ranking": 195,
     "wurank": 183,
+    "province_abbr": "冀",
     "avg": 183.33,
     "id": 211
   },
@@ -1650,6 +1861,7 @@
     "name": "浙江财经大学",
     "chinaxy": 181,
     "wurank": 187,
+    "province_abbr": "浙",
     "avg": 184.0,
     "id": 212
   },
@@ -1657,6 +1869,7 @@
     "name": "福建医科大学",
     "chinaxy": 189,
     "wurank": 179,
+    "province_abbr": "闽",
     "avg": 184.0,
     "id": 213
   },
@@ -1665,6 +1878,7 @@
     "chinaxy": 175,
     "ranking": 183,
     "wurank": 198,
+    "province_abbr": "津",
     "avg": 185.33,
     "id": 214
   },
@@ -1673,6 +1887,7 @@
     "chinaxy": 185,
     "ranking": 158,
     "wurank": 213,
+    "province_abbr": "鄂",
     "avg": 185.33,
     "id": 215
   },
@@ -1681,6 +1896,7 @@
     "chinaxy": 159,
     "ranking": 187,
     "wurank": 211,
+    "province_abbr": "甘",
     "avg": 185.67,
     "id": 216
   },
@@ -1689,6 +1905,7 @@
     "chinaxy": 191,
     "ranking": 182,
     "wurank": 184,
+    "province_abbr": "赣",
     "avg": 185.67,
     "id": 217
   },
@@ -1697,6 +1914,7 @@
     "chinaxy": 137,
     "ranking": 167,
     "wurank": 256,
+    "province_abbr": "鄂",
     "avg": 186.67,
     "id": 218
   },
@@ -1705,6 +1923,7 @@
     "chinaxy": 165,
     "ranking": 169,
     "wurank": 226,
+    "province_abbr": "陕",
     "avg": 186.67,
     "id": 219
   },
@@ -1713,6 +1932,7 @@
     "chinaxy": 201,
     "ranking": 223,
     "wurank": 148,
+    "province_abbr": "川",
     "avg": 190.67,
     "id": 220
   },
@@ -1721,6 +1941,7 @@
     "chinaxy": 207,
     "ranking": 135,
     "wurank": 235,
+    "province_abbr": "吉",
     "avg": 192.33,
     "id": 221
   },
@@ -1728,6 +1949,7 @@
     "name": "上海外国语大学",
     "chinaxy": 112,
     "wurank": 277,
+    "province_abbr": "沪",
     "avg": 194.5,
     "id": 222
   },
@@ -1736,6 +1958,7 @@
     "chinaxy": 179,
     "ranking": 201,
     "wurank": 206,
+    "province_abbr": "湘",
     "avg": 195.33,
     "id": 223
   },
@@ -1744,6 +1967,7 @@
     "chinaxy": 190,
     "ranking": 190,
     "wurank": 214,
+    "province_abbr": "鲁",
     "avg": 198.0,
     "id": 224
   },
@@ -1751,6 +1975,7 @@
     "name": "天津中医药大学",
     "chinaxy": 113,
     "wurank": 285,
+    "province_abbr": "津",
     "avg": 199.0,
     "id": 225
   },
@@ -1759,6 +1984,7 @@
     "chinaxy": 182,
     "ranking": 215,
     "wurank": 201,
+    "province_abbr": "鲁",
     "avg": 199.33,
     "id": 226
   },
@@ -1767,12 +1993,14 @@
     "chinaxy": 240,
     "ranking": 191,
     "wurank": 171,
+    "province_abbr": "鲁",
     "avg": 200.67,
     "id": 227
   },
   {
     "name": "上海体育学院",
     "chinaxy": 203,
+    "province_abbr": "沪",
     "avg": 203.0,
     "id": 228
   },
@@ -1781,6 +2009,7 @@
     "chinaxy": 150,
     "ranking": 207,
     "wurank": 254,
+    "province_abbr": "甘",
     "avg": 203.67,
     "id": 229
   },
@@ -1788,6 +2017,7 @@
     "name": "南京财经大学",
     "chinaxy": 189,
     "wurank": 219,
+    "province_abbr": "苏",
     "avg": 204.0,
     "id": 230
   },
@@ -1796,6 +2026,7 @@
     "chinaxy": 181,
     "ranking": 174,
     "wurank": 258,
+    "province_abbr": "辽",
     "avg": 204.33,
     "id": 231
   },
@@ -1804,6 +2035,7 @@
     "chinaxy": 191,
     "ranking": 179,
     "wurank": 243,
+    "province_abbr": "赣",
     "avg": 204.33,
     "id": 232
   },
@@ -1812,6 +2044,7 @@
     "chinaxy": 174,
     "ranking": 200,
     "wurank": 240,
+    "province_abbr": "云",
     "avg": 204.67,
     "id": 233
   },
@@ -1820,6 +2053,7 @@
     "chinaxy": 204,
     "ranking": 185,
     "wurank": 225,
+    "province_abbr": "皖",
     "avg": 204.67,
     "id": 234
   },
@@ -1828,6 +2062,7 @@
     "chinaxy": 204,
     "ranking": 145,
     "wurank": 265,
+    "province_abbr": "沪",
     "avg": 204.67,
     "id": 235
   },
@@ -1836,6 +2071,7 @@
     "chinaxy": 164,
     "ranking": 231,
     "wurank": 220,
+    "province_abbr": "黑",
     "avg": 205.0,
     "id": 236
   },
@@ -1844,6 +2080,7 @@
     "chinaxy": 218,
     "ranking": 175,
     "wurank": 223,
+    "province_abbr": "沪",
     "avg": 205.33,
     "id": 237
   },
@@ -1852,6 +2089,7 @@
     "chinaxy": 236,
     "ranking": 184,
     "wurank": 196,
+    "province_abbr": "湘",
     "avg": 205.33,
     "id": 238
   },
@@ -1859,6 +2097,7 @@
     "name": "沈阳药科大学",
     "chinaxy": 181,
     "wurank": 231,
+    "province_abbr": "辽",
     "avg": 206.0,
     "id": 239
   },
@@ -1867,12 +2106,14 @@
     "chinaxy": 221,
     "ranking": 230,
     "wurank": 170,
+    "province_abbr": "桂",
     "avg": 207.0,
     "id": 240
   },
   {
     "name": "西交利物浦大学",
     "wurank": 208,
+    "province_abbr": "苏",
     "avg": 208.0,
     "id": 241
   },
@@ -1881,6 +2122,7 @@
     "chinaxy": 169,
     "ranking": 189,
     "wurank": 267,
+    "province_abbr": "辽",
     "avg": 208.33,
     "id": 242
   },
@@ -1889,6 +2131,7 @@
     "chinaxy": 185,
     "ranking": 208,
     "wurank": 232,
+    "province_abbr": "豫",
     "avg": 208.33,
     "id": 243
   },
@@ -1896,6 +2139,7 @@
     "name": "北京体育大学",
     "chinaxy": 111,
     "wurank": 306,
+    "province_abbr": "京",
     "avg": 208.5,
     "id": 244
   },
@@ -1903,6 +2147,7 @@
     "name": "广西医科大学",
     "chinaxy": 181,
     "wurank": 238,
+    "province_abbr": "桂",
     "avg": 209.5,
     "id": 245
   },
@@ -1911,6 +2156,7 @@
     "chinaxy": 155,
     "ranking": 229,
     "wurank": 245,
+    "province_abbr": "湘",
     "avg": 209.67,
     "id": 246
   },
@@ -1919,6 +2165,7 @@
     "chinaxy": 175,
     "ranking": 214,
     "wurank": 242,
+    "province_abbr": "渝",
     "avg": 210.33,
     "id": 247
   },
@@ -1927,6 +2174,7 @@
     "chinaxy": 177,
     "ranking": 176,
     "wurank": 280,
+    "province_abbr": "吉",
     "avg": 211.0,
     "id": 248
   },
@@ -1935,6 +2183,7 @@
     "chinaxy": 183,
     "ranking": 157,
     "wurank": 293,
+    "province_abbr": "京",
     "avg": 211.0,
     "id": 249
   },
@@ -1943,6 +2192,7 @@
     "chinaxy": 177,
     "ranking": 202,
     "wurank": 259,
+    "province_abbr": "赣",
     "avg": 212.67,
     "id": 250
   },
@@ -1951,6 +2201,7 @@
     "chinaxy": 138,
     "ranking": 243,
     "wurank": 263,
+    "province_abbr": "黑",
     "avg": 214.67,
     "id": 251
   },
@@ -1959,6 +2210,7 @@
     "chinaxy": 198,
     "ranking": 188,
     "wurank": 262,
+    "province_abbr": "渝",
     "avg": 216.0,
     "id": 252
   },
@@ -1966,12 +2218,14 @@
     "name": "西南民族大学",
     "chinaxy": 166,
     "wurank": 272,
+    "province_abbr": "川",
     "avg": 219.0,
     "id": 253
   },
   {
     "name": "佛山大学",
     "ranking": 220,
+    "province_abbr": "粤",
     "avg": 220.0,
     "id": 254
   },
@@ -1980,6 +2234,7 @@
     "chinaxy": 162,
     "ranking": 233,
     "wurank": 266,
+    "province_abbr": "甘",
     "avg": 220.33,
     "id": 255
   },
@@ -1988,6 +2243,7 @@
     "chinaxy": 201,
     "ranking": 209,
     "wurank": 251,
+    "province_abbr": "鲁",
     "avg": 220.33,
     "id": 256
   },
@@ -1995,6 +2251,7 @@
     "name": "重庆工商大学",
     "chinaxy": 194,
     "wurank": 247,
+    "province_abbr": "渝",
     "avg": 220.5,
     "id": 257
   },
@@ -2002,6 +2259,7 @@
     "name": "成都中医药大学",
     "chinaxy": 229,
     "wurank": 212,
+    "province_abbr": "川",
     "avg": 220.5,
     "id": 258
   },
@@ -2009,6 +2267,7 @@
     "name": "北京语言大学",
     "chinaxy": 108,
     "wurank": 342,
+    "province_abbr": "京",
     "avg": 225.0,
     "id": 259
   },
@@ -2017,6 +2276,7 @@
     "chinaxy": 139,
     "ranking": 234,
     "wurank": 302,
+    "province_abbr": "粤",
     "avg": 225.0,
     "id": 260
   },
@@ -2025,6 +2285,7 @@
     "chinaxy": 167,
     "ranking": 205,
     "wurank": 304,
+    "province_abbr": "蒙",
     "avg": 225.33,
     "id": 261
   },
@@ -2033,6 +2294,7 @@
     "chinaxy": 162,
     "ranking": 267,
     "wurank": 249,
+    "province_abbr": "桂",
     "avg": 226.0,
     "id": 262
   },
@@ -2041,12 +2303,14 @@
     "chinaxy": 140,
     "ranking": 253,
     "wurank": 286,
+    "province_abbr": "吉",
     "avg": 226.33,
     "id": 263
   },
   {
     "name": "宁波诺丁汉大学",
     "wurank": 227,
+    "province_abbr": "浙",
     "avg": 227.0,
     "id": 264
   },
@@ -2055,6 +2319,7 @@
     "chinaxy": 240,
     "ranking": 239,
     "wurank": 204,
+    "province_abbr": "鲁",
     "avg": 227.67,
     "id": 265
   },
@@ -2063,6 +2328,7 @@
     "chinaxy": 211,
     "ranking": 165,
     "wurank": 310,
+    "province_abbr": "吉",
     "avg": 228.67,
     "id": 266
   },
@@ -2071,12 +2337,14 @@
     "chinaxy": 209,
     "ranking": 173,
     "wurank": 307,
+    "province_abbr": "青",
     "avg": 229.67,
     "id": 267
   },
   {
     "name": "中国人民公安大学",
     "chinaxy": 231,
+    "province_abbr": "京",
     "avg": 231.0,
     "id": 268
   },
@@ -2085,6 +2353,7 @@
     "chinaxy": 269,
     "ranking": 192,
     "wurank": 236,
+    "province_abbr": "皖",
     "avg": 232.33,
     "id": 269
   },
@@ -2093,6 +2362,7 @@
     "chinaxy": 194,
     "ranking": 228,
     "wurank": 284,
+    "province_abbr": "冀",
     "avg": 235.33,
     "id": 270
   },
@@ -2100,6 +2370,7 @@
     "name": "河南中医药大学",
     "chinaxy": 203,
     "wurank": 270,
+    "province_abbr": "豫",
     "avg": 236.5,
     "id": 271
   },
@@ -2108,6 +2379,7 @@
     "chinaxy": 214,
     "ranking": 248,
     "wurank": 252,
+    "province_abbr": "豫",
     "avg": 238.0,
     "id": 272
   },
@@ -2116,6 +2388,7 @@
     "chinaxy": 249,
     "ranking": 170,
     "wurank": 296,
+    "province_abbr": "闽",
     "avg": 238.33,
     "id": 273
   },
@@ -2124,6 +2397,7 @@
     "chinaxy": 221,
     "ranking": 237,
     "wurank": 261,
+    "province_abbr": "渝",
     "avg": 239.67,
     "id": 274
   },
@@ -2132,6 +2406,7 @@
     "chinaxy": 209,
     "ranking": 303,
     "wurank": 209,
+    "province_abbr": "蒙",
     "avg": 240.33,
     "id": 275
   },
@@ -2140,6 +2415,7 @@
     "chinaxy": 185,
     "ranking": 213,
     "wurank": 329,
+    "province_abbr": "辽",
     "avg": 242.33,
     "id": 276
   },
@@ -2148,6 +2424,7 @@
     "chinaxy": 235,
     "ranking": 252,
     "wurank": 241,
+    "province_abbr": "豫",
     "avg": 242.67,
     "id": 277
   },
@@ -2156,6 +2433,7 @@
     "chinaxy": 191,
     "ranking": 210,
     "wurank": 330,
+    "province_abbr": "辽",
     "avg": 243.67,
     "id": 278
   },
@@ -2164,6 +2442,7 @@
     "chinaxy": 148,
     "ranking": 244,
     "wurank": 343,
+    "province_abbr": "鄂",
     "avg": 245.0,
     "id": 279
   },
@@ -2171,6 +2450,7 @@
     "name": "黑龙江中医药大学",
     "chinaxy": 168,
     "wurank": 325,
+    "province_abbr": "黑",
     "avg": 246.5,
     "id": 280
   },
@@ -2178,6 +2458,7 @@
     "name": "徐州医科大学",
     "chinaxy": 247,
     "wurank": 246,
+    "province_abbr": "苏",
     "avg": 246.5,
     "id": 281
   },
@@ -2185,6 +2466,7 @@
     "name": "山东中医药大学",
     "chinaxy": 203,
     "wurank": 291,
+    "province_abbr": "鲁",
     "avg": 247.0,
     "id": 282
   },
@@ -2193,6 +2475,7 @@
     "chinaxy": 159,
     "ranking": 274,
     "wurank": 312,
+    "province_abbr": "辽",
     "avg": 248.33,
     "id": 283
   },
@@ -2201,6 +2484,7 @@
     "chinaxy": 169,
     "ranking": 225,
     "wurank": 352,
+    "province_abbr": "冀",
     "avg": 248.67,
     "id": 284
   },
@@ -2209,6 +2493,7 @@
     "chinaxy": 214,
     "ranking": 254,
     "wurank": 278,
+    "province_abbr": "贵",
     "avg": 248.67,
     "id": 285
   },
@@ -2217,6 +2502,7 @@
     "chinaxy": 259,
     "ranking": 227,
     "wurank": 260,
+    "province_abbr": "沪",
     "avg": 248.67,
     "id": 286
   },
@@ -2225,6 +2511,7 @@
     "chinaxy": 225,
     "ranking": 241,
     "wurank": 289,
+    "province_abbr": "鲁",
     "avg": 251.67,
     "id": 287
   },
@@ -2233,6 +2520,7 @@
     "chinaxy": 281,
     "ranking": 235,
     "wurank": 239,
+    "province_abbr": "鲁",
     "avg": 251.67,
     "id": 288
   },
@@ -2241,6 +2529,7 @@
     "chinaxy": 218,
     "ranking": 212,
     "wurank": 326,
+    "province_abbr": "辽",
     "avg": 252.0,
     "id": 289
   },
@@ -2249,6 +2538,7 @@
     "chinaxy": 231,
     "ranking": 242,
     "wurank": 283,
+    "province_abbr": "赣",
     "avg": 252.0,
     "id": 290
   },
@@ -2257,6 +2547,7 @@
     "chinaxy": 229,
     "ranking": 196,
     "wurank": 334,
+    "province_abbr": "京",
     "avg": 253.0,
     "id": 291
   },
@@ -2264,6 +2555,7 @@
     "name": "浙江中医药大学",
     "chinaxy": 259,
     "wurank": 248,
+    "province_abbr": "浙",
     "avg": 253.5,
     "id": 292
   },
@@ -2272,6 +2564,7 @@
     "chinaxy": 286,
     "ranking": 204,
     "wurank": 274,
+    "province_abbr": "苏",
     "avg": 254.67,
     "id": 293
   },
@@ -2280,6 +2573,7 @@
     "chinaxy": 251,
     "ranking": 257,
     "wurank": 257,
+    "province_abbr": "川",
     "avg": 255.0,
     "id": 294
   },
@@ -2288,6 +2582,7 @@
     "chinaxy": 269,
     "ranking": 279,
     "wurank": 217,
+    "province_abbr": "冀",
     "avg": 255.0,
     "id": 295
   },
@@ -2296,6 +2591,7 @@
     "chinaxy": 191,
     "ranking": 262,
     "wurank": 315,
+    "province_abbr": "辽",
     "avg": 256.0,
     "id": 296
   },
@@ -2304,6 +2600,7 @@
     "chinaxy": 218,
     "ranking": 251,
     "wurank": 303,
+    "province_abbr": "晋",
     "avg": 257.33,
     "id": 297
   },
@@ -2311,6 +2608,7 @@
     "name": "南京审计大学",
     "chinaxy": 236,
     "wurank": 281,
+    "province_abbr": "苏",
     "avg": 258.5,
     "id": 298
   },
@@ -2318,6 +2616,7 @@
     "name": "安徽财经大学",
     "chinaxy": 218,
     "wurank": 300,
+    "province_abbr": "皖",
     "avg": 259.0,
     "id": 299
   },
@@ -2326,6 +2625,7 @@
     "chinaxy": 298,
     "ranking": 197,
     "wurank": 282,
+    "province_abbr": "陕",
     "avg": 259.0,
     "id": 300
   },
@@ -2334,6 +2634,7 @@
     "chinaxy": 240,
     "ranking": 219,
     "wurank": 323,
+    "province_abbr": "黑",
     "avg": 260.67,
     "id": 301
   },
@@ -2342,6 +2643,7 @@
     "chinaxy": 256,
     "ranking": 271,
     "wurank": 255,
+    "province_abbr": "湘",
     "avg": 260.67,
     "id": 302
   },
@@ -2350,6 +2652,7 @@
     "chinaxy": 273,
     "ranking": 217,
     "wurank": 292,
+    "province_abbr": "陕",
     "avg": 260.67,
     "id": 303
   },
@@ -2357,6 +2660,7 @@
     "name": "天津财经大学",
     "chinaxy": 154,
     "wurank": 368,
+    "province_abbr": "津",
     "avg": 261.0,
     "id": 304
   },
@@ -2365,6 +2669,7 @@
     "chinaxy": 249,
     "ranking": 307,
     "wurank": 228,
+    "province_abbr": "川",
     "avg": 261.33,
     "id": 305
   },
@@ -2373,6 +2678,7 @@
     "chinaxy": 211,
     "ranking": 206,
     "wurank": 371,
+    "province_abbr": "京",
     "avg": 262.67,
     "id": 306
   },
@@ -2380,6 +2686,7 @@
     "name": "云南民族大学",
     "chinaxy": 128,
     "wurank": 398,
+    "province_abbr": "云",
     "avg": 263.0,
     "id": 307
   },
@@ -2387,6 +2694,7 @@
     "name": "山西财经大学",
     "chinaxy": 207,
     "wurank": 319,
+    "province_abbr": "晋",
     "avg": 263.0,
     "id": 308
   },
@@ -2394,6 +2702,7 @@
     "name": "昆明医科大学",
     "chinaxy": 240,
     "wurank": 288,
+    "province_abbr": "云",
     "avg": 264.0,
     "id": 309
   },
@@ -2401,6 +2710,7 @@
     "name": "外交学院",
     "chinaxy": 114,
     "wurank": 420,
+    "province_abbr": "京",
     "avg": 267.0,
     "id": 310
   },
@@ -2409,6 +2719,7 @@
     "chinaxy": 273,
     "ranking": 264,
     "wurank": 264,
+    "province_abbr": "川",
     "avg": 267.0,
     "id": 311
   },
@@ -2417,6 +2728,7 @@
     "chinaxy": 174,
     "ranking": 238,
     "wurank": 391,
+    "province_abbr": "蒙",
     "avg": 267.67,
     "id": 312
   },
@@ -2425,6 +2737,7 @@
     "chinaxy": 191,
     "ranking": 224,
     "wurank": 388,
+    "province_abbr": "琼",
     "avg": 267.67,
     "id": 313
   },
@@ -2433,6 +2746,7 @@
     "chinaxy": 315,
     "ranking": 216,
     "wurank": 275,
+    "province_abbr": "晋",
     "avg": 268.67,
     "id": 314
   },
@@ -2440,12 +2754,14 @@
     "name": "河南财经政法大学",
     "chinaxy": 240,
     "wurank": 298,
+    "province_abbr": "豫",
     "avg": 269.0,
     "id": 315
   },
   {
     "name": "香港中文大学（深圳）",
     "wurank": 271,
+    "province_abbr": "粤",
     "avg": 271.0,
     "id": 316
   },
@@ -2454,6 +2770,7 @@
     "chinaxy": 281,
     "ranking": 247,
     "wurank": 290,
+    "province_abbr": "辽",
     "avg": 272.67,
     "id": 317
   },
@@ -2461,6 +2778,7 @@
     "name": "贵州医科大学",
     "chinaxy": 231,
     "wurank": 318,
+    "province_abbr": "贵",
     "avg": 274.5,
     "id": 318
   },
@@ -2469,6 +2787,7 @@
     "chinaxy": 265,
     "ranking": 294,
     "wurank": 269,
+    "province_abbr": "冀",
     "avg": 276.0,
     "id": 319
   },
@@ -2477,6 +2796,7 @@
     "chinaxy": 296,
     "ranking": 259,
     "wurank": 273,
+    "province_abbr": "苏",
     "avg": 276.0,
     "id": 320
   },
@@ -2485,6 +2805,7 @@
     "chinaxy": 311,
     "ranking": 221,
     "wurank": 297,
+    "province_abbr": "浙",
     "avg": 276.33,
     "id": 321
   },
@@ -2493,6 +2814,7 @@
     "chinaxy": 300,
     "ranking": 222,
     "wurank": 308,
+    "province_abbr": "浙",
     "avg": 276.67,
     "id": 322
   },
@@ -2501,6 +2823,7 @@
     "chinaxy": 225,
     "ranking": 268,
     "wurank": 347,
+    "province_abbr": "鄂",
     "avg": 280.0,
     "id": 323
   },
@@ -2509,6 +2832,7 @@
     "chinaxy": 364,
     "ranking": 194,
     "wurank": 287,
+    "province_abbr": "沪",
     "avg": 281.67,
     "id": 324
   },
@@ -2516,6 +2840,7 @@
     "name": "新疆医科大学",
     "chinaxy": 227,
     "wurank": 339,
+    "province_abbr": "新",
     "avg": 283.0,
     "id": 325
   },
@@ -2524,6 +2849,7 @@
     "chinaxy": 278,
     "ranking": 260,
     "wurank": 311,
+    "province_abbr": "皖",
     "avg": 283.0,
     "id": 326
   },
@@ -2531,6 +2857,7 @@
     "name": "新乡医学院",
     "chinaxy": 298,
     "wurank": 268,
+    "province_abbr": "豫",
     "avg": 283.0,
     "id": 327
   },
@@ -2539,6 +2866,7 @@
     "chinaxy": 273,
     "ranking": 245,
     "wurank": 335,
+    "province_abbr": "赣",
     "avg": 284.33,
     "id": 328
   },
@@ -2547,6 +2875,7 @@
     "chinaxy": 322,
     "ranking": 232,
     "wurank": 299,
+    "province_abbr": "川",
     "avg": 284.33,
     "id": 329
   },
@@ -2555,6 +2884,7 @@
     "chinaxy": 207,
     "ranking": 218,
     "wurank": 429,
+    "province_abbr": "浙",
     "avg": 284.67,
     "id": 330
   },
@@ -2563,6 +2893,7 @@
     "chinaxy": 273,
     "ranking": 250,
     "wurank": 340,
+    "province_abbr": "陕",
     "avg": 287.67,
     "id": 331
   },
@@ -2571,6 +2902,7 @@
     "chinaxy": 185,
     "ranking": 304,
     "wurank": 376,
+    "province_abbr": "浙",
     "avg": 288.33,
     "id": 332
   },
@@ -2578,6 +2910,7 @@
     "name": "遵义医科大学",
     "chinaxy": 256,
     "wurank": 322,
+    "province_abbr": "贵",
     "avg": 289.0,
     "id": 333
   },
@@ -2586,6 +2919,7 @@
     "chinaxy": 291,
     "ranking": 249,
     "wurank": 328,
+    "province_abbr": "沪",
     "avg": 289.33,
     "id": 334
   },
@@ -2594,6 +2928,7 @@
     "chinaxy": 198,
     "ranking": 277,
     "wurank": 399,
+    "province_abbr": "蒙",
     "avg": 291.33,
     "id": 335
   },
@@ -2601,6 +2936,7 @@
     "name": "西北政法大学",
     "chinaxy": 206,
     "wurank": 377,
+    "province_abbr": "陕",
     "avg": 291.5,
     "id": 336
   },
@@ -2609,6 +2945,7 @@
     "chinaxy": 251,
     "ranking": 266,
     "wurank": 360,
+    "province_abbr": "陕",
     "avg": 292.33,
     "id": 337
   },
@@ -2616,6 +2953,7 @@
     "name": "宁夏医科大学",
     "chinaxy": 240,
     "wurank": 345,
+    "province_abbr": "宁",
     "avg": 292.5,
     "id": 338
   },
@@ -2624,12 +2962,14 @@
     "chinaxy": 194,
     "ranking": 290,
     "wurank": 397,
+    "province_abbr": "京",
     "avg": 293.67,
     "id": 339
   },
   {
     "name": "北京师范大学-香港浸会大学联合国际学院",
     "wurank": 294,
+    "province_abbr": "粤",
     "avg": 294.0,
     "id": 340
   },
@@ -2637,6 +2977,7 @@
     "name": "广东财经大学",
     "chinaxy": 236,
     "wurank": 354,
+    "province_abbr": "粤",
     "avg": 295.0,
     "id": 341
   },
@@ -2644,6 +2985,7 @@
     "name": "西南医科大学",
     "chinaxy": 339,
     "wurank": 253,
+    "province_abbr": "川",
     "avg": 296.0,
     "id": 342
   },
@@ -2652,12 +2994,14 @@
     "chinaxy": 231,
     "ranking": 298,
     "wurank": 361,
+    "province_abbr": "湘",
     "avg": 296.67,
     "id": 343
   },
   {
     "name": "中国青年政治学院",
     "chinaxy": 298,
+    "province_abbr": "京",
     "avg": 298.0,
     "id": 344
   },
@@ -2666,6 +3010,7 @@
     "chinaxy": 296,
     "ranking": 306,
     "wurank": 295,
+    "province_abbr": "豫",
     "avg": 299.0,
     "id": 345
   },
@@ -2673,6 +3018,7 @@
     "name": "广西民族大学",
     "chinaxy": 227,
     "wurank": 372,
+    "province_abbr": "桂",
     "avg": 299.5,
     "id": 346
   },
@@ -2681,6 +3027,7 @@
     "chinaxy": 251,
     "ranking": 285,
     "wurank": 363,
+    "province_abbr": "辽",
     "avg": 299.67,
     "id": 347
   },
@@ -2688,6 +3035,7 @@
     "name": "中央音乐学院",
     "chinaxy": 175,
     "wurank": 425,
+    "province_abbr": "京",
     "avg": 300.0,
     "id": 348
   },
@@ -2696,6 +3044,7 @@
     "chinaxy": 247,
     "ranking": 296,
     "wurank": 358,
+    "province_abbr": "云",
     "avg": 300.33,
     "id": 349
   },
@@ -2704,6 +3053,7 @@
     "chinaxy": 259,
     "ranking": 297,
     "wurank": 353,
+    "province_abbr": "晋",
     "avg": 303.0,
     "id": 350
   },
@@ -2711,6 +3061,7 @@
     "name": "河北经贸大学",
     "chinaxy": 206,
     "wurank": 402,
+    "province_abbr": "冀",
     "avg": 304.0,
     "id": 351
   },
@@ -2718,6 +3069,7 @@
     "name": "西安外国语大学",
     "chinaxy": 231,
     "wurank": 380,
+    "province_abbr": "陕",
     "avg": 305.5,
     "id": 352
   },
@@ -2726,6 +3078,7 @@
     "chinaxy": 289,
     "ranking": 272,
     "wurank": 356,
+    "province_abbr": "浙",
     "avg": 305.67,
     "id": 353
   },
@@ -2734,6 +3087,7 @@
     "chinaxy": 298,
     "ranking": 292,
     "wurank": 327,
+    "province_abbr": "辽",
     "avg": 305.67,
     "id": 354
   },
@@ -2742,6 +3096,7 @@
     "chinaxy": 240,
     "ranking": 263,
     "wurank": 415,
+    "province_abbr": "辽",
     "avg": 306.0,
     "id": 355
   },
@@ -2750,6 +3105,7 @@
     "chinaxy": 311,
     "ranking": 246,
     "wurank": 362,
+    "province_abbr": "吉",
     "avg": 306.33,
     "id": 356
   },
@@ -2758,6 +3114,7 @@
     "chinaxy": 251,
     "ranking": 312,
     "wurank": 357,
+    "province_abbr": "吉",
     "avg": 306.67,
     "id": 357
   },
@@ -2766,6 +3123,7 @@
     "chinaxy": 256,
     "ranking": 283,
     "wurank": 384,
+    "province_abbr": "黑",
     "avg": 307.67,
     "id": 358
   },
@@ -2774,6 +3132,7 @@
     "chinaxy": 273,
     "ranking": 240,
     "wurank": 411,
+    "province_abbr": "辽",
     "avg": 308.0,
     "id": 359
   },
@@ -2782,12 +3141,14 @@
     "chinaxy": 256,
     "ranking": 255,
     "wurank": 414,
+    "province_abbr": "辽",
     "avg": 308.33,
     "id": 360
   },
   {
     "name": "昆山杜克大学",
     "wurank": 309,
+    "province_abbr": "苏",
     "avg": 309.0,
     "id": 361
   },
@@ -2796,6 +3157,7 @@
     "chinaxy": 328,
     "ranking": 295,
     "wurank": 305,
+    "province_abbr": "苏",
     "avg": 309.33,
     "id": 362
   },
@@ -2803,6 +3165,7 @@
     "name": "湖南工商大学",
     "chinaxy": 231,
     "wurank": 389,
+    "province_abbr": "湘",
     "avg": 310.0,
     "id": 363
   },
@@ -2811,6 +3174,7 @@
     "chinaxy": 300,
     "ranking": 256,
     "wurank": 375,
+    "province_abbr": "辽",
     "avg": 310.33,
     "id": 364
   },
@@ -2818,6 +3182,7 @@
     "name": "天津商业大学",
     "chinaxy": 231,
     "wurank": 390,
+    "province_abbr": "津",
     "avg": 310.5,
     "id": 365
   },
@@ -2826,6 +3191,7 @@
     "chinaxy": 281,
     "ranking": 350,
     "wurank": 301,
+    "province_abbr": "鲁",
     "avg": 310.67,
     "id": 366
   },
@@ -2833,6 +3199,7 @@
     "name": "北方民族大学",
     "chinaxy": 194,
     "wurank": 428,
+    "province_abbr": "宁",
     "avg": 311.0,
     "id": 367
   },
@@ -2840,6 +3207,7 @@
     "name": "北京第二外国语学院",
     "chinaxy": 179,
     "wurank": 444,
+    "province_abbr": "京",
     "avg": 311.5,
     "id": 368
   },
@@ -2847,6 +3215,7 @@
     "name": "西北民族大学",
     "chinaxy": 211,
     "wurank": 412,
+    "province_abbr": "甘",
     "avg": 311.5,
     "id": 369
   },
@@ -2855,6 +3224,7 @@
     "chinaxy": 291,
     "ranking": 236,
     "wurank": 409,
+    "province_abbr": "浙",
     "avg": 312.0,
     "id": 370
   },
@@ -2863,6 +3233,7 @@
     "chinaxy": 236,
     "ranking": 289,
     "wurank": 413,
+    "province_abbr": "新",
     "avg": 312.67,
     "id": 371
   },
@@ -2871,6 +3242,7 @@
     "chinaxy": 286,
     "ranking": 284,
     "wurank": 369,
+    "province_abbr": "豫",
     "avg": 313.0,
     "id": 372
   },
@@ -2878,6 +3250,7 @@
     "name": "广东医科大学",
     "chinaxy": 351,
     "wurank": 276,
+    "province_abbr": "粤",
     "avg": 313.5,
     "id": 373
   },
@@ -2886,6 +3259,7 @@
     "chinaxy": 278,
     "ranking": 281,
     "wurank": 386,
+    "province_abbr": "陕",
     "avg": 315.0,
     "id": 374
   },
@@ -2894,6 +3268,7 @@
     "chinaxy": 351,
     "ranking": 282,
     "wurank": 313,
+    "province_abbr": "津",
     "avg": 315.33,
     "id": 375
   },
@@ -2901,6 +3276,7 @@
     "name": "中国美术学院",
     "chinaxy": 185,
     "wurank": 446,
+    "province_abbr": "浙",
     "avg": 315.5,
     "id": 376
   },
@@ -2908,6 +3284,7 @@
     "name": "山东第二医科大学",
     "chinaxy": 300,
     "wurank": 331,
+    "province_abbr": "鲁",
     "avg": 315.5,
     "id": 377
   },
@@ -2915,6 +3292,7 @@
     "name": "湖北经济学院",
     "chinaxy": 198,
     "wurank": 435,
+    "province_abbr": "鄂",
     "avg": 316.5,
     "id": 378
   },
@@ -2922,6 +3300,7 @@
     "name": "内蒙古民族大学",
     "chinaxy": 214,
     "wurank": 419,
+    "province_abbr": "蒙",
     "avg": 316.5,
     "id": 379
   },
@@ -2930,6 +3309,7 @@
     "chinaxy": 249,
     "ranking": 323,
     "wurank": 381,
+    "province_abbr": "桂",
     "avg": 317.67,
     "id": 380
   },
@@ -2938,6 +3318,7 @@
     "chinaxy": 251,
     "ranking": 339,
     "wurank": 365,
+    "province_abbr": "豫",
     "avg": 318.33,
     "id": 381
   },
@@ -2946,6 +3327,7 @@
     "chinaxy": 265,
     "ranking": 320,
     "wurank": 373,
+    "province_abbr": "闽",
     "avg": 319.33,
     "id": 382
   },
@@ -2954,18 +3336,21 @@
     "chinaxy": 324,
     "ranking": 270,
     "wurank": 364,
+    "province_abbr": "皖",
     "avg": 319.33,
     "id": 383
   },
   {
     "name": "中国刑事警察学院",
     "chinaxy": 320,
+    "province_abbr": "辽",
     "avg": 320.0,
     "id": 384
   },
   {
     "name": "上海纽约大学",
     "wurank": 320,
+    "province_abbr": "沪",
     "avg": 320.0,
     "id": 385
   },
@@ -2973,6 +3358,7 @@
     "name": "湖南中医药大学",
     "chinaxy": 320,
     "wurank": 321,
+    "province_abbr": "湘",
     "avg": 320.5,
     "id": 386
   },
@@ -2981,6 +3367,7 @@
     "chinaxy": 247,
     "ranking": 288,
     "wurank": 427,
+    "province_abbr": "吉",
     "avg": 320.67,
     "id": 387
   },
@@ -2989,6 +3376,7 @@
     "chinaxy": 296,
     "ranking": 322,
     "wurank": 344,
+    "province_abbr": "皖",
     "avg": 320.67,
     "id": 388
   },
@@ -2996,6 +3384,7 @@
     "name": "长春中医药大学",
     "chinaxy": 291,
     "wurank": 351,
+    "province_abbr": "吉",
     "avg": 321.0,
     "id": 389
   },
@@ -3003,6 +3392,7 @@
     "name": "湖北医药学院",
     "chinaxy": 190,
     "wurank": 455,
+    "province_abbr": "鄂",
     "avg": 322.5,
     "id": 390
   },
@@ -3010,6 +3400,7 @@
     "name": "辽宁中医药大学",
     "chinaxy": 249,
     "wurank": 396,
+    "province_abbr": "辽",
     "avg": 322.5,
     "id": 391
   },
@@ -3017,6 +3408,7 @@
     "name": "上海音乐学院",
     "chinaxy": 175,
     "wurank": 471,
+    "province_abbr": "沪",
     "avg": 323.0,
     "id": 392
   },
@@ -3025,6 +3417,7 @@
     "chinaxy": 296,
     "ranking": 340,
     "wurank": 341,
+    "province_abbr": "赣",
     "avg": 325.67,
     "id": 393
   },
@@ -3033,6 +3426,7 @@
     "chinaxy": 227,
     "ranking": 193,
     "wurank": 558,
+    "province_abbr": "藏",
     "avg": 326.0,
     "id": 394
   },
@@ -3041,6 +3435,7 @@
     "chinaxy": 339,
     "ranking": 302,
     "wurank": 337,
+    "province_abbr": "苏",
     "avg": 326.0,
     "id": 395
   },
@@ -3048,6 +3443,7 @@
     "name": "郑州航空工业管理学院",
     "chinaxy": 269,
     "wurank": 385,
+    "province_abbr": "豫",
     "avg": 327.0,
     "id": 396
   },
@@ -3056,6 +3452,7 @@
     "chinaxy": 315,
     "ranking": 354,
     "wurank": 314,
+    "province_abbr": "川",
     "avg": 327.67,
     "id": 397
   },
@@ -3064,6 +3461,7 @@
     "chinaxy": 320,
     "ranking": 346,
     "wurank": 317,
+    "province_abbr": "豫",
     "avg": 327.67,
     "id": 398
   },
@@ -3071,6 +3469,7 @@
     "name": "济宁医学院",
     "chinaxy": 324,
     "wurank": 332,
+    "province_abbr": "鲁",
     "avg": 328.0,
     "id": 399
   },
@@ -3079,6 +3478,7 @@
     "chinaxy": 231,
     "ranking": 226,
     "wurank": 531,
+    "province_abbr": "青",
     "avg": 329.33,
     "id": 400
   },
@@ -3086,6 +3486,7 @@
     "name": "云南财经大学",
     "chinaxy": 265,
     "wurank": 394,
+    "province_abbr": "云",
     "avg": 329.5,
     "id": 401
   },
@@ -3093,6 +3494,7 @@
     "name": "江西中医药大学",
     "chinaxy": 328,
     "wurank": 333,
+    "province_abbr": "赣",
     "avg": 330.5,
     "id": 402
   },
@@ -3100,6 +3502,7 @@
     "name": "哈尔滨商业大学",
     "chinaxy": 214,
     "wurank": 450,
+    "province_abbr": "黑",
     "avg": 332.0,
     "id": 403
   },
@@ -3107,6 +3510,7 @@
     "name": "佛山科学技术学院",
     "chinaxy": 328,
     "wurank": 336,
+    "province_abbr": "粤",
     "avg": 332.0,
     "id": 404
   },
@@ -3114,6 +3518,7 @@
     "name": "大连民族大学",
     "chinaxy": 265,
     "wurank": 401,
+    "province_abbr": "辽",
     "avg": 333.0,
     "id": 405
   },
@@ -3122,6 +3527,7 @@
     "chinaxy": 175,
     "ranking": 286,
     "wurank": 541,
+    "province_abbr": "辽",
     "avg": 334.0,
     "id": 406
   },
@@ -3130,6 +3536,7 @@
     "chinaxy": 214,
     "ranking": 287,
     "wurank": 503,
+    "province_abbr": "皖",
     "avg": 334.67,
     "id": 407
   },
@@ -3138,6 +3545,7 @@
     "chinaxy": 273,
     "ranking": 299,
     "wurank": 432,
+    "province_abbr": "渝",
     "avg": 334.67,
     "id": 408
   },
@@ -3146,6 +3554,7 @@
     "chinaxy": 324,
     "ranking": 315,
     "wurank": 367,
+    "province_abbr": "渝",
     "avg": 335.33,
     "id": 409
   },
@@ -3153,6 +3562,7 @@
     "name": "贵州财经大学",
     "chinaxy": 240,
     "wurank": 431,
+    "province_abbr": "贵",
     "avg": 335.5,
     "id": 410
   },
@@ -3161,12 +3571,14 @@
     "chinaxy": 306,
     "ranking": 319,
     "wurank": 382,
+    "province_abbr": "苏",
     "avg": 335.67,
     "id": 411
   },
   {
     "name": "江西水利电力大学",
     "ranking": 336,
+    "province_abbr": "赣",
     "avg": 336.0,
     "id": 412
   },
@@ -3175,6 +3587,7 @@
     "chinaxy": 289,
     "ranking": 342,
     "wurank": 378,
+    "province_abbr": "渝",
     "avg": 336.33,
     "id": 413
   },
@@ -3182,6 +3595,7 @@
     "name": "海南医学院",
     "chinaxy": 251,
     "wurank": 422,
+    "province_abbr": "琼",
     "avg": 336.5,
     "id": 414
   },
@@ -3190,6 +3604,7 @@
     "chinaxy": 294,
     "ranking": 314,
     "wurank": 404,
+    "province_abbr": "云",
     "avg": 337.33,
     "id": 415
   },
@@ -3197,6 +3612,7 @@
     "name": "南京艺术学院",
     "chinaxy": 185,
     "wurank": 490,
+    "province_abbr": "苏",
     "avg": 337.5,
     "id": 416
   },
@@ -3205,6 +3621,7 @@
     "chinaxy": 339,
     "ranking": 280,
     "wurank": 395,
+    "province_abbr": "苏",
     "avg": 338.0,
     "id": 417
   },
@@ -3213,12 +3630,14 @@
     "chinaxy": 364,
     "ranking": 300,
     "wurank": 350,
+    "province_abbr": "粤",
     "avg": 338.0,
     "id": 418
   },
   {
     "name": "广东以色列理工学院",
     "wurank": 338,
+    "province_abbr": "粤",
     "avg": 338.0,
     "id": 419
   },
@@ -3227,6 +3646,7 @@
     "chinaxy": 249,
     "ranking": 311,
     "wurank": 457,
+    "province_abbr": "新",
     "avg": 339.0,
     "id": 420
   },
@@ -3234,6 +3654,7 @@
     "name": "湖北中医药大学",
     "chinaxy": 324,
     "wurank": 355,
+    "province_abbr": "鄂",
     "avg": 339.5,
     "id": 421
   },
@@ -3242,6 +3663,7 @@
     "chinaxy": 377,
     "ranking": 273,
     "wurank": 370,
+    "province_abbr": "闽",
     "avg": 340.0,
     "id": 422
   },
@@ -3250,6 +3672,7 @@
     "chinaxy": 269,
     "ranking": 366,
     "wurank": 387,
+    "province_abbr": "黑",
     "avg": 340.67,
     "id": 423
   },
@@ -3258,6 +3681,7 @@
     "chinaxy": 315,
     "ranking": 316,
     "wurank": 392,
+    "province_abbr": "苏",
     "avg": 341.0,
     "id": 424
   },
@@ -3266,6 +3690,7 @@
     "chinaxy": 315,
     "ranking": 309,
     "wurank": 400,
+    "province_abbr": "云",
     "avg": 341.33,
     "id": 425
   },
@@ -3274,6 +3699,7 @@
     "chinaxy": 281,
     "ranking": 258,
     "wurank": 487,
+    "province_abbr": "京",
     "avg": 342.0,
     "id": 426
   },
@@ -3282,6 +3708,7 @@
     "chinaxy": 203,
     "ranking": 310,
     "wurank": 514,
+    "province_abbr": "赣",
     "avg": 342.33,
     "id": 427
   },
@@ -3289,6 +3716,7 @@
     "name": "安徽中医药大学",
     "chinaxy": 320,
     "wurank": 366,
+    "province_abbr": "皖",
     "avg": 343.0,
     "id": 428
   },
@@ -3297,6 +3725,7 @@
     "chinaxy": 281,
     "ranking": 291,
     "wurank": 460,
+    "province_abbr": "闽",
     "avg": 344.0,
     "id": 429
   },
@@ -3305,6 +3734,7 @@
     "chinaxy": 296,
     "ranking": 334,
     "wurank": 403,
+    "province_abbr": "皖",
     "avg": 344.33,
     "id": 430
   },
@@ -3313,6 +3743,7 @@
     "chinaxy": 322,
     "ranking": 388,
     "wurank": 324,
+    "province_abbr": "豫",
     "avg": 344.67,
     "id": 431
   },
@@ -3320,6 +3751,7 @@
     "name": "上海对外经贸大学",
     "chinaxy": 347,
     "wurank": 346,
+    "province_abbr": "沪",
     "avg": 346.5,
     "id": 432
   },
@@ -3327,6 +3759,7 @@
     "name": "大连外国语大学",
     "chinaxy": 211,
     "wurank": 483,
+    "province_abbr": "辽",
     "avg": 347.0,
     "id": 433
   },
@@ -3335,12 +3768,14 @@
     "chinaxy": 300,
     "ranking": 308,
     "wurank": 436,
+    "province_abbr": "湘",
     "avg": 348.0,
     "id": 434
   },
   {
     "name": "深圳北理莫斯科大学",
     "wurank": 348,
+    "province_abbr": "粤",
     "avg": 348.0,
     "id": 435
   },
@@ -3349,12 +3784,14 @@
     "chinaxy": 320,
     "ranking": 317,
     "wurank": 410,
+    "province_abbr": "苏",
     "avg": 349.0,
     "id": 436
   },
   {
     "name": "上海体育大学",
     "wurank": 349,
+    "province_abbr": "沪",
     "avg": 349.0,
     "id": 437
   },
@@ -3363,6 +3800,7 @@
     "chinaxy": 300,
     "ranking": 331,
     "wurank": 417,
+    "province_abbr": "鄂",
     "avg": 349.33,
     "id": 438
   },
@@ -3371,6 +3809,7 @@
     "chinaxy": 339,
     "ranking": 269,
     "wurank": 440,
+    "province_abbr": "辽",
     "avg": 349.33,
     "id": 439
   },
@@ -3379,6 +3818,7 @@
     "chinaxy": 218,
     "ranking": 353,
     "wurank": 480,
+    "province_abbr": "鄂",
     "avg": 350.33,
     "id": 440
   },
@@ -3386,6 +3826,7 @@
     "name": "广东药科大学",
     "chinaxy": 422,
     "wurank": 279,
+    "province_abbr": "粤",
     "avg": 350.5,
     "id": 441
   },
@@ -3394,6 +3835,7 @@
     "chinaxy": 311,
     "ranking": 276,
     "wurank": 467,
+    "province_abbr": "京",
     "avg": 351.33,
     "id": 442
   },
@@ -3402,6 +3844,7 @@
     "chinaxy": 311,
     "ranking": 328,
     "wurank": 416,
+    "province_abbr": "粤",
     "avg": 351.67,
     "id": 443
   },
@@ -3409,6 +3852,7 @@
     "name": "锦州医科大学",
     "chinaxy": 262,
     "wurank": 442,
+    "province_abbr": "辽",
     "avg": 352.0,
     "id": 444
   },
@@ -3417,6 +3861,7 @@
     "chinaxy": 291,
     "ranking": 327,
     "wurank": 438,
+    "province_abbr": "津",
     "avg": 352.0,
     "id": 445
   },
@@ -3424,6 +3869,7 @@
     "name": "皖南医学院",
     "chinaxy": 300,
     "wurank": 406,
+    "province_abbr": "皖",
     "avg": 353.0,
     "id": 446
   },
@@ -3431,6 +3877,7 @@
     "name": "上海立信会计金融学院",
     "chinaxy": 286,
     "wurank": 423,
+    "province_abbr": "沪",
     "avg": 354.5,
     "id": 447
   },
@@ -3438,6 +3885,7 @@
     "name": "中央戏剧学院",
     "chinaxy": 127,
     "wurank": 585,
+    "province_abbr": "京",
     "avg": 356.0,
     "id": 448
   },
@@ -3445,6 +3893,7 @@
     "name": "蚌埠医科大学",
     "chinaxy": 320,
     "wurank": 393,
+    "province_abbr": "皖",
     "avg": 356.5,
     "id": 449
   },
@@ -3452,6 +3901,7 @@
     "name": "浙江传媒学院",
     "chinaxy": 269,
     "wurank": 445,
+    "province_abbr": "浙",
     "avg": 357.0,
     "id": 450
   },
@@ -3459,6 +3909,7 @@
     "name": "福建中医药大学",
     "chinaxy": 281,
     "wurank": 433,
+    "province_abbr": "闽",
     "avg": 357.0,
     "id": 451
   },
@@ -3466,6 +3917,7 @@
     "name": "广西中医药大学",
     "chinaxy": 251,
     "wurank": 466,
+    "province_abbr": "桂",
     "avg": 358.5,
     "id": 452
   },
@@ -3474,6 +3926,7 @@
     "chinaxy": 315,
     "ranking": 337,
     "wurank": 424,
+    "province_abbr": "鲁",
     "avg": 358.67,
     "id": 453
   },
@@ -3482,6 +3935,7 @@
     "chinaxy": 328,
     "ranking": 345,
     "wurank": 405,
+    "province_abbr": "陕",
     "avg": 359.33,
     "id": 454
   },
@@ -3490,6 +3944,7 @@
     "chinaxy": 320,
     "ranking": 318,
     "wurank": 441,
+    "province_abbr": "闽",
     "avg": 359.67,
     "id": 455
   },
@@ -3498,6 +3953,7 @@
     "chinaxy": 262,
     "ranking": 301,
     "wurank": 521,
+    "province_abbr": "辽",
     "avg": 361.33,
     "id": 456
   },
@@ -3505,6 +3961,7 @@
     "name": "北京电影学院",
     "chinaxy": 128,
     "wurank": 595,
+    "province_abbr": "京",
     "avg": 361.5,
     "id": 457
   },
@@ -3513,6 +3970,7 @@
     "chinaxy": 294,
     "ranking": 341,
     "wurank": 451,
+    "province_abbr": "赣",
     "avg": 362.0,
     "id": 458
   },
@@ -3521,6 +3979,7 @@
     "chinaxy": 300,
     "ranking": 335,
     "wurank": 459,
+    "province_abbr": "湘",
     "avg": 364.67,
     "id": 459
   },
@@ -3529,6 +3988,7 @@
     "chinaxy": 351,
     "ranking": 338,
     "wurank": 407,
+    "province_abbr": "粤",
     "avg": 365.33,
     "id": 460
   },
@@ -3537,6 +3997,7 @@
     "chinaxy": 393,
     "ranking": 211,
     "wurank": 493,
+    "province_abbr": "京",
     "avg": 365.67,
     "id": 461
   },
@@ -3545,6 +4006,7 @@
     "chinaxy": 306,
     "ranking": 278,
     "wurank": 517,
+    "province_abbr": "京",
     "avg": 367.0,
     "id": 462
   },
@@ -3553,6 +4015,7 @@
     "chinaxy": 339,
     "ranking": 332,
     "wurank": 430,
+    "province_abbr": "苏",
     "avg": 367.0,
     "id": 463
   },
@@ -3560,6 +4023,7 @@
     "name": "中国音乐学院",
     "chinaxy": 231,
     "wurank": 506,
+    "province_abbr": "京",
     "avg": 368.5,
     "id": 464
   },
@@ -3567,6 +4031,7 @@
     "name": "吉林财经大学",
     "chinaxy": 251,
     "wurank": 486,
+    "province_abbr": "吉",
     "avg": 368.5,
     "id": 465
   },
@@ -3574,6 +4039,7 @@
     "name": "滨州医学院",
     "chinaxy": 422,
     "wurank": 316,
+    "province_abbr": "鲁",
     "avg": 369.0,
     "id": 466
   },
@@ -3582,6 +4048,7 @@
     "chinaxy": 328,
     "ranking": 360,
     "wurank": 421,
+    "province_abbr": "粤",
     "avg": 369.67,
     "id": 467
   },
@@ -3590,6 +4057,7 @@
     "chinaxy": 351,
     "ranking": 330,
     "wurank": 434,
+    "province_abbr": "苏",
     "avg": 371.67,
     "id": 468
   },
@@ -3598,6 +4066,7 @@
     "chinaxy": 278,
     "ranking": 376,
     "wurank": 465,
+    "province_abbr": "鄂",
     "avg": 373.0,
     "id": 469
   },
@@ -3606,6 +4075,7 @@
     "chinaxy": 324,
     "ranking": 352,
     "wurank": 443,
+    "province_abbr": "苏",
     "avg": 373.0,
     "id": 470
   },
@@ -3613,6 +4083,7 @@
     "name": "天津外国语大学",
     "chinaxy": 214,
     "wurank": 535,
+    "province_abbr": "津",
     "avg": 374.5,
     "id": 471
   },
@@ -3621,6 +4092,7 @@
     "chinaxy": 351,
     "ranking": 293,
     "wurank": 485,
+    "province_abbr": "浙",
     "avg": 376.33,
     "id": 472
   },
@@ -3628,18 +4100,21 @@
     "name": "中央美术学院",
     "chinaxy": 175,
     "wurank": 578,
+    "province_abbr": "京",
     "avg": 376.5,
     "id": 473
   },
   {
     "name": "深圳技术大学",
     "chinaxy": 377,
+    "province_abbr": "粤",
     "avg": 377.0,
     "id": 474
   },
   {
     "name": "中央司法警官学院",
     "chinaxy": 377,
+    "province_abbr": "冀",
     "avg": 377.0,
     "id": 475
   },
@@ -3648,6 +4123,7 @@
     "chinaxy": 300,
     "ranking": 343,
     "wurank": 494,
+    "province_abbr": "浙",
     "avg": 379.0,
     "id": 476
   },
@@ -3656,6 +4132,7 @@
     "chinaxy": 339,
     "ranking": 424,
     "wurank": 374,
+    "province_abbr": "豫",
     "avg": 379.0,
     "id": 477
   },
@@ -3664,6 +4141,7 @@
     "chinaxy": 328,
     "ranking": 359,
     "wurank": 452,
+    "province_abbr": "苏",
     "avg": 379.67,
     "id": 478
   },
@@ -3672,6 +4150,7 @@
     "chinaxy": 300,
     "ranking": 313,
     "wurank": 534,
+    "province_abbr": "吉",
     "avg": 382.33,
     "id": 479
   },
@@ -3679,6 +4158,7 @@
     "name": "四川外国语大学",
     "chinaxy": 328,
     "wurank": 437,
+    "province_abbr": "渝",
     "avg": 382.5,
     "id": 480
   },
@@ -3686,6 +4166,7 @@
     "name": "陕西中医药大学",
     "chinaxy": 407,
     "wurank": 359,
+    "province_abbr": "陕",
     "avg": 383.0,
     "id": 481
   },
@@ -3693,6 +4174,7 @@
     "name": "河北北方学院",
     "chinaxy": 306,
     "wurank": 461,
+    "province_abbr": "冀",
     "avg": 383.5,
     "id": 482
   },
@@ -3701,6 +4183,7 @@
     "chinaxy": 322,
     "ranking": 358,
     "wurank": 477,
+    "province_abbr": "皖",
     "avg": 385.67,
     "id": 483
   },
@@ -3708,6 +4191,7 @@
     "name": "湖北民族大学",
     "chinaxy": 324,
     "wurank": 448,
+    "province_abbr": "鄂",
     "avg": 386.0,
     "id": 484
   },
@@ -3716,6 +4200,7 @@
     "chinaxy": 306,
     "ranking": 305,
     "wurank": 549,
+    "province_abbr": "新",
     "avg": 386.67,
     "id": 485
   },
@@ -3724,6 +4209,7 @@
     "chinaxy": 324,
     "ranking": 325,
     "wurank": 511,
+    "province_abbr": "苏",
     "avg": 386.67,
     "id": 486
   },
@@ -3732,18 +4218,21 @@
     "chinaxy": 262,
     "ranking": 395,
     "wurank": 504,
+    "province_abbr": "黑",
     "avg": 387.0,
     "id": 487
   },
   {
     "name": "四川警察学院",
     "chinaxy": 387,
+    "province_abbr": "川",
     "avg": 387.0,
     "id": 488
   },
   {
     "name": "中国人民警察大学",
     "chinaxy": 387,
+    "province_abbr": "冀",
     "avg": 387.0,
     "id": 489
   },
@@ -3752,6 +4241,7 @@
     "chinaxy": 300,
     "ranking": 389,
     "wurank": 476,
+    "province_abbr": "湘",
     "avg": 388.33,
     "id": 490
   },
@@ -3760,6 +4250,7 @@
     "chinaxy": 262,
     "ranking": 347,
     "wurank": 564,
+    "province_abbr": "津",
     "avg": 391.0,
     "id": 491
   },
@@ -3768,6 +4259,7 @@
     "chinaxy": 315,
     "ranking": 369,
     "wurank": 492,
+    "province_abbr": "桂",
     "avg": 392.0,
     "id": 492
   },
@@ -3776,6 +4268,7 @@
     "chinaxy": 339,
     "ranking": 413,
     "wurank": 426,
+    "province_abbr": "晋",
     "avg": 392.67,
     "id": 493
   },
@@ -3784,6 +4277,7 @@
     "chinaxy": 322,
     "ranking": 349,
     "wurank": 510,
+    "province_abbr": "湘",
     "avg": 393.67,
     "id": 494
   },
@@ -3791,6 +4285,7 @@
     "name": "武汉体育学院",
     "chinaxy": 294,
     "wurank": 496,
+    "province_abbr": "鄂",
     "avg": 395.0,
     "id": 495
   },
@@ -3799,6 +4294,7 @@
     "chinaxy": 351,
     "ranking": 321,
     "wurank": 513,
+    "province_abbr": "冀",
     "avg": 395.0,
     "id": 496
   },
@@ -3806,6 +4302,7 @@
     "name": "川北医学院",
     "chinaxy": 407,
     "wurank": 383,
+    "province_abbr": "川",
     "avg": 395.0,
     "id": 497
   },
@@ -3814,6 +4311,7 @@
     "chinaxy": 347,
     "ranking": 367,
     "wurank": 472,
+    "province_abbr": "皖",
     "avg": 395.33,
     "id": 498
   },
@@ -3822,6 +4320,7 @@
     "chinaxy": 351,
     "ranking": 380,
     "wurank": 456,
+    "province_abbr": "鲁",
     "avg": 395.67,
     "id": 499
   },
@@ -3829,6 +4328,7 @@
     "name": "贵州中医药大学",
     "chinaxy": 291,
     "wurank": 501,
+    "province_abbr": "贵",
     "avg": 396.0,
     "id": 500
   },
@@ -3837,6 +4337,7 @@
     "chinaxy": 296,
     "ranking": 382,
     "wurank": 515,
+    "province_abbr": "黑",
     "avg": 397.67,
     "id": 501
   },
@@ -3845,6 +4346,7 @@
     "chinaxy": 387,
     "ranking": 333,
     "wurank": 478,
+    "province_abbr": "吉",
     "avg": 399.33,
     "id": 502
   },
@@ -3853,6 +4355,7 @@
     "chinaxy": 377,
     "ranking": 414,
     "wurank": 408,
+    "province_abbr": "豫",
     "avg": 399.67,
     "id": 503
   },
@@ -3861,6 +4364,7 @@
     "chinaxy": 320,
     "ranking": 381,
     "wurank": 500,
+    "province_abbr": "闽",
     "avg": 400.33,
     "id": 504
   },
@@ -3868,6 +4372,7 @@
     "name": "内蒙古医科大学",
     "chinaxy": 328,
     "wurank": 474,
+    "province_abbr": "蒙",
     "avg": 401.0,
     "id": 505
   },
@@ -3875,6 +4380,7 @@
     "name": "南昌工程学院",
     "chinaxy": 328,
     "wurank": 479,
+    "province_abbr": "赣",
     "avg": 403.5,
     "id": 506
   },
@@ -3883,6 +4389,7 @@
     "chinaxy": 315,
     "ranking": 344,
     "wurank": 553,
+    "province_abbr": "湘",
     "avg": 404.0,
     "id": 507
   },
@@ -3890,6 +4397,7 @@
     "name": "桂林医学院",
     "chinaxy": 339,
     "wurank": 469,
+    "province_abbr": "桂",
     "avg": 404.0,
     "id": 508
   },
@@ -3898,6 +4406,7 @@
     "chinaxy": 393,
     "ranking": 374,
     "wurank": 447,
+    "province_abbr": "鲁",
     "avg": 404.67,
     "id": 509
   },
@@ -3905,6 +4414,7 @@
     "name": "内蒙古财经大学",
     "chinaxy": 262,
     "wurank": 548,
+    "province_abbr": "蒙",
     "avg": 405.0,
     "id": 510
   },
@@ -3913,18 +4423,21 @@
     "chinaxy": 306,
     "ranking": 351,
     "wurank": 561,
+    "province_abbr": "津",
     "avg": 406.0,
     "id": 511
   },
   {
     "name": "江苏警官学院",
     "chinaxy": 407,
+    "province_abbr": "苏",
     "avg": 407.0,
     "id": 512
   },
   {
     "name": "云南警官学院",
     "chinaxy": 407,
+    "province_abbr": "云",
     "avg": 407.0,
     "id": 513
   },
@@ -3933,6 +4446,7 @@
     "chinaxy": 509,
     "ranking": 261,
     "wurank": 453,
+    "province_abbr": "浙",
     "avg": 407.67,
     "id": 514
   },
@@ -3941,6 +4455,7 @@
     "chinaxy": 364,
     "ranking": 399,
     "wurank": 463,
+    "province_abbr": "鲁",
     "avg": 408.67,
     "id": 515
   },
@@ -3948,6 +4463,7 @@
     "name": "上海戏剧学院",
     "chinaxy": 185,
     "wurank": 638,
+    "province_abbr": "沪",
     "avg": 411.5,
     "id": 516
   },
@@ -3956,6 +4472,7 @@
     "chinaxy": 322,
     "ranking": 324,
     "wurank": 590,
+    "province_abbr": "贵",
     "avg": 412.0,
     "id": 517
   },
@@ -3964,6 +4481,7 @@
     "chinaxy": 320,
     "ranking": 410,
     "wurank": 507,
+    "province_abbr": "湘",
     "avg": 412.33,
     "id": 518
   },
@@ -3972,6 +4490,7 @@
     "chinaxy": 393,
     "ranking": 386,
     "wurank": 458,
+    "province_abbr": "陕",
     "avg": 412.33,
     "id": 519
   },
@@ -3980,6 +4499,7 @@
     "chinaxy": 407,
     "ranking": 392,
     "wurank": 439,
+    "province_abbr": "粤",
     "avg": 412.67,
     "id": 520
   },
@@ -3988,6 +4508,7 @@
     "chinaxy": 364,
     "ranking": 402,
     "wurank": 482,
+    "province_abbr": "皖",
     "avg": 416.0,
     "id": 521
   },
@@ -3996,6 +4517,7 @@
     "chinaxy": 339,
     "ranking": 531,
     "wurank": 379,
+    "province_abbr": "晋",
     "avg": 416.33,
     "id": 522
   },
@@ -4004,6 +4526,7 @@
     "chinaxy": 351,
     "ranking": 437,
     "wurank": 462,
+    "province_abbr": "豫",
     "avg": 416.67,
     "id": 523
   },
@@ -4012,6 +4535,7 @@
     "chinaxy": 503,
     "ranking": 275,
     "wurank": 473,
+    "province_abbr": "浙",
     "avg": 417.0,
     "id": 524
   },
@@ -4020,6 +4544,7 @@
     "chinaxy": 322,
     "ranking": 398,
     "wurank": 532,
+    "province_abbr": "皖",
     "avg": 417.33,
     "id": 525
   },
@@ -4028,6 +4553,7 @@
     "chinaxy": 339,
     "ranking": 394,
     "wurank": 519,
+    "province_abbr": "湘",
     "avg": 417.33,
     "id": 526
   },
@@ -4036,6 +4562,7 @@
     "chinaxy": 351,
     "ranking": 456,
     "wurank": 449,
+    "province_abbr": "豫",
     "avg": 418.67,
     "id": 527
   },
@@ -4044,6 +4571,7 @@
     "chinaxy": 407,
     "ranking": 326,
     "wurank": 524,
+    "province_abbr": "沪",
     "avg": 419.0,
     "id": 528
   },
@@ -4052,6 +4580,7 @@
     "chinaxy": 351,
     "ranking": 361,
     "wurank": 546,
+    "province_abbr": "粤",
     "avg": 419.33,
     "id": 529
   },
@@ -4060,6 +4589,7 @@
     "chinaxy": 422,
     "ranking": 348,
     "wurank": 488,
+    "province_abbr": "粤",
     "avg": 419.33,
     "id": 530
   },
@@ -4067,6 +4597,7 @@
     "name": "贵州民族大学",
     "chinaxy": 328,
     "wurank": 516,
+    "province_abbr": "贵",
     "avg": 422.0,
     "id": 531
   },
@@ -4075,6 +4606,7 @@
     "chinaxy": 364,
     "ranking": 378,
     "wurank": 525,
+    "province_abbr": "渝",
     "avg": 422.33,
     "id": 532
   },
@@ -4083,6 +4615,7 @@
     "chinaxy": 393,
     "ranking": 385,
     "wurank": 489,
+    "province_abbr": "鄂",
     "avg": 422.33,
     "id": 533
   },
@@ -4091,6 +4624,7 @@
     "chinaxy": 347,
     "ranking": 409,
     "wurank": 512,
+    "province_abbr": "湘",
     "avg": 422.67,
     "id": 534
   },
@@ -4099,6 +4633,7 @@
     "chinaxy": 422,
     "ranking": 372,
     "wurank": 475,
+    "province_abbr": "川",
     "avg": 423.0,
     "id": 535
   },
@@ -4107,6 +4642,7 @@
     "chinaxy": 393,
     "ranking": 371,
     "wurank": 509,
+    "province_abbr": "陕",
     "avg": 424.33,
     "id": 536
   },
@@ -4115,6 +4651,7 @@
     "chinaxy": 387,
     "ranking": 396,
     "wurank": 491,
+    "province_abbr": "冀",
     "avg": 424.67,
     "id": 537
   },
@@ -4123,6 +4660,7 @@
     "chinaxy": 387,
     "ranking": 368,
     "wurank": 523,
+    "province_abbr": "川",
     "avg": 426.0,
     "id": 538
   },
@@ -4130,6 +4668,7 @@
     "name": "吉林化工学院",
     "chinaxy": 240,
     "wurank": 616,
+    "province_abbr": "吉",
     "avg": 428.0,
     "id": 539
   },
@@ -4137,6 +4676,7 @@
     "name": "北京服装学院",
     "chinaxy": 259,
     "wurank": 597,
+    "province_abbr": "京",
     "avg": 428.0,
     "id": 540
   },
@@ -4144,6 +4684,7 @@
     "name": "兰州财经大学",
     "chinaxy": 306,
     "wurank": 550,
+    "province_abbr": "甘",
     "avg": 428.0,
     "id": 541
   },
@@ -4152,6 +4693,7 @@
     "chinaxy": 364,
     "ranking": 329,
     "wurank": 596,
+    "province_abbr": "沪",
     "avg": 429.67,
     "id": 542
   },
@@ -4159,6 +4701,7 @@
     "name": "承德医学院",
     "chinaxy": 339,
     "wurank": 522,
+    "province_abbr": "冀",
     "avg": 430.5,
     "id": 543
   },
@@ -4166,6 +4709,7 @@
     "name": "广东金融学院",
     "chinaxy": 377,
     "wurank": 484,
+    "province_abbr": "粤",
     "avg": 430.5,
     "id": 544
   },
@@ -4173,6 +4717,7 @@
     "name": "成都医学院",
     "chinaxy": 407,
     "wurank": 454,
+    "province_abbr": "川",
     "avg": 430.5,
     "id": 545
   },
@@ -4180,6 +4725,7 @@
     "name": "甘肃中医药大学",
     "chinaxy": 322,
     "wurank": 540,
+    "province_abbr": "甘",
     "avg": 431.0,
     "id": 546
   },
@@ -4188,6 +4734,7 @@
     "chinaxy": 339,
     "ranking": 454,
     "wurank": 505,
+    "province_abbr": "湘",
     "avg": 432.67,
     "id": 547
   },
@@ -4195,6 +4742,7 @@
     "name": "上海政法学院",
     "chinaxy": 407,
     "wurank": 464,
+    "province_abbr": "沪",
     "avg": 435.5,
     "id": 548
   },
@@ -4203,6 +4751,7 @@
     "chinaxy": 364,
     "ranking": 426,
     "wurank": 518,
+    "province_abbr": "皖",
     "avg": 436.0,
     "id": 549
   },
@@ -4210,6 +4759,7 @@
     "name": "广西财经学院",
     "chinaxy": 347,
     "wurank": 527,
+    "province_abbr": "桂",
     "avg": 437.0,
     "id": 550
   },
@@ -4218,6 +4768,7 @@
     "chinaxy": 422,
     "ranking": 370,
     "wurank": 520,
+    "province_abbr": "川",
     "avg": 437.33,
     "id": 551
   },
@@ -4225,6 +4776,7 @@
     "name": "河北中医药大学",
     "chinaxy": 377,
     "wurank": 498,
+    "province_abbr": "冀",
     "avg": 437.5,
     "id": 552
   },
@@ -4233,6 +4785,7 @@
     "chinaxy": 351,
     "ranking": 379,
     "wurank": 583,
+    "province_abbr": "浙",
     "avg": 437.67,
     "id": 553
   },
@@ -4240,6 +4793,7 @@
     "name": "沈阳医学院",
     "chinaxy": 324,
     "wurank": 552,
+    "province_abbr": "辽",
     "avg": 438.0,
     "id": 554
   },
@@ -4248,6 +4802,7 @@
     "chinaxy": 422,
     "ranking": 429,
     "wurank": 468,
+    "province_abbr": "豫",
     "avg": 439.67,
     "id": 555
   },
@@ -4255,6 +4810,7 @@
     "name": "西藏民族大学",
     "chinaxy": 251,
     "wurank": 629,
+    "province_abbr": "陕",
     "avg": 440.0,
     "id": 556
   },
@@ -4263,6 +4819,7 @@
     "chinaxy": 351,
     "ranking": 355,
     "wurank": 614,
+    "province_abbr": "吉",
     "avg": 440.0,
     "id": 557
   },
@@ -4271,6 +4828,7 @@
     "chinaxy": 364,
     "ranking": 411,
     "wurank": 554,
+    "province_abbr": "湘",
     "avg": 443.0,
     "id": 558
   },
@@ -4279,6 +4837,7 @@
     "chinaxy": 377,
     "ranking": 448,
     "wurank": 508,
+    "province_abbr": "赣",
     "avg": 444.33,
     "id": 559
   },
@@ -4286,6 +4845,7 @@
     "name": "赣南医科大学",
     "chinaxy": 393,
     "wurank": 497,
+    "province_abbr": "赣",
     "avg": 445.0,
     "id": 560
   },
@@ -4294,6 +4854,7 @@
     "chinaxy": 328,
     "ranking": 475,
     "wurank": 533,
+    "province_abbr": "豫",
     "avg": 445.33,
     "id": 561
   },
@@ -4302,6 +4863,7 @@
     "chinaxy": 393,
     "ranking": 401,
     "wurank": 542,
+    "province_abbr": "豫",
     "avg": 445.33,
     "id": 562
   },
@@ -4309,6 +4871,7 @@
     "name": "四川美术学院",
     "chinaxy": 249,
     "wurank": 643,
+    "province_abbr": "渝",
     "avg": 446.0,
     "id": 563
   },
@@ -4317,6 +4880,7 @@
     "chinaxy": 351,
     "ranking": 198,
     "wurank": 790,
+    "province_abbr": "京",
     "avg": 446.33,
     "id": 564
   },
@@ -4325,6 +4889,7 @@
     "chinaxy": 436,
     "ranking": 365,
     "wurank": 539,
+    "province_abbr": "鄂",
     "avg": 446.67,
     "id": 565
   },
@@ -4332,6 +4897,7 @@
     "name": "广西艺术学院",
     "chinaxy": 289,
     "wurank": 606,
+    "province_abbr": "桂",
     "avg": 447.5,
     "id": 566
   },
@@ -4340,6 +4906,7 @@
     "chinaxy": 465,
     "ranking": 461,
     "wurank": 418,
+    "province_abbr": "赣",
     "avg": 448.0,
     "id": 567
   },
@@ -4348,6 +4915,7 @@
     "chinaxy": 328,
     "ranking": 373,
     "wurank": 644,
+    "province_abbr": "鄂",
     "avg": 448.33,
     "id": 568
   },
@@ -4355,6 +4923,7 @@
     "name": "西安财经大学",
     "chinaxy": 311,
     "wurank": 587,
+    "province_abbr": "陕",
     "avg": 449.0,
     "id": 569
   },
@@ -4363,6 +4932,7 @@
     "chinaxy": 377,
     "ranking": 472,
     "wurank": 499,
+    "province_abbr": "豫",
     "avg": 449.33,
     "id": 570
   },
@@ -4371,12 +4941,14 @@
     "chinaxy": 436,
     "ranking": 391,
     "wurank": 526,
+    "province_abbr": "湘",
     "avg": 451.0,
     "id": 571
   },
   {
     "name": "兰州石化职业技术大学",
     "ranking": 452,
+    "province_abbr": "甘",
     "avg": 452.0,
     "id": 572
   },
@@ -4385,12 +4957,14 @@
     "chinaxy": 377,
     "ranking": 443,
     "wurank": 538,
+    "province_abbr": "川",
     "avg": 452.67,
     "id": 573
   },
   {
     "name": "广东警官学院",
     "chinaxy": 453,
+    "province_abbr": "粤",
     "avg": 453.0,
     "id": 574
   },
@@ -4399,6 +4973,7 @@
     "chinaxy": 377,
     "ranking": 405,
     "wurank": 579,
+    "province_abbr": "闽",
     "avg": 453.67,
     "id": 575
   },
@@ -4407,6 +4982,7 @@
     "chinaxy": 436,
     "ranking": 375,
     "wurank": 551,
+    "province_abbr": "鲁",
     "avg": 454.0,
     "id": 576
   },
@@ -4415,6 +4991,7 @@
     "chinaxy": 393,
     "ranking": 441,
     "wurank": 529,
+    "province_abbr": "鄂",
     "avg": 454.33,
     "id": 577
   },
@@ -4422,6 +4999,7 @@
     "name": "青海民族大学",
     "chinaxy": 221,
     "wurank": 689,
+    "province_abbr": "青",
     "avg": 455.0,
     "id": 578
   },
@@ -4429,6 +5007,7 @@
     "name": "云南中医药大学",
     "chinaxy": 324,
     "wurank": 586,
+    "province_abbr": "云",
     "avg": 455.0,
     "id": 579
   },
@@ -4437,6 +5016,7 @@
     "chinaxy": 436,
     "ranking": 387,
     "wurank": 544,
+    "province_abbr": "闽",
     "avg": 455.67,
     "id": 580
   },
@@ -4445,6 +5025,7 @@
     "chinaxy": 364,
     "ranking": 445,
     "wurank": 562,
+    "province_abbr": "川",
     "avg": 457.0,
     "id": 581
   },
@@ -4453,6 +5034,7 @@
     "chinaxy": 377,
     "ranking": 439,
     "wurank": 555,
+    "province_abbr": "豫",
     "avg": 457.0,
     "id": 582
   },
@@ -4461,6 +5043,7 @@
     "chinaxy": 422,
     "ranking": 408,
     "wurank": 543,
+    "province_abbr": "鄂",
     "avg": 457.67,
     "id": 583
   },
@@ -4469,6 +5052,7 @@
     "chinaxy": 377,
     "ranking": 356,
     "wurank": 646,
+    "province_abbr": "吉",
     "avg": 459.67,
     "id": 584
   },
@@ -4477,6 +5061,7 @@
     "chinaxy": 393,
     "ranking": 393,
     "wurank": 593,
+    "province_abbr": "冀",
     "avg": 459.67,
     "id": 585
   },
@@ -4485,6 +5070,7 @@
     "chinaxy": 377,
     "ranking": 433,
     "wurank": 570,
+    "province_abbr": "黑",
     "avg": 460.0,
     "id": 586
   },
@@ -4493,6 +5079,7 @@
     "chinaxy": 364,
     "ranking": 415,
     "wurank": 602,
+    "province_abbr": "桂",
     "avg": 460.33,
     "id": 587
   },
@@ -4500,6 +5087,7 @@
     "name": "浙江外国语学院",
     "chinaxy": 306,
     "wurank": 615,
+    "province_abbr": "浙",
     "avg": 460.5,
     "id": 588
   },
@@ -4508,6 +5096,7 @@
     "chinaxy": 347,
     "ranking": 466,
     "wurank": 573,
+    "province_abbr": "皖",
     "avg": 462.0,
     "id": 589
   },
@@ -4516,6 +5105,7 @@
     "chinaxy": 472,
     "ranking": 420,
     "wurank": 495,
+    "province_abbr": "豫",
     "avg": 462.33,
     "id": 590
   },
@@ -4524,6 +5114,7 @@
     "chinaxy": 324,
     "ranking": 362,
     "wurank": 704,
+    "province_abbr": "藏",
     "avg": 463.33,
     "id": 591
   },
@@ -4532,12 +5123,14 @@
     "chinaxy": 393,
     "ranking": 397,
     "wurank": 600,
+    "province_abbr": "陕",
     "avg": 463.33,
     "id": 592
   },
   {
     "name": "内蒙古科技大学包头师范学院",
     "ranking": 464,
+    "province_abbr": "蒙",
     "avg": 464.0,
     "id": 593
   },
@@ -4546,18 +5139,21 @@
     "chinaxy": 347,
     "ranking": 377,
     "wurank": 669,
+    "province_abbr": "闽",
     "avg": 464.33,
     "id": 594
   },
   {
     "name": "湖南警察学院",
     "chinaxy": 465,
+    "province_abbr": "湘",
     "avg": 465.0,
     "id": 595
   },
   {
     "name": "吉林警察学院",
     "chinaxy": 465,
+    "province_abbr": "吉",
     "avg": 465.0,
     "id": 596
   },
@@ -4565,6 +5161,7 @@
     "name": "广州美术学院",
     "chinaxy": 262,
     "wurank": 672,
+    "province_abbr": "粤",
     "avg": 467.0,
     "id": 597
   },
@@ -4572,6 +5169,7 @@
     "name": "山东艺术学院",
     "chinaxy": 324,
     "wurank": 610,
+    "province_abbr": "鲁",
     "avg": 467.0,
     "id": 598
   },
@@ -4579,6 +5177,7 @@
     "name": "山东工商学院",
     "chinaxy": 453,
     "wurank": 481,
+    "province_abbr": "鲁",
     "avg": 467.0,
     "id": 599
   },
@@ -4587,6 +5186,7 @@
     "chinaxy": 422,
     "ranking": 400,
     "wurank": 581,
+    "province_abbr": "桂",
     "avg": 467.67,
     "id": 600
   },
@@ -4595,6 +5195,7 @@
     "chinaxy": 407,
     "ranking": 431,
     "wurank": 569,
+    "province_abbr": "赣",
     "avg": 469.0,
     "id": 601
   },
@@ -4603,12 +5204,14 @@
     "chinaxy": 422,
     "ranking": 425,
     "wurank": 560,
+    "province_abbr": "冀",
     "avg": 469.0,
     "id": 602
   },
   {
     "name": "吉林化工大学",
     "ranking": 469,
+    "province_abbr": "吉",
     "avg": 469.0,
     "id": 603
   },
@@ -4617,6 +5220,7 @@
     "chinaxy": 465,
     "ranking": 407,
     "wurank": 537,
+    "province_abbr": "鲁",
     "avg": 469.67,
     "id": 604
   },
@@ -4624,6 +5228,7 @@
     "name": "中国戏曲学院",
     "chinaxy": 269,
     "wurank": 671,
+    "province_abbr": "京",
     "avg": 470.0,
     "id": 605
   },
@@ -4632,12 +5237,14 @@
     "chinaxy": 422,
     "ranking": 404,
     "wurank": 584,
+    "province_abbr": "云",
     "avg": 470.0,
     "id": 606
   },
   {
     "name": "温州肯恩大学",
     "wurank": 470,
+    "province_abbr": "浙",
     "avg": 470.0,
     "id": 607
   },
@@ -4646,6 +5253,7 @@
     "chinaxy": 351,
     "ranking": 483,
     "wurank": 580,
+    "province_abbr": "皖",
     "avg": 471.33,
     "id": 608
   },
@@ -4654,6 +5262,7 @@
     "chinaxy": 387,
     "ranking": 428,
     "wurank": 599,
+    "province_abbr": "川",
     "avg": 471.33,
     "id": 609
   },
@@ -4661,6 +5270,7 @@
     "name": "西安医学院",
     "chinaxy": 407,
     "wurank": 536,
+    "province_abbr": "陕",
     "avg": 471.5,
     "id": 610
   },
@@ -4669,18 +5279,21 @@
     "chinaxy": 393,
     "ranking": 383,
     "wurank": 640,
+    "province_abbr": "冀",
     "avg": 472.0,
     "id": 611
   },
   {
     "name": "福建警察学院",
     "chinaxy": 472,
+    "province_abbr": "闽",
     "avg": 472.0,
     "id": 612
   },
   {
     "name": "河南警察学院",
     "chinaxy": 472,
+    "province_abbr": "豫",
     "avg": 472.0,
     "id": 613
   },
@@ -4689,6 +5302,7 @@
     "chinaxy": 328,
     "ranking": 521,
     "wurank": 568,
+    "province_abbr": "冀",
     "avg": 472.33,
     "id": 614
   },
@@ -4697,6 +5311,7 @@
     "chinaxy": 347,
     "ranking": 449,
     "wurank": 621,
+    "province_abbr": "甘",
     "avg": 472.33,
     "id": 615
   },
@@ -4705,6 +5320,7 @@
     "chinaxy": 339,
     "ranking": 423,
     "wurank": 659,
+    "province_abbr": "黑",
     "avg": 473.67,
     "id": 616
   },
@@ -4713,6 +5329,7 @@
     "chinaxy": 436,
     "ranking": 459,
     "wurank": 528,
+    "province_abbr": "豫",
     "avg": 474.33,
     "id": 617
   },
@@ -4721,6 +5338,7 @@
     "chinaxy": 436,
     "ranking": 442,
     "wurank": 547,
+    "province_abbr": "豫",
     "avg": 475.0,
     "id": 618
   },
@@ -4729,6 +5347,7 @@
     "chinaxy": 407,
     "ranking": 422,
     "wurank": 598,
+    "province_abbr": "陕",
     "avg": 475.67,
     "id": 619
   },
@@ -4737,6 +5356,7 @@
     "chinaxy": 453,
     "ranking": 417,
     "wurank": 557,
+    "province_abbr": "粤",
     "avg": 475.67,
     "id": 620
   },
@@ -4744,6 +5364,7 @@
     "name": "新疆财经大学",
     "chinaxy": 328,
     "wurank": 624,
+    "province_abbr": "新",
     "avg": 476.0,
     "id": 621
   },
@@ -4751,6 +5372,7 @@
     "name": "北京物资学院",
     "chinaxy": 387,
     "wurank": 565,
+    "province_abbr": "京",
     "avg": 476.0,
     "id": 622
   },
@@ -4758,12 +5380,14 @@
     "name": "齐齐哈尔医学院",
     "chinaxy": 393,
     "wurank": 559,
+    "province_abbr": "黑",
     "avg": 476.0,
     "id": 623
   },
   {
     "name": "宁夏师范大学",
     "ranking": 476,
+    "province_abbr": "宁",
     "avg": 476.0,
     "id": 624
   },
@@ -4772,6 +5396,7 @@
     "chinaxy": 387,
     "ranking": 364,
     "wurank": 680,
+    "province_abbr": "贵",
     "avg": 477.0,
     "id": 625
   },
@@ -4780,6 +5405,7 @@
     "chinaxy": 422,
     "ranking": 435,
     "wurank": 574,
+    "province_abbr": "川",
     "avg": 477.0,
     "id": 626
   },
@@ -4788,6 +5414,7 @@
     "chinaxy": 436,
     "ranking": 363,
     "wurank": 634,
+    "province_abbr": "浙",
     "avg": 477.67,
     "id": 627
   },
@@ -4796,6 +5423,7 @@
     "chinaxy": 328,
     "ranking": 458,
     "wurank": 657,
+    "province_abbr": "川",
     "avg": 481.0,
     "id": 628
   },
@@ -4803,6 +5431,7 @@
     "name": "首都体育学院",
     "chinaxy": 311,
     "wurank": 652,
+    "province_abbr": "京",
     "avg": 481.5,
     "id": 629
   },
@@ -4811,6 +5440,7 @@
     "chinaxy": 436,
     "ranking": 418,
     "wurank": 591,
+    "province_abbr": "粤",
     "avg": 481.67,
     "id": 630
   },
@@ -4818,6 +5448,7 @@
     "name": "成都体育学院",
     "chinaxy": 339,
     "wurank": 626,
+    "province_abbr": "川",
     "avg": 482.5,
     "id": 631
   },
@@ -4826,6 +5457,7 @@
     "chinaxy": 407,
     "ranking": 416,
     "wurank": 625,
+    "province_abbr": "浙",
     "avg": 482.67,
     "id": 632
   },
@@ -4834,24 +5466,28 @@
     "chinaxy": 453,
     "ranking": 384,
     "wurank": 613,
+    "province_abbr": "陕",
     "avg": 483.33,
     "id": 633
   },
   {
     "name": "湖北警官学院",
     "chinaxy": 484,
+    "province_abbr": "鄂",
     "avg": 484.0,
     "id": 634
   },
   {
     "name": "江西警察学院",
     "chinaxy": 484,
+    "province_abbr": "赣",
     "avg": 484.0,
     "id": 635
   },
   {
     "name": "南京警察学院",
     "chinaxy": 484,
+    "province_abbr": "苏",
     "avg": 484.0,
     "id": 636
   },
@@ -4859,6 +5495,7 @@
     "name": "长治医学院",
     "chinaxy": 347,
     "wurank": 623,
+    "province_abbr": "晋",
     "avg": 485.0,
     "id": 637
   },
@@ -4867,6 +5504,7 @@
     "chinaxy": 364,
     "ranking": 455,
     "wurank": 636,
+    "province_abbr": "琼",
     "avg": 485.0,
     "id": 638
   },
@@ -4875,6 +5513,7 @@
     "chinaxy": 387,
     "ranking": 446,
     "wurank": 622,
+    "province_abbr": "贵",
     "avg": 485.0,
     "id": 639
   },
@@ -4883,6 +5522,7 @@
     "chinaxy": 351,
     "ranking": 432,
     "wurank": 677,
+    "province_abbr": "贵",
     "avg": 486.67,
     "id": 640
   },
@@ -4891,6 +5531,7 @@
     "chinaxy": 436,
     "ranking": 479,
     "wurank": 545,
+    "province_abbr": "晋",
     "avg": 486.67,
     "id": 641
   },
@@ -4898,6 +5539,7 @@
     "name": "沈阳体育学院",
     "chinaxy": 291,
     "wurank": 684,
+    "province_abbr": "辽",
     "avg": 487.5,
     "id": 642
   },
@@ -4905,6 +5547,7 @@
     "name": "铜陵学院",
     "chinaxy": 387,
     "wurank": 588,
+    "province_abbr": "皖",
     "avg": 487.5,
     "id": 643
   },
@@ -4913,6 +5556,7 @@
     "chinaxy": 407,
     "ranking": 438,
     "wurank": 620,
+    "province_abbr": "湘",
     "avg": 488.33,
     "id": 644
   },
@@ -4920,6 +5564,7 @@
     "name": "云南艺术学院",
     "chinaxy": 315,
     "wurank": 663,
+    "province_abbr": "云",
     "avg": 489.0,
     "id": 645
   },
@@ -4927,6 +5572,7 @@
     "name": "南京体育学院",
     "chinaxy": 328,
     "wurank": 651,
+    "province_abbr": "苏",
     "avg": 489.5,
     "id": 646
   },
@@ -4935,6 +5581,7 @@
     "chinaxy": 407,
     "ranking": 421,
     "wurank": 641,
+    "province_abbr": "川",
     "avg": 489.67,
     "id": 647
   },
@@ -4943,6 +5590,7 @@
     "chinaxy": 436,
     "ranking": 481,
     "wurank": 556,
+    "province_abbr": "皖",
     "avg": 491.0,
     "id": 648
   },
@@ -4951,6 +5599,7 @@
     "chinaxy": 387,
     "ranking": 406,
     "wurank": 681,
+    "province_abbr": "贵",
     "avg": 491.33,
     "id": 649
   },
@@ -4959,6 +5608,7 @@
     "chinaxy": 387,
     "ranking": 511,
     "wurank": 577,
+    "province_abbr": "豫",
     "avg": 491.67,
     "id": 650
   },
@@ -4967,6 +5617,7 @@
     "chinaxy": 377,
     "ranking": 470,
     "wurank": 631,
+    "province_abbr": "甘",
     "avg": 492.67,
     "id": 651
   },
@@ -4975,6 +5626,7 @@
     "chinaxy": 422,
     "ranking": 467,
     "wurank": 589,
+    "province_abbr": "湘",
     "avg": 492.67,
     "id": 652
   },
@@ -4982,6 +5634,7 @@
     "name": "河北金融学院",
     "chinaxy": 377,
     "wurank": 609,
+    "province_abbr": "冀",
     "avg": 493.0,
     "id": 653
   },
@@ -4990,6 +5643,7 @@
     "chinaxy": 407,
     "ranking": 412,
     "wurank": 660,
+    "province_abbr": "粤",
     "avg": 493.0,
     "id": 654
   },
@@ -4997,6 +5651,7 @@
     "name": "中国劳动关系学院",
     "chinaxy": 364,
     "wurank": 628,
+    "province_abbr": "京",
     "avg": 496.0,
     "id": 655
   },
@@ -5004,6 +5659,7 @@
     "name": "四川音乐学院",
     "chinaxy": 422,
     "wurank": 572,
+    "province_abbr": "川",
     "avg": 497.0,
     "id": 656
   },
@@ -5012,6 +5668,7 @@
     "chinaxy": 436,
     "ranking": 436,
     "wurank": 619,
+    "province_abbr": "渝",
     "avg": 497.0,
     "id": 657
   },
@@ -5020,6 +5677,7 @@
     "chinaxy": 364,
     "ranking": 565,
     "wurank": 563,
+    "province_abbr": "粤",
     "avg": 497.33,
     "id": 658
   },
@@ -5028,6 +5686,7 @@
     "chinaxy": 493,
     "ranking": 434,
     "wurank": 566,
+    "province_abbr": "云",
     "avg": 497.67,
     "id": 659
   },
@@ -5035,6 +5694,7 @@
     "name": "武汉音乐学院",
     "chinaxy": 351,
     "wurank": 645,
+    "province_abbr": "鄂",
     "avg": 498.0,
     "id": 660
   },
@@ -5043,6 +5703,7 @@
     "chinaxy": 422,
     "ranking": 571,
     "wurank": 502,
+    "province_abbr": "豫",
     "avg": 498.33,
     "id": 661
   },
@@ -5051,24 +5712,28 @@
     "chinaxy": 364,
     "ranking": 478,
     "wurank": 654,
+    "province_abbr": "闽",
     "avg": 498.67,
     "id": 662
   },
   {
     "name": "浙江警察学院",
     "chinaxy": 499,
+    "province_abbr": "浙",
     "avg": 499.0,
     "id": 663
   },
   {
     "name": "郑州警察学院",
     "chinaxy": 499,
+    "province_abbr": "豫",
     "avg": 499.0,
     "id": 664
   },
   {
     "name": "重庆警察学院",
     "chinaxy": 499,
+    "province_abbr": "渝",
     "avg": 499.0,
     "id": 665
   },
@@ -5076,6 +5741,7 @@
     "name": "沈阳音乐学院",
     "chinaxy": 351,
     "wurank": 648,
+    "province_abbr": "辽",
     "avg": 499.5,
     "id": 666
   },
@@ -5083,18 +5749,21 @@
     "name": "鲁迅美术学院",
     "chinaxy": 328,
     "wurank": 674,
+    "province_abbr": "辽",
     "avg": 501.0,
     "id": 667
   },
   {
     "name": "上海公安学院",
     "chinaxy": 501,
+    "province_abbr": "沪",
     "avg": 501.0,
     "id": 668
   },
   {
     "name": "新疆警察学院",
     "chinaxy": 501,
+    "province_abbr": "新",
     "avg": 501.0,
     "id": 669
   },
@@ -5103,6 +5772,7 @@
     "chinaxy": 407,
     "ranking": 468,
     "wurank": 633,
+    "province_abbr": "桂",
     "avg": 502.67,
     "id": 670
   },
@@ -5111,18 +5781,21 @@
     "chinaxy": 407,
     "ranking": 390,
     "wurank": 712,
+    "province_abbr": "吉",
     "avg": 503.0,
     "id": 671
   },
   {
     "name": "北京警察学院",
     "chinaxy": 503,
+    "province_abbr": "京",
     "avg": 503.0,
     "id": 672
   },
   {
     "name": "山东警察学院",
     "chinaxy": 503,
+    "province_abbr": "鲁",
     "avg": 503.0,
     "id": 673
   },
@@ -5130,6 +5803,7 @@
     "name": "福建技术师范学院",
     "chinaxy": 503,
     "ranking": 504,
+    "province_abbr": "闽",
     "avg": 503.5,
     "id": 674
   },
@@ -5138,6 +5812,7 @@
     "chinaxy": 422,
     "ranking": 523,
     "wurank": 567,
+    "province_abbr": "晋",
     "avg": 504.0,
     "id": 675
   },
@@ -5146,6 +5821,7 @@
     "chinaxy": 510,
     "ranking": 357,
     "wurank": 647,
+    "province_abbr": "苏",
     "avg": 504.67,
     "id": 676
   },
@@ -5154,6 +5830,7 @@
     "chinaxy": 393,
     "ranking": 465,
     "wurank": 658,
+    "province_abbr": "蒙",
     "avg": 505.33,
     "id": 677
   },
@@ -5162,6 +5839,7 @@
     "chinaxy": 472,
     "ranking": 265,
     "wurank": 779,
+    "province_abbr": "沪",
     "avg": 505.33,
     "id": 678
   },
@@ -5169,6 +5847,7 @@
     "name": "湖南财政经济学院",
     "chinaxy": 407,
     "wurank": 605,
+    "province_abbr": "湘",
     "avg": 506.0,
     "id": 679
   },
@@ -5177,12 +5856,14 @@
     "chinaxy": 422,
     "ranking": 514,
     "wurank": 582,
+    "province_abbr": "桂",
     "avg": 506.0,
     "id": 680
   },
   {
     "name": "贵阳康养职业大学",
     "ranking": 506,
+    "province_abbr": "贵",
     "avg": 506.0,
     "id": 681
   },
@@ -5191,6 +5872,7 @@
     "chinaxy": 465,
     "ranking": 427,
     "wurank": 627,
+    "province_abbr": "鲁",
     "avg": 506.33,
     "id": 682
   },
@@ -5198,6 +5880,7 @@
     "name": "右江民族医学院",
     "chinaxy": 351,
     "wurank": 662,
+    "province_abbr": "桂",
     "avg": 506.5,
     "id": 683
   },
@@ -5206,6 +5889,7 @@
     "chinaxy": 393,
     "ranking": 477,
     "wurank": 650,
+    "province_abbr": "甘",
     "avg": 506.67,
     "id": 684
   },
@@ -5214,6 +5898,7 @@
     "chinaxy": 436,
     "ranking": 403,
     "wurank": 683,
+    "province_abbr": "苏",
     "avg": 507.33,
     "id": 685
   },
@@ -5221,6 +5906,7 @@
     "name": "吉林艺术学院",
     "chinaxy": 364,
     "wurank": 653,
+    "province_abbr": "吉",
     "avg": 508.5,
     "id": 686
   },
@@ -5229,12 +5915,14 @@
     "chinaxy": 472,
     "ranking": 447,
     "wurank": 607,
+    "province_abbr": "豫",
     "avg": 508.67,
     "id": 687
   },
   {
     "name": "辽宁警察学院",
     "chinaxy": 509,
+    "province_abbr": "辽",
     "avg": 509.0,
     "id": 688
   },
@@ -5242,30 +5930,35 @@
     "name": "甘肃政法大学",
     "chinaxy": 328,
     "wurank": 691,
+    "province_abbr": "甘",
     "avg": 509.5,
     "id": 689
   },
   {
     "name": "广西警察学院",
     "chinaxy": 510,
+    "province_abbr": "桂",
     "avg": 510.0,
     "id": 690
   },
   {
     "name": "贵州警察学院",
     "chinaxy": 510,
+    "province_abbr": "贵",
     "avg": 510.0,
     "id": 691
   },
   {
     "name": "山西警察学院",
     "chinaxy": 510,
+    "province_abbr": "晋",
     "avg": 510.0,
     "id": 692
   },
   {
     "name": "中国消防救援学院",
     "chinaxy": 510,
+    "province_abbr": "京",
     "avg": 510.0,
     "id": 693
   },
@@ -5273,6 +5966,7 @@
     "name": "西安美术学院",
     "chinaxy": 296,
     "wurank": 725,
+    "province_abbr": "陕",
     "avg": 510.5,
     "id": 694
   },
@@ -5280,6 +5974,7 @@
     "name": "福建江夏学院",
     "chinaxy": 387,
     "wurank": 635,
+    "province_abbr": "闽",
     "avg": 511.0,
     "id": 695
   },
@@ -5287,6 +5982,7 @@
     "name": "杭州医学院",
     "chinaxy": 493,
     "wurank": 530,
+    "province_abbr": "浙",
     "avg": 511.5,
     "id": 696
   },
@@ -5295,6 +5991,7 @@
     "chinaxy": 407,
     "ranking": 457,
     "wurank": 673,
+    "province_abbr": "云",
     "avg": 512.33,
     "id": 697
   },
@@ -5302,6 +5999,7 @@
     "name": "北京舞蹈学院",
     "chinaxy": 339,
     "wurank": 687,
+    "province_abbr": "京",
     "avg": 513.0,
     "id": 698
   },
@@ -5310,6 +6008,7 @@
     "chinaxy": 436,
     "ranking": 440,
     "wurank": 665,
+    "province_abbr": "晋",
     "avg": 513.67,
     "id": 699
   },
@@ -5318,6 +6017,7 @@
     "chinaxy": 407,
     "ranking": 474,
     "wurank": 661,
+    "province_abbr": "冀",
     "avg": 514.0,
     "id": 700
   },
@@ -5325,6 +6025,7 @@
     "name": "山西中医药大学",
     "chinaxy": 453,
     "wurank": 575,
+    "province_abbr": "晋",
     "avg": 514.0,
     "id": 701
   },
@@ -5333,6 +6034,7 @@
     "chinaxy": 407,
     "ranking": 486,
     "wurank": 655,
+    "province_abbr": "新",
     "avg": 516.0,
     "id": 702
   },
@@ -5341,6 +6043,7 @@
     "chinaxy": 407,
     "ranking": 566,
     "wurank": 576,
+    "province_abbr": "粤",
     "avg": 516.33,
     "id": 703
   },
@@ -5349,6 +6052,7 @@
     "chinaxy": 453,
     "ranking": 485,
     "wurank": 612,
+    "province_abbr": "皖",
     "avg": 516.67,
     "id": 704
   },
@@ -5357,6 +6061,7 @@
     "chinaxy": 351,
     "ranking": 489,
     "wurank": 711,
+    "province_abbr": "新",
     "avg": 517.0,
     "id": 705
   },
@@ -5365,6 +6070,7 @@
     "chinaxy": 465,
     "ranking": 516,
     "wurank": 571,
+    "province_abbr": "鲁",
     "avg": 517.33,
     "id": 706
   },
@@ -5373,18 +6079,21 @@
     "chinaxy": 393,
     "ranking": 495,
     "wurank": 666,
+    "province_abbr": "鲁",
     "avg": 518.0,
     "id": 707
   },
   {
     "name": "首钢工学院",
     "chinaxy": 518,
+    "province_abbr": "京",
     "avg": 518.0,
     "id": 708
   },
   {
     "name": "安徽艺术学院",
     "chinaxy": 518,
+    "province_abbr": "皖",
     "avg": 518.0,
     "id": 709
   },
@@ -5393,6 +6102,7 @@
     "chinaxy": 453,
     "ranking": 430,
     "wurank": 675,
+    "province_abbr": "黑",
     "avg": 519.33,
     "id": 710
   },
@@ -5401,6 +6111,7 @@
     "chinaxy": 407,
     "ranking": 473,
     "wurank": 679,
+    "province_abbr": "吉",
     "avg": 519.67,
     "id": 711
   },
@@ -5408,6 +6119,7 @@
     "name": "星海音乐学院",
     "chinaxy": 351,
     "wurank": 705,
+    "province_abbr": "粤",
     "avg": 528.0,
     "id": 712
   },
@@ -5416,6 +6128,7 @@
     "chinaxy": 436,
     "ranking": 500,
     "wurank": 649,
+    "province_abbr": "甘",
     "avg": 528.33,
     "id": 713
   },
@@ -5423,6 +6136,7 @@
     "name": "牡丹江医学院",
     "chinaxy": 453,
     "wurank": 604,
+    "province_abbr": "黑",
     "avg": 528.5,
     "id": 714
   },
@@ -5430,6 +6144,7 @@
     "name": "天津体育学院",
     "chinaxy": 339,
     "wurank": 719,
+    "province_abbr": "津",
     "avg": 529.0,
     "id": 715
   },
@@ -5438,6 +6153,7 @@
     "chinaxy": 436,
     "ranking": 493,
     "wurank": 668,
+    "province_abbr": "云",
     "avg": 532.33,
     "id": 716
   },
@@ -5446,6 +6162,7 @@
     "chinaxy": 436,
     "ranking": 453,
     "wurank": 709,
+    "province_abbr": "闽",
     "avg": 532.67,
     "id": 717
   },
@@ -5453,6 +6170,7 @@
     "name": "山东工艺美术学院",
     "chinaxy": 328,
     "wurank": 738,
+    "province_abbr": "鲁",
     "avg": 533.0,
     "id": 718
   },
@@ -5461,6 +6179,7 @@
     "chinaxy": 422,
     "ranking": 463,
     "wurank": 714,
+    "province_abbr": "鲁",
     "avg": 533.0,
     "id": 719
   },
@@ -5469,6 +6188,7 @@
     "chinaxy": 436,
     "ranking": 497,
     "wurank": 670,
+    "province_abbr": "桂",
     "avg": 534.33,
     "id": 720
   },
@@ -5476,6 +6196,7 @@
     "name": "天津美术学院",
     "chinaxy": 377,
     "wurank": 692,
+    "province_abbr": "津",
     "avg": 534.5,
     "id": 721
   },
@@ -5484,6 +6205,7 @@
     "chinaxy": 436,
     "ranking": 471,
     "wurank": 698,
+    "province_abbr": "赣",
     "avg": 535.0,
     "id": 722
   },
@@ -5491,6 +6213,7 @@
     "name": "上海健康医学院",
     "chinaxy": 453,
     "wurank": 617,
+    "province_abbr": "沪",
     "avg": 535.0,
     "id": 723
   },
@@ -5499,6 +6222,7 @@
     "chinaxy": 510,
     "ranking": 419,
     "wurank": 676,
+    "province_abbr": "苏",
     "avg": 535.0,
     "id": 724
   },
@@ -5507,6 +6231,7 @@
     "chinaxy": 465,
     "ranking": 451,
     "wurank": 694,
+    "province_abbr": "陕",
     "avg": 536.67,
     "id": 725
   },
@@ -5514,6 +6239,7 @@
     "name": "浙江音乐学院",
     "chinaxy": 472,
     "wurank": 603,
+    "province_abbr": "浙",
     "avg": 537.5,
     "id": 726
   },
@@ -5522,6 +6248,7 @@
     "chinaxy": 393,
     "ranking": 588,
     "wurank": 632,
+    "province_abbr": "辽",
     "avg": 537.67,
     "id": 727
   },
@@ -5530,6 +6257,7 @@
     "chinaxy": 422,
     "ranking": 488,
     "wurank": 703,
+    "province_abbr": "辽",
     "avg": 537.67,
     "id": 728
   },
@@ -5538,6 +6266,7 @@
     "chinaxy": 472,
     "ranking": 515,
     "wurank": 630,
+    "province_abbr": "晋",
     "avg": 539.0,
     "id": 729
   },
@@ -5546,6 +6275,7 @@
     "chinaxy": 436,
     "ranking": 462,
     "wurank": 728,
+    "province_abbr": "辽",
     "avg": 542.0,
     "id": 730
   },
@@ -5554,6 +6284,7 @@
     "chinaxy": 484,
     "ranking": 524,
     "wurank": 618,
+    "province_abbr": "鲁",
     "avg": 542.0,
     "id": 731
   },
@@ -5561,6 +6292,7 @@
     "name": "宁夏师范学院",
     "chinaxy": 328,
     "wurank": 757,
+    "province_abbr": "宁",
     "avg": 542.5,
     "id": 732
   },
@@ -5569,6 +6301,7 @@
     "chinaxy": 453,
     "ranking": 585,
     "wurank": 594,
+    "province_abbr": "冀",
     "avg": 544.0,
     "id": 733
   },
@@ -5577,6 +6310,7 @@
     "chinaxy": 472,
     "ranking": 552,
     "wurank": 608,
+    "province_abbr": "冀",
     "avg": 544.0,
     "id": 734
   },
@@ -5584,6 +6318,7 @@
     "name": "广西职业师范学院",
     "chinaxy": 509,
     "ranking": 584,
+    "province_abbr": "桂",
     "avg": 546.5,
     "id": 735
   },
@@ -5592,6 +6327,7 @@
     "chinaxy": 472,
     "ranking": 528,
     "wurank": 642,
+    "province_abbr": "皖",
     "avg": 547.33,
     "id": 736
   },
@@ -5600,6 +6336,7 @@
     "chinaxy": 484,
     "ranking": 547,
     "wurank": 611,
+    "province_abbr": "晋",
     "avg": 547.33,
     "id": 737
   },
@@ -5608,6 +6345,7 @@
     "chinaxy": 407,
     "ranking": 538,
     "wurank": 699,
+    "province_abbr": "桂",
     "avg": 548.0,
     "id": 738
   },
@@ -5616,6 +6354,7 @@
     "chinaxy": 377,
     "ranking": 544,
     "wurank": 726,
+    "province_abbr": "吉",
     "avg": 549.0,
     "id": 739
   },
@@ -5624,6 +6363,7 @@
     "chinaxy": 465,
     "ranking": 527,
     "wurank": 656,
+    "province_abbr": "晋",
     "avg": 549.33,
     "id": 740
   },
@@ -5632,6 +6372,7 @@
     "chinaxy": 453,
     "ranking": 480,
     "wurank": 718,
+    "province_abbr": "陕",
     "avg": 550.33,
     "id": 741
   },
@@ -5639,12 +6380,14 @@
     "name": "上海商学院",
     "chinaxy": 407,
     "wurank": 695,
+    "province_abbr": "沪",
     "avg": 551.0,
     "id": 742
   },
   {
     "name": "南京工业职业技术大学",
     "ranking": 551,
+    "province_abbr": "苏",
     "avg": 551.0,
     "id": 743
   },
@@ -5653,6 +6396,7 @@
     "chinaxy": 484,
     "ranking": 533,
     "wurank": 639,
+    "province_abbr": "川",
     "avg": 552.0,
     "id": 744
   },
@@ -5661,6 +6405,7 @@
     "chinaxy": 422,
     "ranking": 519,
     "wurank": 720,
+    "province_abbr": "云",
     "avg": 553.67,
     "id": 745
   },
@@ -5668,6 +6413,7 @@
     "name": "广州体育学院",
     "chinaxy": 387,
     "wurank": 721,
+    "province_abbr": "粤",
     "avg": 554.0,
     "id": 746
   },
@@ -5676,6 +6422,7 @@
     "chinaxy": 453,
     "ranking": 499,
     "wurank": 710,
+    "province_abbr": "冀",
     "avg": 554.0,
     "id": 747
   },
@@ -5683,6 +6430,7 @@
     "name": "哈尔滨音乐学院",
     "chinaxy": 509,
     "wurank": 601,
+    "province_abbr": "黑",
     "avg": 555.0,
     "id": 748
   },
@@ -5690,6 +6438,7 @@
     "name": "南昌医学院",
     "chinaxy": 518,
     "wurank": 592,
+    "province_abbr": "赣",
     "avg": 555.0,
     "id": 749
   },
@@ -5698,6 +6447,7 @@
     "chinaxy": 472,
     "ranking": 487,
     "wurank": 707,
+    "province_abbr": "陕",
     "avg": 555.33,
     "id": 750
   },
@@ -5706,6 +6456,7 @@
     "chinaxy": 407,
     "ranking": 498,
     "wurank": 763,
+    "province_abbr": "蒙",
     "avg": 556.0,
     "id": 751
   },
@@ -5714,6 +6465,7 @@
     "chinaxy": 422,
     "ranking": 558,
     "wurank": 688,
+    "province_abbr": "贵",
     "avg": 556.0,
     "id": 752
   },
@@ -5722,6 +6474,7 @@
     "chinaxy": 493,
     "ranking": 509,
     "wurank": 667,
+    "province_abbr": "赣",
     "avg": 556.33,
     "id": 753
   },
@@ -5730,6 +6483,7 @@
     "chinaxy": 465,
     "ranking": 517,
     "wurank": 690,
+    "province_abbr": "冀",
     "avg": 557.33,
     "id": 754
   },
@@ -5737,6 +6491,7 @@
     "name": "湖北美术学院",
     "chinaxy": 436,
     "wurank": 682,
+    "province_abbr": "鄂",
     "avg": 559.0,
     "id": 755
   },
@@ -5745,6 +6500,7 @@
     "chinaxy": 465,
     "ranking": 522,
     "wurank": 693,
+    "province_abbr": "皖",
     "avg": 560.0,
     "id": 756
   },
@@ -5753,6 +6509,7 @@
     "chinaxy": 493,
     "ranking": 490,
     "wurank": 697,
+    "province_abbr": "鲁",
     "avg": 560.0,
     "id": 757
   },
@@ -5761,6 +6518,7 @@
     "chinaxy": 422,
     "ranking": 546,
     "wurank": 713,
+    "province_abbr": "黑",
     "avg": 560.33,
     "id": 758
   },
@@ -5768,6 +6526,7 @@
     "name": "天津音乐学院",
     "chinaxy": 393,
     "wurank": 729,
+    "province_abbr": "津",
     "avg": 561.0,
     "id": 759
   },
@@ -5776,6 +6535,7 @@
     "chinaxy": 407,
     "ranking": 501,
     "wurank": 776,
+    "province_abbr": "贵",
     "avg": 561.33,
     "id": 760
   },
@@ -5784,6 +6544,7 @@
     "chinaxy": 453,
     "ranking": 525,
     "wurank": 708,
+    "province_abbr": "冀",
     "avg": 562.0,
     "id": 761
   },
@@ -5792,6 +6553,7 @@
     "chinaxy": 453,
     "ranking": 512,
     "wurank": 722,
+    "province_abbr": "湘",
     "avg": 562.33,
     "id": 762
   },
@@ -5800,6 +6562,7 @@
     "chinaxy": 436,
     "ranking": 507,
     "wurank": 745,
+    "province_abbr": "贵",
     "avg": 562.67,
     "id": 763
   },
@@ -5808,6 +6571,7 @@
     "chinaxy": 393,
     "ranking": 549,
     "wurank": 749,
+    "province_abbr": "贵",
     "avg": 563.67,
     "id": 764
   },
@@ -5816,6 +6580,7 @@
     "chinaxy": 453,
     "ranking": 491,
     "wurank": 747,
+    "province_abbr": "辽",
     "avg": 563.67,
     "id": 765
   },
@@ -5823,6 +6588,7 @@
     "name": "湖南医药学院",
     "chinaxy": 465,
     "wurank": 664,
+    "province_abbr": "湘",
     "avg": 564.5,
     "id": 766
   },
@@ -5831,6 +6597,7 @@
     "chinaxy": 510,
     "ranking": 444,
     "wurank": 740,
+    "province_abbr": "浙",
     "avg": 564.67,
     "id": 767
   },
@@ -5839,6 +6606,7 @@
     "chinaxy": 499,
     "ranking": 450,
     "wurank": 748,
+    "province_abbr": "辽",
     "avg": 565.67,
     "id": 768
   },
@@ -5847,6 +6615,7 @@
     "chinaxy": 436,
     "ranking": 502,
     "wurank": 762,
+    "province_abbr": "甘",
     "avg": 566.67,
     "id": 769
   },
@@ -5855,6 +6624,7 @@
     "chinaxy": 484,
     "ranking": 579,
     "wurank": 637,
+    "province_abbr": "冀",
     "avg": 566.67,
     "id": 770
   },
@@ -5863,6 +6633,7 @@
     "chinaxy": 484,
     "ranking": 460,
     "wurank": 758,
+    "province_abbr": "川",
     "avg": 567.33,
     "id": 771
   },
@@ -5871,6 +6642,7 @@
     "chinaxy": 436,
     "ranking": 508,
     "wurank": 759,
+    "province_abbr": "黑",
     "avg": 567.67,
     "id": 772
   },
@@ -5879,6 +6651,7 @@
     "chinaxy": 436,
     "ranking": 535,
     "wurank": 733,
+    "province_abbr": "桂",
     "avg": 568.0,
     "id": 773
   },
@@ -5887,6 +6660,7 @@
     "chinaxy": 436,
     "ranking": 569,
     "wurank": 700,
+    "province_abbr": "陕",
     "avg": 568.33,
     "id": 774
   },
@@ -5895,6 +6669,7 @@
     "chinaxy": 453,
     "ranking": 520,
     "wurank": 732,
+    "province_abbr": "吉",
     "avg": 568.33,
     "id": 775
   },
@@ -5903,6 +6678,7 @@
     "chinaxy": 501,
     "ranking": 503,
     "wurank": 702,
+    "province_abbr": "豫",
     "avg": 568.67,
     "id": 776
   },
@@ -5911,6 +6687,7 @@
     "chinaxy": 484,
     "ranking": 482,
     "wurank": 741,
+    "province_abbr": "鲁",
     "avg": 569.0,
     "id": 777
   },
@@ -5918,6 +6695,7 @@
     "name": "西藏藏医药大学",
     "chinaxy": 339,
     "wurank": 800,
+    "province_abbr": "藏",
     "avg": 569.5,
     "id": 778
   },
@@ -5925,6 +6703,7 @@
     "name": "西安音乐学院",
     "chinaxy": 453,
     "wurank": 686,
+    "province_abbr": "陕",
     "avg": 569.5,
     "id": 779
   },
@@ -5932,6 +6711,7 @@
     "name": "吉林医药学院",
     "chinaxy": 436,
     "wurank": 706,
+    "province_abbr": "吉",
     "avg": 571.0,
     "id": 780
   },
@@ -5940,6 +6720,7 @@
     "chinaxy": 453,
     "ranking": 548,
     "wurank": 716,
+    "province_abbr": "鄂",
     "avg": 572.33,
     "id": 781
   },
@@ -5947,6 +6728,7 @@
     "name": "吉林体育学院",
     "chinaxy": 377,
     "wurank": 768,
+    "province_abbr": "吉",
     "avg": 572.5,
     "id": 782
   },
@@ -5955,6 +6737,7 @@
     "chinaxy": 501,
     "ranking": 540,
     "wurank": 678,
+    "province_abbr": "豫",
     "avg": 573.0,
     "id": 783
   },
@@ -5963,6 +6746,7 @@
     "chinaxy": 453,
     "ranking": 529,
     "wurank": 739,
+    "province_abbr": "粤",
     "avg": 573.67,
     "id": 784
   },
@@ -5971,6 +6755,7 @@
     "chinaxy": 472,
     "ranking": 496,
     "wurank": 753,
+    "province_abbr": "贵",
     "avg": 573.67,
     "id": 785
   },
@@ -5978,6 +6763,7 @@
     "name": "哈尔滨体育学院",
     "chinaxy": 393,
     "wurank": 755,
+    "province_abbr": "黑",
     "avg": 574.0,
     "id": 786
   },
@@ -5986,6 +6772,7 @@
     "chinaxy": 422,
     "ranking": 536,
     "wurank": 767,
+    "province_abbr": "津",
     "avg": 575.0,
     "id": 787
   },
@@ -5993,6 +6780,7 @@
     "name": "山东政法学院",
     "chinaxy": 465,
     "wurank": 685,
+    "province_abbr": "鲁",
     "avg": 575.0,
     "id": 788
   },
@@ -6001,6 +6789,7 @@
     "chinaxy": 422,
     "ranking": 553,
     "wurank": 752,
+    "province_abbr": "甘",
     "avg": 575.67,
     "id": 789
   },
@@ -6008,6 +6797,7 @@
     "name": "西安体育学院",
     "chinaxy": 422,
     "wurank": 731,
+    "province_abbr": "陕",
     "avg": 576.5,
     "id": 790
   },
@@ -6016,6 +6806,7 @@
     "chinaxy": 501,
     "ranking": 505,
     "wurank": 724,
+    "province_abbr": "川",
     "avg": 576.67,
     "id": 791
   },
@@ -6024,12 +6815,14 @@
     "chinaxy": 472,
     "ranking": 542,
     "wurank": 717,
+    "province_abbr": "赣",
     "avg": 577.0,
     "id": 792
   },
   {
     "name": "河北工业职业技术大学",
     "ranking": 580,
+    "province_abbr": "冀",
     "avg": 580.0,
     "id": 793
   },
@@ -6038,6 +6831,7 @@
     "chinaxy": 493,
     "ranking": 484,
     "wurank": 764,
+    "province_abbr": "苏",
     "avg": 580.33,
     "id": 794
   },
@@ -6046,6 +6840,7 @@
     "chinaxy": 472,
     "ranking": 581,
     "wurank": 696,
+    "province_abbr": "冀",
     "avg": 583.0,
     "id": 795
   },
@@ -6054,6 +6849,7 @@
     "chinaxy": 518,
     "ranking": 513,
     "wurank": 723,
+    "province_abbr": "赣",
     "avg": 584.67,
     "id": 796
   },
@@ -6062,6 +6858,7 @@
     "chinaxy": 436,
     "ranking": 563,
     "wurank": 756,
+    "province_abbr": "桂",
     "avg": 585.0,
     "id": 797
   },
@@ -6070,6 +6867,7 @@
     "chinaxy": 453,
     "ranking": 526,
     "wurank": 777,
+    "province_abbr": "赣",
     "avg": 585.33,
     "id": 798
   },
@@ -6078,6 +6876,7 @@
     "chinaxy": 484,
     "ranking": 557,
     "wurank": 715,
+    "province_abbr": "冀",
     "avg": 585.33,
     "id": 799
   },
@@ -6086,12 +6885,14 @@
     "chinaxy": 472,
     "ranking": 539,
     "wurank": 750,
+    "province_abbr": "黑",
     "avg": 587.0,
     "id": 800
   },
   {
     "name": "山西工程科技职业大学",
     "ranking": 587,
+    "province_abbr": "晋",
     "avg": 587.0,
     "id": 801
   },
@@ -6100,18 +6901,21 @@
     "chinaxy": 465,
     "ranking": 562,
     "wurank": 737,
+    "province_abbr": "晋",
     "avg": 588.0,
     "id": 802
   },
   {
     "name": "河北科技工程职业技术大学",
     "ranking": 590,
+    "province_abbr": "冀",
     "avg": 590.0,
     "id": 803
   },
   {
     "name": "河北石油职业技术大学",
     "ranking": 591,
+    "province_abbr": "冀",
     "avg": 591.0,
     "id": 804
   },
@@ -6120,6 +6924,7 @@
     "chinaxy": 393,
     "ranking": 582,
     "wurank": 799,
+    "province_abbr": "云",
     "avg": 591.33,
     "id": 805
   },
@@ -6127,6 +6932,7 @@
     "name": "中华女子学院",
     "chinaxy": 453,
     "wurank": 730,
+    "province_abbr": "京",
     "avg": 591.5,
     "id": 806
   },
@@ -6135,6 +6941,7 @@
     "chinaxy": 453,
     "ranking": 554,
     "wurank": 769,
+    "province_abbr": "新",
     "avg": 592.0,
     "id": 807
   },
@@ -6143,12 +6950,14 @@
     "chinaxy": 465,
     "ranking": 530,
     "wurank": 782,
+    "province_abbr": "蒙",
     "avg": 592.33,
     "id": 808
   },
   {
     "name": "广西农业职业技术大学",
     "ranking": 593,
+    "province_abbr": "桂",
     "avg": 593.0,
     "id": 809
   },
@@ -6157,6 +6966,7 @@
     "chinaxy": 518,
     "ranking": 494,
     "wurank": 770,
+    "province_abbr": "浙",
     "avg": 594.0,
     "id": 810
   },
@@ -6164,6 +6974,7 @@
     "name": "山西传媒学院",
     "chinaxy": 436,
     "wurank": 754,
+    "province_abbr": "晋",
     "avg": 595.0,
     "id": 811
   },
@@ -6172,6 +6983,7 @@
     "chinaxy": 501,
     "ranking": 492,
     "wurank": 794,
+    "province_abbr": "琼",
     "avg": 595.67,
     "id": 812
   },
@@ -6180,6 +6992,7 @@
     "chinaxy": 518,
     "ranking": 537,
     "wurank": 736,
+    "province_abbr": "晋",
     "avg": 597.0,
     "id": 813
   },
@@ -6188,6 +7001,7 @@
     "chinaxy": 518,
     "ranking": 541,
     "wurank": 734,
+    "province_abbr": "苏",
     "avg": 597.67,
     "id": 814
   },
@@ -6196,6 +7010,7 @@
     "chinaxy": 436,
     "ranking": 575,
     "wurank": 785,
+    "province_abbr": "新",
     "avg": 598.67,
     "id": 815
   },
@@ -6204,6 +7019,7 @@
     "chinaxy": 510,
     "ranking": 543,
     "wurank": 743,
+    "province_abbr": "皖",
     "avg": 598.67,
     "id": 816
   },
@@ -6212,6 +7028,7 @@
     "chinaxy": 501,
     "ranking": 510,
     "wurank": 787,
+    "province_abbr": "苏",
     "avg": 599.33,
     "id": 817
   },
@@ -6219,6 +7036,7 @@
     "name": "河北体育学院",
     "chinaxy": 407,
     "wurank": 792,
+    "province_abbr": "冀",
     "avg": 599.5,
     "id": 818
   },
@@ -6227,6 +7045,7 @@
     "chinaxy": 484,
     "ranking": 576,
     "wurank": 742,
+    "province_abbr": "晋",
     "avg": 600.67,
     "id": 819
   },
@@ -6235,6 +7054,7 @@
     "chinaxy": 436,
     "ranking": 577,
     "wurank": 791,
+    "province_abbr": "甘",
     "avg": 601.33,
     "id": 820
   },
@@ -6242,6 +7062,7 @@
     "name": "河南财政金融学院",
     "chinaxy": 503,
     "wurank": 701,
+    "province_abbr": "豫",
     "avg": 602.0,
     "id": 821
   },
@@ -6250,6 +7071,7 @@
     "chinaxy": 518,
     "ranking": 518,
     "wurank": 774,
+    "province_abbr": "冀",
     "avg": 603.33,
     "id": 822
   },
@@ -6258,6 +7080,7 @@
     "chinaxy": 484,
     "ranking": 583,
     "wurank": 746,
+    "province_abbr": "冀",
     "avg": 604.33,
     "id": 823
   },
@@ -6266,6 +7089,7 @@
     "chinaxy": 509,
     "ranking": 555,
     "wurank": 751,
+    "province_abbr": "桂",
     "avg": 605.0,
     "id": 824
   },
@@ -6273,6 +7097,7 @@
     "name": "吉林工商学院",
     "chinaxy": 436,
     "wurank": 775,
+    "province_abbr": "吉",
     "avg": 605.5,
     "id": 825
   },
@@ -6281,6 +7106,7 @@
     "chinaxy": 493,
     "ranking": 532,
     "wurank": 795,
+    "province_abbr": "贵",
     "avg": 606.67,
     "id": 826
   },
@@ -6288,6 +7114,7 @@
     "name": "武汉商学院",
     "chinaxy": 472,
     "wurank": 744,
+    "province_abbr": "鄂",
     "avg": 608.0,
     "id": 827
   },
@@ -6295,6 +7122,7 @@
     "name": "山东体育学院",
     "chinaxy": 453,
     "wurank": 765,
+    "province_abbr": "鲁",
     "avg": 609.0,
     "id": 828
   },
@@ -6303,6 +7131,7 @@
     "chinaxy": 518,
     "ranking": 550,
     "wurank": 760,
+    "province_abbr": "晋",
     "avg": 609.33,
     "id": 829
   },
@@ -6311,6 +7140,7 @@
     "chinaxy": 518,
     "ranking": 578,
     "wurank": 735,
+    "province_abbr": "鲁",
     "avg": 610.33,
     "id": 830
   },
@@ -6319,6 +7149,7 @@
     "chinaxy": 499,
     "ranking": 556,
     "wurank": 778,
+    "province_abbr": "冀",
     "avg": 611.0,
     "id": 831
   },
@@ -6327,6 +7158,7 @@
     "chinaxy": 493,
     "ranking": 559,
     "wurank": 783,
+    "province_abbr": "川",
     "avg": 611.67,
     "id": 832
   },
@@ -6335,6 +7167,7 @@
     "chinaxy": 472,
     "ranking": 586,
     "wurank": 780,
+    "province_abbr": "云",
     "avg": 612.67,
     "id": 833
   },
@@ -6342,6 +7175,7 @@
     "name": "内蒙古艺术学院",
     "chinaxy": 465,
     "wurank": 761,
+    "province_abbr": "蒙",
     "avg": 613.0,
     "id": 834
   },
@@ -6350,6 +7184,7 @@
     "chinaxy": 503,
     "ranking": 545,
     "wurank": 798,
+    "province_abbr": "蒙",
     "avg": 615.33,
     "id": 835
   },
@@ -6358,6 +7193,7 @@
     "chinaxy": 503,
     "ranking": 560,
     "wurank": 784,
+    "province_abbr": "云",
     "avg": 615.67,
     "id": 836
   },
@@ -6366,6 +7202,7 @@
     "chinaxy": 509,
     "ranking": 570,
     "wurank": 773,
+    "province_abbr": "鄂",
     "avg": 617.33,
     "id": 837
   },
@@ -6374,6 +7211,7 @@
     "chinaxy": 510,
     "ranking": 534,
     "wurank": 809,
+    "province_abbr": "蒙",
     "avg": 617.67,
     "id": 838
   },
@@ -6381,6 +7219,7 @@
     "name": "厦门医学院",
     "chinaxy": 510,
     "wurank": 727,
+    "province_abbr": "闽",
     "avg": 618.5,
     "id": 839
   },
@@ -6388,6 +7227,7 @@
     "name": "桂林旅游学院",
     "chinaxy": 472,
     "wurank": 766,
+    "province_abbr": "桂",
     "avg": 619.0,
     "id": 840
   },
@@ -6396,6 +7236,7 @@
     "chinaxy": 518,
     "ranking": 567,
     "wurank": 772,
+    "province_abbr": "冀",
     "avg": 619.0,
     "id": 841
   },
@@ -6403,6 +7244,7 @@
     "name": "湖南女子学院",
     "chinaxy": 453,
     "wurank": 788,
+    "province_abbr": "湘",
     "avg": 620.5,
     "id": 842
   },
@@ -6411,6 +7253,7 @@
     "chinaxy": 503,
     "ranking": 564,
     "wurank": 796,
+    "province_abbr": "云",
     "avg": 621.0,
     "id": 843
   },
@@ -6419,6 +7262,7 @@
     "chinaxy": 493,
     "ranking": 573,
     "wurank": 801,
+    "province_abbr": "黑",
     "avg": 622.33,
     "id": 844
   },
@@ -6427,6 +7271,7 @@
     "chinaxy": 510,
     "ranking": 568,
     "wurank": 797,
+    "province_abbr": "赣",
     "avg": 625.0,
     "id": 845
   },
@@ -6434,6 +7279,7 @@
     "name": "哈尔滨金融学院",
     "chinaxy": 472,
     "wurank": 781,
+    "province_abbr": "黑",
     "avg": 626.5,
     "id": 846
   },
@@ -6442,6 +7288,7 @@
     "chinaxy": 503,
     "ranking": 572,
     "wurank": 806,
+    "province_abbr": "云",
     "avg": 627.0,
     "id": 847
   },
@@ -6450,6 +7297,7 @@
     "chinaxy": 518,
     "ranking": 561,
     "wurank": 802,
+    "province_abbr": "赣",
     "avg": 627.0,
     "id": 848
   },
@@ -6457,6 +7305,7 @@
     "name": "新疆艺术学院",
     "chinaxy": 472,
     "wurank": 786,
+    "province_abbr": "新",
     "avg": 629.0,
     "id": 849
   },
@@ -6465,6 +7314,7 @@
     "chinaxy": 510,
     "ranking": 574,
     "wurank": 808,
+    "province_abbr": "新",
     "avg": 630.67,
     "id": 850
   },
@@ -6473,6 +7323,7 @@
     "chinaxy": 518,
     "ranking": 589,
     "wurank": 811,
+    "province_abbr": "云",
     "avg": 639.33,
     "id": 851
   },
@@ -6481,6 +7332,7 @@
     "chinaxy": 518,
     "ranking": 592,
     "wurank": 813,
+    "province_abbr": "新",
     "avg": 641.0,
     "id": 852
   },
@@ -6488,6 +7340,7 @@
     "name": "呼和浩特民族学院",
     "chinaxy": 484,
     "wurank": 805,
+    "province_abbr": "蒙",
     "avg": 644.5,
     "id": 853
   },
@@ -6495,6 +7348,7 @@
     "name": "嘉兴南湖学院",
     "chinaxy": 518,
     "wurank": 771,
+    "province_abbr": "浙",
     "avg": 644.5,
     "id": 854
   },
@@ -6503,6 +7357,7 @@
     "chinaxy": 531,
     "ranking": 594,
     "wurank": 810,
+    "province_abbr": "晋",
     "avg": 645.0,
     "id": 855
   },
@@ -6510,6 +7365,7 @@
     "name": "贵州商学院",
     "chinaxy": 503,
     "wurank": 793,
+    "province_abbr": "贵",
     "avg": 648.0,
     "id": 856
   },
@@ -6517,6 +7373,7 @@
     "name": "甘肃医学院",
     "chinaxy": 509,
     "wurank": 789,
+    "province_abbr": "甘",
     "avg": 649.0,
     "id": 857
   },
@@ -6524,6 +7381,7 @@
     "name": "福建商学院",
     "chinaxy": 510,
     "wurank": 804,
+    "province_abbr": "闽",
     "avg": 657.0,
     "id": 858
   },
@@ -6531,6 +7389,7 @@
     "name": "山西工学院",
     "chinaxy": 518,
     "wurank": 803,
+    "province_abbr": "晋",
     "avg": 660.5,
     "id": 859
   },
@@ -6538,6 +7397,7 @@
     "name": "新疆科技学院",
     "chinaxy": 510,
     "wurank": 812,
+    "province_abbr": "新",
     "avg": 661.0,
     "id": 860
   },
@@ -6545,6 +7405,7 @@
     "name": "新疆第二医学院",
     "chinaxy": 531,
     "wurank": 807,
+    "province_abbr": "新",
     "avg": 669.0,
     "id": 861
   }
