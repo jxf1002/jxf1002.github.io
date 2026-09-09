@@ -147,7 +147,6 @@
       .input-group input[type="number"] {
         -moz-appearance: textfield;
       }
-
       .input-row-duo {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -482,7 +481,7 @@
                 id="growthYears"
                 value="5"
                 step="1"
-                min="1"
+                min="0"
                 max="30"
               />
             </div>
@@ -495,7 +494,7 @@
                 type="number"
                 id="growthRate"
                 value="15"
-                step="0.5"
+                step="1"
                 min="0.1"
                 max="100"
               />
@@ -512,7 +511,7 @@
                 type="number"
                 id="terminalRate"
                 value="3"
-                step="0.1"
+                step="1"
                 min="0"
                 max="10"
               />
@@ -527,7 +526,7 @@
                 type="number"
                 id="discountRate"
                 value="10"
-                step="0.5"
+                step="1"
                 min="1"
                 max="30"
               />
@@ -769,7 +768,7 @@
 
         // 有效性检查
         if (isNaN(netProfit) || netProfit <= 0) return
-        if (isNaN(growthYears) || growthYears < 1) return
+        if (isNaN(growthYears) || growthYears < 0) return
         if (isNaN(growthRate) || growthRate < 0) return
         if (isNaN(terminalRate) || terminalRate < 0) return
         if (isNaN(discountRate) || discountRate <= 0) return
@@ -800,7 +799,9 @@
         }
 
         // 终值 (永续期) — 使用第n年现金流
-        const lastCF = cashFlows[cashFlows.length - 1]
+        const lastCF = years > 0 ? cashFlows[cashFlows.length - 1] : netProfit
+        const terminalDiscountFactor =
+          years > 0 ? discountFactors[discountFactors.length - 1] : 1
         let terminalValue = 0
         let terminalPV = 0
         let terminalValid = true
@@ -808,8 +809,7 @@
         if (discountRate > terminalRate) {
           terminalValue =
             (lastCF * (1 + terminalRate)) / (discountRate - terminalRate)
-          terminalPV =
-            terminalValue * discountFactors[discountFactors.length - 1]
+          terminalPV = terminalValue * terminalDiscountFactor
         } else {
           terminalValid = false
           terminalValue = Infinity
@@ -836,7 +836,7 @@
         tableData.push({
           year: "♾️ 永续期",
           cf: terminalValid ? terminalValue : Infinity,
-          df: discountFactors[discountFactors.length - 1] || 0,
+          df: terminalDiscountFactor,
           pv: terminalValid ? terminalPV : Infinity,
           cumPV: terminalValid ? totalPV : Infinity,
           isTerminal: true,
