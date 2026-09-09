@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>DCF 企业估值计算器</title>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -445,7 +445,9 @@
   <body class="tool-page">
     <header class="site-header">
       <a class="site-brand" href="/"
-        ><span class="site-home-icon">⌂</span><span>贾师傅的小站</span></a
+        ><img class="site-home-icon" src="/favicon.svg" alt="" /><span
+          >贾师傅的小站</span
+        ></a
       >
       <div class="site-actions">
         <button
@@ -686,7 +688,45 @@
       const ctx = document.getElementById("dcfChart").getContext("2d")
       let chart = null
 
+      function chartTheme() {
+        const dark = document.documentElement.classList.contains("dark")
+        return dark
+          ? {
+              primary: "#63c5ad",
+              primaryFill: "rgba(99, 197, 173, 0.72)",
+              accent: "#f09a79",
+              accentFill: "rgba(240, 154, 121, 0.14)",
+              text: "#a1b8af",
+              grid: "rgba(161, 184, 175, 0.16)",
+            }
+          : {
+              primary: "#167c6b",
+              primaryFill: "rgba(22, 124, 107, 0.72)",
+              accent: "#e57b5d",
+              accentFill: "rgba(229, 123, 93, 0.14)",
+              text: "#657a72",
+              grid: "rgba(101, 122, 114, 0.16)",
+            }
+      }
+
+      function applyChartTheme() {
+        if (!chart) return
+        const colors = chartTheme()
+        chart.data.datasets[0].backgroundColor = colors.primaryFill
+        chart.data.datasets[0].borderColor = colors.primary
+        chart.data.datasets[1].borderColor = colors.accent
+        chart.data.datasets[1].backgroundColor = colors.accentFill
+        chart.data.datasets[1].pointBackgroundColor = colors.accent
+        chart.data.datasets[1].pointBorderColor = colors.text
+        chart.options.plugins.legend.labels.color = colors.text
+        chart.options.scales.y.grid.color = colors.grid
+        chart.options.scales.y.ticks.color = colors.text
+        chart.options.scales.x.ticks.color = colors.text
+        chart.update()
+      }
+
       function initChart() {
+        const colors = chartTheme()
         chart = new Chart(ctx, {
           type: "bar",
           data: {
@@ -695,8 +735,8 @@
               {
                 label: "现金流",
                 data: [],
-                backgroundColor: "rgba(79, 70, 229, 0.70)",
-                borderColor: "#4f46e5",
+                backgroundColor: colors.primaryFill,
+                borderColor: colors.primary,
                 borderWidth: 1.5,
                 borderRadius: 4,
                 yAxisID: "y",
@@ -706,10 +746,10 @@
                 label: "折现值",
                 data: [],
                 type: "line",
-                borderColor: "#f59e0b",
-                backgroundColor: "rgba(245, 158, 11, 0.10)",
-                pointBackgroundColor: "#f59e0b",
-                pointBorderColor: "#ffffff",
+                borderColor: colors.accent,
+                backgroundColor: colors.accentFill,
+                pointBackgroundColor: colors.accent,
+                pointBorderColor: colors.text,
                 pointBorderWidth: 2,
                 pointRadius: 5,
                 pointHoverRadius: 7,
@@ -736,7 +776,7 @@
                   pointStyle: "circle",
                   padding: 20,
                   font: { size: 13, weight: "500" },
-                  color: "#334155",
+                  color: colors.text,
                 },
               },
               tooltip: {
@@ -754,20 +794,20 @@
             scales: {
               y: {
                 beginAtZero: true,
-                grid: { color: "rgba(0,0,0,0.04)" },
+                grid: { color: colors.grid },
                 ticks: {
                   callback: function (value) {
                     return value.toFixed(0) + " 亿元"
                   },
                   font: { size: 11 },
-                  color: "#94a3b8",
+                  color: colors.text,
                 },
               },
               x: {
                 grid: { display: false },
                 ticks: {
                   font: { size: 11, weight: "500" },
-                  color: "#64748b",
+                  color: colors.text,
                   maxRotation: 30,
                   autoSkip: true,
                 },
@@ -775,12 +815,14 @@
             },
             elements: {
               bar: {
-                backgroundColor: "rgba(79, 70, 229, 0.70)",
+                backgroundColor: colors.primaryFill,
               },
             },
           },
         })
       }
+
+      window.addEventListener("themechange", applyChartTheme)
 
       // ================================================================
       //  3. 核心计算逻辑

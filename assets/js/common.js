@@ -12,6 +12,7 @@
     var dark = root.classList.toggle("dark")
     localStorage.setItem("theme", dark ? "dark" : "light")
     updateThemeButton()
+    window.dispatchEvent(new Event("themechange"))
   }
 
   function updateThemeButton() {

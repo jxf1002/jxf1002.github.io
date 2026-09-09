@@ -53,15 +53,16 @@ button, input, select { font: inherit; }
   backdrop-filter: blur(12px);
 }
 .site-brand { display: flex; align-items: center; gap: 8px; font-size: 21px; font-weight: 700; letter-spacing: .01em; }
-.site-home-icon { color: var(--primary); font-size: 28px; line-height: 1; }
+.site-home-icon { width: 28px; height: 28px; flex: 0 0 28px; object-fit: contain; }
 .site-actions { margin-left: auto; }
 .theme-toggle { width: 38px; height: 38px; border: 0; border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; font-size: 20px; }
 .theme-toggle:hover { background: var(--surface-muted); }
 
 main { min-height: calc(100vh - 145px); }
-.tool-page { display: block; padding: 0; background: var(--bg); }
+.tool-page { display: block; padding: 0 !important; background: var(--bg); }
 .tool-main { width: min(1240px, 100%); margin: 0 auto; padding: 28px 20px 0; }
 .tool-page .app-container, .tool-page .app { max-width: none; width: 100%; margin: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
+.tool-page .app { padding: 32px 36px 40px; }
 .tool-page .page { min-height: auto; display: block; padding: 28px 20px 0; background: transparent; }
 .tool-page .site-footer { margin-top: 28px; }
 .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--surface) 72%, var(--primary-soft) 100%); }
@@ -162,6 +163,78 @@ td { white-space: normal; }
 .site-footer p { margin: 6px 0; }
 .site-footer a:hover { color: var(--primary); }
 
+:root:not(.dark) .tool-page { background: var(--bg) !important; color: var(--text) !important; }
+:root:not(.dark) .tool-page .app-header,
+:root:not(.dark) .tool-page .header { border-color: var(--border) !important; }
+:root:not(.dark) .tool-page .card { background: var(--surface) !important; border: 1px solid var(--border) !important; box-shadow: var(--shadow) !important; }
+:root:not(.dark) .tool-page .app-header h1,
+:root:not(.dark) .tool-page .header h1 { background: none !important; color: var(--text) !important; -webkit-text-fill-color: var(--text) !important; }
+:root:not(.dark) .tool-page .app-header .badge,
+:root:not(.dark) .tool-page .badge { background: var(--primary-soft) !important; color: var(--primary) !important; }
+:root:not(.dark) .tool-page .header .sub,
+:root:not(.dark) .tool-page .input-panel h2,
+:root:not(.dark) .tool-page .chart-section .chart-header h3,
+:root:not(.dark) .tool-page .table-section .table-header h3,
+:root:not(.dark) .tool-page .chart-box h3,
+:root:not(.dark) .tool-page .param-item label,
+:root:not(.dark) .tool-page .input-group label { color: var(--text) !important; -webkit-text-fill-color: var(--text) !important; }
+
+:root:not(.dark) .tool-page .input-panel,
+:root:not(.dark) .tool-page .result-card,
+:root:not(.dark) .tool-page table thead,
+:root:not(.dark) .tool-page .strategy-content .block { background: var(--surface-muted) !important; border-color: var(--border) !important; }
+:root:not(.dark) .tool-page .input-group input { background: var(--surface) !important; border-color: var(--border) !important; color: var(--text) !important; }
+:root:not(.dark) .tool-page .input-group input:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 4px rgb(22 124 107 / 14%) !important; }
+:root:not(.dark) .tool-page .result-card.highlight,
+:root:not(.dark) .tool-page table .highlight-row td { background: var(--primary-soft) !important; border-color: var(--primary) !important; }
+:root:not(.dark) .tool-page .result-card.highlight .value,
+:root:not(.dark) .tool-page table .highlight-row td,
+:root:not(.dark) .tool-page table .highlight-row td:first-child { color: var(--primary) !important; }
+:root:not(.dark) .tool-page .result-card .value,
+:root:not(.dark) .tool-page .result-detail-item .value,
+:root:not(.dark) .tool-page table td { color: var(--text) !important; }
+:root:not(.dark) .tool-page .result-card .label,
+:root:not(.dark) .tool-page .result-card .sub,
+:root:not(.dark) .tool-page .result-detail-item .label,
+:root:not(.dark) .tool-page .chart-section .chart-header .legend-tip,
+:root:not(.dark) .tool-page .table-section .table-header .count,
+:root:not(.dark) .tool-page .text-muted,
+:root:not(.dark) .tool-page .metric-item .label,
+:root:not(.dark) .tool-page .metric-item .value .sub-unit,
+:root:not(.dark) .tool-page .result-card .plan-desc { color: var(--muted) !important; }
+:root:not(.dark) .tool-page .chart-section,
+:root:not(.dark) .tool-page .table-section,
+:root:not(.dark) .tool-page .result-card .footnote { border-color: var(--border) !important; }
+:root:not(.dark) .tool-page .table-wrap { border-color: var(--border) !important; }
+:root:not(.dark) .tool-page table th { color: var(--muted) !important; }
+:root:not(.dark) .tool-page table td { border-color: var(--border) !important; }
+:root:not(.dark) .tool-page table tbody tr:hover { background: var(--surface-muted) !important; }
+
+:root:not(.dark) .tool-page .header-icon,
+:root:not(.dark) .tool-page .param-item label span.val,
+:root:not(.dark) .tool-page .result-card .footnote span,
+:root:not(.dark) .tool-page .strategy-content .swot-item { background: var(--surface-muted) !important; }
+:root:not(.dark) .tool-page .param-item input[type="range"] { background: linear-gradient(90deg, #b9dfd2, var(--primary)) !important; }
+:root:not(.dark) .tool-page .param-item input[type="range"]::-webkit-slider-thumb,
+:root:not(.dark) .tool-page .param-item input[type="range"]::-moz-range-thumb { background: var(--primary) !important; border-color: var(--surface) !important; }
+:root:not(.dark) .tool-page .strategy-toggle { color: var(--primary) !important; border-color: var(--border) !important; }
+:root:not(.dark) .tool-page .strategy-toggle:hover { color: var(--text) !important; border-color: var(--primary) !important; }
+:root:not(.dark) .tool-page .strategy-content .block { background: var(--surface-muted) !important; border-left-color: var(--primary) !important; box-shadow: 0 4px 16px rgb(25 50 43 / 6%) !important; }
+:root:not(.dark) .tool-page .strategy-content .block h4,
+:root:not(.dark) .tool-page .strategy-content .block p,
+:root:not(.dark) .tool-page .strategy-content .block li,
+:root:not(.dark) .tool-page .strategy-content .block > div > strong { color: var(--text) !important; }
+:root:not(.dark) .tool-page .strategy-content .swot-item { border-color: var(--border) !important; }
+
+:root.dark .tool-page .card { background: var(--surface) !important; border: 1px solid #41685d !important; box-shadow: 0 14px 34px rgb(0 0 0 / 30%) !important; }
+:root.dark .tool-page .strategy-content .block { background: #25483f !important; border-left-color: var(--primary) !important; box-shadow: 0 6px 20px rgb(0 0 0 / 22%) !important; }
+:root.dark .tool-page .strategy-content .block h4,
+:root.dark .tool-page .strategy-content .block p,
+:root.dark .tool-page .strategy-content .block li,
+:root.dark .tool-page .strategy-content .block > div > strong { color: var(--text) !important; }
+:root.dark .tool-page .strategy-content .swot-item { background: #2c5147 !important; border-color: #4b7468 !important; color: var(--text) !important; box-shadow: 0 3px 12px rgb(0 0 0 / 20%) !important; }
+.tool-page .strategy-content.open { max-height: 5000px !important; }
+
 /* The calculator pages have legacy inline light-theme styles. */
 :root.dark .tool-page { background: var(--bg) !important; color: var(--text) !important; }
 :root.dark .tool-page .app-container,
@@ -178,6 +251,7 @@ td { white-space: normal; }
 :root.dark .tool-page .app-header .badge,
 :root.dark .tool-page .badge { background: var(--primary-soft) !important; color: var(--primary) !important; }
 :root.dark .tool-page .header .sub,
+:root.dark .tool-page .card h3,
 :root.dark .tool-page .input-panel h2,
 :root.dark .tool-page .chart-section .chart-header h3,
 :root.dark .tool-page .table-section .table-header h3,
@@ -191,6 +265,10 @@ td { white-space: normal; }
 :root.dark .tool-page .strategy-content .block { background: var(--surface-muted) !important; border-color: var(--border) !important; }
 :root.dark .tool-page .input-group input { background: var(--bg) !important; border-color: var(--border) !important; color: var(--text) !important; }
 :root.dark .tool-page .input-group input:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 4px rgb(99 197 173 / 18%) !important; }
+:root.dark .tool-page .param-item label span.val { color: var(--primary) !important; }
+:root.dark .tool-page .param-item input[type="range"] { background: linear-gradient(90deg, #31564c, var(--primary)) !important; }
+:root.dark .tool-page .param-item input[type="range"]::-webkit-slider-thumb,
+:root.dark .tool-page .param-item input[type="range"]::-moz-range-thumb { background: var(--primary) !important; border-color: var(--surface) !important; box-shadow: 0 2px 8px rgb(99 197 173 / 28%) !important; }
 :root.dark .tool-page .result-card.highlight,
 :root.dark .tool-page table .highlight-row td { background: var(--primary-soft) !important; border-color: var(--primary) !important; }
 :root.dark .tool-page .result-card.highlight .value,
@@ -223,6 +301,12 @@ td { white-space: normal; }
 :root.dark .tool-page .strategy-content .swot-item { background: var(--surface-muted) !important; }
 :root.dark .tool-page .strategy-toggle { color: var(--primary) !important; border-color: var(--border) !important; }
 :root.dark .tool-page .strategy-toggle:hover { color: var(--text) !important; border-color: var(--primary) !important; }
+
+.tool-page .results { margin-top: 28px; }
+.tool-page .charts { margin-top: 28px; }
+:root.dark .tool-page .card { background: #17302b !important; border-color: #41685d !important; box-shadow: 0 14px 34px rgb(0 0 0 / 30%) !important; }
+:root.dark .tool-page .strategy-content .block { background: #25483f !important; border-left-color: var(--primary) !important; box-shadow: 0 6px 20px rgb(0 0 0 / 22%) !important; }
+:root.dark .tool-page .strategy-content .swot-item { background: #2c5147 !important; border-color: #4b7468 !important; color: var(--text) !important; box-shadow: 0 3px 12px rgb(0 0 0 / 20%) !important; }
 
 @media (max-width: 800px) {
   .hero-inner { grid-template-columns: 1fr; gap: 24px; padding-top: 44px; }
