@@ -1,1 +1,5 @@
 User-agent: *
+
+Allow: /
+
+Sitemap: https://www.justful.cn/sitemap.xml
