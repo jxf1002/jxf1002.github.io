@@ -640,8 +640,25 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/css/site.css?v=4" />
+    <script src="/assets/js/common.js"></script>
   </head>
-  <body>
+  <body class="tool-page">
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><span class="site-home-icon">⌂</span><span>贾师傅的小站</span></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
     <main class="page">
       <section class="app is-paused" aria-label="跑步速度控制器">
         <header class="topbar">
@@ -729,6 +746,14 @@
         </section>
       </section>
     </main>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> justful.cn版权所有</p>
+      <p>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer"
+          >京ICP备18007833号-1</a
+        >
+      </p>
+    </footer>
     <script>
       const range = document.querySelector("[data-speed-range]")
       const speeds = document.querySelectorAll("[data-speed]")

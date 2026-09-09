@@ -439,193 +439,220 @@
         gap: 6px;
       }
     </style>
+    <link rel="stylesheet" href="/assets/css/site.css?v=4" />
+    <script src="/assets/js/common.js"></script>
   </head>
-  <body>
-    <div class="app-container">
-      <!-- ======== 头部 ======== -->
-      <header class="app-header">
-        <span class="icon">📊</span>
-        <h1>DCF 企业估值计算器</h1>
-        <span class="badge">现金流折现法</span>
-      </header>
+  <body class="tool-page">
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><span class="site-home-icon">⌂</span><span>贾师傅的小站</span></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
+    <main class="tool-main">
+      <div class="app-container">
+        <!-- ======== 头部 ======== -->
+        <header class="app-header">
+          <span class="icon">📊</span>
+          <h1>DCF 企业估值计算器</h1>
+          <span class="badge">现金流折现法</span>
+        </header>
 
-      <!-- ======== 主网格 ======== -->
-      <div class="main-grid">
-        <!-- 输入面板 -->
-        <section class="input-panel">
-          <h2><span>⚙️</span> 参数设置</h2>
+        <!-- ======== 主网格 ======== -->
+        <div class="main-grid">
+          <!-- 输入面板 -->
+          <section class="input-panel">
+            <h2><span>⚙️</span> 参数设置</h2>
 
-          <div class="input-group">
-            <label>
-              最近一期净利润
-              <span class="unit">亿元</span>
-            </label>
-            <input
-              type="number"
-              id="netProfit"
-              value="10"
-              step="0.1"
-              min="0.01"
-            />
-            <div class="hint">作为基期现金流</div>
-          </div>
-
-          <div class="input-row-duo">
             <div class="input-group">
               <label>
-                高速增长年度
-                <span class="unit">年</span>
+                最近一期净利润
+                <span class="unit">亿元</span>
               </label>
               <input
                 type="number"
-                id="growthYears"
-                value="5"
-                step="1"
-                min="0"
-                max="30"
-              />
-            </div>
-            <div class="input-group">
-              <label>
-                高速增长率
-                <span class="unit">%</span>
-              </label>
-              <input
-                type="number"
-                id="growthRate"
-                value="15"
-                step="1"
-                min="0.1"
-                max="100"
-              />
-            </div>
-          </div>
-
-          <div class="input-row-duo">
-            <div class="input-group">
-              <label>
-                永续增长率
-                <span class="unit">%</span>
-              </label>
-              <input
-                type="number"
-                id="terminalRate"
-                value="3"
-                step="1"
-                min="0"
-                max="10"
-              />
-              <div class="hint">通常 &lt; 折现率</div>
-            </div>
-            <div class="input-group">
-              <label>
-                折现率
-                <span class="unit">%</span>
-              </label>
-              <input
-                type="number"
-                id="discountRate"
+                id="netProfit"
                 value="10"
-                step="1"
-                min="1"
-                max="30"
+                step="0.1"
+                min="0.01"
               />
-              <div class="hint">WACC 或 必要收益率</div>
+              <div class="hint">作为基期现金流</div>
             </div>
-          </div>
 
-          <div
-            style="
-              margin-top: 6px;
-              font-size: 12px;
-              color: #94a3b8;
-              text-align: right;
-            "
-          >
-            💡 调整参数后自动更新
+            <div class="input-row-duo">
+              <div class="input-group">
+                <label>
+                  高速增长年度
+                  <span class="unit">年</span>
+                </label>
+                <input
+                  type="number"
+                  id="growthYears"
+                  value="5"
+                  step="1"
+                  min="0"
+                  max="30"
+                />
+              </div>
+              <div class="input-group">
+                <label>
+                  高速增长率
+                  <span class="unit">%</span>
+                </label>
+                <input
+                  type="number"
+                  id="growthRate"
+                  value="15"
+                  step="1"
+                  min="0.1"
+                  max="100"
+                />
+              </div>
+            </div>
+
+            <div class="input-row-duo">
+              <div class="input-group">
+                <label>
+                  永续增长率
+                  <span class="unit">%</span>
+                </label>
+                <input
+                  type="number"
+                  id="terminalRate"
+                  value="3"
+                  step="1"
+                  min="0"
+                  max="10"
+                />
+                <div class="hint">通常 &lt; 折现率</div>
+              </div>
+              <div class="input-group">
+                <label>
+                  折现率
+                  <span class="unit">%</span>
+                </label>
+                <input
+                  type="number"
+                  id="discountRate"
+                  value="10"
+                  step="1"
+                  min="1"
+                  max="30"
+                />
+                <div class="hint">WACC 或 必要收益率</div>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 6px;
+                font-size: 12px;
+                color: #94a3b8;
+                text-align: right;
+              "
+            >
+              💡 调整参数后自动更新
+            </div>
+          </section>
+
+          <!-- 结果面板 -->
+          <section class="result-panel">
+            <div class="result-cards">
+              <div class="result-card highlight">
+                <div class="label">🏢 企业估值</div>
+                <div class="value" id="totalValue">
+                  — <span class="currency">亿元</span>
+                </div>
+                <div class="sub" id="totalValueSub">折现到当前</div>
+              </div>
+              <div class="result-card">
+                <div class="label">📈 高速增长期价值</div>
+                <div class="value" id="highGrowthValue">
+                  — <span class="currency">亿元</span>
+                </div>
+                <div class="sub" id="highGrowthPct">占比 —%</div>
+              </div>
+              <div class="result-card">
+                <div class="label">♾️ 永续期价值</div>
+                <div class="value" id="terminalValue">
+                  — <span class="currency">亿元</span>
+                </div>
+                <div class="sub" id="terminalPct">占比 —%</div>
+              </div>
+            </div>
+
+            <div class="result-detail-row">
+              <div class="result-detail-item">
+                <span class="label">📅 高速增长期</span>
+                <span class="value" id="detailYears">5 年</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="label">📈 高速增长率</span>
+                <span class="value" id="detailGrowthRate">15.0%</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="label">♾️ 永续增长率</span>
+                <span class="value" id="detailTerminalRate">3.0%</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ======== 图表 ======== -->
+        <section class="chart-section">
+          <div class="chart-header">
+            <h3>📉 现金流 &amp; 折现值趋势</h3>
+            <span class="legend-tip"
+              >柱状图 · 现金流 &nbsp;|&nbsp; 折线图 · 折现值</span
+            >
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="dcfChart"></canvas>
           </div>
         </section>
 
-        <!-- 结果面板 -->
-        <section class="result-panel">
-          <div class="result-cards">
-            <div class="result-card highlight">
-              <div class="label">🏢 企业估值</div>
-              <div class="value" id="totalValue">
-                — <span class="currency">亿元</span>
-              </div>
-              <div class="sub" id="totalValueSub">折现到当前</div>
-            </div>
-            <div class="result-card">
-              <div class="label">📈 高速增长期价值</div>
-              <div class="value" id="highGrowthValue">
-                — <span class="currency">亿元</span>
-              </div>
-              <div class="sub" id="highGrowthPct">占比 —%</div>
-            </div>
-            <div class="result-card">
-              <div class="label">♾️ 永续期价值</div>
-              <div class="value" id="terminalValue">
-                — <span class="currency">亿元</span>
-              </div>
-              <div class="sub" id="terminalPct">占比 —%</div>
-            </div>
+        <!-- ======== 数据表格 ======== -->
+        <section class="table-section">
+          <div class="table-header">
+            <h3>📋 逐年明细数据</h3>
+            <span class="count" id="tableCount">共 0 期</span>
           </div>
-
-          <div class="result-detail-row">
-            <div class="result-detail-item">
-              <span class="label">📅 高速增长期</span>
-              <span class="value" id="detailYears">5 年</span>
-            </div>
-            <div class="result-detail-item">
-              <span class="label">📈 高速增长率</span>
-              <span class="value" id="detailGrowthRate">15.0%</span>
-            </div>
-            <div class="result-detail-item">
-              <span class="label">♾️ 永续增长率</span>
-              <span class="value" id="detailTerminalRate">3.0%</span>
-            </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>年份</th>
+                  <th>现金流 (亿元)</th>
+                  <th>折现因子</th>
+                  <th>折现值 (亿元)</th>
+                  <th>累计折现值 (亿元)</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- JS 动态渲染 -->
+              </tbody>
+            </table>
           </div>
         </section>
       </div>
-
-      <!-- ======== 图表 ======== -->
-      <section class="chart-section">
-        <div class="chart-header">
-          <h3>📉 现金流 &amp; 折现值趋势</h3>
-          <span class="legend-tip"
-            >柱状图 · 现金流 &nbsp;|&nbsp; 折线图 · 折现值</span
-          >
-        </div>
-        <div class="chart-wrapper">
-          <canvas id="dcfChart"></canvas>
-        </div>
-      </section>
-
-      <!-- ======== 数据表格 ======== -->
-      <section class="table-section">
-        <div class="table-header">
-          <h3>📋 逐年明细数据</h3>
-          <span class="count" id="tableCount">共 0 期</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>年份</th>
-                <th>现金流 (亿元)</th>
-                <th>折现因子</th>
-                <th>折现值 (亿元)</th>
-                <th>累计折现值 (亿元)</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <!-- JS 动态渲染 -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+    </main>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> justful.cn版权所有</p>
+      <p>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer"
+          >京ICP备18007833号-1</a
+        >
+      </p>
+    </footer>
 
     <script>
       // ================================================================

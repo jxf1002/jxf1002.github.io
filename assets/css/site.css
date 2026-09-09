@@ -2,27 +2,29 @@
 
 :root {
   color-scheme: light;
-  --bg: #f8fafc;
+  --bg: #f4f7f5;
   --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --text: #172033;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --primary: #7c3aed;
-  --primary-soft: #ede9fe;
-  --shadow: 0 12px 32px rgb(15 23 42 / 8%);
+  --surface-muted: #e8efeb;
+  --text: #19322b;
+  --muted: #657a72;
+  --border: #d8e3dd;
+  --primary: #167c6b;
+  --primary-soft: #d9eee7;
+  --accent: #e57b5d;
+  --shadow: 0 12px 32px rgb(25 50 43 / 8%);
 }
 
 :root.dark {
   color-scheme: dark;
-  --bg: #0f172a;
-  --surface: #172033;
-  --surface-muted: #1e293b;
+  --bg: #10221f;
+  --surface: #17302b;
+  --surface-muted: #21413a;
   --text: #f8fafc;
-  --muted: #94a3b8;
-  --border: #334155;
-  --primary: #a78bfa;
-  --primary-soft: #312e81;
+  --muted: #a1b8af;
+  --border: #31564c;
+  --primary: #63c5ad;
+  --primary-soft: #245248;
+  --accent: #f09a79;
   --shadow: 0 12px 32px rgb(0 0 0 / 24%);
 }
 
@@ -44,31 +46,41 @@ button, input, select { font: inherit; }
   z-index: 10;
   display: flex;
   align-items: center;
-  min-height: 64px;
+  min-height: 68px;
   padding: 0 20px;
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
 }
-.site-brand { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 700; }
+.site-brand { display: flex; align-items: center; gap: 8px; font-size: 21px; font-weight: 700; letter-spacing: .01em; }
 .site-home-icon { color: var(--primary); font-size: 28px; line-height: 1; }
 .site-actions { margin-left: auto; }
 .theme-toggle { width: 38px; height: 38px; border: 0; border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; font-size: 20px; }
 .theme-toggle:hover { background: var(--surface-muted); }
 
 main { min-height: calc(100vh - 145px); }
-.hero { background: var(--surface); }
-.hero-inner { display: grid; grid-template-columns: 1fr 420px; gap: 32px; max-width: 1200px; align-items: center; margin: 0 auto; padding: 72px 20px 56px; }
-.hero h1 { max-width: 680px; margin: 0 0 16px; font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 1.1; letter-spacing: -0.04em; }
-.hero p { max-width: 600px; margin: 0; color: var(--muted); font-size: 1.2rem; }
-.hero-image { width: 100%; max-height: 280px; object-fit: contain; }
+.tool-page { display: block; padding: 0; background: var(--bg); }
+.tool-main { width: min(1240px, 100%); margin: 0 auto; padding: 28px 20px 0; }
+.tool-page .app-container, .tool-page .app { max-width: none; width: 100%; margin: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
+.tool-page .page { min-height: auto; display: block; padding: 28px 20px 0; background: transparent; }
+.tool-page .site-footer { margin-top: 28px; }
+.hero { background: linear-gradient(135deg, var(--surface) 0%, var(--surface) 72%, var(--primary-soft) 100%); }
+.hero-inner { display: grid; grid-template-columns: 1fr 380px; gap: 48px; max-width: 1200px; align-items: center; margin: 0 auto; padding: 58px 20px 48px; }
+.hero-kicker { margin: 0 0 14px; color: var(--primary); font-size: .78rem; font-weight: 700; letter-spacing: .12em; }
+.hero h1 { max-width: 680px; margin: 0 0 14px; font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.12; letter-spacing: -.03em; }
+.hero-description { max-width: 560px; margin: 0; color: var(--muted); font-size: 1.1rem; }
+.hero-image { width: 100%; max-height: 260px; object-fit: contain; }
 
 .block { max-width: 1200px; margin: 0 auto; padding: 18px 20px; }
 .block-title { display: flex; align-items: center; gap: 16px; margin: 0 0 20px; color: var(--primary); font-size: 18px; }
 .block-title::after { content: ""; height: 1px; flex: 1; background: var(--border); }
 .card-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.link-card { display: block; height: 100%; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); transition: transform .2s, border-color .2s; }
-.link-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.link-card { display: block; height: 100%; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); transition: transform .2s, border-color .2s, box-shadow .2s; }
+.link-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 16px 34px rgb(25 50 43 / 12%); }
+.link-card:focus-visible, .theme-toggle:focus-visible, .button:focus-visible, .control:focus-visible, .pagination button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.link-card-meta { display: flex; align-items: center; justify-content: space-between; min-height: 22px; margin-bottom: 12px; color: var(--primary); font-size: .78rem; font-weight: 700; }
+.link-card-arrow { color: var(--accent); font-size: 1.2rem; transition: transform .2s; }
+.link-card:hover .link-card-arrow { transform: translateX(4px); }
 .link-card h3 { margin: 0 0 12px; font-size: 1.15rem; }
 .link-card p { min-height: 3.2em; margin: 0; color: var(--muted); font-size: .95rem; }
 
@@ -110,13 +122,75 @@ td { white-space: normal; }
 .province-stat-row { cursor: pointer; }
 .province-stat-row:hover, .province-stat-row:focus { background: var(--surface-muted); outline: none; }
 
-.site-footer { padding: 18px 20px 24px; color: var(--muted); text-align: center; font-size: .875rem; }
+.site-footer { margin-top: 30px; padding: 28px 20px 32px; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); text-align: center; font-size: .875rem; }
 .site-footer p { margin: 6px 0; }
 .site-footer a:hover { color: var(--primary); }
 
+/* The calculator pages have legacy inline light-theme styles. */
+:root.dark .tool-page { background: var(--bg) !important; color: var(--text) !important; }
+:root.dark .tool-page .app-container,
+:root.dark .tool-page .card,
+:root.dark .tool-page .result-card,
+:root.dark .tool-page .result-detail-item,
+:root.dark .tool-page .chart-box,
+:root.dark .tool-page .swot-item { background: var(--surface) !important; border-color: var(--border) !important; color: var(--text) !important; box-shadow: var(--shadow) !important; }
+
+:root.dark .tool-page .app-header,
+:root.dark .tool-page .header { border-color: var(--border) !important; }
+:root.dark .tool-page .app-header h1,
+:root.dark .tool-page .header h1 { background: none !important; color: var(--text) !important; -webkit-text-fill-color: var(--text) !important; }
+:root.dark .tool-page .app-header .badge,
+:root.dark .tool-page .badge { background: var(--primary-soft) !important; color: var(--primary) !important; }
+:root.dark .tool-page .header .sub,
+:root.dark .tool-page .input-panel h2,
+:root.dark .tool-page .chart-section .chart-header h3,
+:root.dark .tool-page .table-section .table-header h3,
+:root.dark .tool-page .chart-box h3,
+:root.dark .tool-page .param-item label,
+:root.dark .tool-page .input-group label { color: var(--text) !important; -webkit-text-fill-color: var(--text) !important; }
+
+:root.dark .tool-page .input-panel,
+:root.dark .tool-page .result-card,
+:root.dark .tool-page table thead,
+:root.dark .tool-page .strategy-content .block { background: var(--surface-muted) !important; border-color: var(--border) !important; }
+:root.dark .tool-page .input-group input { background: var(--bg) !important; border-color: var(--border) !important; color: var(--text) !important; }
+:root.dark .tool-page .input-group input:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 4px rgb(99 197 173 / 18%) !important; }
+:root.dark .tool-page .result-card.highlight,
+:root.dark .tool-page table .highlight-row td { background: var(--primary-soft) !important; border-color: var(--primary) !important; }
+:root.dark .tool-page .result-card.highlight .value,
+:root.dark .tool-page table .highlight-row td,
+:root.dark .tool-page table .highlight-row td:first-child { color: var(--primary) !important; }
+:root.dark .tool-page .result-card .value,
+:root.dark .tool-page .result-detail-item .value,
+:root.dark .tool-page table td { color: var(--text) !important; }
+:root.dark .tool-page .result-card .label,
+:root.dark .tool-page .result-card .sub,
+:root.dark .tool-page .result-detail-item .label,
+:root.dark .tool-page .chart-section .chart-header .legend-tip,
+:root.dark .tool-page .table-section .table-header .count,
+:root.dark .tool-page .text-muted,
+:root.dark .tool-page .metric-item .label,
+:root.dark .tool-page .metric-item .value .sub-unit,
+:root.dark .tool-page .result-card .plan-desc { color: var(--muted) !important; }
+:root.dark .tool-page .chart-section,
+:root.dark .tool-page .table-section,
+:root.dark .tool-page .result-card .footnote { border-color: var(--border) !important; }
+:root.dark .tool-page .table-wrap { border-color: var(--border) !important; }
+:root.dark .tool-page table th { color: var(--muted) !important; }
+:root.dark .tool-page table td { border-color: var(--border) !important; }
+:root.dark .tool-page table tbody tr:hover { background: var(--surface-muted) !important; }
+
+:root.dark .tool-page .header-icon,
+:root.dark .tool-page .param-item label span.val,
+:root.dark .tool-page .result-card .footnote span,
+:root.dark .tool-page .strategy-content .block,
+:root.dark .tool-page .strategy-content .swot-item { background: var(--surface-muted) !important; }
+:root.dark .tool-page .strategy-toggle { color: var(--primary) !important; border-color: var(--border) !important; }
+:root.dark .tool-page .strategy-toggle:hover { color: var(--text) !important; border-color: var(--primary) !important; }
+
 @media (max-width: 800px) {
-  .hero-inner { grid-template-columns: 1fr; padding-top: 48px; }
-  .hero-image { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; padding-top: 44px; }
+  .hero-image { width: min(78%, 320px); justify-self: center; }
   .card-grid { grid-template-columns: 1fr; }
   .filters { flex-direction: column; }
   .control { max-width: none; }

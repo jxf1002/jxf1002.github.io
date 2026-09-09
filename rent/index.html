@@ -489,422 +489,455 @@
         gap: 4px;
       }
     </style>
+    <link rel="stylesheet" href="/assets/css/site.css?v=4" />
+    <script src="/assets/js/common.js"></script>
   </head>
-  <body>
-    <div class="app">
-      <!-- ===== HEADER ===== -->
-      <header class="header">
-        <div class="header-left">
-          <div class="header-icon">🏠</div>
-          <div>
-            <h1>房产投资策略 · 可视化分析</h1>
-            <div class="sub">买入 → 装修 → 出租 · 套利模型</div>
+  <body class="tool-page">
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><span class="site-home-icon">⌂</span><span>贾师傅的小站</span></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
+    <main class="tool-main">
+      <div class="app">
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+          <div class="header-left">
+            <div class="header-icon">🏠</div>
+            <div>
+              <h1>房产投资策略 · 可视化分析</h1>
+              <div class="sub">买入 → 装修 → 出租 · 套利模型</div>
+            </div>
           </div>
-        </div>
-        <div class="badge">⚡ 实时调参</div>
-      </header>
+          <div class="badge">⚡ 实时调参</div>
+        </header>
 
-      <!-- ===== 参数面板 ===== -->
-      <section class="card" style="padding-bottom: 20px">
-        <div
+        <!-- ===== 参数面板 ===== -->
+        <section class="card" style="padding-bottom: 20px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 14px;
+              flex-wrap: wrap;
+              gap: 8px;
+            "
+          >
+            <h3 style="font-size: 16px; font-weight: 600; color: #1f3a52">
+              📐 核心参数
+            </h3>
+            <span class="text-muted" style="font-size: 13px"
+              >拖动滑块 · 结果实时更新</span
+            >
+          </div>
+          <div class="params-grid" id="paramsGrid">
+            <!-- 购房总价 -->
+            <div class="param-item">
+              <label
+                >购房总价 <span class="val" id="valPrice">100</span>万</label
+              >
+              <input
+                type="range"
+                id="price"
+                min="40"
+                max="400"
+                value="100"
+                step="2"
+              />
+              <div class="hint">40 – 400 万</div>
+            </div>
+            <!-- 年租金收入 -->
+            <div class="param-item">
+              <label
+                >年租金收入 <span class="val" id="valRent">10.0</span>万</label
+              >
+              <input
+                type="range"
+                id="rent"
+                min="2"
+                max="30"
+                value="10"
+                step="0.5"
+              />
+              <div class="hint">2 – 30 万</div>
+            </div>
+            <!-- 装修成本 -->
+            <div class="param-item">
+              <label
+                >装修成本
+                <span class="val" id="valRenovate">10.0</span>万</label
+              >
+              <input
+                type="range"
+                id="renovate"
+                min="1"
+                max="30"
+                value="10"
+                step="0.5"
+              />
+              <div class="hint">1 – 30 万</div>
+            </div>
+            <!-- 物业取暖费 -->
+            <div class="param-item">
+              <label
+                >物业+取暖
+                <span class="val" id="valMaintain">1.0</span>万</label
+              >
+              <input
+                type="range"
+                id="maintain"
+                min="0.2"
+                max="5"
+                value="1"
+                step="0.1"
+              />
+              <div class="hint">0.2 – 5 万/年</div>
+            </div>
+            <!-- 融资比例 -->
+            <div class="param-item">
+              <label
+                >融资比例 <span class="val" id="valLeverage">75</span>%</label
+              >
+              <input
+                type="range"
+                id="leverage"
+                min="10"
+                max="95"
+                value="75"
+                step="1"
+              />
+              <div class="hint">10% – 95%</div>
+            </div>
+            <!-- 融资利率 -->
+            <div class="param-item">
+              <label>融资利率 <span class="val" id="valRate">5.0</span>%</label>
+              <input
+                type="range"
+                id="rate"
+                min="1"
+                max="10"
+                value="5"
+                step="0.1"
+              />
+              <div class="hint">1% – 10% /年</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 结果卡片 ===== -->
+        <section class="results" id="resultsContainer">
+          <!-- 方案一 -->
+          <div class="result-card" id="planA">
+            <div class="plan-badge plan-a">方案一 · 自有资金</div>
+            <div class="plan-title">💰 全款持有</div>
+            <div class="plan-desc">购房资金 100% 自有</div>
+            <div class="metric-grid" id="metricsA">
+              <div class="metric-item">
+                <span class="label">初始投资</span
+                ><span class="value neutral" id="aInvest"
+                  >100<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">年租金</span
+                ><span class="value neutral" id="aRent"
+                  >10<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第一年利润</span
+                ><span class="value neutral" id="aProfit1"
+                  >0<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第二年及以后 年利润</span
+                ><span class="value positive" id="aProfit2"
+                  >9.0<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">第一年收益率</span
+                ><span class="value neutral" id="aReturn1">0%</span>
+              </div>
+              <div class="metric-item">
+                <span class="label">长期年化收益率</span
+                ><span class="value positive" id="aReturn2">9.0%</span>
+              </div>
+            </div>
+            <div class="footnote">
+              <span>📌 回本周期 ≈ 11.1 年</span><span>风险 ⭐</span>
+            </div>
+          </div>
+
+          <!-- 方案二 -->
+          <div class="result-card" id="planB">
+            <div class="plan-badge plan-b">方案二 · 杠杆</div>
+            <div class="plan-title">🏦 首付 25%</div>
+            <div class="plan-desc">自有资金 25% + 融资 75%</div>
+            <div class="metric-grid" id="metricsB">
+              <div class="metric-item">
+                <span class="label">初始投资</span
+                ><span class="value neutral" id="bInvest"
+                  >25<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">年租金</span
+                ><span class="value neutral" id="bRent"
+                  >10<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第一年利润</span
+                ><span class="value negative" id="bProfit1"
+                  >-4.75<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第二年及以后 年利润</span
+                ><span class="value positive" id="bProfit2"
+                  >5.25<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">第一年收益率</span
+                ><span class="value negative" id="bReturn1">-19%</span>
+              </div>
+              <div class="metric-item">
+                <span class="label">长期年化收益率</span
+                ><span class="value positive" id="bReturn2">21.0%</span>
+              </div>
+            </div>
+            <div class="footnote">
+              <span>📌 回本周期 ≈ 4.8 年</span><span>风险 ⭐⭐⭐</span>
+            </div>
+          </div>
+
+          <!-- 方案三 -->
+          <div class="result-card" id="planC">
+            <div class="plan-badge plan-c">方案三 · 高杠杆</div>
+            <div class="plan-title">🚀 零首付</div>
+            <div class="plan-desc">购房 + 装修 全部融资</div>
+            <div class="metric-grid" id="metricsC">
+              <div class="metric-item">
+                <span class="label">初始投资</span
+                ><span class="value neutral" id="cInvest"
+                  >0<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">年租金</span
+                ><span class="value neutral" id="cRent"
+                  >10<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第一年利润</span
+                ><span class="value positive" id="cProfit1"
+                  >3.50<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item full">
+                <span class="label">第二年及以后 年利润</span
+                ><span class="value positive" id="cProfit2"
+                  >3.50<span class="sub-unit">万</span></span
+                >
+              </div>
+              <div class="metric-item">
+                <span class="label">第一年收益率</span
+                ><span class="value positive" id="cReturn1">∞</span>
+              </div>
+              <div class="metric-item">
+                <span class="label">长期年化收益率</span
+                ><span class="value positive" id="cReturn2">∞</span>
+              </div>
+            </div>
+            <div class="footnote">
+              <span>📌 无本金 · 无限杠杆</span><span>风险 ⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图表区 ===== -->
+        <section class="charts">
+          <div class="chart-box">
+            <h3>📊 年利润对比（第一年 vs 长期）</h3>
+            <canvas id="profitChart"></canvas>
+          </div>
+          <div class="chart-box">
+            <h3>📈 年化收益率对比</h3>
+            <canvas id="returnChart"></canvas>
+          </div>
+        </section>
+
+        <!-- ===== 策略详情（折叠） ===== -->
+        <section class="card" style="padding: 12px 24px 20px">
+          <button class="strategy-toggle" id="strategyToggle">
+            <span class="arrow" id="arrowIcon">▶</span>
+            📖 查看完整策略 · 可行性分析 / SWOT / 执行过程 / 其他效益
+          </button>
+          <div class="strategy-content" id="strategyContent">
+            <!-- 可行性分析 -->
+            <div class="block">
+              <h4>🔍 1. 可行性分析</h4>
+              <p>
+                随着房地产价格的下行，租售比逐渐进入了一个比较可观的区间，存在高于存款利率的盈利空间。<br />
+                结合多年租房体验，交通方便的核心区域的房产普遍老旧，装修奇差，居住体验很不好，用户对老旧小区高品质住宅有需求，存在约20%的高溢价出租空间。<br />
+                装修后再出售的套利模式存在回款慢，串串房信任危机等问题。在此基础上，我们通过自行装修并录视频的方式，消除用户疑虑，节约装修成本，同时采用出租模型套利，回款快，选择租售比低的房地产标地时，租金收益不但可覆盖融资成本，还可以持续带来收益。
+              </p>
+              <div style="margin-top: 12px">
+                <strong style="font-size: 14px; color: #1a3a55"
+                  >SWOT 分析</strong
+                >
+                <div class="swot-grid" style="margin-top: 6px">
+                  <div class="swot-item s">
+                    <strong style="color: #1f7a4a">✅ 优势</strong>
+                    有原始资本、学习能力强、时间充裕。
+                  </div>
+                  <div class="swot-item w">
+                    <strong style="color: #b53b3b">❌ 劣势</strong>
+                    锁定资本、回款周期长、优质房产信息获取难。
+                  </div>
+                  <div class="swot-item o">
+                    <strong style="color: #1f6390">📈 机会</strong>
+                    房地产下行期、存在高品质租住需求。
+                  </div>
+                  <div class="swot-item t">
+                    <strong style="color: #b86b1a">⚠️ 威胁</strong>
+                    房产税、人口外流。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 执行过程 -->
+            <div class="block">
+              <h4>⚙️ 2. 执行过程</h4>
+              <p style="font-weight: 600; color: #1a3a55">购入 → 装修 → 出租</p>
+              <ul>
+                <li>购入租售比低于150的房产</li>
+                <li>进行装修，打造白领高品质居住体验，装修过程中录制视频</li>
+                <li>
+                  利用装修过程视频消除装修材料和过程的品质疑虑，最终成本视频挂出租价，投本地抖加引流
+                </li>
+                <li>
+                  锁定目标客户，长期出租：20-30岁白领女性、高薪收入男性、子女上学
+                </li>
+              </ul>
+            </div>
+
+            <!-- 经济效益 -->
+            <div class="block">
+              <h4>💰 3. 经济效益（基于当前参数）</h4>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                  gap: 12px;
+                  margin-top: 6px;
+                "
+              >
+                <div
+                  style="
+                    background: #f2f8ff;
+                    border-radius: 12px;
+                    padding: 12px 16px;
+                  "
+                >
+                  <strong>方案一 · 自有资金</strong>
+                  <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
+                    投资：<span id="ecoAInvest">100</span>万<br />
+                    第一年利润：<span id="ecoAProfit1">0</span>万<br />
+                    长期利润：<span id="ecoAProfit2">9.0</span>万/年<br />
+                    长期收益率：<span id="ecoAReturn">9.0</span>%
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: #f0faf5;
+                    border-radius: 12px;
+                    padding: 12px 16px;
+                  "
+                >
+                  <strong>方案二 · 杠杆</strong>
+                  <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
+                    投资：<span id="ecoBInvest">25</span>万<br />
+                    第一年利润：<span id="ecoBProfit1">-4.75</span>万<br />
+                    长期利润：<span id="ecoBProfit2">5.25</span>万/年<br />
+                    长期收益率：<span id="ecoBReturn">21.0</span>%
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: #fef7ed;
+                    border-radius: 12px;
+                    padding: 12px 16px;
+                  "
+                >
+                  <strong>方案三 · 高杠杆</strong>
+                  <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
+                    投资：<span id="ecoCInvest">0</span>万<br />
+                    第一年利润：<span id="ecoCProfit1">3.50</span>万<br />
+                    长期利润：<span id="ecoCProfit2">3.50</span>万/年<br />
+                    长期收益率：<span id="ecoCReturn">∞</span>
+                  </div>
+                </div>
+              </div>
+              <p style="font-size: 13px; color: #5e6f82; margin-top: 10px">
+                * 第一年利润已扣除装修成本；长期利润为第二年及以后年度利润。
+              </p>
+            </div>
+
+            <!-- 其他效益 -->
+            <div class="block">
+              <h4>🌟 4. 其他效益</h4>
+              <ul>
+                <li>
+                  学习房产投资知识，包括且不限于房屋买卖流程，评估贷款流程等
+                </li>
+                <li>学习装修技术</li>
+                <li>学习自媒体视频制作技术</li>
+                <li>学习自媒体营销</li>
+                <li>打发时间</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <footer
           style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            gap: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #8a9db0;
+            padding: 24px 0 8px;
+            border-top: 1px solid #e9edf2;
+            margin-top: 12px;
           "
         >
-          <h3 style="font-size: 16px; font-weight: 600; color: #1f3a52">
-            📐 核心参数
-          </h3>
-          <span class="text-muted" style="font-size: 13px"
-            >拖动滑块 · 结果实时更新</span
-          >
-        </div>
-        <div class="params-grid" id="paramsGrid">
-          <!-- 购房总价 -->
-          <div class="param-item">
-            <label>购房总价 <span class="val" id="valPrice">100</span>万</label>
-            <input
-              type="range"
-              id="price"
-              min="40"
-              max="400"
-              value="100"
-              step="2"
-            />
-            <div class="hint">40 – 400 万</div>
-          </div>
-          <!-- 年租金收入 -->
-          <div class="param-item">
-            <label
-              >年租金收入 <span class="val" id="valRent">10.0</span>万</label
-            >
-            <input
-              type="range"
-              id="rent"
-              min="2"
-              max="30"
-              value="10"
-              step="0.5"
-            />
-            <div class="hint">2 – 30 万</div>
-          </div>
-          <!-- 装修成本 -->
-          <div class="param-item">
-            <label
-              >装修成本 <span class="val" id="valRenovate">10.0</span>万</label
-            >
-            <input
-              type="range"
-              id="renovate"
-              min="1"
-              max="30"
-              value="10"
-              step="0.5"
-            />
-            <div class="hint">1 – 30 万</div>
-          </div>
-          <!-- 物业取暖费 -->
-          <div class="param-item">
-            <label
-              >物业+取暖 <span class="val" id="valMaintain">1.0</span>万</label
-            >
-            <input
-              type="range"
-              id="maintain"
-              min="0.2"
-              max="5"
-              value="1"
-              step="0.1"
-            />
-            <div class="hint">0.2 – 5 万/年</div>
-          </div>
-          <!-- 融资比例 -->
-          <div class="param-item">
-            <label
-              >融资比例 <span class="val" id="valLeverage">75</span>%</label
-            >
-            <input
-              type="range"
-              id="leverage"
-              min="10"
-              max="95"
-              value="75"
-              step="1"
-            />
-            <div class="hint">10% – 95%</div>
-          </div>
-          <!-- 融资利率 -->
-          <div class="param-item">
-            <label>融资利率 <span class="val" id="valRate">5.0</span>%</label>
-            <input
-              type="range"
-              id="rate"
-              min="1"
-              max="10"
-              value="5"
-              step="0.1"
-            />
-            <div class="hint">1% – 10% /年</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== 结果卡片 ===== -->
-      <section class="results" id="resultsContainer">
-        <!-- 方案一 -->
-        <div class="result-card" id="planA">
-          <div class="plan-badge plan-a">方案一 · 自有资金</div>
-          <div class="plan-title">💰 全款持有</div>
-          <div class="plan-desc">购房资金 100% 自有</div>
-          <div class="metric-grid" id="metricsA">
-            <div class="metric-item">
-              <span class="label">初始投资</span
-              ><span class="value neutral" id="aInvest"
-                >100<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">年租金</span
-              ><span class="value neutral" id="aRent"
-                >10<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第一年利润</span
-              ><span class="value neutral" id="aProfit1"
-                >0<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第二年及以后 年利润</span
-              ><span class="value positive" id="aProfit2"
-                >9.0<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">第一年收益率</span
-              ><span class="value neutral" id="aReturn1">0%</span>
-            </div>
-            <div class="metric-item">
-              <span class="label">长期年化收益率</span
-              ><span class="value positive" id="aReturn2">9.0%</span>
-            </div>
-          </div>
-          <div class="footnote">
-            <span>📌 回本周期 ≈ 11.1 年</span><span>风险 ⭐</span>
-          </div>
-        </div>
-
-        <!-- 方案二 -->
-        <div class="result-card" id="planB">
-          <div class="plan-badge plan-b">方案二 · 杠杆</div>
-          <div class="plan-title">🏦 首付 25%</div>
-          <div class="plan-desc">自有资金 25% + 融资 75%</div>
-          <div class="metric-grid" id="metricsB">
-            <div class="metric-item">
-              <span class="label">初始投资</span
-              ><span class="value neutral" id="bInvest"
-                >25<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">年租金</span
-              ><span class="value neutral" id="bRent"
-                >10<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第一年利润</span
-              ><span class="value negative" id="bProfit1"
-                >-4.75<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第二年及以后 年利润</span
-              ><span class="value positive" id="bProfit2"
-                >5.25<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">第一年收益率</span
-              ><span class="value negative" id="bReturn1">-19%</span>
-            </div>
-            <div class="metric-item">
-              <span class="label">长期年化收益率</span
-              ><span class="value positive" id="bReturn2">21.0%</span>
-            </div>
-          </div>
-          <div class="footnote">
-            <span>📌 回本周期 ≈ 4.8 年</span><span>风险 ⭐⭐⭐</span>
-          </div>
-        </div>
-
-        <!-- 方案三 -->
-        <div class="result-card" id="planC">
-          <div class="plan-badge plan-c">方案三 · 高杠杆</div>
-          <div class="plan-title">🚀 零首付</div>
-          <div class="plan-desc">购房 + 装修 全部融资</div>
-          <div class="metric-grid" id="metricsC">
-            <div class="metric-item">
-              <span class="label">初始投资</span
-              ><span class="value neutral" id="cInvest"
-                >0<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">年租金</span
-              ><span class="value neutral" id="cRent"
-                >10<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第一年利润</span
-              ><span class="value positive" id="cProfit1"
-                >3.50<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item full">
-              <span class="label">第二年及以后 年利润</span
-              ><span class="value positive" id="cProfit2"
-                >3.50<span class="sub-unit">万</span></span
-              >
-            </div>
-            <div class="metric-item">
-              <span class="label">第一年收益率</span
-              ><span class="value positive" id="cReturn1">∞</span>
-            </div>
-            <div class="metric-item">
-              <span class="label">长期年化收益率</span
-              ><span class="value positive" id="cReturn2">∞</span>
-            </div>
-          </div>
-          <div class="footnote">
-            <span>📌 无本金 · 无限杠杆</span><span>风险 ⭐⭐⭐⭐⭐</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== 图表区 ===== -->
-      <section class="charts">
-        <div class="chart-box">
-          <h3>📊 年利润对比（第一年 vs 长期）</h3>
-          <canvas id="profitChart"></canvas>
-        </div>
-        <div class="chart-box">
-          <h3>📈 年化收益率对比</h3>
-          <canvas id="returnChart"></canvas>
-        </div>
-      </section>
-
-      <!-- ===== 策略详情（折叠） ===== -->
-      <section class="card" style="padding: 12px 24px 20px">
-        <button class="strategy-toggle" id="strategyToggle">
-          <span class="arrow" id="arrowIcon">▶</span>
-          📖 查看完整策略 · 可行性分析 / SWOT / 执行过程 / 其他效益
-        </button>
-        <div class="strategy-content" id="strategyContent">
-          <!-- 可行性分析 -->
-          <div class="block">
-            <h4>🔍 1. 可行性分析</h4>
-            <p>
-              随着房地产价格的下行，租售比逐渐进入了一个比较可观的区间，存在高于存款利率的盈利空间。<br />
-              结合多年租房体验，交通方便的核心区域的房产普遍老旧，装修奇差，居住体验很不好，用户对老旧小区高品质住宅有需求，存在约20%的高溢价出租空间。<br />
-              装修后再出售的套利模式存在回款慢，串串房信任危机等问题。在此基础上，我们通过自行装修并录视频的方式，消除用户疑虑，节约装修成本，同时采用出租模型套利，回款快，选择租售比低的房地产标地时，租金收益不但可覆盖融资成本，还可以持续带来收益。
-            </p>
-            <div style="margin-top: 12px">
-              <strong style="font-size: 14px; color: #1a3a55">SWOT 分析</strong>
-              <div class="swot-grid" style="margin-top: 6px">
-                <div class="swot-item s">
-                  <strong style="color: #1f7a4a">✅ 优势</strong>
-                  有原始资本、学习能力强、时间充裕。
-                </div>
-                <div class="swot-item w">
-                  <strong style="color: #b53b3b">❌ 劣势</strong>
-                  锁定资本、回款周期长、优质房产信息获取难。
-                </div>
-                <div class="swot-item o">
-                  <strong style="color: #1f6390">📈 机会</strong>
-                  房地产下行期、存在高品质租住需求。
-                </div>
-                <div class="swot-item t">
-                  <strong style="color: #b86b1a">⚠️ 威胁</strong>
-                  房产税、人口外流。
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 执行过程 -->
-          <div class="block">
-            <h4>⚙️ 2. 执行过程</h4>
-            <p style="font-weight: 600; color: #1a3a55">购入 → 装修 → 出租</p>
-            <ul>
-              <li>购入租售比低于150的房产</li>
-              <li>进行装修，打造白领高品质居住体验，装修过程中录制视频</li>
-              <li>
-                利用装修过程视频消除装修材料和过程的品质疑虑，最终成本视频挂出租价，投本地抖加引流
-              </li>
-              <li>
-                锁定目标客户，长期出租：20-30岁白领女性、高薪收入男性、子女上学
-              </li>
-            </ul>
-          </div>
-
-          <!-- 经济效益 -->
-          <div class="block">
-            <h4>💰 3. 经济效益（基于当前参数）</h4>
-            <div
-              style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 12px;
-                margin-top: 6px;
-              "
-            >
-              <div
-                style="
-                  background: #f2f8ff;
-                  border-radius: 12px;
-                  padding: 12px 16px;
-                "
-              >
-                <strong>方案一 · 自有资金</strong>
-                <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
-                  投资：<span id="ecoAInvest">100</span>万<br />
-                  第一年利润：<span id="ecoAProfit1">0</span>万<br />
-                  长期利润：<span id="ecoAProfit2">9.0</span>万/年<br />
-                  长期收益率：<span id="ecoAReturn">9.0</span>%
-                </div>
-              </div>
-              <div
-                style="
-                  background: #f0faf5;
-                  border-radius: 12px;
-                  padding: 12px 16px;
-                "
-              >
-                <strong>方案二 · 杠杆</strong>
-                <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
-                  投资：<span id="ecoBInvest">25</span>万<br />
-                  第一年利润：<span id="ecoBProfit1">-4.75</span>万<br />
-                  长期利润：<span id="ecoBProfit2">5.25</span>万/年<br />
-                  长期收益率：<span id="ecoBReturn">21.0</span>%
-                </div>
-              </div>
-              <div
-                style="
-                  background: #fef7ed;
-                  border-radius: 12px;
-                  padding: 12px 16px;
-                "
-              >
-                <strong>方案三 · 高杠杆</strong>
-                <div style="font-size: 13px; color: #2d4055; margin-top: 4px">
-                  投资：<span id="ecoCInvest">0</span>万<br />
-                  第一年利润：<span id="ecoCProfit1">3.50</span>万<br />
-                  长期利润：<span id="ecoCProfit2">3.50</span>万/年<br />
-                  长期收益率：<span id="ecoCReturn">∞</span>
-                </div>
-              </div>
-            </div>
-            <p style="font-size: 13px; color: #5e6f82; margin-top: 10px">
-              * 第一年利润已扣除装修成本；长期利润为第二年及以后年度利润。
-            </p>
-          </div>
-
-          <!-- 其他效益 -->
-          <div class="block">
-            <h4>🌟 4. 其他效益</h4>
-            <ul>
-              <li>
-                学习房产投资知识，包括且不限于房屋买卖流程，评估贷款流程等
-              </li>
-              <li>学习装修技术</li>
-              <li>学习自媒体视频制作技术</li>
-              <li>学习自媒体营销</li>
-              <li>打发时间</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <footer
-        style="
-          text-align: center;
-          font-size: 13px;
-          color: #8a9db0;
-          padding: 24px 0 8px;
-          border-top: 1px solid #e9edf2;
-          margin-top: 12px;
-        "
-      >
-        🏡 房产投资策略模拟 · 数据仅供参考 · 投资有风险，决策需谨慎
-      </footer>
-    </div>
+          🏡 房产投资策略模拟 · 数据仅供参考 · 投资有风险，决策需谨慎
+        </footer>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> justful.cn版权所有</p>
+      <p>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer"
+          >京ICP备18007833号-1</a
+        >
+      </p>
+    </footer>
 
     <script>
       // ============================================================

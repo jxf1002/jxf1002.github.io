@@ -7,11 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
           href: "/college/",
           title: "大学排行榜",
           description: "软科、校友会、武书连大学排行数据汇总。",
+          type: "数据浏览",
         },
         {
           href: "/tourism/",
           title: "5A级旅游景区",
           description: "全国5A景区汇总。",
+          type: "数据浏览",
         },
       ],
     },
@@ -22,16 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
           href: "/dcf/",
           title: "DCF 计算器",
           description: "使用 DCF 模型对企业进行估值。",
+          type: "分析工具",
         },
         {
           href: "/rent/",
           title: "租金计算器",
           description: "计算投资房屋出租收益。",
+          type: "分析工具",
         },
         {
           href: "/sport/",
           title: "赛博运动",
           description: "调整跑步速度，生成赛博跑步报告。",
+          type: "实验工具",
         },
       ],
     },
@@ -49,7 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
           return (
             '<a class="link-card" href="' +
             item.href +
-            '"><h3>' +
+            '"><div class="link-card-meta"><span>' +
+            item.type +
+            '</span><span class="link-card-arrow" aria-hidden="true">→</span></div><h3>' +
             item.title +
             "</h3><p>" +
             item.description +
