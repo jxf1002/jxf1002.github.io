@@ -80,8 +80,10 @@ main { min-height: calc(100vh - 145px); }
 .year-links { display: flex; justify-content: center; gap: 12px; }
 .button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); cursor: pointer; }
 .button[aria-current="page"] { border-color: var(--primary); background: var(--primary); color: #fff; cursor: default; }
-.filters { display: flex; gap: 16px; padding: 16px; }
+.filters { display: flex; align-items: center; gap: 16px; padding: 16px; }
 .control { width: 100%; max-width: 280px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); outline-color: var(--primary); }
+.page-size-control { display: flex; align-items: center; gap: 8px; color: var(--muted); white-space: nowrap; font-size: .9rem; }
+.page-size-control .control { width: auto; min-width: 72px; }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 13px 12px; text-align: center; border-top: 1px solid var(--border); }

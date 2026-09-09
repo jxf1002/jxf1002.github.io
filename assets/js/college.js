@@ -15,9 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var body = document.querySelector("[data-table-body]")
   var query = document.querySelector("[data-query]")
   var pagination = document.querySelector("[data-pagination]")
+  var pageSizeSelect = document.querySelector("[data-page-size]")
   var source = "/assets/data/colleges" + year + ".json"
 
   query.value = state.query
+  pageSizeSelect.value = String(state.pageSize)
 
   document.title = "大学排行榜" + year + "-数据-贾师傅的小站"
   document.querySelector("[data-ranking-description]").textContent =
@@ -56,6 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
     window.history.replaceState(null, "", currentUrl)
     render()
   })
+  pageSizeSelect.addEventListener("change", function () {
+    state.pageSize = Number(pageSizeSelect.value)
+    state.page = 1
+    render()
+  })
   document.querySelectorAll("[data-sort]").forEach(function (button) {
     button.addEventListener("click", function () {
       var key = button.dataset.sort
@@ -83,9 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
     body.innerHTML = visible.length
       ? visible
           .map(function (row) {
+            var rank = state.rows.reduce(function (bestRank, candidate) {
+              return candidate.avg === row.avg
+                ? Math.min(bestRank, candidate.id)
+                : bestRank
+            }, row.id)
             return (
               "<tr><td>" +
-              row.id +
+              rank +
               "</td><td>" +
               row.name +
               '</td><td class="desktop-only">' +
