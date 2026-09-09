@@ -14,6 +14,6 @@ python3 -m http.server 3000
 
 - `/`：首页
 - `/tourism/`：5A级旅游景区
-- `/college/2023/`、`/college/2024/`：大学排行榜
-- `/dcf.html`：DCF 企业估值计算器
-- `/rent.html`：房产租金计算器
+- `/college/`：大学排行榜，支持 `?year=2023`、`?year=2024`、`?year=2025`、`?year=2026`，不传参数时默认显示 2026 年最新数据
+- `/dcf`：DCF 企业估值计算器
+- `/rent`：房产租金计算器

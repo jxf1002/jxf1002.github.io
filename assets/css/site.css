@@ -78,8 +78,8 @@ main { min-height: calc(100vh - 145px); }
 .data-header h1 { margin: 0; font-size: clamp(2rem, 5vw, 2.5rem); }
 .data-header p { margin: 8px 0 14px; color: var(--muted); font-size: .9rem; }
 .year-links { display: flex; justify-content: center; gap: 12px; }
-.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--primary); border-radius: 6px; background: var(--primary); color: #fff; cursor: pointer; }
-.button[aria-current="page"] { border-color: var(--border); background: var(--surface-muted); color: var(--muted); cursor: default; }
+.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); cursor: pointer; }
+.button[aria-current="page"] { border-color: var(--primary); background: var(--primary); color: #fff; cursor: default; }
 .filters { display: flex; gap: 16px; padding: 16px; }
 .control { width: 100%; max-width: 280px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); outline-color: var(--primary); }
 .table-wrap { overflow-x: auto; }

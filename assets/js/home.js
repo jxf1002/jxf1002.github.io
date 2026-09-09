@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
       title: "数据",
       items: [
         {
-          href: "/college/2024/",
+          href: "/college/",
           title: "大学排行榜",
-          description: "2023年软科、校友会、武书连大学排行数据汇总。",
+          description: "软科、校友会、武书连大学排行数据汇总。",
         },
         {
           href: "/tourism/",
