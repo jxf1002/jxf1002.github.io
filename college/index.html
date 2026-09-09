@@ -81,7 +81,11 @@
           <table>
             <thead>
               <tr>
-                <th>排名</th>
+                <th>
+                  <button class="sort-button" type="button" data-sort="default">
+                    排名 ↕
+                  </button>
+                </th>
                 <th>省内排名</th>
                 <th>学校名称</th>
                 <th class="desktop-only">
@@ -128,9 +132,21 @@
         <table>
           <thead>
             <tr>
-              <th>排名</th>
+              <th>
+                <button
+                  class="sort-button"
+                  type="button"
+                  data-province-default-sort
+                >
+                  排名 ↕
+                </button>
+              </th>
               <th>省份</th>
-              <th>大学数量</th>
+              <th>
+                <button class="sort-button" type="button" data-province-sort>
+                  大学数量 ↕
+                </button>
+              </th>
               <th>平均排名</th>
             </tr>
           </thead>
@@ -150,6 +166,6 @@
         >
       </p>
     </footer>
-    <script src="/assets/js/college.js?v=3"></script>
+    <script src="/assets/js/college.js?v=4"></script>
   </body>
 </html>

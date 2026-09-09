@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
     province: params.get("province") || "",
     sortKey: "",
     direction: "asc",
+    provinceStatsSortKey: "",
+    provinceStatsDirection: "asc",
   }
   var body = document.querySelector("[data-table-body]")
   var query = document.querySelector("[data-query]")
@@ -21,6 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var provinceDialog = document.querySelector("[data-province-dialog]")
   var provinceDialogClose = document.querySelector(
     "[data-province-dialog-close]",
+  )
+  var provinceSortButton = document.querySelector("[data-province-sort]")
+  var provinceDefaultSortButton = document.querySelector(
+    "[data-province-default-sort]",
   )
   var provinceStatsBody = document.querySelector("[data-province-stats-body]")
   var pagination = document.querySelector("[data-pagination]")
@@ -114,6 +120,16 @@ document.addEventListener("DOMContentLoaded", function () {
   provinceDialogClose.addEventListener("click", function () {
     provinceDialog.close()
   })
+  provinceSortButton.addEventListener("click", function () {
+    state.provinceStatsSortKey = "count"
+    state.provinceStatsDirection =
+      state.provinceStatsDirection === "asc" ? "desc" : "asc"
+    renderProvinceStats()
+  })
+  provinceDefaultSortButton.addEventListener("click", function () {
+    state.provinceStatsSortKey = ""
+    renderProvinceStats()
+  })
   provinceDialog.addEventListener("click", function (event) {
     if (event.target === provinceDialog) provinceDialog.close()
   })
@@ -125,6 +141,13 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("[data-sort]").forEach(function (button) {
     button.addEventListener("click", function () {
       var key = button.dataset.sort
+      if (key === "default") {
+        state.sortKey = ""
+        state.direction = "asc"
+        state.page = 1
+        render()
+        return
+      }
       state.direction =
         state.sortKey === key && state.direction === "asc" ? "desc" : "asc"
       state.sortKey = key
@@ -215,8 +238,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .sort(function (a, b) {
+        if (state.provinceStatsSortKey !== "count") {
+          return (
+            a.average - b.average ||
+            a.province.localeCompare(b.province, "zh-CN")
+          )
+        }
+        var countDifference =
+          (a.count - b.count) *
+          (state.provinceStatsDirection === "asc" ? 1 : -1)
         return (
-          a.average - b.average || a.province.localeCompare(b.province, "zh-CN")
+          countDifference ||
+          a.average - b.average ||
+          a.province.localeCompare(b.province, "zh-CN")
         )
       })
     if (!stats.length) {
