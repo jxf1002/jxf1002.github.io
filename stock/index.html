@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>股票市值 · 分红计算器 | 实时行情 · 本地存储</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          sans-serif;
+      }
+      body {
+        background: #f5f7fc;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+      }
+      .app {
+        max-width: 1200px;
+        width: 100%;
+        background: white;
+        border-radius: 32px;
+        box-shadow: 0 20px 40px rgba(0, 10, 30, 0.08);
+        padding: 32px 28px;
+      }
+      h1 {
+        font-size: 1.9rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: #0a1e3c;
+        margin: 0 0 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .subhead {
+        color: #4a5b7a;
+        margin-bottom: 28px;
+        font-size: 0.95rem;
+        border-left: 4px solid #2b6ef0;
+        background: #f0f5ff;
+        border-radius: 0 12px 12px 0;
+        line-height: 1.5;
+        padding: 12px 16px;
+      }
+      .subhead strong {
+        color: #0a1e3c;
+      }
+      .input-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .input-section input {
+        flex: 1 1 260px;
+        padding: 16px 20px;
+        border: 1.5px solid #dfe6f0;
+        border-radius: 60px;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.15s;
+        background: #fff;
+        color: #0a1e3c;
+      }
+      .input-section input:focus {
+        border-color: #2b6ef0;
+        box-shadow: 0 0 0 4px rgba(43, 110, 240, 0.15);
+      }
+      .input-section button {
+        background: #0a1e3c;
+        border: none;
+        padding: 16px 32px;
+        border-radius: 60px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        transition: 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        white-space: nowrap;
+        box-shadow: 0 4px 10px rgba(10, 30, 60, 0.1);
+      }
+      .input-section button:hover {
+        background: #1f3a6b;
+        transform: scale(1.01);
+      }
+      .input-section button:active {
+        transform: scale(0.98);
+      }
+      .input-section button:disabled {
+        background: #8a9bb8;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+        min-height: 28px;
+      }
+      .status-text {
+        font-size: 0.85rem;
+        color: #6b7d9c;
+      }
+      .status-text.success {
+        color: #1e8e3e;
+      }
+      .status-text.error {
+        color: #c0392b;
+      }
+      .refresh-all-btn {
+        background: transparent;
+        border: 1.5px solid #dfe6f0;
+        padding: 6px 18px;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #4a5b7a;
+        cursor: pointer;
+        transition: 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .refresh-all-btn:hover {
+        border-color: #2b6ef0;
+        color: #2b6ef0;
+        background: #f0f5ff;
+      }
+      .refresh-all-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .stock-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 6px;
+      }
+      .stock-card {
+        background: #ffffff;
+        border: 1px solid #e9eef6;
+        border-radius: 20px;
+        padding: 18px 22px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        transition: 0.15s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      }
+      .stock-card[draggable="true"] {
+        cursor: grab;
+      }
+      .stock-card.dragging {
+        opacity: 0.45;
+      }
+      .stock-card.drag-over {
+        border-color: #2b6ef0;
+        box-shadow: 0 0 0 3px rgba(43, 110, 240, 0.12);
+      }
+      .stock-card:hover {
+        border-color: #cbd8ec;
+        box-shadow: 0 4px 12px rgba(0, 20, 50, 0.06);
+      }
+      .stock-card.loading {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      .stock-info {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 16px 28px;
+        flex: 2 1 500px;
+      }
+      .stock-name-code {
+        min-width: 160px;
+      }
+      .stock-name {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #0a1e3c;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .stock-code {
+        font-size: 0.85rem;
+        color: #6b7d9c;
+        background: #f0f4fc;
+        padding: 4px 10px;
+        border-radius: 40px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+      .price-block,
+      .metric-block {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        background: #fafcff;
+        padding: 6px 16px;
+        border-radius: 40px;
+        border: 1px solid #eef3fc;
+      }
+      .price-label,
+      .metric-label {
+        font-size: 0.85rem;
+        color: #62748c;
+        font-weight: 500;
+      }
+      .price-value {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #0a1e3c;
+        letter-spacing: -0.01em;
+      }
+      .price-value.up {
+        color: #d33c3c;
+      }
+      .price-value.down {
+        color: #1e8e3e;
+      }
+      .metric-value {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #0e3b6e;
+      }
+      .metric-value small {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: #6b7d9c;
+        margin-left: 2px;
+      }
+      .delete-btn {
+        background: transparent;
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: #98a9c3;
+        cursor: pointer;
+        transition: 0.15s;
+        flex-shrink: 0;
+        margin-left: 10px;
+      }
+      .delete-btn:hover {
+        background: #fee9e9;
+        color: #d33c3c;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 48px 20px;
+        background: #f9fbfe;
+        border-radius: 28px;
+        color: #8a9bb8;
+        font-size: 1rem;
+        border: 1px dashed #d0ddeb;
+      }
+      .footer-note {
+        margin-top: 28px;
+        font-size: 0.8rem;
+        color: #8a9bb8;
+        text-align: center;
+        border-top: 1px solid #eef2f9;
+        padding-top: 18px;
+      }
+      .dividend-summary {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+        gap: 10px;
+        margin-top: 16px;
+        color: #62748c;
+        font-size: 0.9rem;
+      }
+      .dividend-summary strong {
+        color: #0e3b6e;
+        font-size: 1.25rem;
+      }
+      .badge {
+        font-size: 0.7rem;
+        background: #e6f0ff;
+        color: #2b6ef0;
+        padding: 2px 10px;
+        border-radius: 40px;
+        font-weight: 500;
+      }
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.7s linear infinite;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .spinner-dark {
+        border: 2px solid rgba(43, 110, 240, 0.2);
+        border-top-color: #2b6ef0;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .stock-list::-webkit-scrollbar {
+        width: 6px;
+      }
+      .stock-list::-webkit-scrollbar-track {
+        background: #f0f4fc;
+        border-radius: 10px;
+      }
+      .stock-list::-webkit-scrollbar-thumb {
+        background: #cbd8ec;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>📈 股票市值 · 分红计算器</h1>
+      <div class="subhead">
+        ⚡ 输入代码或名称，<strong>实时行情</strong>来自
+        stock-sdk（免费、免注册），自动估算 <strong>200万市值</strong> 所需股数
+        & 每年分红。
+      </div>
+
+      <div class="input-section">
+        <input
+          type="text"
+          id="stockInput"
+          placeholder="例如: 600519 / 贵州茅台 / 000858"
+          autocomplete="off"
+        />
+        <button id="addBtn">➕ 添加股票</button>
+      </div>
+
+      <div class="status-bar">
+        <span id="statusText" class="status-text"></span>
+        <button
+          id="refreshAllBtn"
+          class="refresh-all-btn"
+          title="刷新所有股票价格"
+        >
+          🔄 刷新全部
+        </button>
+      </div>
+
+      <div id="stockListContainer" class="stock-list">
+        <!-- 动态渲染 -->
+      </div>
+      <div id="dividendSummary" class="dividend-summary"></div>
+      <div class="footer-note">
+        📊 实时行情由 <strong>stock-sdk</strong> 提供，免费、无需 API
+        Key。分红按“每股分红×股数”估算，仅供参考。
+      </div>
+    </div>
+
+    <!-- 引入 stock-sdk v1 稳定版（CDN） -->
+    <script type="module">
+      import { StockSDK } from "https://unpkg.com/stock-sdk@1.10.1/dist/index.js"
+
+      // ==================== 初始化 SDK ====================
+      const sdk = new StockSDK()
+
+      // ==================== 本地存储 ====================
+      const STORAGE_KEY = "stock_valuation_list_v2"
+
+      // 上一年度实际每股分红数据（元）
+      const DIVIDEND_YEAR = 2025
+      const DIVIDEND_MAP = {
+        600519: 51.98, // 贵州茅台
+        "000858": 4.2, // 五粮液
+        601318: 2.45, // 中国平安
+        "000001": 0.65, // 平安银行
+        "00700": 5.3, //  腾讯控股
+        600036: 2.16, // 招商银行
+        300750: 1.8, // 宁德时代
+        "002594": 1.25, // 比亚迪
+        601899: 0.55, // 紫金矿业
+        600900: 0.92, // 长江电力
+        601166: 1.1, // 兴业银行
+        "000333": 3.0, // 美的集团
+        600030: 0.58, // 中信证券
+      }
+
+      // ==================== 状态 ====================
+      let stockList = []
+
+      // ==================== 工具函数 ====================
+
+      /** 将纯数字代码转为 stock-sdk 需要的格式：600519 -> sh600519, 000001 -> sz000001 */
+      function toSdkCode(code) {
+        code = code.trim()
+        if (/^6\d{5}$/.test(code)) return "sh" + code // 沪市
+        if (/^0\d{5}$/.test(code) || /^3\d{5}$/.test(code)) return "sz" + code // 深市/创业板
+        if (/^8\d{5}$/.test(code) || /^4\d{5}$/.test(code)) return "bj" + code // 北交所
+        return code
+      }
+
+      /** 将用户输入解析为代码和市场 */
+      async function resolveStock(query) {
+        const codeMatch = query.match(/^\d{6}$/)
+        if (codeMatch) return { code: query, market: "A" }
+
+        const results = await sdk.search(query)
+        const result = results.find((item) => item.category === "stock")
+        if (!result || !result.code) return null
+
+        return {
+          code: result.code.replace(/^(sh|sz|bj|hk)/i, ""),
+          market: result.market.toUpperCase() === "HK" ? "HK" : "A",
+          name: result.name,
+        }
+      }
+
+      /** 从 stock-sdk 返回对象中提取标准化行情数据 */
+      function parseQuote(raw, originalCode) {
+        // stock-sdk v1 getSimpleQuotes 返回数组，每个元素包含 code, name, price, change, changePercent 等
+        if (!raw) return null
+        const item = Array.isArray(raw) ? raw[0] : raw
+        if (!item) return null
+
+        return {
+          code: originalCode.replace(/^(sh|sz|bj)/i, ""), // 去前缀存纯数字
+          name: item.name || originalCode,
+          price: Number(item.price) || 0,
+          change: Number(item.change) || 0,
+          changePercent: Number(item.changePercent) || 0,
+        }
+      }
+
+      /** 计算200万市值所需股数，按100股一手向下取整 */
+      function calcShares(price) {
+        if (!price || price <= 0) return 0
+        return Math.floor(2000000 / price / 100) * 100
+      }
+
+      /** 计算年度分红总额 */
+      function calcAnnualDividend(dividendPerShare, shares) {
+        if (!dividendPerShare || !shares) return 0
+        return Math.round(dividendPerShare * shares * 100) / 100
+      }
+
+      /** 格式化数字 */
+      function fmtPrice(p) {
+        return p >= 100 ? p.toFixed(2) : p.toFixed(3)
+      }
+      function fmtShares(n) {
+        return n.toLocaleString("en-US")
+      }
+      function fmtMoney(n) {
+        return n.toLocaleString("zh-CN", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      }
+
+      function getAnnualDividend(item) {
+        return calcAnnualDividend(
+          item.dividendPerShare || 0,
+          calcShares(item.price || 0),
+        )
+      }
+
+      function updateDividendSummary() {
+        const total = stockList.reduce(
+          (sum, item) => sum + getAnnualDividend(item),
+          0,
+        )
+        document.getElementById("dividendSummary").innerHTML = stockList.length
+          ? `<span>${DIVIDEND_YEAR}年预计分红合计</span><strong>¥${fmtMoney(total)}</strong>`
+          : ""
+      }
+
+      // ==================== 本地存储 ====================
+      function saveToLocalStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stockList))
+      }
+
+      function loadFromLocalStorage() {
+        const stored = localStorage.getItem(STORAGE_KEY)
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored)
+            if (Array.isArray(parsed)) stockList = parsed
+          } catch (e) {
+            console.warn("解析存储数据失败", e)
+          }
+        }
+      }
+
+      // ==================== 获取实时行情 ====================
+
+      /** 通过 stock-sdk 获取单只股票实时行情 */
+      async function fetchQuote(stockCode, market = "A") {
+        try {
+          const raw =
+            market === "HK"
+              ? await sdk.getHKQuotes([stockCode])
+              : await sdk.getSimpleQuotes([toSdkCode(stockCode)])
+          return parseQuote(raw, stockCode)
+        } catch (err) {
+          console.error(`获取 ${stockCode} 行情失败:`, err)
+          return null
+        }
+      }
+
+      // ==================== 状态提示 ====================
+      function setStatus(msg, type = "") {
+        const el = document.getElementById("statusText")
+        el.textContent = msg
+        el.className = "status-text" + (type ? " " + type : "")
+      }
+
+      function clearStatus() {
+        setStatus("")
+      }
+
+      // ==================== 渲染 ====================
+      function render() {
+        const container = document.getElementById("stockListContainer")
+        if (!stockList.length) {
+          container.innerHTML = `<div class="empty-state">✨ 暂无股票，输入代码或名称添加吧</div>`
+          updateDividendSummary()
+          return
+        }
+
+        let html = ""
+        stockList.forEach((item) => {
+          const price = item.price || 0
+          const shares = calcShares(price)
+          const dividendPerShare = item.dividendPerShare || 0
+          const annualDividend = calcAnnualDividend(dividendPerShare, shares)
+          const priceClass =
+            item.change > 0 ? "up" : item.change < 0 ? "down" : ""
+          const changeStr = item.changePercent
+            ? ` (${item.changePercent > 0 ? "+" : ""}${item.changePercent.toFixed(2)}%)`
+            : ""
+
+          html += `
+                <div class="stock-card" draggable="true" data-id="${item.id}">
+                    <div class="stock-info">
+                        <div class="stock-name-code">
+                            <div class="stock-name">
+                                ${item.name}
+                                <span class="badge">${item.code}</span>
+                            </div>
+                            <div style="font-size:0.75rem; color:#98a9c3; margin-top:6px;">
+                                ${item.lastUpdated ? "更新: " + new Date(item.lastUpdated).toLocaleTimeString("zh-CN", { hour12: false }) : "等待刷新..."}
+                            </div>
+                        </div>
+                        <div class="price-block">
+                            <span class="price-label">现价</span>
+                            <span class="price-value ${priceClass}">¥${fmtPrice(price)}<small style="font-size:0.7rem;font-weight:400;color:#8a9bb8;">${changeStr}</small></span>
+                        </div>
+                        <div class="metric-block">
+                            <span class="metric-label">200万需</span>
+                            <span class="metric-value">${fmtShares(shares)}<small> 股</small></span>
+                        </div>
+                        <div class="metric-block">
+                            <span class="metric-label">${DIVIDEND_YEAR}年分红</span>
+                            <span class="metric-value">¥${fmtMoney(annualDividend)}</span>
+                        </div>
+                    </div>
+                    <button class="delete-btn" data-id="${item.id}" title="删除">✕</button>
+                </div>
+            `
+        })
+        container.innerHTML = html
+
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const id = e.currentTarget.dataset.id
+            deleteStock(id)
+          })
+        })
+
+        document.querySelectorAll(".stock-card").forEach((card) => {
+          card.addEventListener("dragstart", () => {
+            card.classList.add("dragging")
+          })
+          card.addEventListener("dragend", () => {
+            card.classList.remove("dragging")
+            document.querySelectorAll(".stock-card").forEach((item) => {
+              item.classList.remove("drag-over")
+            })
+          })
+          card.addEventListener("dragover", (event) => {
+            event.preventDefault()
+            card.classList.add("drag-over")
+          })
+          card.addEventListener("dragleave", () => {
+            card.classList.remove("drag-over")
+          })
+          card.addEventListener("drop", (event) => {
+            event.preventDefault()
+            const draggedId = document.querySelector(".stock-card.dragging")
+              ?.dataset.id
+            const targetId = card.dataset.id
+            if (!draggedId || draggedId === targetId) return
+            const draggedIndex = stockList.findIndex(
+              (item) => item.id === draggedId,
+            )
+            const targetIndex = stockList.findIndex(
+              (item) => item.id === targetId,
+            )
+            const [draggedItem] = stockList.splice(draggedIndex, 1)
+            const insertIndex =
+              draggedIndex < targetIndex ? targetIndex - 1 : targetIndex
+            stockList.splice(insertIndex, 0, draggedItem)
+            saveToLocalStorage()
+            render()
+          })
+        })
+        updateDividendSummary()
+      }
+
+      // ==================== 删除 ====================
+      function deleteStock(id) {
+        stockList = stockList.filter((item) => item.id !== id)
+        saveToLocalStorage()
+        render()
+        setStatus("已删除", "success")
+        setTimeout(clearStatus, 1500)
+      }
+
+      // ==================== 添加股票 ====================
+      async function addStock() {
+        const input = document.getElementById("stockInput")
+        const addBtn = document.getElementById("addBtn")
+        const query = input.value.trim()
+
+        if (!query) {
+          setStatus("请输入股票代码或名称", "error")
+          return
+        }
+
+        // 禁用按钮防重复
+        addBtn.disabled = true
+        addBtn.innerHTML = '<span class="spinner"></span> 查询中...'
+
+        let resolved
+        try {
+          resolved = await resolveStock(query)
+        } catch (err) {
+          console.error(`搜索 ${query} 失败:`, err)
+        }
+
+        if (!resolved) {
+          setStatus(`未找到股票 "${query}"，请检查代码或名称`, "error")
+          addBtn.disabled = false
+          addBtn.innerHTML = "➕ 添加股票"
+          return
+        }
+
+        const { code: rawCode, market } = resolved
+
+        // 去重检查
+        if (
+          stockList.some(
+            (item) => item.code === rawCode && item.market === market,
+          )
+        ) {
+          setStatus(`股票 ${rawCode} 已经在列表中`, "error")
+          addBtn.disabled = false
+          addBtn.innerHTML = "➕ 添加股票"
+          return
+        }
+
+        // 调用实时行情
+        const quote = await fetchQuote(rawCode, market)
+
+        if (!quote || !quote.price || quote.price <= 0) {
+          setStatus(
+            `未找到股票 "${query}" 的实时行情，请检查代码或名称`,
+            "error",
+          )
+          addBtn.disabled = false
+          addBtn.innerHTML = "➕ 添加股票"
+          return
+        }
+
+        const dividendPerShare = DIVIDEND_MAP[rawCode] || 0
+
+        const newItem = {
+          id: Date.now() + "-" + Math.random().toString(36).substring(2, 8),
+          code: rawCode,
+          market: market,
+          name: quote.name || resolved.name || rawCode,
+          price: quote.price,
+          change: quote.change,
+          changePercent: quote.changePercent,
+          dividendPerShare: dividendPerShare,
+          lastUpdated: Date.now(),
+        }
+
+        stockList.push(newItem)
+        saveToLocalStorage()
+        render()
+
+        input.value = ""
+        setStatus(`✅ 已添加 ${quote.name} (${rawCode})`, "success")
+        setTimeout(clearStatus, 2500)
+
+        addBtn.disabled = false
+        addBtn.innerHTML = "➕ 添加股票"
+
+        // 滚动到新卡片
+        setTimeout(() => {
+          const cards = document.querySelectorAll(".stock-card")
+          if (cards.length)
+            cards[cards.length - 1].scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            })
+        }, 100)
+      }
+
+      // ==================== 刷新全部 ====================
+      async function refreshAll() {
+        if (!stockList.length) {
+          setStatus("列表为空，无需刷新", "error")
+          setTimeout(clearStatus, 2000)
+          return
+        }
+
+        const btn = document.getElementById("refreshAllBtn")
+        btn.disabled = true
+        btn.innerHTML =
+          '<span class="spinner spinner-dark" style="border-color:rgba(43,110,240,0.2);border-top-color:#2b6ef0;"></span> 刷新中...'
+
+        // 批量获取（stock-sdk 支持一次传多个代码）
+        try {
+          let updatedCount = 0
+          for (const item of stockList) {
+            const quote = await fetchQuote(item.code, item.market || "A")
+            if (!quote || quote.price <= 0) continue
+            item.price = quote.price
+            item.change = quote.change
+            item.changePercent = quote.changePercent
+            item.lastUpdated = Date.now()
+            updatedCount++
+          }
+
+          saveToLocalStorage()
+          render()
+          setStatus(`✅ 已刷新 ${updatedCount} 只股票`, "success")
+        } catch (err) {
+          console.error("批量刷新失败:", err)
+          setStatus("刷新失败，请稍后重试", "error")
+        }
+
+        btn.disabled = false
+        btn.innerHTML = "🔄 刷新全部"
+        setTimeout(clearStatus, 2500)
+      }
+
+      // ==================== 初始化 ====================
+      async function init() {
+        loadFromLocalStorage()
+
+        // 首次使用：添加示例股票
+        if (stockList.length === 0) {
+          setStatus("首次使用，正在获取示例股票行情...", "")
+          const quote = await fetchQuote("600519")
+          if (quote && quote.price > 0) {
+            stockList.push({
+              id: "demo-" + Date.now(),
+              code: "600519",
+              name: quote.name || "贵州茅台",
+              price: quote.price,
+              change: quote.change,
+              changePercent: quote.changePercent,
+              dividendPerShare: DIVIDEND_MAP["600519"] || 0,
+              lastUpdated: Date.now(),
+            })
+            saveToLocalStorage()
+          }
+          clearStatus()
+        }
+
+        render()
+
+        // 事件绑定
+        document.getElementById("addBtn").addEventListener("click", addStock)
+        document
+          .getElementById("stockInput")
+          .addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+              addStock()
+            }
+          })
+        document
+          .getElementById("refreshAllBtn")
+          .addEventListener("click", refreshAll)
+
+        // 每 60 秒自动刷新一次（仅在有股票时）
+        setInterval(() => {
+          if (stockList.length > 0 && document.visibilityState === "visible") {
+            refreshAll()
+          }
+        }, 60000)
+      }
+
+      init()
+    </script>
+  </body>
+</html>
