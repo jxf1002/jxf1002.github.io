@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>股票估值参考</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #14233b;
+        --muted: #6b7b93;
+        --line: #dfe6f0;
+        --surface: #ffffff;
+        --background: #f3f6fb;
+        --accent: #2563eb;
+        --accent-soft: #eff5ff;
+        --danger: #c0392b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 24px 16px;
+        background: var(--background);
+        color: var(--ink);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      .app {
+        width: min(1180px, 100%);
+        margin: 0 auto;
+        padding: 30px;
+        background: var(--surface);
+        border-radius: 24px;
+        box-shadow: 0 18px 45px rgba(20, 35, 59, 0.08);
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+      }
+      .intro {
+        margin: 0 0 24px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .toolbar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .toolbar input {
+        min-width: 0;
+        flex: 1;
+        padding: 14px 18px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        color: var(--ink);
+        font-size: 1rem;
+        outline: none;
+      }
+      .toolbar input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 0 20px;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: wait;
+      }
+      .status {
+        min-height: 24px;
+        margin-bottom: 16px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .status.error {
+        color: var(--danger);
+      }
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+      }
+      table {
+        width: 100%;
+        min-width: 820px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 15px 16px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        white-space: nowrap;
+      }
+      th {
+        background: #f8faff;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+      .stock-name {
+        font-weight: 700;
+      }
+      .stock-code {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .number {
+        font-variant-numeric: tabular-nums;
+      }
+      .target-input {
+        width: 96px;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        font-size: 0.95rem;
+      }
+      .target-input:focus {
+        border-color: var(--accent);
+        outline: 2px solid var(--accent-soft);
+      }
+      .target-price {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .remove-btn {
+        padding: 7px 10px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+      .order-btn {
+        padding: 7px 9px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.95rem;
+      }
+      .order-btn:disabled {
+        background: transparent;
+        color: #b8c2d1;
+        cursor: not-allowed;
+      }
+      .order-btn:hover:not(:disabled) {
+        background: #dce9ff;
+      }
+      .remove-btn:hover {
+        color: var(--danger);
+        background: #fff1f0;
+      }
+      .empty {
+        padding: 48px 20px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .note {
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+      @media (max-width: 600px) {
+        .app {
+          padding: 22px 16px;
+        }
+        .toolbar {
+          flex-direction: column;
+        }
+        .toolbar button {
+          min-height: 46px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <h1>股票估值参考</h1>
+      <p class="intro">
+        输入股票代码或名称，查看当前股价和静态市盈率，并在每行输入目标市盈率计算参考价格。
+      </p>
+      <div class="toolbar">
+        <input
+          id="stockInput"
+          type="text"
+          placeholder="例如：贵州茅台 / 600519"
+          autocomplete="off"
+        />
+        <button id="addBtn" type="button">添加股票</button>
+        <button id="refreshBtn" type="button">刷新行情</button>
+      </div>
+      <div id="status" class="status" aria-live="polite"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>股票</th>
+              <th>当前股价</th>
+              <th>市盈率</th>
+              <th>买入市盈率</th>
+              <th>买入价</th>
+              <th>卖出市盈率</th>
+              <th>卖出价</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="stockBody">
+            <tr>
+              <td class="empty" colspan="8">暂无股票，请先添加</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        参考价格 = 当前股价 × 目标市盈率 ÷
+        市盈率优先使用静态市盈率，其次使用动态或普通市盈率；行情每 1
+        分钟自动更新，仅供估值参考，不构成投资建议。
+      </p>
+    </main>
+
+    <script type="module">
+      import { StockSDK } from "https://unpkg.com/stock-sdk@1.10.1/dist/index.js"
+
+      const sdk = new StockSDK()
+      const STORAGE_KEY = "stock_valuation_reference_list_v1"
+      let stockList = []
+      let isRefreshing = false
+
+      function toSdkCode(code) {
+        if (/^6\d{5}$/.test(code)) return "sh" + code
+        if (/^0\d{5}$/.test(code) || /^3\d{5}$/.test(code)) return "sz" + code
+        if (/^8\d{5}$/.test(code) || /^4\d{5}$/.test(code)) return "bj" + code
+        return code
+      }
+
+      async function resolveStock(query) {
+        if (/^\d{6}$/.test(query)) return { code: query, market: "A" }
+        const results = await sdk.search(query)
+        const result = results.find((item) => item.category === "stock")
+        if (!result) return null
+        return {
+          code: result.code.replace(/^(sh|sz|bj|hk)/i, ""),
+          market: result.market.toUpperCase() === "HK" ? "HK" : "A",
+          name: result.name,
+        }
+      }
+
+      async function fetchQuote(stock) {
+        const code =
+          stock.market === "HK" ? `hk${stock.code}` : toSdkCode(stock.code)
+        const list = await sdk.getFullQuotes([code])
+        const quote = list?.[0]
+        if (!quote) return null
+        const peOptions = [
+          { value: Number(quote.peStatic), type: "静态" },
+          { value: Number(quote.peDynamic), type: "动态" },
+          { value: Number(quote.pe), type: "普通" },
+        ]
+        const pe = peOptions.find(
+          (option) => Number.isFinite(option.value) && option.value > 0,
+        )
+        return {
+          price: Number(quote.price) || 0,
+          peStatic: pe?.value || null,
+          peType: pe?.type || "",
+          name: quote.name,
+        }
+      }
+
+      function formatPrice(value) {
+        return Number.isFinite(value) && value > 0
+          ? `¥${value.toFixed(2)}`
+          : "暂无数据"
+      }
+
+      function formatPE(value) {
+        return Number.isFinite(value) && value > 0
+          ? `${value.toFixed(2)} 倍`
+          : "暂无数据"
+      }
+
+      function targetPrice(item, targetPE) {
+        const numericPE = Number(targetPE)
+        if (
+          !item.price ||
+          !item.peStatic ||
+          !Number.isFinite(numericPE) ||
+          numericPE <= 0
+        )
+          return null
+        return (item.price * numericPE) / item.peStatic
+      }
+
+      function updateTargetPrices(row, item) {
+        row.querySelector('[data-target="buy-price"]').textContent =
+          formatPrice(targetPrice(item, item.buyPE))
+        row.querySelector('[data-target="sell-price"]').textContent =
+          formatPrice(targetPrice(item, item.sellPE))
+      }
+
+      function save() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stockList))
+      }
+
+      function setStatus(message, type = "") {
+        const status = document.getElementById("status")
+        status.textContent = message
+        status.className = `status${type ? ` ${type}` : ""}`
+      }
+
+      function render() {
+        const body = document.getElementById("stockBody")
+        if (!stockList.length) {
+          body.innerHTML =
+            '<tr><td class="empty" colspan="8">暂无股票，请先添加</td></tr>'
+          return
+        }
+
+        body.innerHTML = stockList
+          .map((item, index) => {
+            const buyPrice = targetPrice(item, item.buyPE)
+            const sellPrice = targetPrice(item, item.sellPE)
+            return `
+            <tr data-id="${item.id}">
+              <td><span class="stock-name">${item.name}</span><span class="stock-code">${item.market === "HK" ? "港股" : "A股"} ${item.code}</span></td>
+              <td class="number">${formatPrice(item.price)}</td>
+              <td class="number">${formatPE(item.peStatic)}${item.peType ? `<small>（${item.peType}）</small>` : ""}</td>
+              <td><input class="target-input" data-field="buyPE" type="text" inputmode="decimal" autocomplete="off" value="${item.buyPE}" aria-label="${item.name}买入市盈率" /></td>
+              <td class="number target-price" data-target="buy-price">${formatPrice(buyPrice)}</td>
+              <td><input class="target-input" data-field="sellPE" type="text" inputmode="decimal" autocomplete="off" value="${item.sellPE}" aria-label="${item.name}卖出市盈率" /></td>
+              <td class="number target-price" data-target="sell-price">${formatPrice(sellPrice)}</td>
+              <td>
+                <button class="order-btn" data-action="move-up" type="button" title="上移 ${item.name}" ${index === 0 ? "disabled" : ""}>↑</button>
+                <button class="order-btn" data-action="move-down" type="button" title="下移 ${item.name}" ${index === stockList.length - 1 ? "disabled" : ""}>↓</button>
+                <button class="remove-btn" data-action="remove" type="button" title="删除 ${item.name}">×</button>
+              </td>
+            </tr>
+          `
+          })
+          .join("")
+
+        body.querySelectorAll(".target-input").forEach((input) => {
+          input.addEventListener("input", (event) => {
+            const row = event.target.closest("tr")
+            const item = stockList.find((stock) => stock.id === row.dataset.id)
+            item[event.target.dataset.field] = event.target.value
+            save()
+            updateTargetPrices(row, item)
+          })
+        })
+
+        body.querySelectorAll('[data-action="remove"]').forEach((button) => {
+          button.addEventListener("click", () => {
+            stockList = stockList.filter(
+              (item) => item.id !== button.closest("tr").dataset.id,
+            )
+            save()
+            render()
+          })
+        })
+
+        body
+          .querySelectorAll(
+            '[data-action="move-up"], [data-action="move-down"]',
+          )
+          .forEach((button) => {
+            button.addEventListener("click", () => {
+              const id = button.closest("tr").dataset.id
+              const currentIndex = stockList.findIndex((item) => item.id === id)
+              const offset = button.dataset.action === "move-up" ? -1 : 1
+              const targetIndex = currentIndex + offset
+              if (targetIndex < 0 || targetIndex >= stockList.length) return
+              ;[stockList[currentIndex], stockList[targetIndex]] = [
+                stockList[targetIndex],
+                stockList[currentIndex],
+              ]
+              save()
+              render()
+            })
+          })
+      }
+
+      async function addStock() {
+        const input = document.getElementById("stockInput")
+        const button = document.getElementById("addBtn")
+        const query = input.value.trim()
+        if (!query) return setStatus("请输入股票代码或名称", "error")
+
+        button.disabled = true
+        button.textContent = "查询中..."
+        try {
+          const resolved = await resolveStock(query)
+          if (!resolved) throw new Error("未找到股票")
+          if (
+            stockList.some(
+              (item) =>
+                item.code === resolved.code && item.market === resolved.market,
+            )
+          ) {
+            throw new Error("股票已经在列表中")
+          }
+          const quote = await fetchQuote(resolved)
+          if (!quote || !quote.price) throw new Error("未找到实时行情")
+          stockList.push({
+            id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+            ...resolved,
+            name: quote.name || resolved.name || resolved.code,
+            price: quote.price,
+            peStatic: quote.peStatic,
+            peType: quote.peType,
+            buyPE: 10,
+            sellPE: 20,
+          })
+          save()
+          render()
+          input.value = ""
+          setStatus(`已添加 ${quote.name || resolved.code}`)
+        } catch (error) {
+          setStatus(error.message || "查询失败，请稍后重试", "error")
+        } finally {
+          button.disabled = false
+          button.textContent = "添加股票"
+        }
+      }
+
+      async function refreshAll(silent = false) {
+        if (isRefreshing || !stockList.length) return
+        isRefreshing = true
+        const refreshButton = document.getElementById("refreshBtn")
+        refreshButton.disabled = true
+        if (!silent) setStatus("正在刷新行情...")
+        try {
+          for (const item of stockList) {
+            const quote = await fetchQuote(item)
+            if (quote?.price) {
+              item.price = quote.price
+              item.peStatic = quote.peStatic
+              item.peType = quote.peType
+              item.name = quote.name || item.name
+            }
+          }
+          save()
+          render()
+          if (!silent) {
+            setStatus(
+              `行情已更新：${new Date().toLocaleTimeString("zh-CN", { hour12: false })}`,
+            )
+          }
+        } catch (error) {
+          console.error("刷新行情失败:", error)
+          if (!silent) setStatus("刷新行情失败，请稍后重试", "error")
+        } finally {
+          isRefreshing = false
+          refreshButton.disabled = false
+        }
+      }
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")
+        if (Array.isArray(saved)) stockList = saved
+      } catch (error) {
+        console.warn("读取本地股票列表失败", error)
+      }
+      render()
+      document.getElementById("addBtn").addEventListener("click", addStock)
+      document
+        .getElementById("refreshBtn")
+        .addEventListener("click", () => refreshAll())
+      document
+        .getElementById("stockInput")
+        .addEventListener("keydown", (event) => {
+          if (event.key === "Enter") addStock()
+        })
+      void refreshAll(true)
+      setInterval(() => refreshAll(true), 60000)
+    </script>
+  </body>
+</html>
