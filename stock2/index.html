@@ -195,7 +195,7 @@
     <main class="app">
       <h1>股票估值参考</h1>
       <p class="intro">
-        输入股票代码或名称，查看当前股价和静态市盈率，并在每行输入目标市盈率计算参考价格。
+        输入股票代码或名称，查看当前股价和普通市盈率，并在每行输入目标市盈率计算参考价格。
       </p>
       <div class="toolbar">
         <input
@@ -230,9 +230,8 @@
         </table>
       </div>
       <p class="note">
-        参考价格 = 当前股价 × 目标市盈率 ÷
-        市盈率优先使用静态市盈率，其次使用动态或普通市盈率；行情每 1
-        分钟自动更新，仅供估值参考，不构成投资建议。
+        参考价格 = 当前股价 × 目标市盈率 ÷ 当前普通市盈率；行情每 1
+        分钟自动更新， 仅供估值参考，不构成投资建议。
       </p>
     </main>
 
@@ -269,18 +268,11 @@
         const list = await sdk.getFullQuotes([code])
         const quote = list?.[0]
         if (!quote) return null
-        const peOptions = [
-          { value: Number(quote.peStatic), type: "静态" },
-          { value: Number(quote.peDynamic), type: "动态" },
-          { value: Number(quote.pe), type: "普通" },
-        ]
-        const pe = peOptions.find(
-          (option) => Number.isFinite(option.value) && option.value > 0,
-        )
+        const normalPE = Number(quote.pe)
         return {
           price: Number(quote.price) || 0,
-          peStatic: pe?.value || null,
-          peType: pe?.type || "",
+          peNormal: Number.isFinite(normalPE) && normalPE > 0 ? normalPE : null,
+          peType: "普通",
           name: quote.name,
         }
       }
@@ -301,12 +293,12 @@
         const numericPE = Number(targetPE)
         if (
           !item.price ||
-          !item.peStatic ||
+          !item.peNormal ||
           !Number.isFinite(numericPE) ||
           numericPE <= 0
         )
           return null
-        return (item.price * numericPE) / item.peStatic
+        return (item.price * numericPE) / item.peNormal
       }
 
       function updateTargetPrices(row, item) {
@@ -342,7 +334,7 @@
             <tr data-id="${item.id}">
               <td><span class="stock-name">${item.name}</span><span class="stock-code">${item.market === "HK" ? "港股" : "A股"} ${item.code}</span></td>
               <td class="number">${formatPrice(item.price)}</td>
-              <td class="number">${formatPE(item.peStatic)}${item.peType ? `<small>（${item.peType}）</small>` : ""}</td>
+              <td class="number">${formatPE(item.peNormal)}${item.peType ? `<small>（${item.peType}）</small>` : ""}</td>
               <td><input class="target-input" data-field="buyPE" type="text" inputmode="decimal" autocomplete="off" value="${item.buyPE}" aria-label="${item.name}买入市盈率" /></td>
               <td class="number target-price" data-target="buy-price">${formatPrice(buyPrice)}</td>
               <td><input class="target-input" data-field="sellPE" type="text" inputmode="decimal" autocomplete="off" value="${item.sellPE}" aria-label="${item.name}卖出市盈率" /></td>
@@ -424,7 +416,7 @@
             ...resolved,
             name: quote.name || resolved.name || resolved.code,
             price: quote.price,
-            peStatic: quote.peStatic,
+            peNormal: quote.peNormal,
             peType: quote.peType,
             buyPE: 10,
             sellPE: 20,
@@ -452,7 +444,7 @@
             const quote = await fetchQuote(item)
             if (quote?.price) {
               item.price = quote.price
-              item.peStatic = quote.peStatic
+              item.peNormal = quote.peNormal
               item.peType = quote.peType
               item.name = quote.name || item.name
             }
