@@ -370,7 +370,11 @@ export function claimActions(pI) {
         acts.push({ a: 'chi', l: '吃 ' + opt.join('-') + t.suit + '·听', d: opt, ting: true });
       }
     });
-    if (canPeng(pI)) acts.push({ a: 'peng', l: '碰' });
+    if (canPeng(pI)) {
+      // 碰后也能通过打一张进入听牌时标注，便于玩家在吃/碰之间选择
+      let leads = pengLeadsToTing(pI, t);
+      acts.push({ a: 'peng', l: '碰' + (leads ? '·听' : ''), ting: leads });
+    }
     if (canKong(pI)) acts.push({ a: 'kong', l: '杠' });
   }
   return acts;
@@ -389,6 +393,16 @@ function chiLeadsToTing(pI, t, opt) {
   if (!ok || used.length !== 2) return false;
   let newHand = p.hand.filter(x => !used.includes(x));
   let newMelds = [...p.melds, { type: 'chi', ts: [...used, t], claimedId: Tile.tid(t) }];
+  return handTingDiscards(newHand, newMelds).length > 0;
+}
+
+// 碰后能否通过打一张进入听牌
+function pengLeadsToTing(pI, t) {
+  let p = G.players[pI];
+  let used = p.hand.filter(x => Tile.tid(x) === Tile.tid(t)).slice(0, 2);
+  if (used.length !== 2) return false;
+  let newHand = p.hand.filter(x => !used.includes(x));
+  let newMelds = [...p.melds, { type: 'peng', ts: [...used, t], claimedId: Tile.tid(t) }];
   return handTingDiscards(newHand, newMelds).length > 0;
 }
 

@@ -185,6 +185,52 @@ G.players[HUMAN].hand = [
 ];
 ok('幺九来自副露时可以听牌', Game.canDeclareNow(HUMAN));
 
+// ============ 吃/碰都能听牌时给予选择 ============
+section('吃牌与碰牌都能听牌时给予玩家选择');
+// 3万：手中 3万3万 可碰，4万5万 可吃，两种打法打完都能听牌
+function choiceGame(lastDB) {
+  G = newGame();
+  G.players[HUMAN].hand = [
+    T('wan',3),T('wan',3),T('wan',4),T('wan',5),
+    T('tong',1),T('tong',2),T('tong',3),
+    T('tong',5),T('tong',5),T('tong',5),
+    T('tiao',7),T('tiao',7),T('tiao',9)
+  ];
+  G.lastD = T('wan',3); G.lastDB = lastDB;
+  G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = lastDB; G.ting = new Set();
+  return G;
+}
+
+// 对家打出 3万：吃、碰都可听，两个选项都要给出
+choiceGame(2);
+let ca = Game.claimActions(HUMAN);
+let cChi = ca.find(a => a.a === 'chi');
+let cPeng = ca.find(a => a.a === 'peng');
+ok('同时给出吃与碰两个选择', !!cChi && !!cPeng);
+ok('吃牌选项标注可听牌', !!cChi && cChi.ting === true && cChi.l.includes('·听'));
+ok('碰牌选项标注可听牌', !!cPeng && cPeng.ting === true && cPeng.l.includes('·听'));
+
+// 选择吃：上听吃，立即强制听牌
+choiceGame(2);
+Game.handleAB(HUMAN, 'chi', Game.claimActions(HUMAN).find(a => a.a === 'chi').d);
+ok('选择吃后立即听牌', G.ting.has(HUMAN));
+
+// 选择碰：不强制听牌，保留玩家是否听牌的选择权
+choiceGame(2);
+Game.handleAB(HUMAN, 'peng');
+ok('选择碰后不强制听牌', !G.ting.has(HUMAN));
+ok('碰后仍可主动听牌（打 9条）',
+  Game.canStartTing(HUMAN) && Game.tingDiscards(HUMAN).some(t => t.id === '9tiao'));
+Game.handleAB(HUMAN, 'ting');
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '9tiao'));
+ok('碰后主动听牌成功', G.ting.has(HUMAN));
+
+// 上家打出 3万：普通吃与「碰·听」同样都给出
+choiceGame(3);
+ca = Game.claimActions(HUMAN);
+ok('上家打出时吃、碰都可选',
+  ca.some(a => a.a === 'chi') && ca.some(a => a.a === 'peng' && a.ting === true));
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();
