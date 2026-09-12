@@ -113,6 +113,29 @@ if (acts.some(a => a.a === 'chi')) {
   ok('副露包含幺九 1万', G.players[HUMAN].melds.some(m => m.ts.some(t => t.id === '1wan')));
 }
 
+section('手中无幺九，恰巧吃到幺九可听牌');
+G = newGame();
+// 人类 13 张：2万3万 + 3筒 + 5-6-7筒 + 6筒 + 2-3-4条 + 8条8条8条（手牌无幺九，且本身不成听）
+G.players[HUMAN].hand = [
+  T('wan',2),T('wan',3),
+  T('tong',3),T('tong',5),T('tong',6),T('tong',6),T('tong',7),
+  T('tiao',2),T('tiao',3),T('tiao',4),T('tiao',8),T('tiao',8),T('tiao',8)
+];
+ok('构造的手牌确实无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
+ok('无幺九且无副露时不听牌', !Tile.isTing(G.players[HUMAN].hand, G.players[HUMAN].melds));
+G.lastD = T('wan',1); G.lastDB = 2; // 对家打出幺九 1万
+G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = 2; G.ting = new Set();
+acts = Game.claimActions(HUMAN);
+const chiYao = acts.find(a => a.a === 'chi');
+ok('恰巧吃到幺九(1万)可听牌', !!chiYao && chiYao.ting === true);
+if (chiYao) {
+  Game.handleAB(HUMAN, 'chi', chiYao.d);
+  ok('吃幺九后强制听牌', G.ting.has(HUMAN));
+  ok('听牌后手牌仍无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
+  ok('幺九仅来自副露（1万）', G.players[HUMAN].melds.some(m => m.ts.some(t => t.id === '1wan')));
+  ok('听牌张正确（6筒）', Tile.winTiles(G.players[HUMAN].hand, G.players[HUMAN].melds).some(t => t.id === '6tong'));
+}
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();

@@ -144,7 +144,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 /* 各座位牌尺寸 */
 /* 上家：手牌横排，吃碰在手牌下方（朝向桌心） */
 .seat-top .ph { flex-wrap: wrap; gap: 2px; }
-.seat-top .tile { width: 44px; height: 58px; }
+.seat-top .ph .tile { width: min(44px, calc((100% - 27px) / 14)); height: auto; aspect-ratio: 44 / 58; }
 .seat-top .pm { margin-top: 4px; }
 .seat-top .pm .tile { width: 34px; height: 46px; }
 
@@ -330,7 +330,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 
   /* 上家 */
   .seat-top .ph { gap: 1px; }
-  .seat-top .tile { width: 28px; height: 37px; }
+  .seat-top .ph .tile { width: min(28px, calc((100% - 14px) / 14)); height: auto; aspect-ratio: 28 / 37; }
   .seat-top .pm { margin-top: 2px; }
   .seat-top .pm .tile { width: 22px; height: 29px; }
 
@@ -397,7 +397,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .seat-left .tile, .seat-right .tile { width: 22px; height: 30px; }
   .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -6px; }
   .seat-left .pm .tile, .seat-right .pm .tile { width: 17px; height: 24px; margin-bottom: -5px; }
-  .seat-top .tile { width: 25px; height: 33px; }
+  .seat-top .ph .tile { width: min(25px, calc((100% - 14px) / 14)); height: auto; aspect-ratio: 25 / 33; }
   .seat-top .pm .tile { width: 20px; height: 26px; }
   .seat-bottom .tile { width: 30px; height: 41px; }
   .seat-bottom .pm .tile { width: 23px; height: 32px; }
