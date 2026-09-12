@@ -231,6 +231,48 @@ ca = Game.claimActions(HUMAN);
 ok('上家打出时吃、碰都可选',
   ca.some(a => a.a === 'chi') && ca.some(a => a.a === 'peng' && a.ting === true));
 
+// ============ 吃上家可选择听牌，吃另外两家必须上听 ============
+section('吃上家可选择听牌，吃另外两家必须上听');
+function upperChiGame(lastDB) {
+  G = newGame();
+  G.players[HUMAN].hand = [
+    T('wan',7),T('wan',8),
+    T('tong',1),T('tong',2),T('tong',3),
+    T('tong',4),T('tong',5),T('tong',6),
+    T('tiao',7),T('tiao',8),T('tiao',9),T('tiao',9),T('tiao',9)
+  ];
+  G.lastD = T('wan',9); G.lastDB = lastDB;
+  G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = lastDB; G.ting = new Set();
+  return G;
+}
+
+// 上家打出 9万：普通吃，吃后是否听牌由玩家决定
+upperChiGame(3);
+let uActs = Game.claimActions(HUMAN);
+let uChi = uActs.find(a => a.a === 'chi');
+ok('吃上家提供普通吃（不标强制听）', !!uChi && !uChi.ting && !uChi.l.includes('·听'));
+Game.handleAB(HUMAN, 'chi', uChi.d);
+ok('吃上家后不强制听牌', !G.ting.has(HUMAN));
+ok('吃上家后可主动听牌（打 7条）',
+  Game.canStartTing(HUMAN) && Game.tingDiscards(HUMAN).some(t => t.id === '7tiao'));
+Game.handleAB(HUMAN, 'ting');
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '7tiao'));
+ok('吃上家后主动听牌成功', G.ting.has(HUMAN));
+
+// 吃上家后也可以选择不听：直接打出听牌张也不自动上听
+upperChiGame(3);
+Game.handleAB(HUMAN, 'chi', Game.claimActions(HUMAN).find(a => a.a === 'chi').d);
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '7tiao'));
+ok('吃上家后选择不听牌则保持未听', !G.ting.has(HUMAN));
+
+// 吃另外两家（上听吃）：必须听牌
+upperChiGame(2);
+let nActs = Game.claimActions(HUMAN);
+let nChi = nActs.find(a => a.a === 'chi');
+ok('吃另外两家标注强制听牌', !!nChi && nChi.ting === true && nChi.l.includes('·听'));
+Game.handleAB(HUMAN, 'chi', nChi.d);
+ok('吃另外两家后强制听牌', G.ting.has(HUMAN));
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();

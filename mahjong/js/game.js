@@ -605,6 +605,8 @@ function executeClaim(pI, act) {
     if (!drawn) { endDraw(); return; }
     if (G.ting.has(pI) && Tile.canWin(p.hand, p.melds)) { win(pI, null, true); return; }
   } else if (act.a === 'chi') {
+    // 吃上家为正常吃牌，是否听牌由玩家决定；吃另外两家为上听吃，必须听牌
+    let isUpper = G.lastDB === (pI + PLAYER_COUNT - 1) % PLAYER_COUNT;
     let used = [];
     act.d.forEach(n => {
       if (n !== t.num) {
@@ -615,8 +617,8 @@ function executeClaim(pI, act) {
     p.melds.push({ type: 'chi', ts: [...used, t], claimedId: Tile.tid(t) });
     sortHand(p);
     ui('addLog', p.name + ' 吃 ' + Tile.label(t));
-    // 上听吃：吃完若能听牌则强制听牌，自动打出最优听牌张
-    let opts = handTingDiscards(p.hand, p.melds);
+    // 上听吃（吃另外两家）：吃完若能听牌则强制听牌，自动打出最优听牌张
+    let opts = isUpper ? [] : handTingDiscards(p.hand, p.melds);
     if (opts.length) {
       let best = opts[0], bestCount = -1, seen = new Set();
       for (let tt of opts) {
