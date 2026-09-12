@@ -136,6 +136,55 @@ if (chiYao) {
   ok('听牌张正确（6筒）', Tile.winTiles(G.players[HUMAN].hand, G.players[HUMAN].melds).some(t => t.id === '6tong'));
 }
 
+// ============ 断幺九不能听牌 ============
+section('断幺九不能听牌（幺九须在手，胡到幺九不算）');
+G = newGame();
+// 手牌无幺九，仅胡 1万 才能凑成顺子 1-2-3万
+G.players[HUMAN].hand = [
+  T('wan',2),T('wan',3),
+  T('tong',4),T('tong',5),T('tong',6),
+  T('tiao',2),T('tiao',3),T('tiao',4),
+  T('tiao',5),T('tiao',5),T('tiao',5),
+  T('tong',7),T('tong',7)
+];
+ok('断幺九手牌确实无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
+ok('断幺九不能听牌', !Tile.isTing(G.players[HUMAN].hand, []));
+ok('胡到幺九(1万)不算，无听牌张', Tile.winTiles(G.players[HUMAN].hand, []).length === 0);
+
+// 同型手牌只要手里已有幺九即可听牌
+G = newGame();
+G.players[HUMAN].hand = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('tong',4),T('tong',5),T('tong',6),
+  T('tiao',2),T('tiao',3),T('tiao',4),
+  T('tiao',5),T('tiao',5),T('tiao',5),
+  T('tong',7)
+];
+ok('手中有幺九时可以听牌', Tile.isTing(G.players[HUMAN].hand, []));
+ok('听牌张为 7筒', Tile.winTiles(G.players[HUMAN].hand, []).some(t => t.id === '7tong'));
+
+// 副露非幺九 + 断幺九手牌：不能宣告听牌
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tong',2),T('tong',2),T('tong',2)] }];
+G.players[HUMAN].hand = [
+  T('wan',2),T('wan',3),
+  T('tiao',2),T('tiao',3),T('tiao',4),
+  T('tiao',5),T('tiao',5),T('tiao',5),
+  T('tong',7),T('tong',7)
+];
+ok('副露非幺九 + 断幺九手牌不能听牌', !Game.canDeclareNow(HUMAN) && Game.tingDiscards(HUMAN).length === 0);
+
+// 同型手牌，副露为幺九刻子：幺九可来自副露，可以听牌
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tong',1),T('tong',1),T('tong',1)] }];
+G.players[HUMAN].hand = [
+  T('wan',2),T('wan',3),
+  T('tiao',2),T('tiao',3),T('tiao',4),
+  T('tiao',5),T('tiao',5),T('tiao',5),
+  T('tong',7),T('tong',7)
+];
+ok('幺九来自副露时可以听牌', Game.canDeclareNow(HUMAN));
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();

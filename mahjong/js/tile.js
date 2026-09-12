@@ -122,6 +122,8 @@ export function winTiles(hand, melds) {
   if (hand.length !== need * 3 + 1) return [];
 
   let all = allTilesOf(hand, melds);
+  // 断幺九不能听牌：幺九必须已在手牌（含副露）中，胡到的幺九不算
+  if (!all.some(isYao)) return [];
   let res = [];
   TT.forEach(type => {
     for (let n = 1; n <= 9; n++) {
