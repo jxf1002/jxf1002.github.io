@@ -273,6 +273,59 @@ ok('吃另外两家标注强制听牌', !!nChi && nChi.ting === true && nChi.l.i
 Game.handleAB(HUMAN, 'chi', nChi.d);
 ok('吃另外两家后强制听牌', G.ting.has(HUMAN));
 
+// ============ 禁止清一色 ============
+section('禁止清一色（万/条/筒至少两种，红中不算颜色）');
+// 清一色（全万）完整牌型
+let qing = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('wan',4),T('wan',5),T('wan',6),
+  T('wan',7),T('wan',8),T('wan',9),
+  T('wan',2),T('wan',2),T('wan',2),
+  T('wan',5),T('wan',5)
+];
+ok('清一色不能胡', !Tile.canWin(qing, []));
+
+// 同型换成两种颜色即可胡
+let duo = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('wan',4),T('wan',5),T('wan',6),
+  T('tong',7),T('tong',8),T('tong',9),
+  T('wan',2),T('wan',2),T('wan',2),
+  T('wan',5),T('wan',5)
+];
+ok('两种颜色可以胡', Tile.canWin(duo, []));
+
+// 红中不算一种颜色：一色 + 红中对子仍不能胡
+let qingZhong = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('wan',4),T('wan',5),T('wan',6),
+  T('wan',7),T('wan',8),T('wan',9),
+  T('wan',2),T('wan',2),T('wan',2),
+  Z,Z
+];
+ok('清一色加红中不算两种颜色，不能胡', !Tile.canWin(qingZhong, []));
+
+// 清一色不能听牌
+let qingTing = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('wan',4),T('wan',5),T('wan',6),
+  T('wan',7),T('wan',8),T('wan',9),
+  T('wan',2),T('wan',2),T('wan',2),
+  T('wan',5)
+];
+ok('清一色不能听牌', !Tile.isTing(qingTing, []) && Tile.winTiles(qingTing, []).length === 0);
+
+// 两种颜色可听牌
+let duoTing = [
+  T('wan',1),T('wan',2),T('wan',3),
+  T('wan',4),T('wan',5),T('wan',6),
+  T('tong',7),T('tong',8),T('tong',9),
+  T('wan',2),T('wan',2),T('wan',2),
+  T('wan',5)
+];
+ok('两种颜色可以听牌',
+  Tile.isTing(duoTing, []) && Tile.winTiles(duoTing, []).some(t => t.id === '5wan'));
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();

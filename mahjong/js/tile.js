@@ -85,6 +85,11 @@ function winInfo(hand, melds) {
   if (need < 0) return null;
   if (hand.length !== need * 3 + 2) return null;
 
+  // 禁止清一色：万/条/筒至少要有两种，红中不算一种颜色
+  let suits = new Set();
+  allTilesOf(hand, melds).forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+  if (suits.size < 2) return null;
+
   let sorted = sortTiles(hand);
   let seen = new Set();
   for (let t of sorted) {
