@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>麻将小游戏</title>
+<link rel="stylesheet" href="style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<div class="gc">
+  <div class="topbar">
+    <h1>麻将</h1>
+    <div class="gi">
+      <span>牌墙 <b id="wc">0</b></span>
+      <span class="baopi" id="bi"></span>
+    </div>
+  </div>
+  <div class="sb" id="sb"></div>
+  <div class="sbt" id="sbt"></div>
+
+  <div class="table">
+    <div class="seat seat-top" id="pt">
+      <div class="seat-head"><span class="pn" id="nt">南</span><span class="pr" id="rt"></span></div>
+      <div class="ph" id="ht"></div>
+      <div class="pm" id="mt"></div>
+      <div class="pa" id="at"></div>
+    </div>
+
+    <div class="seat seat-left" id="pl">
+      <div class="seat-head"><span class="pn" id="nl">东</span><span class="pr" id="rl"></span></div>
+      <div class="seat-body">
+        <div class="pm" id="ml"></div>
+        <div class="ph" id="hl"></div>
+      </div>
+      <div class="pa" id="al"></div>
+    </div>
+
+    <div class="center">
+      <div class="disc-row"><div class="disc" id="dct"></div></div>
+      <div class="center-mid">
+        <div class="disc disc-col" id="dcl"></div>
+        <div class="wall-wrap">
+          <div class="wall-count" id="wall-count">剩余 0</div>
+          <div class="wall" id="wd"></div>
+        </div>
+        <div class="disc disc-col" id="dcr"></div>
+      </div>
+      <div class="disc-row"><div class="disc" id="dcb"></div></div>
+      <div class="claim-reminder" id="reminder"></div>
+    </div>
+
+    <div class="seat seat-right" id="pr">
+      <div class="seat-head"><span class="pn" id="nr">西</span><span class="pr" id="rr"></span></div>
+      <div class="seat-body">
+        <div class="pm" id="mr"></div>
+        <div class="ph" id="hr"></div>
+      </div>
+      <div class="pa" id="ar"></div>
+    </div>
+
+    <div class="seat seat-bottom" id="pb">
+      <div class="seat-head"><span class="pn" id="nb">北</span><span class="pr" id="rb"></span></div>
+      <div class="pm" id="mb"></div>
+      <div class="ph" id="hb"></div>
+      <div class="pa" id="ab2"></div>
+      <div class="hints" id="hints"></div>
+    </div>
+  </div>
+
+  <div class="lp" id="lp"></div>
+  <div class="start-wrap"><button type="button" class="sb2b" id="btn-s">开始游戏</button></div>
+</div>
+
+<div class="dora-banner" id="dora-banner"></div>
+<div class="fx-layer" id="fx"></div>
+
+<div class="mo" id="mo">
+  <div class="mdl">
+    <h2 id="m-title"></h2>
+    <div class="rt" id="m-result"></div>
+    <div class="st" id="m-score"></div>
+    <div class="dt" id="m-detail"></div>
+    <div class="m-breakdown" id="m-breakdown"></div>
+    <button type="button" id="m-btn">继续</button>
+  </div>
+</div>
+
+<div class="summary" id="summary"></div>
+</body>
+</html>
