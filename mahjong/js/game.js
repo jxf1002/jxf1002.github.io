@@ -371,7 +371,7 @@ export function claimActions(pI) {
   // 听牌后不能再吃碰杠
   if (p.melds.length < 4 && !G.ting.has(pI)) {
     let isUpper = G.lastDB === (pI + PLAYER_COUNT - 1) % PLAYER_COUNT;
-    chiOpts(pI, t).forEach(opt => {
+    chiOpts(pI, t).sort((a, b) => a[0] - b[0]).forEach(opt => {
       if (isUpper) {
         acts.push({ a: 'chi', l: '吃 ' + opt.join('-') + t.suit, d: opt });
       } else if (chiLeadsToTing(pI, t, opt)) {
