@@ -541,8 +541,24 @@ export function selfActions(pI) {
   return acts;
 }
 
-// ===== 鸣牌裁决：胡 > 碰/杠 > 吃，按打牌者下家顺序 =====
-const prio = a => a === 'hu' ? 3 : (a === 'peng' || a === 'kong') ? 2 : 1;
+// ===== 鸣牌裁决 =====
+// 优先级：胡 > 上听（吃听/碰听）> 杠/碰 > 吃；同级按打牌者下家顺序
+export function claimPriority(act) {
+  if (act.a === 'hu') return 4;
+  if (act.ting) return 3;
+  if (act.a === 'peng' || act.a === 'kong') return 2;
+  return 1;
+}
+
+// 从多个玩家的鸣牌中选出优先级最高者，同级取牌序靠前者
+export function pickClaim(claims, lastDB) {
+  if (!claims.length) return null;
+  let maxP = Math.max(...claims.map(c => Math.max(...c.acts.map(claimPriority))));
+  let top = claims.filter(c => Math.max(...c.acts.map(claimPriority)) === maxP);
+  top.sort((a, b) =>
+    ((a.i - lastDB + PLAYER_COUNT) % PLAYER_COUNT) - ((b.i - lastDB + PLAYER_COUNT) % PLAYER_COUNT));
+  return top[0];
+}
 
 function resolveClaims() {
   if (G.over) return;
@@ -554,10 +570,7 @@ function resolveClaims() {
   }
   if (!claims.length) { G.phase = 'discard'; advanceTurn(); return; }
 
-  let maxP = Math.max(...claims.map(c => Math.max(...c.acts.map(a => prio(a.a)))));
-  let top = claims.filter(c => Math.max(...c.acts.map(a => prio(a.a))) === maxP);
-  top.sort((a, b) => ((a.i - G.lastDB + 4) % 4) - ((b.i - G.lastDB + 4) % 4));
-  let chosen = top[0];
+  let chosen = pickClaim(claims, G.lastDB);
 
   if (chosen.i === HUMAN) {
     G.phase = 'claim';

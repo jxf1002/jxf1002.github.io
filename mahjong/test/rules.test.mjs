@@ -404,6 +404,48 @@ let duoTing = [
 ok('两种颜色可以听牌',
   Tile.isTing(duoTing, []) && Tile.winTiles(duoTing, []).some(t => t.id === '5wan'));
 
+// ============ 鸣牌优先级 ============
+section('鸣牌优先级（上听 > 杠碰 > 吃，同级按牌序）');
+const P = Game.claimPriority;
+ok('胡优先级最高', P({ a: 'hu' }) > P({ a: 'peng', ting: true }));
+ok('上听（吃听/碰听）高于普通杠碰',
+  P({ a: 'chi', ting: true }) > P({ a: 'peng' }) &&
+  P({ a: 'chi', ting: true }) > P({ a: 'kong' }) &&
+  P({ a: 'peng', ting: true }) > P({ a: 'peng' }));
+ok('普通杠碰高于吃', P({ a: 'peng' }) > P({ a: 'chi' }) && P({ a: 'kong' }) > P({ a: 'chi' }));
+ok('吃听与碰听同级', P({ a: 'chi', ting: true }) === P({ a: 'peng', ting: true }));
+
+// pickClaim：lastDB=0 时下家顺序为 1 → 2 → 3
+ok('都不上听：碰高于吃（吃家更近也不行）', Game.pickClaim([
+  { i: 1, acts: [{ a: 'chi' }] },
+  { i: 2, acts: [{ a: 'peng' }] }
+], 0).i === 2);
+ok('上听高于不上听（上听家更远也优先）', Game.pickClaim([
+  { i: 1, acts: [{ a: 'peng' }] },
+  { i: 3, acts: [{ a: 'chi', ting: true }] }
+], 0).i === 3);
+ok('都上听：按牌序取近者', Game.pickClaim([
+  { i: 2, acts: [{ a: 'peng', ting: true }] },
+  { i: 1, acts: [{ a: 'chi', ting: true }] }
+], 0).i === 1);
+ok('均吃：按牌序取近者', Game.pickClaim([
+  { i: 3, acts: [{ a: 'chi' }] },
+  { i: 1, acts: [{ a: 'chi' }] }
+], 0).i === 1);
+ok('均吃：牌序跨圈仍取近者', Game.pickClaim([
+  { i: 3, acts: [{ a: 'chi' }] },
+  { i: 0, acts: [{ a: 'chi' }] }
+], 2).i === 3);
+ok('胡高于上听', Game.pickClaim([
+  { i: 3, acts: [{ a: 'hu' }] },
+  { i: 1, acts: [{ a: 'peng', ting: true }] }
+], 0).i === 3);
+ok('同一玩家多选项按最高优先级比较', Game.pickClaim([
+  { i: 2, acts: [{ a: 'chi' }, { a: 'peng' }] },
+  { i: 1, acts: [{ a: 'chi', ting: true }] }
+], 0).i === 1);
+ok('无鸣牌返回 null', Game.pickClaim([], 0) === null);
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();
