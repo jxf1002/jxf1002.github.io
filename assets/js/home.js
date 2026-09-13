@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
       title: "工具",
       items: [
         {
+          href: "/photo/",
+          title: "图片格式转换工具",
+          description: "批量把图片转成 JPG / PNG / WebP，可打包成 ZIP 下载。",
+          type: "转换工具",
+        },
+        {
           href: "/dcf/",
           title: "DCF 计算器",
           description: "使用 DCF 模型对企业进行估值。",

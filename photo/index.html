@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>图片格式转换｜贾师傅的小站</title>
+    <meta
+      name="description"
+      content="纯前端批量图片格式转换工具，支持 JPG、PNG、WebP 互转，可打包成 ZIP 下载，图片不会上传到服务器。"
+    />
+    <meta
+      name="keywords"
+      content="图片格式转换,JPG,PNG,WebP,批量压缩,在线工具"
+    />
+    <link
+      rel="canonical"
+      href="https://www.justful.cn/tools/image-converter.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="贾师傅的小站" />
+    <meta property="og:title" content="图片格式转换｜贾师傅的小站" />
+    <meta
+      property="og:description"
+      content="批量把图片转成 JPG / PNG / WebP，纯浏览器本地处理，一键打包下载。"
+    />
+    <meta
+      property="og:url"
+      content="https://www.justful.cn/tools/image-converter.html"
+    />
+    <link rel="stylesheet" href="/assets/css/site.css?v=4" />
+    <script src="/assets/js/common.js?v=2"></script>
+    <style>
+      /* ===== 图片转换工具专用样式（复用站点变量） ===== */
+      .converter .app-header {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .converter .header-icon {
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 22px;
+        line-height: 1;
+      }
+      .converter .header-text {
+        min-width: 0;
+      }
+      .converter .app-header h1 {
+        margin: 0;
+        font-size: 1.45rem;
+        letter-spacing: -0.01em;
+      }
+      .converter .app-header .sub {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+      .converter .app-header .badge {
+        margin-left: auto;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      /* 拖拽上传区 */
+      .drop-zone {
+        margin-top: 24px;
+        padding: 40px 20px;
+        display: grid;
+        place-items: center;
+        gap: 8px;
+        text-align: center;
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        background: var(--surface-muted);
+        cursor: pointer;
+        transition:
+          border-color 0.18s,
+          background-color 0.18s,
+          transform 0.18s;
+      }
+      .drop-zone:hover {
+        border-color: var(--primary);
+      }
+      .drop-zone.is-dragover {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        transform: scale(1.005);
+      }
+      .drop-zone:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .drop-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--primary);
+        font-size: 26px;
+        line-height: 1;
+      }
+      .drop-title {
+        margin: 0;
+        font-size: 1.02rem;
+        font-weight: 600;
+      }
+      .drop-hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+      .link-btn {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--primary);
+        font: inherit;
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        cursor: pointer;
+      }
+
+      /* 工具条 */
+      .toolbar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.875rem;
+        white-space: nowrap;
+      }
+      .field select.control {
+        width: auto;
+        max-width: 120px;
+        padding: 7px 10px;
+      }
+      .field em {
+        color: var(--primary);
+        font-style: normal;
+        font-weight: 700;
+      }
+      .field input[type="range"] {
+        width: 130px;
+        accent-color: var(--primary);
+      }
+      .toolbar .hint {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .toolbar .spacer {
+        flex: 1 1 auto;
+      }
+
+      /* 文件列表 */
+      .conv-table-wrap {
+        margin-top: 22px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .conv-table-wrap .empty {
+        padding: 40px 20px;
+      }
+      .conv-table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .conv-table th {
+        padding: 12px 16px;
+        background: var(--surface-muted);
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-align: left;
+        white-space: nowrap;
+        box-shadow: 0 1px 0 var(--border);
+      }
+      .conv-table td {
+        padding: 12px 16px;
+        border-top: 1px solid var(--border);
+        vertical-align: middle;
+        font-size: 0.9rem;
+      }
+      .conv-table tbody tr:first-child td {
+        border-top: 0;
+      }
+      .conv-table tbody tr:hover {
+        background: var(--primary-soft);
+      }
+      .conv-table th.col-actions,
+      .conv-table td.col-actions {
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .file-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+      .file-thumb {
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: var(--surface-muted);
+        border: 1px solid var(--border);
+      }
+      .file-name {
+        display: block;
+        max-width: 280px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
+      }
+      .conv-table select.control {
+        width: auto;
+        max-width: 110px;
+        padding: 6px 10px;
+      }
+
+      /* 按钮 */
+      .button {
+        transition:
+          background-color 0.16s,
+          border-color 0.16s,
+          color 0.16s,
+          filter 0.16s;
+      }
+      .button:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      .button-primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+      .button-primary:hover:not(:disabled) {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+        filter: brightness(1.08);
+      }
+      .button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .icon-btn {
+        width: 30px;
+        height: 30px;
+        margin-left: 8px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 1.1rem;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .icon-btn:hover {
+        border-color: var(--border);
+        background: var(--surface);
+        color: var(--accent);
+      }
+
+      /* 底部批量操作 */
+      .batch-bar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      .batch-bar .count {
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+      .batch-bar .spacer {
+        flex: 1 1 auto;
+      }
+      .progress {
+        flex: 1 1 160px;
+        min-width: 120px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--surface-muted);
+        overflow: hidden;
+      }
+      .progress > span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--primary);
+        transition: width 0.18s ease;
+      }
+
+      /* 轻提示 */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        z-index: 99;
+        max-width: min(90vw, 420px);
+        padding: 10px 18px;
+        border-radius: 999px;
+        background: var(--text);
+        color: var(--surface);
+        font-size: 0.875rem;
+        text-align: center;
+        opacity: 0;
+        transform: translate(-50%, 16px);
+        pointer-events: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (max-width: 800px) {
+        .tool-main {
+          padding: 16px 12px 0;
+        }
+        .converter {
+          padding: 20px 16px 24px !important;
+        }
+        .drop-zone {
+          padding: 30px 16px;
+        }
+        .toolbar .hint {
+          display: none;
+        }
+        .converter .app-header .badge {
+          margin-left: 0;
+        }
+        .file-name {
+          max-width: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><img class="site-home-icon" src="/favicon.svg" alt="" /><span
+          >贾师傅的小站</span
+        ></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="tool-page">
+        <div class="tool-main">
+          <div class="app converter">
+            <header class="app-header">
+              <span class="header-icon" aria-hidden="true">🖼️</span>
+              <div class="header-text">
+                <h1>图片格式转换</h1>
+                <p class="sub">
+                  批量把图片转成 JPG / PNG / WebP，可打包成 ZIP
+                  下载。全程在浏览器本地处理，图片不会上传。
+                </p>
+              </div>
+              <span class="badge">纯前端 · 最多 20 张</span>
+            </header>
+
+            <!-- 上传区 -->
+            <section
+              class="drop-zone"
+              id="dropZone"
+              tabindex="0"
+              role="button"
+              aria-label="点击或拖拽上传图片"
+            >
+              <div class="drop-icon" aria-hidden="true">＋</div>
+              <p class="drop-title">
+                把图片拖到这里，或<button
+                  type="button"
+                  class="link-btn"
+                  id="pickBtn"
+                >
+                  点击选择图片
+                </button>
+              </p>
+              <p class="drop-hint">
+                支持 JPG / PNG / WebP / GIF / BMP / AVIF 等，单次最多 20 张
+              </p>
+            </section>
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              multiple
+              hidden
+            />
+
+            <!-- 工具条 -->
+            <div class="toolbar">
+              <label class="field">
+                <span>全部转为</span>
+                <select class="control" id="globalFormat">
+                  <option value="jpg" selected>JPG</option>
+                  <option value="png">PNG</option>
+                  <option value="webp">WebP</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>质量 <em id="qualityValue">92%</em></span>
+                <input
+                  type="range"
+                  id="quality"
+                  min="0.3"
+                  max="1"
+                  step="0.01"
+                  value="0.92"
+                  aria-label="输出质量"
+                />
+              </label>
+              <span class="hint">质量仅对 JPG / WebP 生效，PNG 为无损输出</span>
+              <span class="spacer"></span>
+              <button type="button" class="button" id="clearBtn" disabled>
+                清空列表
+              </button>
+            </div>
+
+            <!-- 文件列表 -->
+            <div class="conv-table-wrap">
+              <table class="conv-table" id="fileTable" hidden>
+                <thead>
+                  <tr>
+                    <th>名称</th>
+                    <th>大小</th>
+                    <th>类型</th>
+                    <th>转化为</th>
+                    <th class="col-actions">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="fileBody"></tbody>
+              </table>
+              <p class="empty" id="emptyState">
+                还没有添加图片，先在上方选择或拖拽文件吧
+              </p>
+            </div>
+
+            <!-- 批量操作 -->
+            <div class="batch-bar" id="batchBar" hidden>
+              <span class="count" id="fileCount"></span>
+              <div class="progress" id="progress" hidden>
+                <span id="progressBar"></span>
+              </div>
+              <span class="spacer"></span>
+              <button
+                type="button"
+                class="button button-primary"
+                id="downloadAll"
+              >
+                打包下载 ZIP
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <footer class="site-footer">
+          <p>Copyright © <span data-year></span> www.justful.cn版权所有</p>
+          <p>
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noreferrer"
+              >京ICP备18007833号-1</a
+            >
+          </p>
+        </footer>
+      </div>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      ;(function () {
+        "use strict"
+
+        var MAX_FILES = 20
+
+        var FORMATS = {
+          jpg: { mime: "image/jpeg", ext: "jpg", quality: true },
+          png: { mime: "image/png", ext: "png", quality: false },
+          webp: { mime: "image/webp", ext: "webp", quality: true },
+        }
+
+        var state = { items: [], seq: 0 }
+
+        var el = {}
+        ;[
+          "dropZone",
+          "fileInput",
+          "pickBtn",
+          "globalFormat",
+          "quality",
+          "qualityValue",
+          "clearBtn",
+          "fileTable",
+          "fileBody",
+          "emptyState",
+          "fileCount",
+          "batchBar",
+          "downloadAll",
+          "progress",
+          "progressBar",
+          "toast",
+        ].forEach(function (id) {
+          el[id] = document.getElementById(id)
+        })
+
+        /* ---------------- 基础工具 ---------------- */
+
+        function escapeHtml(str) {
+          return String(str).replace(/[&<>"']/g, function (c) {
+            return {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[c]
+          })
+        }
+
+        function formatSize(bytes) {
+          if (bytes < 1024) return bytes + " B"
+          if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB"
+          return (bytes / 1024 / 1024).toFixed(2) + " MB"
+        }
+
+        function mimeLabel(file) {
+          var t = (file.type || "").replace(/^image\//, "").toLowerCase()
+          if (t === "jpeg") t = "jpg"
+          if (!t) {
+            var m = /\.([a-z0-9]+)$/i.exec(file.name || "")
+            t = m ? m[1].toLowerCase() : ""
+          }
+          return t ? t.toUpperCase() : "未知"
+        }
+
+        function baseName(name) {
+          return String(name || "image").replace(/\.[^./\\]+$/, "") || "image"
+        }
+
+        function outputName(name, fmt) {
+          return baseName(name) + "." + (FORMATS[fmt] || FORMATS.jpg).ext
+        }
+
+        function uniqueName(name, used) {
+          if (!used.has(name)) {
+            used.add(name)
+            return name
+          }
+          var dot = name.lastIndexOf(".")
+          var stem = dot > 0 ? name.slice(0, dot) : name
+          var ext = dot > 0 ? name.slice(dot) : ""
+          var i = 2
+          var candidate
+          do {
+            candidate = stem + "(" + i + ")" + ext
+            i += 1
+          } while (used.has(candidate))
+          used.add(candidate)
+          return candidate
+        }
+
+        function nextFrame() {
+          return new Promise(function (resolve) {
+            requestAnimationFrame(function () {
+              resolve()
+            })
+          })
+        }
+
+        function stamp() {
+          var d = new Date()
+          function p(n) {
+            return n < 10 ? "0" + n : "" + n
+          }
+          return (
+            d.getFullYear() +
+            p(d.getMonth() + 1) +
+            p(d.getDate()) +
+            "-" +
+            p(d.getHours()) +
+            p(d.getMinutes())
+          )
+        }
+
+        var toastTimer = null
+        function toast(msg) {
+          el.toast.textContent = msg
+          el.toast.classList.add("show")
+          clearTimeout(toastTimer)
+          toastTimer = setTimeout(function () {
+            el.toast.classList.remove("show")
+          }, 2600)
+        }
+
+        function triggerDownload(blob, filename) {
+          var url = URL.createObjectURL(blob)
+          var a = document.createElement("a")
+          a.href = url
+          a.download = filename
+          document.body.appendChild(a)
+          a.click()
+          a.remove()
+          setTimeout(function () {
+            URL.revokeObjectURL(url)
+          }, 4000)
+        }
+
+        /* ---------------- 图片解码 / 转换 ---------------- */
+
+        function loadImageSource(file) {
+          if (typeof createImageBitmap === "function") {
+            return createImageBitmap(file, {
+              imageOrientation: "from-image",
+            }).catch(function () {
+              return createImageBitmap(file)
+            })
+          }
+          return new Promise(function (resolve, reject) {
+            var url = URL.createObjectURL(file)
+            var img = new Image()
+            img.onload = function () {
+              URL.revokeObjectURL(url)
+              resolve(img)
+            }
+            img.onerror = function () {
+              URL.revokeObjectURL(url)
+              reject(new Error("无法解码该图片"))
+            }
+            img.src = url
+          })
+        }
+
+        function convertImage(file, fmt) {
+          var target = FORMATS[fmt] || FORMATS.jpg
+
+          return loadImageSource(file).then(function (src) {
+            var w = src.width || src.naturalWidth
+            var h = src.height || src.naturalHeight
+            if (!w || !h) throw new Error("图片尺寸无效")
+
+            var canvas = document.createElement("canvas")
+            canvas.width = w
+            canvas.height = h
+            var ctx = canvas.getContext("2d")
+
+            // JPEG 不支持透明，先铺白底，避免透明区域变黑
+            if (target.mime === "image/jpeg") {
+              ctx.fillStyle = "#ffffff"
+              ctx.fillRect(0, 0, w, h)
+            }
+            ctx.drawImage(src, 0, 0)
+            if (typeof src.close === "function") src.close()
+
+            var quality = target.quality ? Number(el.quality.value) : undefined
+
+            return new Promise(function (resolve, reject) {
+              if (typeof canvas.toBlob !== "function") {
+                reject(new Error("当前浏览器不支持图片导出"))
+                return
+              }
+              canvas.toBlob(
+                function (blob) {
+                  if (!blob) {
+                    reject(new Error("转换失败"))
+                    return
+                  }
+                  if (blob.type !== target.mime) {
+                    reject(
+                      new Error("当前浏览器不支持导出 " + fmt.toUpperCase()),
+                    )
+                    return
+                  }
+                  resolve(blob)
+                },
+                target.mime,
+                quality,
+              )
+            })
+          })
+        }
+
+        /* ---------------- ZIP 打包（store 模式，无依赖） ---------------- */
+
+        var CRC_TABLE = (function () {
+          var table = new Uint32Array(256)
+          for (var i = 0; i < 256; i++) {
+            var c = i
+            for (var k = 0; k < 8; k++) {
+              c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1
+            }
+            table[i] = c >>> 0
+          }
+          return table
+        })()
+
+        function crc32(bytes) {
+          var c = 0xffffffff
+          for (var i = 0; i < bytes.length; i++) {
+            c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8)
+          }
+          return (c ^ 0xffffffff) >>> 0
+        }
+
+        function dosDateTime(d) {
+          var time =
+            ((d.getHours() & 0x1f) << 11) |
+            ((d.getMinutes() & 0x3f) << 5) |
+            (Math.floor(d.getSeconds() / 2) & 0x1f)
+          var date =
+            (((d.getFullYear() - 1980) & 0x7f) << 9) |
+            (((d.getMonth() + 1) & 0x0f) << 5) |
+            (d.getDate() & 0x1f)
+          return { time: time & 0xffff, date: date & 0xffff }
+        }
+
+        function createZip(files) {
+          var encoder = new TextEncoder()
+          var chunks = []
+          var central = []
+          var offset = 0
+          var now = dosDateTime(new Date())
+
+          files.forEach(function (f) {
+            var nameBytes = encoder.encode(f.name)
+            var data = f.data
+            var crc = crc32(data)
+            var size = data.length
+
+            var local = new Uint8Array(30 + nameBytes.length)
+            var lv = new DataView(local.buffer)
+            lv.setUint32(0, 0x04034b50, true)
+            lv.setUint16(4, 20, true)
+            lv.setUint16(6, 0x0800, true) // UTF-8 文件名
+            lv.setUint16(8, 0, true) // 不压缩
+            lv.setUint16(10, now.time, true)
+            lv.setUint16(12, now.date, true)
+            lv.setUint32(14, crc, true)
+            lv.setUint32(18, size, true)
+            lv.setUint32(22, size, true)
+            lv.setUint16(26, nameBytes.length, true)
+            lv.setUint16(28, 0, true)
+            local.set(nameBytes, 30)
+
+            chunks.push(local, data)
+
+            var cd = new Uint8Array(46 + nameBytes.length)
+            var cv = new DataView(cd.buffer)
+            cv.setUint32(0, 0x02014b50, true)
+            cv.setUint16(4, 20, true)
+            cv.setUint16(6, 20, true)
+            cv.setUint16(8, 0x0800, true)
+            cv.setUint16(10, 0, true)
+            cv.setUint16(12, now.time, true)
+            cv.setUint16(14, now.date, true)
+            cv.setUint32(16, crc, true)
+            cv.setUint32(20, size, true)
+            cv.setUint32(24, size, true)
+            cv.setUint16(28, nameBytes.length, true)
+            cv.setUint16(30, 0, true)
+            cv.setUint16(32, 0, true)
+            cv.setUint16(34, 0, true)
+            cv.setUint16(36, 0, true)
+            cv.setUint32(38, 0, true)
+            cv.setUint32(42, offset, true)
+            cd.set(nameBytes, 46)
+            central.push(cd)
+
+            offset += local.length + size
+          })
+
+          var centralSize = central.reduce(function (sum, c) {
+            return sum + c.length
+          }, 0)
+
+          var end = new Uint8Array(22)
+          var ev = new DataView(end.buffer)
+          ev.setUint32(0, 0x06054b50, true)
+          ev.setUint16(4, 0, true)
+          ev.setUint16(6, 0, true)
+          ev.setUint16(8, files.length, true)
+          ev.setUint16(10, files.length, true)
+          ev.setUint32(12, centralSize, true)
+          ev.setUint32(16, offset, true)
+          ev.setUint16(20, 0, true)
+
+          return new Blob(chunks.concat(central, [end]), {
+            type: "application/zip",
+          })
+        }
+
+        /* ---------------- 列表渲染 ---------------- */
+
+        function render() {
+          var items = state.items
+          var hasItems = items.length > 0
+
+          el.fileTable.hidden = !hasItems
+          el.emptyState.hidden = hasItems
+          el.batchBar.hidden = !hasItems
+          el.clearBtn.disabled = !hasItems
+          el.downloadAll.disabled = !hasItems
+
+          el.fileBody.innerHTML = items
+            .map(function (item) {
+              var f = item.file
+              var options = ["jpg", "png", "webp"]
+                .map(function (k) {
+                  return (
+                    '<option value="' +
+                    k +
+                    '"' +
+                    (item.format === k ? " selected" : "") +
+                    ">" +
+                    k.toUpperCase() +
+                    "</option>"
+                  )
+                })
+                .join("")
+
+              return (
+                "" +
+                '<tr data-id="' +
+                item.id +
+                '">' +
+                "<td>" +
+                '<div class="file-cell">' +
+                '<img class="file-thumb" src="' +
+                item.url +
+                '" alt="" loading="lazy" />' +
+                '<span class="file-name" title="' +
+                escapeHtml(f.name) +
+                '">' +
+                escapeHtml(f.name) +
+                "</span>" +
+                "</div>" +
+                "</td>" +
+                "<td>" +
+                formatSize(f.size) +
+                "</td>" +
+                "<td>" +
+                mimeLabel(f) +
+                "</td>" +
+                "<td>" +
+                '<select class="control" data-action="format" aria-label="输出格式">' +
+                options +
+                "</select>" +
+                "</td>" +
+                '<td class="col-actions">' +
+                '<button type="button" class="button button-primary" data-action="download">下载</button>' +
+                '<button type="button" class="icon-btn" data-action="remove" title="移除" aria-label="移除">×</button>' +
+                "</td>" +
+                "</tr>"
+              )
+            })
+            .join("")
+
+          el.fileCount.textContent =
+            "共 " +
+            items.length +
+            " 张，还可添加 " +
+            (MAX_FILES - items.length) +
+            " 张"
+        }
+
+        function findItem(id) {
+          var num = Number(id)
+          for (var i = 0; i < state.items.length; i++) {
+            if (state.items[i].id === num) return state.items[i]
+          }
+          return null
+        }
+
+        /* ---------------- 添加 / 删除 ---------------- */
+
+        function addFiles(fileList) {
+          var incoming = Array.prototype.slice.call(fileList || [])
+          if (!incoming.length) return
+
+          var images = incoming.filter(function (f) {
+            return (
+              (f.type && f.type.indexOf("image/") === 0) ||
+              /\.(jpe?g|png|gif|webp|bmp|avif|svg|heic|heif|tiff?)$/i.test(
+                f.name || "",
+              )
+            )
+          })
+          var skipped = incoming.length - images.length
+
+          if (!images.length) {
+            toast(skipped ? "这些文件不是图片" : "没有可用的图片")
+            return
+          }
+
+          var room = MAX_FILES - state.items.length
+          if (room <= 0) {
+            toast("最多只能添加 " + MAX_FILES + " 张图片")
+            return
+          }
+
+          var accepted = images
+          if (images.length > room) {
+            accepted = images.slice(0, room)
+            toast(
+              "最多 " +
+                MAX_FILES +
+                " 张，已忽略 " +
+                (images.length - room) +
+                " 张",
+            )
+          } else if (skipped) {
+            toast("已忽略 " + skipped + " 个非图片文件")
+          }
+
+          accepted.forEach(function (file) {
+            state.items.push({
+              id: ++state.seq,
+              file: file,
+              url: URL.createObjectURL(file),
+              format: el.globalFormat.value,
+            })
+          })
+
+          render()
+        }
+
+        function removeItem(item) {
+          var idx = state.items.indexOf(item)
+          if (idx < 0) return
+          state.items.splice(idx, 1)
+          URL.revokeObjectURL(item.url)
+          render()
+        }
+
+        function clearAll() {
+          state.items.forEach(function (it) {
+            URL.revokeObjectURL(it.url)
+          })
+          state.items = []
+          render()
+          toast("列表已清空")
+        }
+
+        /* ---------------- 下载 ---------------- */
+
+        function downloadOne(item, btn) {
+          var original = btn.textContent
+          btn.disabled = true
+          btn.textContent = "转换中"
+
+          return convertImage(item.file, item.format)
+            .then(function (blob) {
+              triggerDownload(blob, outputName(item.file.name, item.format))
+            })
+            .catch(function (err) {
+              toast(
+                "「" +
+                  item.file.name +
+                  "」转换失败：" +
+                  ((err && err.message) || "未知错误"),
+              )
+            })
+            .then(function () {
+              btn.disabled = false
+              btn.textContent = original
+            })
+        }
+
+        function setProgress(done, total) {
+          var pct = total ? Math.round((done / total) * 100) : 0
+          el.progressBar.style.width = pct + "%"
+          el.downloadAll.textContent =
+            done < total ? "打包中 " + done + "/" + total : "打包下载 ZIP"
+        }
+
+        function downloadAll() {
+          var items = state.items.slice()
+          if (!items.length) return
+
+          var used = new Set()
+          var entries = []
+          var failed = []
+          var index = 0
+
+          el.downloadAll.disabled = true
+          el.progress.hidden = false
+          setProgress(0, items.length)
+
+          function step() {
+            if (index >= items.length) return Promise.resolve()
+
+            var item = items[index]
+
+            return convertImage(item.file, item.format)
+              .then(function (blob) {
+                return blob.arrayBuffer().then(function (buf) {
+                  entries.push({
+                    name: uniqueName(
+                      outputName(item.file.name, item.format),
+                      used,
+                    ),
+                    data: new Uint8Array(buf),
+                  })
+                })
+              })
+              .catch(function () {
+                failed.push(item.file.name)
+              })
+              .then(function () {
+                index += 1
+                setProgress(index, items.length)
+                return nextFrame().then(step)
+              })
+          }
+
+          step().then(function () {
+            el.progress.hidden = true
+            el.downloadAll.textContent = "打包下载 ZIP"
+            el.downloadAll.disabled = false
+
+            if (!entries.length) {
+              toast("没有可打包的图片")
+              return
+            }
+
+            triggerDownload(createZip(entries), "images-" + stamp() + ".zip")
+
+            if (failed.length) {
+              toast(
+                "已打包 " +
+                  entries.length +
+                  " 张，" +
+                  failed.length +
+                  " 张失败",
+              )
+            } else {
+              toast("已打包 " + entries.length + " 张图片")
+            }
+          })
+        }
+
+        /* ---------------- 事件绑定 ---------------- */
+
+        // 选择文件
+        el.pickBtn.addEventListener("click", function () {
+          el.fileInput.click()
+        })
+
+        el.fileInput.addEventListener("change", function () {
+          addFiles(el.fileInput.files)
+          el.fileInput.value = ""
+        })
+
+        // 拖拽
+        ;["dragenter", "dragover"].forEach(function (type) {
+          el.dropZone.addEventListener(type, function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            el.dropZone.classList.add("is-dragover")
+          })
+        })
+        ;["dragleave", "drop"].forEach(function (type) {
+          el.dropZone.addEventListener(type, function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            if (type === "dragleave" && el.dropZone.contains(e.relatedTarget))
+              return
+            el.dropZone.classList.remove("is-dragover")
+          })
+        })
+
+        el.dropZone.addEventListener("drop", function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files
+          if (files && files.length) addFiles(files)
+        })
+
+        // 点击拖拽区也能选文件
+        el.dropZone.addEventListener("click", function (e) {
+          if (e.target.closest && e.target.closest("button")) return
+          el.fileInput.click()
+        })
+
+        // 键盘可访问
+        el.dropZone.addEventListener("keydown", function (e) {
+          if (e.target !== el.dropZone) return
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault()
+            el.fileInput.click()
+          }
+        })
+
+        // 阻止浏览器直接打开拖入的文件
+        window.addEventListener("dragover", function (e) {
+          e.preventDefault()
+        })
+        window.addEventListener("drop", function (e) {
+          e.preventDefault()
+        })
+
+        // 全局格式
+        el.globalFormat.addEventListener("change", function () {
+          var fmt = el.globalFormat.value
+          state.items.forEach(function (it) {
+            it.format = fmt
+          })
+          Array.prototype.forEach.call(
+            el.fileBody.querySelectorAll('select[data-action="format"]'),
+            function (sel) {
+              sel.value = fmt
+            },
+          )
+        })
+
+        // 质量
+        el.quality.addEventListener("input", function () {
+          el.qualityValue.textContent = Math.round(el.quality.value * 100) + "%"
+        })
+
+        // 清空
+        el.clearBtn.addEventListener("click", clearAll)
+
+        // 批量下载
+        el.downloadAll.addEventListener("click", downloadAll)
+
+        // 列表内事件委托
+        el.fileBody.addEventListener("change", function (e) {
+          var sel =
+            e.target.closest && e.target.closest('select[data-action="format"]')
+          if (!sel) return
+          var row = sel.closest("tr")
+          var item = findItem(row.dataset.id)
+          if (item) item.format = sel.value
+        })
+
+        el.fileBody.addEventListener("click", function (e) {
+          var btn = e.target.closest && e.target.closest("button[data-action]")
+          if (!btn) return
+
+          var row = btn.closest("tr")
+          var item = findItem(row.dataset.id)
+          if (!item) return
+
+          if (btn.dataset.action === "download") {
+            downloadOne(item, btn)
+          } else if (btn.dataset.action === "remove") {
+            removeItem(item)
+          }
+        })
+
+        render()
+      })()
+    </script>
+  </body>
+</html>
