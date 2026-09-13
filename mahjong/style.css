@@ -34,9 +34,20 @@ body {
 
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700; }
-.gi { display: flex; gap: 16px; font-size: 13px; color: var(--muted); }
+.gi { display: flex; gap: 16px; font-size: 13px; color: var(--muted); align-items: center; }
 .gi b { color: var(--text); }
 .baopi { color: #ff8f6b; font-weight: 700; }
+
+.log-btn {
+  padding: 5px 14px; border: 1px solid var(--panel-border); border-radius: 8px;
+  background: var(--panel); color: var(--muted); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.log-btn:hover { background: rgba(255,255,255,.12); color: var(--text); border-color: var(--gold); }
+.log-btn:active { transform: scale(.95); }
+
+.log-mdl { max-height: 80vh; display: flex; flex-direction: column; }
+.log-mdl .lp { flex: 1; max-height: 55vh; overflow-y: auto; margin-bottom: 14px; text-align: left; }
 
 .sb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
 .si {
@@ -56,7 +67,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .table {
   display: grid;
   grid-template-columns: 152px 1fr 152px;
-  grid-template-rows: auto 600px auto;
+  grid-template-rows: auto 640px auto;
   grid-template-areas:
     "top top top"
     "left center right"
@@ -78,7 +89,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .seat-top { grid-area: top; }
 .seat-left { grid-area: left; }
 .seat-right { grid-area: right; }
-.seat-left, .seat-right { overflow: hidden; }
+.seat-left, .seat-right { overflow: visible; }
 .seat-bottom { grid-area: bottom; background: rgba(0,0,0,.28); padding: 10px 14px; position: relative; }
 .seat.active { outline: 2px solid var(--gold); outline-offset: -2px; box-shadow: 0 0 14px rgba(232,193,90,.35); }
 .seat.ting { outline: 3px solid #ff5a5a; outline-offset: -3px; animation: ting-pulse 1.1s ease-in-out infinite; }
@@ -95,16 +106,15 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 
 .ph { position: relative; display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 24px; margin-bottom: 4px; }
 .dealer-die {
-  position: absolute; top: -4px; left: -2px; z-index: 3;
   font-size: 17px; line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(0,0,0,.7));
   animation: die-bounce 1.4s ease-in-out infinite;
 }
-.seat-left .dealer-die, .seat-right .dealer-die { top: -4px; left: auto; right: -2px; }
+.seat-left .dealer-die, .seat-right .dealer-die { }
 @keyframes die-bounce { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-3px) rotate(8deg); } }
-.pm { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 4px; }
+.pm { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-bottom: 2px; }
 .pa { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; min-height: 32px; }
-.meld { display: flex; gap: 2px; padding: 2px; border-radius: 6px; background: rgba(255,255,255,.05); }
+.meld { display: flex; gap: 1px; padding: 1px; border-radius: 4px; background: rgba(255,255,255,.05); }
 
 /* ===== 麻将牌 ===== */
 .tile {
@@ -141,16 +151,37 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .hint.neutral { color: var(--muted); border-color: var(--panel-border); background: rgba(255,255,255,.04); }
 .hint-tip { font-size: 11px; color: #ffd479; }
 
-/* 各座位牌尺寸 */
-/* 上家：手牌横排，吃碰在手牌下方（朝向桌心） */
-.seat-top .ph { flex-wrap: wrap; gap: 2px; }
-.seat-top .ph .tile { width: min(44px, calc((100% - 27px) / 14)); height: auto; aspect-ratio: 44 / 58; }
-.seat-top .pm { margin-top: 4px; }
+/* 各座位牌尺寸 — 统一：副露在左，手牌在右 */
+/* 通用 seat-body */
+.seat-top .seat-body,
+.seat-bottom .seat-body {
+  display: flex; flex-direction: row; justify-content: center; align-items: flex-end; gap: 10px;
+}
+.seat-left .seat-body {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;
+}
+.seat-right .seat-body {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;
+}
+
+/* 上家：横排，居中 */
+.seat-top .ph { flex-wrap: wrap; gap: 2px; justify-content: center; align-items: flex-end; }
+.seat-top .ph .tile {
+  width: 36px;
+  height: 48px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--back1), var(--back2));
+  border: 1px solid #123524;
+  box-shadow: 0 2px 0 rgba(0,0,0,.35);
+}
+.seat-top .ph .tile::after {
+  content: ''; position: absolute; inset: 20%;
+  border-radius: 4px; border: 1px solid rgba(255,255,255,.18);
+}
+.seat-top .pm { display: flex; gap: 4px; align-items: flex-end; }
 .seat-top .pm .tile { width: 34px; height: 46px; }
 
-/* 左右家：手牌竖排并转置 90°，吃碰牌在手牌左侧、纵向排列、与西家同大小 */
-.seat-left .seat-body { display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-start; gap: 14px; }
-.seat-right .seat-body { display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 14px; }
+/* 左右家：竖排 */
 .seat-left .ph, .seat-right .ph { flex-direction: column; flex-wrap: nowrap; align-items: center; gap: 0; }
 .seat-left .pm, .seat-right .pm { flex-direction: column; align-items: center; gap: 6px; }
 .seat-left .pm .meld, .seat-right .pm .meld { flex-direction: column; gap: 2px; }
@@ -158,14 +189,14 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .seat-left .tile { transform: rotate(90deg); }
 .seat-right .tile { transform: rotate(-90deg); }
 .seat-left .tile.sideways, .seat-right .tile.sideways { transform: rotate(180deg); }
-/* 旋转后视觉高度=牌宽，用负外边距补偿，使视觉缝隙约 2-4px */
 .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -10px; }
 .seat-left .ph .tile:last-child, .seat-right .ph .tile:last-child { margin-bottom: 0; }
 .seat-left .pm .tile, .seat-right .pm .tile { width: 34px; height: 46px; margin-bottom: -10px; }
 .seat-left .pm .meld .tile:last-child, .seat-right .pm .meld .tile:last-child { margin-bottom: 0; }
 
-/* 我：最大、缝隙小 */
+/* 我：最大 */
 .seat-bottom .tile { width: 56px; height: 76px; border-radius: 8px; }
+.seat-bottom .pm { display: flex; gap: 6px; align-items: flex-end; }
 .seat-bottom .pm .tile { width: 42px; height: 56px; }
 .seat-bottom .ph { gap: 4px; min-height: 76px; }
 
@@ -439,8 +470,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 }
 
 .lp {
-  margin-top: 12px; background: rgba(0,0,0,.35); border: 1px solid var(--panel-border);
-  border-radius: 10px; padding: 10px; max-height: 150px; overflow-y: auto;
+  background: rgba(0,0,0,.35); border: 1px solid var(--panel-border);
+  border-radius: 10px; padding: 10px; overflow-y: auto;
   font-size: 12px; color: var(--muted);
 }
 .le { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
@@ -479,7 +510,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .gc { max-width: 100%; }
   .topbar { margin-bottom: 6px; gap: 6px; }
   h1 { font-size: 17px; letter-spacing: 3px; }
-  .gi { font-size: 11px; gap: 8px; }
+  .gi { font-size: 11px; gap: 6px; }
+  .log-btn { padding: 4px 10px; font-size: 10px; }
   .sb { gap: 4px; margin-bottom: 6px; }
   .si { padding: 4px 7px; font-size: 10px; border-radius: 7px; }
   .si .score { font-size: 13px; }
@@ -487,7 +519,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 
   .table {
     grid-template-columns: 74px 1fr 74px;
-    grid-template-rows: auto 380px auto;
+    grid-template-rows: auto 400px auto;
     gap: 4px;
     padding: 7px;
     border-width: 5px;
@@ -502,9 +534,10 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .ting-tiles { font-size: 9px; margin-left: 3px; }
 
   /* 上家 */
+  .seat-top .seat-body { gap: 4px; }
   .seat-top .ph { gap: 1px; }
-  .seat-top .ph .tile { width: min(28px, calc((100% - 14px) / 14)); height: auto; aspect-ratio: 28 / 37; }
-  .seat-top .pm { margin-top: 2px; }
+  .seat-top .ph .tile { width: 22px; height: 30px; }
+  .seat-top .pm { gap: 3px; }
   .seat-top .pm .tile { width: 22px; height: 29px; }
 
   /* 左右家 */
@@ -571,12 +604,12 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .ab { width: 56px; height: 56px; font-size: 15px; }
   .ab.hu { width: 68px; height: 68px; font-size: 20px; letter-spacing: 1px; }
   .ab.pass { width: 40px; height: 40px; font-size: 12px; }
-  .table { grid-template-columns: 64px 1fr 64px; grid-template-rows: auto 350px auto; }
+  .table { grid-template-columns: 64px 1fr 64px; grid-template-rows: auto 400px auto; }
   .seat-left .seat-body, .seat-right .seat-body { gap: 3px; }
   .seat-left .tile, .seat-right .tile { width: 22px; height: 30px; }
   .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -6px; }
   .seat-left .pm .tile, .seat-right .pm .tile { width: 17px; height: 24px; margin-bottom: -5px; }
-  .seat-top .ph .tile { width: min(25px, calc((100% - 14px) / 14)); height: auto; aspect-ratio: 25 / 33; }
+  .seat-top .ph .tile { width: 22px; height: 30px; }
   .seat-top .pm .tile { width: 20px; height: 26px; }
   .seat-bottom .tile { width: 30px; height: 41px; }
   .seat-bottom .pm .tile { width: 23px; height: 32px; }
@@ -681,5 +714,5 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
 .tile.clickable:active { transform: translateY(-4px); box-shadow: 0 6px 12px rgba(0,0,0,.5); }
 
 @media (max-width: 760px) {
-  .dealer-die { font-size: 13px; top: -3px; }
+  .dealer-die { font-size: 13px; }
 }

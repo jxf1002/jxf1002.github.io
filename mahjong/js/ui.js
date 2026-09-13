@@ -71,9 +71,20 @@ function meldTiles(m) {
 function renderHands() {
   for (let i = 0; i < 4; i++) {
     let p = G.players[i];
-    EL(NAMES[i]).textContent = p.name + (i === HUMAN ? '(我)' : '') + (p.isD ? '(庄)' : '');
+    let nameEl = EL(NAMES[i]);
+    nameEl.textContent = p.name + (i === HUMAN ? '(我)' : '');
     EL(PANELS[i]).classList.toggle('active', !G.over && i === G.curP);
     EL(PANELS[i]).classList.toggle('ting', !G.over && G.ting.has(i));
+
+    let existingDie = nameEl.parentNode.querySelector('.dealer-die');
+    if (existingDie) existingDie.remove();
+    if (p.isD && !G.over) {
+      let die = document.createElement('span');
+      die.className = 'dealer-die';
+      die.textContent = '🎲';
+      die.title = '庄家';
+      nameEl.parentNode.appendChild(die);
+    }
 
     let res = '';
     if (G.ting.has(i)) res += '<span class="ti">听牌</span>';
@@ -100,13 +111,6 @@ function renderHands() {
 
     let handEl = EL(HANDS[i]);
     handEl.innerHTML = '';
-    if (p.isD && !G.over) {
-      let die = document.createElement('span');
-      die.className = 'dealer-die';
-      die.textContent = '🎲';
-      die.title = '庄家';
-      handEl.appendChild(die);
-    }
     let canDiscard = !G.over && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
     let tingSet = null;
     if (i === HUMAN && (G.tingIntent || G.forceTing)) {

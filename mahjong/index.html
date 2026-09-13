@@ -14,6 +14,7 @@
     <div class="gi">
       <span>牌墙 <b id="wc">0</b></span>
       <span class="baopi" id="bi"></span>
+      <button type="button" class="log-btn" id="log-btn">📜 日志</button>
     </div>
   </div>
   <div class="sb" id="sb"></div>
@@ -22,8 +23,10 @@
   <div class="table">
     <div class="seat seat-top" id="pt">
       <div class="seat-head"><span class="pn" id="nt">南</span><span class="pr" id="rt"></span></div>
-      <div class="ph" id="ht"></div>
-      <div class="pm" id="mt"></div>
+      <div class="seat-body">
+        <div class="pm" id="mt"></div>
+        <div class="ph" id="ht"></div>
+      </div>
       <div class="pa" id="at"></div>
     </div>
 
@@ -61,14 +64,15 @@
 
     <div class="seat seat-bottom" id="pb">
       <div class="seat-head"><span class="pn" id="nb">北</span><span class="pr" id="rb"></span></div>
-      <div class="pm" id="mb"></div>
+      <div class="seat-body">
+        <div class="pm" id="mb"></div>
+        <div class="ph" id="hb"></div>
+      </div>
       <div class="pa" id="ab2"></div>
-      <div class="ph" id="hb"></div>
       <div class="hints" id="hints"></div>
     </div>
   </div>
 
-  <div class="lp" id="lp"></div>
   <div class="start-wrap"><button type="button" class="sb2b" id="btn-s">开始游戏</button></div>
 </div>
 
@@ -83,6 +87,14 @@
     <div class="dt" id="m-detail"></div>
     <div class="m-breakdown" id="m-breakdown"></div>
     <button type="button" id="m-btn">继续</button>
+  </div>
+</div>
+
+<div class="mo" id="log-modal">
+  <div class="mdl log-mdl">
+    <h2>📜 出牌日志</h2>
+    <div class="lp" id="lp"></div>
+    <button type="button" id="log-close">关闭</button>
   </div>
 </div>
 
