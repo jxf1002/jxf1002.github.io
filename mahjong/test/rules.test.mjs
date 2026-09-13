@@ -94,7 +94,15 @@ ok('非上家打出可吃听（上听吃）', acts.some(a => a.a === 'chi'));
 if (acts.some(a => a.a === 'chi')) {
   const chi = acts.find(a => a.a === 'chi');
   Game.handleAB(HUMAN, 'chi', chi.d);
-  ok('上听吃后强制听牌', G.ting.has(HUMAN));
+  ok('上听吃后设forceTing标记（未自动出牌）', G.forceTing === true && !G.ting.has(HUMAN));
+  ok('上听吃后玩家只能打听牌张', Game.tingDiscards(HUMAN).length > 0);
+  // 玩家选择打第一张听牌张
+  let td = Game.tingDiscards(HUMAN);
+  let discardTile = td[0];
+  let discardIdx = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile));
+  Game.handleDiscard(discardIdx);
+  ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
+  ok('forceTing标记已清除', G.forceTing === false);
 }
 
 section('手中无幺九，吃幺九可听牌');
@@ -109,8 +117,14 @@ ok('手中无幺九，吃幺九(1万)可听牌', acts.some(a => a.a === 'chi'));
 if (acts.some(a => a.a === 'chi')) {
   const chi = acts.find(a => a.a === 'chi');
   Game.handleAB(HUMAN, 'chi', chi.d);
-  ok('吃幺九后强制听牌', G.ting.has(HUMAN));
+  ok('吃幺九后设forceTing标记（未自动出牌）', G.forceTing === true && !G.ting.has(HUMAN));
   ok('副露包含幺九 1万', G.players[HUMAN].melds.some(m => m.ts.some(t => t.id === '1wan')));
+  // 玩家选择打第一张听牌张
+  let td = Game.tingDiscards(HUMAN);
+  let discardTile = td[0];
+  let discardIdx = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile));
+  Game.handleDiscard(discardIdx);
+  ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
 }
 
 section('手中无幺九，恰巧吃到幺九可听牌');
@@ -130,10 +144,16 @@ const chiYao = acts.find(a => a.a === 'chi');
 ok('恰巧吃到幺九(1万)可听牌', !!chiYao && chiYao.ting === true);
 if (chiYao) {
   Game.handleAB(HUMAN, 'chi', chiYao.d);
-  ok('吃幺九后强制听牌', G.ting.has(HUMAN));
-  ok('听牌后手牌仍无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
+  ok('吃幺九后设forceTing标记（未自动出牌）', G.forceTing === true && !G.ting.has(HUMAN));
+  ok('forceTing后手牌仍无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
   ok('幺九仅来自副露（1万）', G.players[HUMAN].melds.some(m => m.ts.some(t => t.id === '1wan')));
-  ok('听牌张正确（6筒）', Tile.winTiles(G.players[HUMAN].hand, G.players[HUMAN].melds).some(t => t.id === '6tong'));
+  // 玩家选择打第一张听牌张
+  let td = Game.tingDiscards(HUMAN);
+  ok('听牌张正确（6筒）', td.some(t => t.id === '6tong'));
+  let discardTile = td[0];
+  let discardIdx = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile));
+  Game.handleDiscard(discardIdx);
+  ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
 }
 
 // ============ 断幺九不能听牌 ============
@@ -210,10 +230,16 @@ ok('同时给出吃与碰两个选择', !!cChi && !!cPeng);
 ok('吃牌选项标注可听牌', !!cChi && cChi.ting === true && cChi.l.includes('·听'));
 ok('碰牌选项标注可听牌', !!cPeng && cPeng.ting === true && cPeng.l.includes('·听'));
 
-// 选择吃：上听吃，立即强制听牌
+// 选择吃：上听吃，设forceTing标记让用户选择出牌
 choiceGame(2);
 Game.handleAB(HUMAN, 'chi', Game.claimActions(HUMAN).find(a => a.a === 'chi').d);
-ok('选择吃后立即听牌', G.ting.has(HUMAN));
+ok('选择吃后设forceTing标记（未自动出牌）', G.forceTing === true && !G.ting.has(HUMAN));
+// 玩家选择打第一张听牌张
+let td2 = Game.tingDiscards(HUMAN);
+let discardTile2 = td2[0];
+let discardIdx2 = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile2));
+Game.handleDiscard(discardIdx2);
+ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
 
 // 选择碰：不强制听牌，保留玩家是否听牌的选择权
 choiceGame(2);
@@ -265,13 +291,65 @@ Game.handleAB(HUMAN, 'chi', Game.claimActions(HUMAN).find(a => a.a === 'chi').d)
 Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '7tiao'));
 ok('吃上家后选择不听牌则保持未听', !G.ting.has(HUMAN));
 
-// 吃另外两家（上听吃）：必须听牌
+// 吃另外两家（上听吃）：必须听牌，但由用户选择打出哪张
 upperChiGame(2);
 let nActs = Game.claimActions(HUMAN);
 let nChi = nActs.find(a => a.a === 'chi');
 ok('吃另外两家标注强制听牌', !!nChi && nChi.ting === true && nChi.l.includes('·听'));
 Game.handleAB(HUMAN, 'chi', nChi.d);
-ok('吃另外两家后强制听牌', G.ting.has(HUMAN));
+ok('吃另外两家后设forceTing标记（未自动出牌）', G.forceTing === true && !G.ting.has(HUMAN));
+// 玩家选择打第一张听牌张
+let td3 = Game.tingDiscards(HUMAN);
+let discardTile3 = td3[0];
+let discardIdx3 = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile3));
+Game.handleDiscard(discardIdx3);
+ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
+
+// ============ 上听吃后用户选择权 ============
+section('上听吃后用户选择权（forceTing行为）');
+// 构造上听吃场景：手牌有多种听牌方式
+G = newGame();
+// 手牌：7万8万 + 1-3筒 + 4-6筒 + 7-8-9条 + 9条9条（与upperChiGame相同）
+// 吃9万后：1-3筒 + 4-6筒 + 7-8-9条 + 9条9条（11张）
+// 听牌张：打9条后听1筒/4筒/7筒
+G.players[HUMAN].hand = [
+  T('wan',7),T('wan',8),
+  T('tong',1),T('tong',2),T('tong',3),
+  T('tong',4),T('tong',5),T('tong',6),
+  T('tiao',7),T('tiao',8),T('tiao',9),T('tiao',9),T('tiao',9)
+];
+G.lastD = T('wan',9); G.lastDB = 1; // 下家打出9万（非上家）
+G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = 1; G.ting = new Set();
+acts = Game.claimActions(HUMAN);
+let chiAct = acts.find(a => a.a === 'chi');
+ok('上听吃场景构造正确', !!chiAct && chiAct.ting === true);
+
+// 执行上听吃
+Game.handleAB(HUMAN, 'chi', chiAct.d);
+ok('上听吃后forceTing为true', G.forceTing === true);
+ok('上听吃后未自动出牌（hand仍为11张）', G.players[HUMAN].hand.length === 11);
+ok('上听吃后未听牌', !G.ting.has(HUMAN));
+
+// 计算听牌张
+let validDiscards = Game.tingDiscards(HUMAN);
+ok('有听牌张可打', validDiscards.length > 0);
+
+// 尝试打非听牌张（应无效）
+let nonTingIdx = G.players[HUMAN].hand.findIndex(t => {
+  return !validDiscards.some(v => Tile.tid(v) === Tile.tid(t));
+});
+if (nonTingIdx >= 0) {
+  let beforeLen = G.players[HUMAN].hand.length;
+  Game.handleDiscard(nonTingIdx);
+  ok('打非听牌张无效（手牌数不变）', G.players[HUMAN].hand.length === beforeLen);
+  ok('打非听牌张后仍为forceTing', G.forceTing === true);
+}
+
+// 打正确的听牌张
+let tingIdx = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(validDiscards[0]));
+Game.handleDiscard(tingIdx);
+ok('打正确听牌张后听牌', G.ting.has(HUMAN));
+ok('forceTing标记已清除', G.forceTing === false);
 
 // ============ 禁止清一色 ============
 section('禁止清一色（万/条/筒至少两种，红中不算颜色）');

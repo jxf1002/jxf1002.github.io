@@ -43,7 +43,7 @@ function saveState() {
       ting: [...G.ting], winner: G.winner, lastD: G.lastD, lastDB: G.lastDB,
       lastDraw: G.lastDraw, lastFrom: G.lastFrom, phase: G.phase,
       pending: G.pending, passed: [...G.passed], tingIntent: G.tingIntent, selfHu: G.selfHu,
-      token: G.token, playing: G.playing, stats: G.stats
+      token: G.token, playing: G.playing, stats: G.stats, forceTing: G.forceTing
     }));
   } catch (e) { /* 忽略存储异常 */ }
 }
@@ -59,7 +59,7 @@ export function restore() {
     G.ting = new Set(d.ting); G.winner = d.winner; G.lastD = d.lastD; G.lastDB = d.lastDB;
     G.lastDraw = d.lastDraw; G.lastFrom = d.lastFrom; G.phase = d.phase;
     G.pending = d.pending || []; G.passed = new Set(d.passed || []);
-    G.tingIntent = !!d.tingIntent; G.selfHu = !!d.selfHu; G.token = (d.token || 0) + 1;
+    G.tingIntent = !!d.tingIntent; G.selfHu = !!d.selfHu; G.forceTing = !!d.forceTing; G.token = (d.token || 0) + 1;
     G.lock = false; G.over = false;
     G.playing = !!d.playing; G.stats = d.stats || freshStats();
     ui('update');
@@ -77,7 +77,10 @@ function resume() {
     setTimeout(() => { if (G.token === token && !G.over) resolveClaims(); }, CLAIM_DELAY);
   } else if (G.phase === 'discard') {
     if (G.curP === HUMAN) {
-      if (G.ting.has(HUMAN)) {
+      if (G.forceTing) {
+        // 上听吃状态恢复，让用户选择出牌
+        ui('update');
+      } else if (G.ting.has(HUMAN)) {
         G.lock = true;
         let token = G.token;
         setTimeout(() => {
@@ -295,6 +298,12 @@ function humanAutoDiscard() {
 
 export function handleDiscard(idx) {
   if (!G.playing || G.over || G.lock || G.selfHu || G.phase !== 'discard' || G.curP !== HUMAN) return;
+  if (G.forceTing) {
+    let p = G.players[HUMAN];
+    let tile = p.hand[idx];
+    let valid = handTingDiscards(p.hand, p.melds);
+    if (!valid.some(t => Tile.tid(t) === Tile.tid(tile))) return;
+  }
   doDiscard(HUMAN, idx);
 }
 
@@ -617,9 +626,17 @@ function executeClaim(pI, act) {
     p.melds.push({ type: 'chi', ts: [...used, t], claimedId: Tile.tid(t) });
     sortHand(p);
     ui('addLog', p.name + ' 吃 ' + Tile.label(t));
-    // 上听吃（吃另外两家）：吃完若能听牌则强制听牌，自动打出最优听牌张
+    // 上听吃（吃另外两家）：吃完若能听牌则强制听牌
     let opts = isUpper ? [] : handTingDiscards(p.hand, p.melds);
     if (opts.length) {
+      if (pI === HUMAN) {
+        // 人类玩家：只设标记让用户自己选择打出哪张
+        G.forceTing = true;
+        G.curP = pI;
+        ui('update');
+        return;
+      }
+      // AI：自动打出最优听牌张
       let best = opts[0], bestCount = -1, seen = new Set();
       for (let tt of opts) {
         if (seen.has(Tile.tid(tt))) continue;

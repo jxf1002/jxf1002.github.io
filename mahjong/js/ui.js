@@ -109,15 +109,19 @@ function renderHands() {
     }
     let canDiscard = !G.over && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
     let tingSet = null;
-    if (i === HUMAN && G.tingIntent) {
+    if (i === HUMAN && (G.tingIntent || G.forceTing)) {
       tingSet = new Set(Game.tingDiscards(HUMAN).map(t => Tile.tid(t)));
     }
 
     if (i === HUMAN || G.over) {
       p.hand.forEach((t, idx) => {
+        let isClickable = canDiscard;
+        if (G.forceTing && tingSet) {
+          isClickable = canDiscard && tingSet.has(Tile.tid(t));
+        }
         handEl.appendChild(tileEl(t, {
-          clickable: canDiscard,
-          onClick: canDiscard ? () => Game.handleDiscard(idx) : null,
+          clickable: isClickable,
+          onClick: isClickable ? () => Game.handleDiscard(idx) : null,
           tingTarget: !!(tingSet && tingSet.has(Tile.tid(t)))
         }));
       });
@@ -196,7 +200,8 @@ function renderHints() {
   ];
   let html = `<span class="hint-title">${shText}</span>`;
   tags.forEach(t => { html += `<span class="hint ${t.cls}">${t.label}</span>`; });
-  if (G.tingIntent) html += `<span class="hint-tip">点击高亮的牌打出即可听牌</span>`;
+  if (G.forceTing) html += `<span class="hint-tip">上听吃：点击高亮的牌打出即可听牌</span>`;
+  else if (G.tingIntent) html += `<span class="hint-tip">点击高亮的牌打出即可听牌</span>`;
   el.innerHTML = html;
 }
 
@@ -204,7 +209,7 @@ function renderActions() {
   for (let i = 0; i < 4; i++) {
     let el = EL(ACTIONS[i]);
     el.innerHTML = '';
-    if (G.over || i !== HUMAN) continue;
+    if (G.over || i !== HUMAN) { el.classList.add('hide'); continue; }
 
     let acts = [];
     if (G.selfHu && i === HUMAN) {
@@ -217,11 +222,18 @@ function renderActions() {
     }
     if (!G.selfHu && (Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN))) acts.push({ a: 'ting', l: '听牌' });
 
+    el.classList.toggle('hide', !acts.length);
+
     acts.forEach(a => {
       let b = document.createElement('button');
       let cls = a.a === 'selfKong' || a.a === 'buKong' ? 'kong' : a.a;
       b.className = 'ab ' + cls;
       b.textContent = a.l;
+      if (a.a === 'hu') {
+        let ring = document.createElement('span');
+        ring.className = 'ring2';
+        b.appendChild(ring);
+      }
       b.onclick = () => Game.handleAB(HUMAN, a.a, a.d);
       el.appendChild(b);
     });
