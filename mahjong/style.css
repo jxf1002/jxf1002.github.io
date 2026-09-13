@@ -155,17 +155,17 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 /* 通用 seat-body */
 .seat-top .seat-body,
 .seat-bottom .seat-body {
-  display: flex; flex-direction: row; justify-content: center; align-items: flex-end; gap: 10px;
+  display: flex; flex-direction: row; justify-content: center; align-items: flex-end; gap: 4px;
 }
 .seat-left .seat-body {
-  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
 }
 .seat-right .seat-body {
-  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
 }
 
 /* 上家：横排，居中 */
-.seat-top .ph { flex-wrap: wrap; gap: 2px; justify-content: center; align-items: flex-end; }
+.seat-top .ph { flex-wrap: wrap; gap: 0; justify-content: center; align-items: flex-end; }
 .seat-top .ph .tile {
   width: 36px;
   height: 48px;
@@ -178,27 +178,31 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   content: ''; position: absolute; inset: 20%;
   border-radius: 4px; border: 1px solid rgba(255,255,255,.18);
 }
-.seat-top .pm { display: flex; gap: 4px; align-items: flex-end; }
+.seat-top .pm { display: flex; gap: 0; align-items: flex-end; }
 .seat-top .pm .tile { width: 34px; height: 46px; }
+.seat-top .pm .meld { gap: 0; padding: 0; margin-right: 2px; }
+.seat-top .pm .meld:last-child { margin-right: 0; }
 
 /* 左右家：竖排 */
 .seat-left .ph, .seat-right .ph { flex-direction: column; flex-wrap: nowrap; align-items: center; gap: 0; }
-.seat-left .pm, .seat-right .pm { flex-direction: column; align-items: center; gap: 6px; }
-.seat-left .pm .meld, .seat-right .pm .meld { flex-direction: column; gap: 2px; }
+.seat-left .pm, .seat-right .pm { flex-direction: column; align-items: center; gap: 3px; }
+.seat-left .pm .meld, .seat-right .pm .meld { flex-direction: column; gap: 1px; padding: 1px; }
 .seat-left .tile, .seat-right .tile { width: 36px; height: 48px; }
 .seat-left .tile { transform: rotate(90deg); }
 .seat-right .tile { transform: rotate(-90deg); }
 .seat-left .tile.sideways, .seat-right .tile.sideways { transform: rotate(180deg); }
 .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -10px; }
 .seat-left .ph .tile:last-child, .seat-right .ph .tile:last-child { margin-bottom: 0; }
-.seat-left .pm .tile, .seat-right .pm .tile { width: 34px; height: 46px; margin-bottom: -10px; }
+.seat-left .pm .tile, .seat-right .pm .tile { width: 34px; height: 46px; margin-bottom: -8px; }
 .seat-left .pm .meld .tile:last-child, .seat-right .pm .meld .tile:last-child { margin-bottom: 0; }
 
 /* 我：最大 */
 .seat-bottom .tile { width: 56px; height: 76px; border-radius: 8px; }
-.seat-bottom .pm { display: flex; gap: 6px; align-items: flex-end; }
+.seat-bottom .pm { display: flex; gap: 0; align-items: flex-end; }
 .seat-bottom .pm .tile { width: 42px; height: 56px; }
-.seat-bottom .ph { gap: 4px; min-height: 76px; }
+.seat-bottom .pm .meld { gap: 0; padding: 0; margin-right: 3px; }
+.seat-bottom .pm .meld:last-child { margin-right: 0; }
+.seat-bottom .ph { gap: 2px; min-height: 76px; }
 
 /* ===== 中央区域 ===== */
 .center {
@@ -534,22 +538,32 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .ting-tiles { font-size: 9px; margin-left: 3px; }
 
   /* 上家 */
-  .seat-top .seat-body { gap: 4px; }
+  .seat-top .seat-body { gap: 0; }
   .seat-top .ph { gap: 1px; }
   .seat-top .ph .tile { width: 22px; height: 30px; }
-  .seat-top .pm { gap: 3px; }
-  .seat-top .pm .tile { width: 22px; height: 29px; }
+  .seat-top .pm { gap: 0; }
+  .seat-top .pm .tile { width: 22px; height: 30px; margin-left: -4px; box-shadow: none; border: none; }
+  .seat-top .pm .tile:first-child { margin-left: 0; }
+  .seat-top .pm .meld { gap: 0; padding: 0; background: none; border-radius: 0; margin-right: 2px; }
+  .seat-top .pm .meld:last-child { margin-right: 0; }
+  .seat-top .pm .tile.sideways { transform: rotate(90deg); margin: 0; }
 
   /* 左右家 */
-  .seat-left .seat-body, .seat-right .seat-body { gap: 5px; }
+  .seat-left .seat-body, .seat-right .seat-body { gap: 0; }
   .seat-left .tile, .seat-right .tile { width: 24px; height: 32px; }
   .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -7px; }
-  .seat-left .pm, .seat-right .pm { gap: 3px; }
-  .seat-left .pm .tile, .seat-right .pm .tile { width: 19px; height: 26px; margin-bottom: -6px; }
+  .seat-left .pm, .seat-right .pm { gap: 0; }
+  .seat-left .pm .tile, .seat-right .pm .tile { width: 19px; height: 26px; margin-bottom: -5px; }
+  .seat-left .pm .meld, .seat-right .pm .meld { gap: 0; padding: 0; background: none; border-radius: 0; }
 
   /* 我 */
   .seat-bottom .tile { width: 34px; height: 46px; border-radius: 6px; }
-  .seat-bottom .pm .tile { width: 26px; height: 36px; }
+  .seat-bottom .pm { gap: 0; }
+  .seat-bottom .pm .tile { width: 26px; height: 36px; margin-left: -4px; box-shadow: none; border: none; }
+  .seat-bottom .pm .tile:first-child { margin-left: 0; }
+  .seat-bottom .pm .meld { gap: 0; padding: 0; background: none; border-radius: 0; margin-right: 2px; }
+  .seat-bottom .pm .meld:last-child { margin-right: 0; }
+  .seat-bottom .pm .tile.sideways { transform: rotate(90deg); margin: 0; }
   .seat-bottom .ph { gap: 2px; min-height: 46px; }
   .seat-bottom .seat-head { margin-bottom: 2px; }
 
@@ -608,11 +622,17 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .seat-left .seat-body, .seat-right .seat-body { gap: 3px; }
   .seat-left .tile, .seat-right .tile { width: 22px; height: 30px; }
   .seat-left .ph .tile, .seat-right .ph .tile { margin-bottom: -6px; }
-  .seat-left .pm .tile, .seat-right .pm .tile { width: 17px; height: 24px; margin-bottom: -5px; }
+  .seat-left .pm, .seat-right .pm { gap: 1px; }
+  .seat-left .pm .tile, .seat-right .pm .tile { width: 17px; height: 24px; margin-bottom: -4px; }
+  .seat-left .pm .meld, .seat-right .pm .meld { gap: 0; padding: 0; }
   .seat-top .ph .tile { width: 22px; height: 30px; }
+  .seat-top .pm { gap: 0; }
   .seat-top .pm .tile { width: 20px; height: 26px; }
+  .seat-top .pm .meld { gap: 0; padding: 0; }
   .seat-bottom .tile { width: 30px; height: 41px; }
+  .seat-bottom .pm { gap: 2px; }
   .seat-bottom .pm .tile { width: 23px; height: 32px; }
+  .seat-bottom .pm .meld { gap: 0; padding: 1px; }
   .disc-col { width: 78px; max-height: 156px; }
   .disc .tile, .disc-col .tile { width: 19px; height: 25px; }
   .wall { max-width: 78px; }
