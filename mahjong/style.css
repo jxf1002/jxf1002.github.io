@@ -484,6 +484,9 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 /* ===== 弹窗 ===== */
 .mo { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 100; justify-content: center; align-items: center; }
 .mo.show { display: flex; }
+/* 胡牌手牌横幅显示时，结算弹窗下移，避免与横幅重叠 */
+.mo.win-open { align-items: flex-start; overflow-y: auto; padding-top: var(--win-offset, 120px); }
+.mo.win-open .mdl { margin-top: auto; margin-bottom: auto; }
 .mdl {
   background: linear-gradient(180deg, #1b2b23, #12201a);
   border: 2px solid var(--gold); border-radius: 18px; padding: 28px 34px; text-align: center;
@@ -605,11 +608,6 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .sum-stats span { font-size: 11px; padding: 3px 9px; }
   .sum-actions button { padding: 9px 16px; font-size: 13px; }
 
-  /* 宝牌横幅 */
-  .dora-banner { top: 4px; padding: 5px 10px 5px 8px; gap: 6px; border-radius: 10px; }
-  .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
-  .dora-banner .dora-tile .face-img { width: 32px; height: 44px; }
-
   .fx-label { font-size: 30px; }
 }
 
@@ -653,6 +651,29 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .dora-banner .dora-label { color: var(--gold); font-weight: 800; font-size: 14px; letter-spacing: 3px; }
 .dora-banner .dora-tile .face-img { width: 46px; height: 62px; display: block; border-radius: 6px; box-shadow: 0 0 16px rgba(232,193,90,.9); }
 @keyframes dora-in { from { opacity: 0; transform: translate(-50%, -22px) scale(.9); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+
+/* ===== 胡牌手牌横幅（页面中间上方） ===== */
+.win-banner {
+  position: fixed; top: 92px; left: 50%; transform: translate(-50%, 0);
+  display: none; flex-direction: column; align-items: center; gap: 6px;
+  z-index: 120; padding: 8px 14px; border-radius: 14px;
+  max-width: 92vw;
+  background: linear-gradient(180deg, rgba(22,34,27,.97), rgba(10,20,15,.97));
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 30px rgba(232,193,90,.5), 0 14px 34px rgba(0,0,0,.6);
+}
+.win-banner.show { display: flex; animation: win-in .35s ease-out; }
+.win-banner .wb-head { color: var(--gold); font-weight: 800; font-size: 14px; letter-spacing: 2px; white-space: nowrap; }
+.win-banner .wb-tiles { display: flex; align-items: center; justify-content: center; gap: 3px; flex-wrap: wrap; }
+.win-banner .wb-meld { display: flex; gap: 2px; padding: 2px; border-radius: 6px; background: rgba(255,255,255,.06); }
+.win-banner .wb-sep { width: 2px; height: 43px; margin: 0 5px; border-radius: 2px; background: rgba(255,255,255,.25); }
+.win-banner .tile { width: 32px; height: 43px; }
+.win-banner .tile.wb-win {
+  outline: 3px solid #ffd34d; outline-offset: 1px;
+  box-shadow: 0 0 16px rgba(255,211,77,.95);
+  transform: translateY(-4px);
+}
+@keyframes win-in { from { opacity: 0; transform: translate(-50%, -20px) scale(.94); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
 
 /* ===== 胡牌特效 ===== */
 .fx-layer { position: fixed; inset: 0; pointer-events: none; z-index: 200; display: none; }
@@ -735,4 +756,16 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
 
 @media (max-width: 760px) {
   .dealer-die { font-size: 13px; }
+
+  /* 宝牌横幅 */
+  .dora-banner { top: 4px; padding: 5px 10px 5px 8px; gap: 6px; border-radius: 10px; }
+  .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
+  .dora-banner .dora-tile .face-img { width: 32px; height: 44px; }
+
+  /* 胡牌手牌横幅 */
+  .win-banner { top: 64px; padding: 6px 10px; gap: 4px; border-radius: 10px; max-width: 94vw; }
+  .win-banner .wb-head { font-size: 11px; letter-spacing: 1px; }
+  .win-banner .wb-tiles { gap: 2px; }
+  .win-banner .tile { width: 22px; height: 29px; border-radius: 4px; }
+  .win-banner .wb-sep { height: 29px; margin: 0 3px; }
 }

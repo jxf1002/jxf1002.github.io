@@ -819,6 +819,7 @@ function win(pI, discarder, isZimo) {
   ui('addLog', p.name + ' ' + title + '！' + detail + '，得分 +' + sc.gain);
   ui('update');
   ui('effect', isBaopi ? 'baopi' : 'win');
+  ui('showWinBanner', { name: p.name, title, isZimo, isBaopi, hand: p.hand, melds: p.melds, winTile });
   ui('showModal', title, p.name + title + '了', '本局得分 +' + sc.gain, detail, '继续', () => continueGame(pI), breakdown);
 }
 

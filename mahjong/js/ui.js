@@ -330,7 +330,61 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
 
   EL('m-btn').textContent = btnText || '继续';
   ov.classList.add('show');
-  EL('m-btn').onclick = () => { ov.classList.remove('show'); EL('m-btn').blur(); if (cb) cb(); };
+  EL('m-btn').onclick = () => { ov.classList.remove('show'); EL('m-btn').blur(); hideWinBanner(); if (cb) cb(); };
+}
+
+// ===== 胡牌手牌横幅：显示胡牌方手牌与所胡的牌 =====
+export function showWinBanner(data) {
+  let el = EL('win-banner');
+  if (!el || !data) return;
+  el.innerHTML = '';
+
+  let head = document.createElement('div');
+  head.className = 'wb-head';
+  head.textContent = data.name + ' ' + data.title + (data.isBaopi ? ' · 宝牌' : '');
+  el.appendChild(head);
+
+  let row = document.createElement('div');
+  row.className = 'wb-tiles';
+
+  (data.melds || []).forEach(m => {
+    let g = document.createElement('div');
+    g.className = 'wb-meld';
+    m.ts.forEach(t => g.appendChild(tileEl(t)));
+    row.appendChild(g);
+  });
+  if ((data.melds || []).length) {
+    let sep = document.createElement('div');
+    sep.className = 'wb-sep';
+    row.appendChild(sep);
+  }
+
+  // 自摸时胡牌张已在手牌中；点炮时把胡牌张补到末尾
+  let tiles = [...(data.hand || [])];
+  if (!data.isZimo && data.winTile) tiles.push(data.winTile);
+  tiles.forEach(t => {
+    let e = tileEl(t);
+    if (t === data.winTile) e.classList.add('wb-win');
+    row.appendChild(e);
+  });
+
+  el.appendChild(row);
+  el.classList.add('show');
+
+  // 让结算弹窗避开横幅：按横幅实际高度下移
+  let ov = EL('mo');
+  if (ov) {
+    let top = parseFloat(getComputedStyle(el).top) || 0;
+    ov.style.setProperty('--win-offset', Math.ceil(top + el.offsetHeight + 14) + 'px');
+    ov.classList.add('win-open');
+  }
+}
+
+export function hideWinBanner() {
+  let el = EL('win-banner');
+  if (el) { el.classList.remove('show'); el.innerHTML = ''; }
+  let ov = EL('mo');
+  if (ov) { ov.classList.remove('win-open'); ov.style.removeProperty('--win-offset'); }
 }
 
 // ===== 胡牌特效 =====
