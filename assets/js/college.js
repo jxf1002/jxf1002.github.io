@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var pagination = document.querySelector("[data-pagination]")
   var pageSizeSelect = document.querySelector("[data-page-size]")
   var source = "/assets/data/colleges" + year + ".json"
+  var provinceRankMap = {}
   var provinceNames = {
     京: "北京市",
     津: "天津市",
@@ -101,6 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then(function (rows) {
       state.rows = rows
+      var provinceCountMap = {}
+      rows.forEach(function (row) {
+        if (!row.province_abbr) return
+        if (!provinceCountMap[row.province_abbr]) provinceCountMap[row.province_abbr] = 0
+        provinceCountMap[row.province_abbr]++
+        provinceRankMap[row.id] = provinceCountMap[row.province_abbr]
+      })
       var provinces = Array.from(
         new Set(
           rows
@@ -118,9 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .map(function (item) {
               return (
                 '<option value="' +
-                item +
+                escapeHtml(item) +
                 '">' +
-                provinceLabel(item) +
+                escapeHtml(provinceLabel(item)) +
                 "</option>"
               )
             })
@@ -226,24 +234,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? Math.min(bestRank, candidate.id)
                 : bestRank
             }, row.id)
-            var provinceRank =
-              1 +
-              state.rows.filter(function (candidate) {
-                return (
-                  row.province_abbr &&
-                  candidate.province_abbr === row.province_abbr &&
-                  candidate.id < row.id
-                )
-              }).length
+            var provinceRank = provinceRankMap[row.id] || 1
             return (
               "<tr><td>" +
               rank +
               "</td><td>" +
               (row.province_abbr
-                ? row.province_abbr + " " + provinceRank
+                ? escapeHtml(row.province_abbr) + " " + provinceRank
                 : "-") +
               "</td><td>" +
-              row.name +
+              escapeHtml(row.name) +
               '</td><td class="desktop-only">' +
               (row.chinaxy == null ? "-" : row.chinaxy) +
               '</td><td class="desktop-only">' +
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .join("")
       : '<tr><td class="empty" colspan="7">没有匹配的数据</td></tr>'
-    renderPagination()
+    renderPagination(state, pagination, render)
   }
 
   function updateProvinceClear() {
@@ -317,12 +317,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .map(function (item, index) {
         return (
           '<tr class="province-stat-row" data-province-stat="' +
-          item.province +
+          escapeHtml(item.province) +
           '" tabindex="0">' +
           "<td>" +
           item.rank +
           "</td><td>" +
-          provinceLabel(item.province) +
+          escapeHtml(provinceLabel(item.province)) +
           "</td><td>" +
           item.count +
           "</td><td>" +
@@ -351,38 +351,6 @@ document.addEventListener("DOMContentLoaded", function () {
             selectProvince()
           }
         })
-      })
-  }
-
-  function renderPagination() {
-    var totalPages = Math.max(
-      1,
-      Math.ceil(state.filtered.length / state.pageSize),
-    )
-    if (state.page > totalPages) state.page = totalPages
-    pagination.innerHTML =
-      "<button data-prev " +
-      (state.page === 1 ? "disabled" : "") +
-      ">上一页</button><span>第 " +
-      state.page +
-      " / " +
-      totalPages +
-      " 页，共 " +
-      state.filtered.length +
-      " 条</span><button data-next " +
-      (state.page === totalPages ? "disabled" : "") +
-      ">下一页</button>"
-    pagination
-      .querySelector("[data-prev]")
-      .addEventListener("click", function () {
-        state.page--
-        render()
-      })
-    pagination
-      .querySelector("[data-next]")
-      .addEventListener("click", function () {
-        state.page++
-        render()
       })
   }
 })

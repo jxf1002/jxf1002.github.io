@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
           type: "分析工具",
         },
         {
-          href: "/rent/",
-          title: "租金计算器",
-          description: "计算投资房屋出租收益。",
-          type: "分析工具",
+          href: "/mahjong/",
+          title: "麻将小游戏",
+          description: "在线四人麻将，支持智能出牌提示和番型计算。",
+          type: "小游戏",
         },
         {
           href: "/sport/",

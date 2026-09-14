@@ -1,4 +1,16 @@
 ;(function () {
+  window.escapeHtml = function (str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c]
+    })
+  }
+
   var root = document.documentElement
   var stored = localStorage.getItem("theme")
   if (

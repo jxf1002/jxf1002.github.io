@@ -7,38 +7,16 @@
   "editor.guides.bracketPairs": "active",
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit",
-    "source.organizeImports": "never"
+    "source.fixAll.eslint": "explicit"
   },
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "search.followSymlinks": false,
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.enablePreview": false,
-  // git
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  // lint
-  "scss.lint.unknownAtRules": "ignore",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "stylelint.validate": ["css", "scss", "vue"],
-  // i18n-ally
-  "i18n-ally.localesPaths": ["src/locales/lang"],
-  "i18n-ally.displayLanguage": "zh-cn",
-  "i18n-ally.editor.preferEditor": true,
-  "i18n-ally.keystyle": "nested",
-  "i18n-ally.keepFulfilled": true,
-  "i18n-ally.indent": 2,
-  "[vue]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "Vue.volar"
-  },
+  "eslint.validate": ["javascript"],
   "[html]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -60,9 +38,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
     "editor.formatOnSave": true
   }
 }

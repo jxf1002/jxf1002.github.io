@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .forEach(function (name) {
           province.insertAdjacentHTML(
             "beforeend",
-            '<option value="' + name + '">' + name + "</option>",
+            '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + "</option>",
           )
         })
       render()
@@ -64,11 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
           .map(function (row) {
             return (
               "<tr><td>" +
-              row.name +
+              escapeHtml(row.name) +
               "</td><td>" +
-              row.provinceName +
+              escapeHtml(row.provinceName) +
               '</td><td class="desktop-only">' +
-              row.gradesName +
+              escapeHtml(row.gradesName) +
               '</td><td class="desktop-only">' +
               row.year +
               "</td></tr>"
@@ -76,38 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .join("")
       : '<tr><td class="empty" colspan="4">没有匹配的数据</td></tr>'
-    renderPagination()
-  }
-
-  function renderPagination() {
-    var totalPages = Math.max(
-      1,
-      Math.ceil(state.filtered.length / state.pageSize),
-    )
-    if (state.page > totalPages) state.page = totalPages
-    pagination.innerHTML =
-      "<button data-prev " +
-      (state.page === 1 ? "disabled" : "") +
-      ">上一页</button><span>第 " +
-      state.page +
-      " / " +
-      totalPages +
-      " 页，共 " +
-      state.filtered.length +
-      " 条</span><button data-next " +
-      (state.page === totalPages ? "disabled" : "") +
-      ">下一页</button>"
-    pagination
-      .querySelector("[data-prev]")
-      .addEventListener("click", function () {
-        state.page--
-        render()
-      })
-    pagination
-      .querySelector("[data-next]")
-      .addEventListener("click", function () {
-        state.page++
-        render()
-      })
+    renderPagination(state, pagination, render)
   }
 })
