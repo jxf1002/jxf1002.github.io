@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var groups = [
     {
       title: "数据",
+      slogan: "整理公开信息，让查找和比较更高效。",
       items: [
         {
           href: "/college/",
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       title: "工具",
+      slogan: "用代码解决实际问题，纯浏览器端运行，数据不上传。",
       items: [
         {
           href: "/photo/",
@@ -32,17 +34,23 @@ document.addEventListener("DOMContentLoaded", function () {
           description: "使用 DCF 模型对企业进行估值。",
           type: "分析工具",
         },
+      ],
+    },
+    {
+      title: "游戏",
+      slogan: "用于验证 AI 编码能力的实验性项目，交互粗糙，不适合长期游玩。",
+      items: [
         {
           href: "/mahjong/",
           title: "麻将小游戏",
           description: "在线四人麻将，支持智能出牌提示和番型计算。",
-          type: "小游戏",
+          type: "麻将",
         },
         {
           href: "/sport/",
           title: "赛博运动",
           description: "调整跑步速度，生成赛博跑步报告。",
-          type: "实验工具",
+          type: "跑步",
         },
       ],
     },
@@ -54,7 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
     section.innerHTML =
       '<h2 class="block-title">' +
       group.title +
-      '</h2><div class="card-grid">' +
+      "</h2>" +
+      (group.slogan
+        ? '<p class="block-slogan">' + group.slogan + "</p>"
+        : "") +
+      '<div class="card-grid">' +
       group.items
         .map(function (item) {
           return (

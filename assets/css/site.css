@@ -75,6 +75,7 @@ main { min-height: calc(100vh - 145px); }
 .block { max-width: 1200px; margin: 0 auto; padding: 18px 20px; }
 .block-title { display: flex; align-items: center; gap: 16px; margin: 0 0 20px; color: var(--primary); font-size: 18px; }
 .block-title::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+.block-slogan { margin: -12px 0 20px; color: var(--muted); font-size: .9rem; }
 .card-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .link-card { display: block; height: 100%; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); transition: transform .2s, border-color .2s, box-shadow .2s; }
 .link-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 16px 34px rgb(25 50 43 / 12%); }
