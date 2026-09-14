@@ -23,6 +23,7 @@
     <div class="gi">
       <span>牌墙 <b id="wc">0</b></span>
       <span class="baopi" id="bi"></span>
+      <button type="button" class="log-btn" id="rules-btn">📖 规则</button>
       <button type="button" class="log-btn" id="log-btn">📜 日志</button>
     </div>
   </div>
@@ -31,7 +32,7 @@
 
   <div class="table">
     <div class="seat seat-top" id="pt">
-      <div class="seat-head"><span class="pn" id="nt">南</span><span class="pr" id="rt"></span></div>
+      <div class="seat-head"><span class="pn" id="nt">西</span><span class="pr" id="rt"></span></div>
       <div class="seat-body">
         <div class="pm" id="mt"></div>
         <div class="ph" id="ht"></div>
@@ -40,7 +41,7 @@
     </div>
 
     <div class="seat seat-left" id="pl">
-      <div class="seat-head"><span class="pn" id="nl">东</span><span class="pr" id="rl"></span></div>
+      <div class="seat-head"><span class="pn" id="nl">南</span><span class="pr" id="rl"></span></div>
       <div class="seat-body">
         <div class="pm" id="ml"></div>
         <div class="ph" id="hl"></div>
@@ -63,7 +64,7 @@
     </div>
 
     <div class="seat seat-right" id="pr">
-      <div class="seat-head"><span class="pn" id="nr">西</span><span class="pr" id="rr"></span></div>
+      <div class="seat-head"><span class="pn" id="nr">北</span><span class="pr" id="rr"></span></div>
       <div class="seat-body">
         <div class="pm" id="mr"></div>
         <div class="ph" id="hr"></div>
@@ -72,7 +73,7 @@
     </div>
 
     <div class="seat seat-bottom" id="pb">
-      <div class="seat-head"><span class="pn" id="nb">北</span><span class="pr" id="rb"></span></div>
+      <div class="seat-head"><span class="pn" id="nb">东</span><span class="pr" id="rb"></span></div>
       <div class="seat-body">
         <div class="pm" id="mb"></div>
         <div class="ph" id="hb"></div>
@@ -97,6 +98,63 @@
     <div class="dt" id="m-detail"></div>
     <div class="m-breakdown" id="m-breakdown"></div>
     <button type="button" id="m-btn">继续</button>
+  </div>
+</div>
+
+<div class="mo" id="rules-modal">
+  <div class="mdl rules-mdl">
+    <h2>📖 游戏规则</h2>
+    <div class="rules-content">
+      <h3>基本规则</h3>
+      <p>四人麻将，你为<b>东</b>家（下方），其余三家为 AI 对手。牌墙共 <b>70 张</b>（每人起手 13 张，庄家 14 张）。</p>
+      <p>牌型必须同时包含<b>顺子</b>（三张连续同花色）和<b>刻子</b>（三张相同），或红中做将时可纯顺子。<b>禁止清一色</b>，手牌至少需要两种花色（红中不算花色）。</p>
+
+      <h3>摸牌与出牌</h3>
+      <p>每回合从牌墙摸一张牌，然后选择一张打出。点击手牌中要打出的牌即可。</p>
+
+      <h3>碰、杠</h3>
+      <ul>
+        <li><b>碰</b>：别人打出的牌与手中两张相同时，系统会提示"碰"。碰后需打出一张牌。</li>
+        <li><b>杠</b>：手中有三张相同牌时可杠，从牌墙末尾补一张牌。</li>
+        <li><b>吃</b>：本游戏<b>不支持吃牌</b>。</li>
+      </ul>
+
+      <h3>听牌与胡牌</h3>
+      <p>当只差一张牌就能和牌时，系统会提示"听"。点击"胡"按钮即可和牌。</p>
+      <div class="rules-hint">💡 听牌条件：手牌（含副露）中必须已有幺九牌（1/9/字牌），否则无法听牌。</div>
+
+      <h3>计分规则</h3>
+      <p>胡牌后根据<b>番数</b>计算得分，每份分数 = 2<sup>番数</sup>。番数由以下条件累加：</p>
+      <table class="rules-table">
+        <tr><th>条件</th><th>番数</th><th>说明</th></tr>
+        <tr><td>庄家</td><td>+1</td><td>胡牌者是庄家</td></tr>
+        <tr><td>自摸</td><td>+1</td><td>自己摸到胡牌，三家各付一份</td></tr>
+        <tr><td>宝牌</td><td>+1</td><td>自摸胡的牌恰好是宝牌</td></tr>
+        <tr><td>黑炮</td><td>+2</td><td>放炮者未听牌，由放炮者独付（不分三家）</td></tr>
+      </table>
+
+      <h3>付款方式</h3>
+      <ul>
+        <li><b>自摸</b>：其余三家各付一份，庄家（非赢家时）付双份</li>
+        <li><b>听牌点炮</b>：放炮者已听牌，其余三家各付一份，庄家付双份</li>
+        <li><b>黑炮</b>：放炮者未听牌，由放炮者独付一份（庄家放炮则付双份）</li>
+      </ul>
+
+      <h3>宝牌（宝）</h3>
+      <p>翻出的第一张牌为"宝"，宝牌每回合轮转。听牌后宝牌信息会显示，自摸胡牌时若胡的牌是宝牌可获额外 +1 番。</p>
+
+      <h3>流局</h3>
+      <p>牌墙摸完仍无人胡牌，则本局流局，庄家继续坐庄。</p>
+
+      <h3>操作说明</h3>
+      <ul>
+        <li>点击手牌中的牌打出</li>
+        <li>出现"碰""杠""胡"按钮时，点击执行操作</li>
+        <li>点击"过"跳过本次机会</li>
+        <li>左上角显示剩余牌数和宝牌信息</li>
+      </ul>
+    </div>
+    <button type="button" id="rules-close">关闭</button>
   </div>
 </div>
 

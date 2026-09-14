@@ -49,6 +49,20 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .log-mdl { max-height: 80vh; display: flex; flex-direction: column; }
 .log-mdl .lp { flex: 1; max-height: 55vh; overflow-y: auto; margin-bottom: 14px; text-align: left; }
 
+.rules-mdl { max-height: 80vh; display: flex; flex-direction: column; }
+.rules-content { flex: 1; max-height: 60vh; overflow-y: auto; margin-bottom: 14px; text-align: left; }
+.rules-content h3 { color: var(--gold); font-size: 15px; margin: 18px 0 8px; letter-spacing: 1px; }
+.rules-content h3:first-child { margin-top: 0; }
+.rules-content p { margin: 0 0 8px; line-height: 1.7; color: #ccc; font-size: 14px; }
+.rules-content ul { margin: 0 0 10px; padding-left: 20px; }
+.rules-content li { margin-bottom: 6px; line-height: 1.6; color: #ccc; font-size: 14px; }
+.rules-content b { color: var(--gold); }
+.rules-hint { background: rgba(39,174,96,.15); border-left: 3px solid #27ae60; padding: 8px 12px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 13px; color: #8fd3b0; }
+.rules-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 13px; }
+.rules-table th { text-align: left; padding: 6px 10px; background: rgba(255,255,255,.06); color: var(--gold); border-bottom: 1px solid var(--panel-border); font-weight: 600; }
+.rules-table td { padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,.06); color: #ccc; }
+.rules-table tr:last-child td { border-bottom: none; }
+
 .sb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
 .si {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
