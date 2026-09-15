@@ -338,4 +338,10 @@ td { white-space: normal; }
   .feels-map { height: 380px; }
   .feels-page table { min-width: 0; }
   .feels-page th, .feels-page td { padding: 12px 8px; }
+  .feels-page th:first-child, .feels-page td:first-child { padding-left: 16px; text-align: left; }
+  .feels-page th:last-child, .feels-page td:last-child { padding-right: 16px; text-align: right; }
+  .feels-page .filters { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .feels-page .filters [data-query] { flex: 1 1 60%; }
+  .feels-page .filters [data-level] { flex: 1 1 100%; order: 2; }
+  .feels-page .filters .button { flex: 0 0 auto; order: 1; }
 }

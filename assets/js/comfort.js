@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { name: "寒冷", color: "#313695" },
     { name: "凉爽", color: "#74ADD1" },
     { name: "舒适", color: "#1A9850" },
-    { name: "偏热", color: "#F46D43" },
+    { name: "偏热", color: "#FDAE61" },
     { name: "炎热", color: "#D73027" },
   ]
   var WMO = {
@@ -112,6 +112,10 @@ document.addEventListener("DOMContentLoaded", function () {
     return document.documentElement.classList.contains("dark")
   }
 
+  function isNarrow() {
+    return mapEl ? mapEl.clientWidth < 560 : false
+  }
+
   function loadMapJson() {
     return MAP_URLS.reduce(function (p, url) {
       return p.catch(function () {
@@ -186,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function chartOption() {
     var dark = isDark()
+    var narrow = isNarrow()
     return {
       tooltip: {
         trigger: "item",
@@ -207,14 +212,25 @@ document.addEventListener("DOMContentLoaded", function () {
         orient: "horizontal",
         bottom: 0,
         left: "center",
-        textStyle: { color: dark ? "#f8fafc" : "#19322b" },
-        pieces: [
-          { lt: 0, label: "寒冷 <0", color: "#313695" },
-          { gte: 0, lt: 15, label: "凉爽 0–15", color: "#74ADD1" },
-          { gte: 15, lt: 27, label: "舒适 15–27", color: "#1A9850" },
-          { gte: 27, lt: 32, label: "偏热 27–32", color: "#F46D43" },
-          { gte: 32, label: "炎热 >32", color: "#D73027" },
-        ],
+        itemWidth: narrow ? 10 : 20,
+        itemHeight: narrow ? 8 : 14,
+        itemGap: narrow ? 6 : 10,
+        textStyle: { color: dark ? "#f8fafc" : "#19322b", fontSize: narrow ? 10 : 12 },
+        pieces: narrow
+          ? [
+              { lt: 0, label: "寒冷", color: "#313695" },
+              { gte: 0, lt: 15, label: "凉爽", color: "#74ADD1" },
+              { gte: 15, lt: 27, label: "舒适", color: "#1A9850" },
+              { gte: 27, lt: 32, label: "偏热", color: "#FDAE61" },
+              { gte: 32, label: "炎热", color: "#D73027" },
+            ]
+          : [
+              { lt: 0, label: "寒冷 <0", color: "#313695" },
+              { gte: 0, lt: 15, label: "凉爽 0–15", color: "#74ADD1" },
+              { gte: 15, lt: 27, label: "舒适 15–27", color: "#1A9850" },
+              { gte: 27, lt: 32, label: "偏热 27–32", color: "#FDAE61" },
+              { gte: 32, label: "炎热 >32", color: "#D73027" },
+            ],
       },
       series: [
         {
@@ -330,6 +346,8 @@ document.addEventListener("DOMContentLoaded", function () {
           window.echarts.registerMap("china-cities", geo)
           rows = geo.features.map(function (f) {
             return { name: f.properties.name, lon: f.properties.cp[0], lat: f.properties.cp[1] }
+          }).sort(function (a, b) {
+            return a.name.localeCompare(b.name, "zh-Hans-CN")
           })
           return rows
         })
@@ -368,13 +386,22 @@ document.addEventListener("DOMContentLoaded", function () {
     if (retryTimer) clearTimeout(retryTimer)
     load(true)
   })
-  window.addEventListener("resize", function () { if (chart) chart.resize() })
+  var lastNarrow = null
+  window.addEventListener("resize", function () {
+    if (!chart) return
+    chart.resize()
+    var narrow = isNarrow()
+    if (narrow !== lastNarrow) {
+      lastNarrow = narrow
+      renderMap()
+    }
+  })
   window.addEventListener("themechange", renderMap)
 
   var mapWrap = document.querySelector("[data-map-wrap]")
   var listWrap = document.querySelector("[data-list-wrap]")
   var viewBtns = Array.prototype.slice.call(document.querySelectorAll("[data-view]"))
-  var mode = window.matchMedia("(max-width: 800px)").matches ? "list" : "map"
+  var mode = "map"
 
   function setView(m) {
     mode = m
