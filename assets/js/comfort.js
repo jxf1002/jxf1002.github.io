@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
           roam: true,
           zoom: mapZoom,
           center: mapCenter,
-          scaleLimit: { min: 1, max: MAX_ZOOM },
+          scaleLimit: { min: 0.5, max: MAX_ZOOM },
           label: { show: labelsOn, fontSize: 10, color: dark ? "#ffffff" : "#333333", textBorderColor: dark ? "rgba(0,0,0,.65)" : "rgba(255,255,255,.9)", textBorderWidth: 2 },
           emphasis: { label: { show: true, fontSize: 13, fontWeight: "bold", color: dark ? "#ffffff" : "#1a1a1a", textBorderColor: dark ? "rgba(0,0,0,.75)" : "rgba(255,255,255,.95)", textBorderWidth: 3 } },
           itemStyle: { borderColor: dark ? "#10221f" : "#ffffff", borderWidth: 0.6 },
@@ -273,8 +273,15 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) {}
   }
 
+  var labelTimer = null
   function syncLabels() {
     snapshotView()
+    if (labelTimer) clearTimeout(labelTimer)
+    labelTimer = setTimeout(applyLabels, 200)
+  }
+
+  function applyLabels() {
+    labelTimer = null
     var on = mapZoom >= LABEL_ZOOM
     if (on !== labelsOn) {
       labelsOn = on
@@ -418,6 +425,15 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   setView(mode)
   updateZoomHint()
+
+  // 地图手势独占：阻止浏览器页面滚动/缩放/双击放大接管触摸事件
+  if (mapEl) {
+    mapEl.addEventListener("touchmove", function (e) { e.preventDefault() }, { passive: false })
+    mapEl.addEventListener("dblclick", function (e) { e.preventDefault() })
+  }
+  ;["gesturestart", "gesturechange", "gestureend"].forEach(function (t) {
+    document.addEventListener(t, function (e) { e.preventDefault() })
+  })
 
   if (!window.echarts) {
     setStatus("地图组件加载失败，请检查网络后刷新页面")
