@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content="全国地级市体感温度地图：查看每个地级市的实时天气、体感温度与24小时温度范围。" />
+    <meta name="keywords" content="贾师傅,体感温度,全国气温地图,地级市天气" />
+    <link rel="canonical" href="https://www.justful.cn/comfort/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="贾师傅的小站" />
+    <meta property="og:title" content="全国体感温度｜贾师傅的小站" />
+    <meta property="og:description" content="按地级市划分的中国地图，查看实时天气、体感温度与24小时温度范围。" />
+    <meta property="og:url" content="https://www.justful.cn/comfort/" />
+    <meta name="twitter:card" content="summary" />
+    <title>全国体感温度-数据-贾师傅的小站</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "全国体感温度数据",
+        "description": "按地级市划分的全国体感温度、实时天气与24小时温度范围。",
+        "url": "https://www.justful.cn/comfort/",
+        "inLanguage": "zh-CN",
+        "creator": { "@type": "Organization", "name": "贾师傅的小站" }
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/css/site.css?v=7" />
+    <script src="/assets/js/common.js?v=3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-brand" href="/"
+        ><img class="site-home-icon" src="/favicon.svg" alt="" /><span
+          >贾师傅的小站</span
+        ></a
+      >
+      <div class="site-actions">
+        <button
+          class="theme-toggle"
+          data-theme-toggle
+          onclick="toggleTheme()"
+          aria-label="切换主题"
+        >
+          ☾
+        </button>
+      </div>
+    </header>
+    <main class="data-page feels-page">
+      <section class="data-panel">
+        <header class="data-header">
+          <h1>全国体感温度</h1>
+          <p>按地级市划分 · <span data-updated>正在加载天气…</span></p>
+          <div class="feels-legend" aria-label="体感温度图例">
+            <span><i style="background:#313695"></i>非常不适（冷）&lt;0°C</span>
+            <span><i style="background:#74ADD1"></i>不适（冷）0–15°C</span>
+            <span><i style="background:#1A9850"></i>舒适 15–27°C</span>
+            <span><i style="background:#F46D43"></i>不适（热）27–32°C</span>
+            <span><i style="background:#D73027"></i>非常不适（热）&gt;32°C</span>
+          </div>
+        </header>
+        <div class="view-switch" role="group" aria-label="视图切换">
+          <button class="button" type="button" data-view="map" aria-pressed="true">地图</button>
+          <button class="button" type="button" data-view="list" aria-pressed="false">列表</button>
+        </div>
+        <div data-map-wrap>
+          <div class="feels-map-wrap">
+            <div class="feels-map" data-map role="img" aria-label="全国地级市体感温度地图"></div>
+            <p class="feels-status" data-status>正在加载地图…</p>
+          </div>
+          <p class="zoom-hint" data-zoom-hint hidden>缩放到最大可显示地级市名称</p>
+        </div>
+        <div data-list-wrap hidden>
+          <div class="filters">
+          <input
+            class="control"
+            data-query
+            type="search"
+            placeholder="搜索地级市，如：杭州"
+          />
+          <select class="control" data-level aria-label="按舒适度筛选">
+            <option value="">全部舒适度</option>
+            <option value="0">非常不适（冷）</option>
+            <option value="1">不适（冷）</option>
+            <option value="2">舒适</option>
+            <option value="3">不适（热）</option>
+            <option value="4">非常不适（热）</option>
+          </select>
+          <button class="button" type="button" data-refresh>刷新天气</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>地级市</th>
+                <th>天气</th>
+                <th>气温</th>
+                <th>体感</th>
+                <th>24小时范围</th>
+                <th>舒适度</th>
+              </tr>
+            </thead>
+            <tbody data-table-body>
+              <tr>
+                <td class="empty" colspan="6">正在加载...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+        <p class="feels-note">体感温度着色：深蓝 &lt;0°C · 浅蓝 0–15°C · 绿色 15–27°C · 橙色 27–32°C · 红色 &gt;32°C。天气数据来自 Open-Meteo（无需 Key，纯浏览器端请求），每小时更新一次，坐标取自地图中心点。</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> www.justful.cn版权所有</p>
+      <p>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer"
+          >京ICP备18007833号-1</a
+        >
+      </p>
+    </footer>
+    <script src="/assets/js/comfort.js?v=3"></script>
+  </body>
+</html>

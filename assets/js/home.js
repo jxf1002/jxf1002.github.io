@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
           description: "全国5A景区汇总。",
           type: "数据浏览",
         },
+        {
+          href: "/comfort/",
+          title: "全国体感温度",
+          description: "地级市天气、体感温度与24小时温度范围地图。",
+          type: "数据浏览",
+        },
       ],
     },
     {
