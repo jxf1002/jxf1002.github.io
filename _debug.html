@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <body style="margin:0">
+    <iframe id="f" src="/comfort/" style="width:390px;height:800px;border:0"></iframe>
+    <pre id="out">waiting</pre>
+    <script>
+      var f = document.getElementById("f")
+      f.onload = function () {
+        setTimeout(function () {
+          var d = f.contentDocument
+          var t = d.querySelector("table")
+          var wrap = d.querySelector(".table-wrap")
+          var out = {
+            docClientW: d.documentElement.clientWidth,
+            docScrollW: d.documentElement.scrollWidth,
+            wrapW: wrap.getBoundingClientRect().width,
+            tableW: t.getBoundingClientRect().width,
+            tableMinWidth: getComputedStyle(t).minWidth,
+            tdPadding: getComputedStyle(t.querySelector("tbody td")).padding,
+            cols: Array.prototype.map.call(d.querySelectorAll("thead th"), function (th) {
+              return th.textContent.trim() + "=" + (th.offsetParent === null ? "hidden" : Math.round(th.getBoundingClientRect().width) + "px")
+            }),
+            lastCell: (function () {
+              var td = d.querySelector("tbody tr td:last-child")
+              return td ? td.textContent.trim() + " w=" + Math.round(td.getBoundingClientRect().width) : "none"
+            })(),
+          }
+          document.getElementById("out").textContent = JSON.stringify(out, null, 2)
+        }, 8000)
+      }
+    </script>
+  </body>
+</html>

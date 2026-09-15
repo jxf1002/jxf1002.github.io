@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   var LEVELS = [
-    { name: "非常不适（冷）", color: "#313695" },
-    { name: "不适（冷）", color: "#74ADD1" },
+    { name: "寒冷", color: "#313695" },
+    { name: "凉爽", color: "#74ADD1" },
     { name: "舒适", color: "#1A9850" },
-    { name: "不适（热）", color: "#F46D43" },
-    { name: "非常不适（热）", color: "#D73027" },
+    { name: "偏热", color: "#F46D43" },
+    { name: "炎热", color: "#D73027" },
   ]
   var WMO = {
     0: "晴",
@@ -48,10 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var queryEl = document.querySelector("[data-query]")
   var levelEl = document.querySelector("[data-level]")
   var refreshEl = document.querySelector("[data-refresh]")
+  var paginationEl = document.querySelector("[data-pagination]")
 
   var store = {} // name -> {name, temp, feels, code, min, max, level}
   var rows = []
   var chart = null
+  var listState = { filtered: [], page: 1, pageSize: 20 }
   var CACHE_KEY = "comfort-weather-v1"
   var CACHE_TTL = 3600e3 // 天气每小时刷新一次
   var MAX_ZOOM = 6
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var mapZoom = 1.25
   var mapCenter = null
   var labelsOn = false
+  var retryTimer = null
 
   function levelOf(feels) {
     if (feels == null || isNaN(feels)) return -1
@@ -166,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
           var min = slice.length ? Math.min.apply(null, slice) : null
           var max = slice.length ? Math.max.apply(null, slice) : null
           var feels = cur.apparent_temperature
+          if (feels != null && !isNaN(feels)) feels = Math.round(feels)
           store[city.name] = {
             name: city.name,
             temp: cur.temperature_2m,
@@ -205,11 +209,11 @@ document.addEventListener("DOMContentLoaded", function () {
         left: "center",
         textStyle: { color: dark ? "#f8fafc" : "#19322b" },
         pieces: [
-          { lt: 0, label: "非常不适（冷）<0", color: "#313695" },
-          { gte: 0, lt: 15, label: "不适（冷）0–15", color: "#74ADD1" },
+          { lt: 0, label: "寒冷 <0", color: "#313695" },
+          { gte: 0, lt: 15, label: "凉爽 0–15", color: "#74ADD1" },
           { gte: 15, lt: 27, label: "舒适 15–27", color: "#1A9850" },
-          { gte: 27, lt: 32, label: "不适（热）27–32", color: "#F46D43" },
-          { gte: 32, label: "非常不适（热）>32", color: "#D73027" },
+          { gte: 27, lt: 32, label: "偏热 27–32", color: "#F46D43" },
+          { gte: 32, label: "炎热 >32", color: "#D73027" },
         ],
       },
       series: [
@@ -271,27 +275,51 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderTable() {
     var q = queryEl.value.trim()
     var lv = levelEl.value
-    var list = rows.filter(function (r) {
+    listState.filtered = rows.filter(function (r) {
       var s = store[r.name] || {}
       return (
         (!q || r.name.indexOf(q) >= 0) &&
         (lv === "" || String(s.level) === lv)
       )
     })
-    body.innerHTML = list.length
-      ? list.map(function (r) {
+    var start = (listState.page - 1) * listState.pageSize
+    var visible = listState.filtered.slice(start, start + listState.pageSize)
+    body.innerHTML = visible.length
+      ? visible.map(function (r) {
           var s = store[r.name] || {}
           var l = s.level >= 0 ? LEVELS[s.level] : null
           return (
             "<tr><td>" + escapeHtml(r.name) + "</td>" +
-            "<td>" + escapeHtml(WMO[s.code] || (s.feels == null ? "—" : "—")) + "</td>" +
-            "<td>" + fmt(s.temp) + "</td>" +
+            "<td>" + escapeHtml(WMO[s.code] || "—") + "</td>" +
+            '<td class="desktop-only">' + fmt(s.temp) + "</td>" +
             "<td>" + fmt(s.feels) + "</td>" +
-            "<td>" + fmt(s.min) + " ~ " + fmt(s.max) + "</td>" +
+            '<td class="desktop-only">' + fmt(s.min) + " ~ " + fmt(s.max) + "</td>" +
             "<td>" + (l ? '<span class="feels-dot" style="background:' + l.color + '"></span>' + escapeHtml(l.name) : "—") + "</td></tr>"
           )
         }).join("")
       : '<tr><td class="empty" colspan="6">没有匹配的城市</td></tr>'
+    if (paginationEl && window.renderPagination) {
+      window.renderPagination(listState, paginationEl, renderTable)
+    }
+  }
+
+  function missingCities() {
+    return rows.filter(function (r) {
+      var s = store[r.name]
+      return !s || s.feels == null
+    })
+  }
+
+  function replenish() {
+    retryTimer = null
+    var missing = missingCities()
+    if (!missing.length) return
+    setStatus("正在补全 " + missing.length + " 个地级市数据…")
+    fetchWeather(missing).then(function () {
+      writeCache()
+      paint(Date.now())
+      if (missingCities().length) retryTimer = setTimeout(replenish, 30000)
+    })
   }
 
   function load(force) {
@@ -312,12 +340,14 @@ document.addEventListener("DOMContentLoaded", function () {
           if (c) {
             store = c.data
             paint(c.ts)
+            if (missingCities().length) replenish()
             return null
           }
         }
         return fetchWeather(cities).then(function () {
           writeCache()
           paint(Date.now())
+          replenish()
         })
       })
       .catch(function () {
@@ -326,9 +356,18 @@ document.addEventListener("DOMContentLoaded", function () {
       })
   }
 
-  queryEl.addEventListener("input", renderTable)
-  levelEl.addEventListener("change", renderTable)
-  refreshEl.addEventListener("click", function () { load(true) })
+  queryEl.addEventListener("input", function () {
+    listState.page = 1
+    renderTable()
+  })
+  levelEl.addEventListener("change", function () {
+    listState.page = 1
+    renderTable()
+  })
+  refreshEl.addEventListener("click", function () {
+    if (retryTimer) clearTimeout(retryTimer)
+    load(true)
+  })
   window.addEventListener("resize", function () { if (chart) chart.resize() })
   window.addEventListener("themechange", renderMap)
 

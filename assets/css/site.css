@@ -336,4 +336,6 @@ td { white-space: normal; }
   .data-page th, .data-page td { padding: 13px 14px; }
   .data-header h1 { font-size: 2rem; }
   .feels-map { height: 380px; }
+  .feels-page table { min-width: 0; }
+  .feels-page th, .feels-page td { padding: 12px 8px; }
 }

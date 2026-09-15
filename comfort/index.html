@@ -53,11 +53,11 @@
           <h1>全国体感温度</h1>
           <p>按地级市划分 · <span data-updated>正在加载天气…</span></p>
           <div class="feels-legend" aria-label="体感温度图例">
-            <span><i style="background:#313695"></i>非常不适（冷）&lt;0°C</span>
-            <span><i style="background:#74ADD1"></i>不适（冷）0–15°C</span>
+            <span><i style="background:#313695"></i>寒冷 &lt;0°C</span>
+            <span><i style="background:#74ADD1"></i>凉爽 0–15°C</span>
             <span><i style="background:#1A9850"></i>舒适 15–27°C</span>
-            <span><i style="background:#F46D43"></i>不适（热）27–32°C</span>
-            <span><i style="background:#D73027"></i>非常不适（热）&gt;32°C</span>
+            <span><i style="background:#F46D43"></i>偏热 27–32°C</span>
+            <span><i style="background:#D73027"></i>炎热 &gt;32°C</span>
           </div>
         </header>
         <div class="view-switch" role="group" aria-label="视图切换">
@@ -81,11 +81,11 @@
           />
           <select class="control" data-level aria-label="按舒适度筛选">
             <option value="">全部舒适度</option>
-            <option value="0">非常不适（冷）</option>
-            <option value="1">不适（冷）</option>
+            <option value="0">寒冷</option>
+            <option value="1">凉爽</option>
             <option value="2">舒适</option>
-            <option value="3">不适（热）</option>
-            <option value="4">非常不适（热）</option>
+            <option value="3">偏热</option>
+            <option value="4">炎热</option>
           </select>
           <button class="button" type="button" data-refresh>刷新天气</button>
         </div>
@@ -95,9 +95,9 @@
               <tr>
                 <th>地级市</th>
                 <th>天气</th>
-                <th>气温</th>
+                <th class="desktop-only">气温</th>
                 <th>体感</th>
-                <th>24小时范围</th>
+                <th class="desktop-only">24小时范围</th>
                 <th>舒适度</th>
               </tr>
             </thead>
@@ -108,8 +108,9 @@
             </tbody>
           </table>
         </div>
+        <div class="pagination" data-pagination></div>
         </div>
-        <p class="feels-note">体感温度着色：深蓝 &lt;0°C · 浅蓝 0–15°C · 绿色 15–27°C · 橙色 27–32°C · 红色 &gt;32°C。天气数据来自 Open-Meteo（无需 Key，纯浏览器端请求），每小时更新一次，坐标取自地图中心点。</p>
+        <p class="feels-note">体感温度按整数取整后着色：寒冷 &lt;0°C · 凉爽 0–15°C · 舒适 15–27°C · 偏热 27–32°C · 炎热 &gt;32°C。天气数据来自 Open-Meteo（无需 Key，纯浏览器端请求），每小时更新一次；若存在暂无数据的地级市，每 30 秒自动补全，直到全部获取。坐标取自地图中心点。</p>
       </section>
     </main>
     <footer class="site-footer">
@@ -120,6 +121,7 @@
         >
       </p>
     </footer>
-    <script src="/assets/js/comfort.js?v=3"></script>
+    <script src="/assets/js/pagination.js?v=1"></script>
+    <script src="/assets/js/comfort.js?v=4"></script>
   </body>
 </html>
