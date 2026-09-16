@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -13,7 +13,9 @@
 <meta property="og:url" content="https://www.justful.cn/mahjong/">
 <meta name="twitter:card" content="summary">
 <title>麻将小游戏｜贾师傅的小站</title>
+<link rel="stylesheet" href="/assets/css/site.css?v=6" />
 <link rel="stylesheet" href="style.css">
+<script src="/assets/js/common.js?v=3"></script>
 <script type="module" src="js/app.js"></script>
 <script>
 var _hmt = _hmt || [];
@@ -25,7 +27,11 @@ var _hmt = _hmt || [];
 })();
 </script>
 </head>
-<body>
+<body class="tool-page">
+<header class="site-header">
+  <a class="site-brand" href="/"><img class="site-home-icon" src="/favicon.svg" alt="" /><span>贾师傅的小站</span></a>
+  <div class="site-actions"></div>
+</header>
 <div class="gc">
   <div class="topbar">
     <h1>麻将</h1>
@@ -94,6 +100,11 @@ var _hmt = _hmt || [];
 
   <div class="start-wrap"><button type="button" class="sb2b" id="btn-s">开始游戏</button></div>
 </div>
+
+<footer class="site-footer">
+  <p>Copyright © <span data-year></span> www.justful.cn版权所有 ｜ <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">京ICP备18007833号-1</a></p>
+  <p><a class="gh-icon" href="https://github.com/jxf1002/jxf1002.github.io" target="_blank" rel="noreferrer">GitHub 源码地址</a> ｜ 意见反馈请移步 <a href="https://github.com/jxf1002/jxf1002.github.io/issues" target="_blank" rel="noreferrer">Issues</a></p>
+</footer>
 
 <div class="dora-banner" id="dora-banner"></div>
 <div class="win-banner" id="win-banner"></div>

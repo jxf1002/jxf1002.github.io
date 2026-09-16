@@ -25,7 +25,7 @@ function sr(k, v) {
 function tipAttrs(name) {
   const it = G.DB.itemByName[name]
   const q = G.itemQuality(it)
-  const tip = (it ? G.itemTip(name).slice(name.length) : '')
+  const tip = (it ? G.itemTip(name).slice(name.length).trim() : '')
   return ' data-tip="' + tip.replace(/"/g, '') + '" data-q="' + q + '" data-name="' + name.replace(/"/g, '') + '"'
 }
 

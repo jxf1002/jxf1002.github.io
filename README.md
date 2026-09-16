@@ -13,7 +13,24 @@ python3 -m http.server 3000
 ## 页面
 
 - `/`：首页
-- `/tourism/`：5A级旅游景区
-- `/college/`：大学排行榜，支持 `?year=2023`、`?year=2024`、`?year=2025`、`?year=2026`，不传参数时默认显示 2026 年最新数据
-- `/dcf`：DCF 企业估值计算器
-- `/rent`：房产租金计算器
+
+数据
+
+- `/college/`：大学排行榜
+- `/tourism/`：5A 级旅游景区
+- `/comfort/`：全国体感温度，地级市天气与 24 小时温度范围地图
+
+工具
+
+- `/photo/`：图片格式转换，批量转 JPG / PNG / WebP，可打包成 ZIP 下载
+- `/dcf/`：DCF 企业估值计算器
+
+游戏
+
+- `/mahjong/`：麻将小游戏
+- `/mir2/`：传奇挂机小游戏
+- `/sport/`：赛博运动，生成跑步报告
+
+## 反馈
+
+有问题或建议，欢迎到 [Issues](https://github.com/jxf1002/jxf1002.github.io/issues) 提出；如果觉得还不错，给个 [Star](https://github.com/jxf1002/jxf1002.github.io) 支持一下。

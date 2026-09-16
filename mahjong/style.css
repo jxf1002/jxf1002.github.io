@@ -30,7 +30,7 @@ body {
   color: var(--text);
   padding: 12px;
 }
-.gc { max-width: 1180px; margin: 0 auto; }
+.gc { max-width: 1180px; margin: 0 auto; padding: 12px 12px 0; }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700; }
@@ -528,7 +528,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 /* ================= 手机 / 平板适配 ================= */
 @media (max-width: 760px) {
   body { padding: 6px; }
-  .gc { max-width: 100%; }
+  .gc { max-width: 100%; padding: 6px 6px 0; }
   .topbar { margin-bottom: 6px; gap: 6px; }
   h1 { font-size: 17px; letter-spacing: 3px; }
   .gi { font-size: 11px; gap: 6px; }
