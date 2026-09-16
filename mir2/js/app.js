@@ -30,7 +30,7 @@ function tipAttrs(name) {
 }
 
 function render() {
-  $('#gold').textContent = G.S.gold.toLocaleString('zh-CN')
+  for (const el of document.querySelectorAll('.gold-num')) el.textContent = G.S.gold.toLocaleString('zh-CN')
   const names = Object.keys(G.S.bag)
     .filter((n) => (!bagFilter || n.includes(bagFilter)) && (bagQuality === null || G.itemQuality(G.DB.itemByName[n]) === bagQuality))
     .sort((a, b) => G.S.bag[b] - G.S.bag[a])
@@ -168,7 +168,7 @@ function updateSpeedButton() {
     btn.disabled = true
     return
   }
-  btn.textContent = '升 ×' + n.tier + ' · 金币 ' + fmtGold(n.cost)
+  btn.innerHTML = '升 ×' + n.tier + ' · <i class="coin"></i> ' + fmtGold(n.cost)
   btn.disabled = G.S.gold < n.cost
 }
 
