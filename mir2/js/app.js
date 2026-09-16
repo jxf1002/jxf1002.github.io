@@ -168,7 +168,7 @@ function updateSpeedButton() {
     btn.disabled = true
     return
   }
-  btn.textContent = '升 ×' + n.tier + ' · ' + fmtGold(n.cost)
+  btn.textContent = '升 ×' + n.tier + ' · 金币 ' + fmtGold(n.cost)
   btn.disabled = G.S.gold < n.cost
 }
 
