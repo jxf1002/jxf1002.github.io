@@ -168,7 +168,7 @@ function updateSpeedButton() {
     btn.disabled = true
     return
   }
-  btn.innerHTML = '升 ×' + n.tier + ' · <i class="coin"></i> ' + fmtGold(n.cost)
+  btn.innerHTML = '<span class="upbtn"><span>升 ×' + n.tier + '</span><span>·</span><i class="coin"></i><span>' + fmtGold(n.cost) + '</span></span>'
   btn.disabled = G.S.gold < n.cost
 }
 
