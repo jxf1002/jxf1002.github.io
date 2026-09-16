@@ -21,6 +21,14 @@ export const JUNK = ['鸡1', '鹿1', '稻草人1', '白野猪1', '沃玛教主1'
 export const CHALLENGE_MIN_LEVEL = 35
 export const BOSS_COOLDOWN_MS = 3600000
 
+// 倍速用金币逐档解锁，初始上限 ×1；1→40 约 60 分钟、买满约 3350 万（仿真值）
+export const SPEED_TIERS = [1, 2, 3, 5, 8, 12, 20, 35, 60, 100, 160, 250, 380, 500]
+export const SPEED_COST = { 2: 100, 3: 500, 5: 2000, 8: 8000, 12: 25000, 20: 80000, 35: 250000, 60: 700000, 100: 1200000, 160: 2500000, 250: 5000000, 380: 9000000, 500: 16000000 }
+
+// 首领掉率加成：每次挑战前按所选档位扣金币，概率乘倍率（封顶 100%）
+export const BOOST_TIERS = [1, 2, 3, 5, 10, 20]
+export const BOOST_COST = { 1: 0, 2: 5000, 3: 15000, 5: 40000, 10: 100000, 20: 250000 }
+
 export const DB = { levels: [], items: [], itemByName: {}, magics: [], monsters: [], elites: [], bosses: [] }
 export const dropCache = {}
 
@@ -42,17 +50,43 @@ export function setDB({ levels, items, magics, monsters, elites, bosses }) {
   }).sort((a, b) => a.HP - b.HP)
 }
 
-export const S = { gold: 0, bag: {}, speed: 1, running: true, chars: [], challenge: null, bossCd: {} }
+export const S = { gold: 0, bag: {}, speed: 1, speedMax: 1, boost: 1, running: true, chars: [], challenge: null, bossCd: {} }
 
 export function newWorld() {
   S.gold = 0
   S.bag = {}
   S.speed = 1
+  S.speedMax = 1
+  S.boost = 1
   S.running = true
   S.chars = JOBS.map(newChar)
   S.challenge = null
   S.bossCd = {}
   return S
+}
+
+// 下一档速度与价格（已满返回 null）
+export function nextSpeed() {
+  const next = SPEED_TIERS[SPEED_TIERS.indexOf(S.speedMax) + 1]
+  return next == null ? null : { tier: next, cost: SPEED_COST[next] }
+}
+
+// 花金币解锁下一档倍速，成功后当前速度直接拉到新上限
+export function buySpeed() {
+  const n = nextSpeed()
+  if (!n) return { ok: false, reason: 'max' }
+  if (S.gold < n.cost) return { ok: false, reason: 'gold', ...n }
+  S.gold -= n.cost
+  S.speedMax = n.tier
+  S.speed = n.tier
+  return { ok: true, ...n }
+}
+
+// 所选档位金币不足则不降档，直接返回提示信息
+export function boostCheck(maxB, gold) {
+  const b = maxB || 1
+  if (b > 1 && gold < BOOST_COST[b]) return { ok: false, boost: b, cost: BOOST_COST[b] }
+  return { ok: true, boost: b }
 }
 
 export function newChar(j) {
@@ -358,13 +392,14 @@ export function gainExp(c, n) {
   }
 }
 
-// 掉落表每行独立判定：分子/分母为概率，命中后行末数字为数量（默认 1），重复行会累加
-export function rollDropLines(name) {
+// 掉落表每行独立判定：分子/分母为概率（可乘 boost 倍率，封顶 100%），命中后行末数字为数量（默认 1），重复行会累加
+export function rollDropLines(name, boost) {
+  const b = boost || 1
   const out = { gold: 0, items: [], counts: {} }
   for (const line of dropCache[name] || []) {
     const mt = line.match(/^(\d+)\/(\d+)\s*(.*)$/)
     if (!mt) continue
-    if (Math.random() >= (+mt[1]) / (+mt[2])) continue
+    if (Math.random() >= Math.min(1, ((+mt[1]) / (+mt[2])) * b)) continue
     let rest = mt[3].trim()
     if (!rest) continue
     let n = 1
@@ -456,14 +491,18 @@ export function startChallenge(name) {
   const unlock = bossUnlockLevel(idx)
   if (minCharLevel() < unlock) return { ok: false, reason: 'locked', level: unlock }
   if (bossCooldownLeft(name) > 0) return { ok: false, reason: 'cooldown' }
+  const bc = boostCheck(S.boost, S.gold) // 所选加成金币不够就提示，不降档
+  if (!bc.ok) return { ok: false, reason: 'gold', boost: bc.boost, cost: bc.cost }
   const b = DB.bosses[idx]
-  S.challenge = { name, hp: b.HP, maxHp: b.HP, ac: b.AC, mac: b.MAC, exp: b.Exp, lvl: b.Lvl, logs: [], done: false, result: null }
+  const boost = bc.boost
+  if (boost > 1) S.gold -= BOOST_COST[boost]
+  S.challenge = { name, hp: b.HP, maxHp: b.HP, ac: b.AC, mac: b.MAC, exp: b.Exp, lvl: b.Lvl, boost, logs: [], done: false, result: null }
   for (const c of S.chars) {
     c.target = { Name: name, HP: 1, MaxHP: 1, AC: b.AC, MAC: b.MAC, Exp: b.Exp, kind: 'boss' }
     log(c, '【' + c.name + '】加入讨伐【' + name + '】！')
   }
-  clog('遭遇首领【' + name + '】（' + b.HP + ' 血），三人集火！')
-  return { ok: true }
+  clog('遭遇首领【' + name + '】（' + b.HP + ' 血）' + (boost > 1 ? '，掉率 ×' + boost : '') + '，三人集火！')
+  return { ok: true, boost }
 }
 
 export function challengeTick() {
@@ -480,7 +519,7 @@ export function challengeTick() {
 function finishChallenge() {
   const ch = S.challenge
   ch.done = true
-  const r = rollDropLines(ch.name)
+  const r = rollDropLines(ch.name, ch.boost)
   S.gold += r.gold
   for (const name of r.items) addBag(name, r.counts[name] || 1)
   const before = S.chars.map((c) => JSON.stringify(c.equip))

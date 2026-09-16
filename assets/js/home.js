@@ -53,6 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
           type: "麻将",
         },
         {
+          href: "/mir2/",
+          title: "传奇挂机小游戏",
+          description: "战法道三人小队自动打怪升级，金币买倍速、刷首领凑橙装。",
+          type: "挂机",
+        },
+        {
           href: "/sport/",
           title: "赛博运动",
           description: "调整跑步速度，生成赛博跑步报告。",

@@ -1,5 +1,5 @@
 // 传奇挂机小游戏：DOM 胶水层（渲染、存档、主循环）
-import * as G from './game.js?v=15'
+import * as G from './game.js?v=18'
 
 const $ = (s) => document.querySelector(s)
 
@@ -58,6 +58,7 @@ function render() {
     el.querySelector('.mobbar').style.width = tpct + '%'
     el.querySelector('.mir2-log').innerHTML = c.logs.slice().reverse().map((l) => '<div>' + l + '</div>').join('')
   }
+  updateSpeedButton()
   refreshTip()
 }
 
@@ -80,16 +81,21 @@ function buildDom() {
 
 function showSkills(key) {
   const c = G.S.chars.find((x) => x.key === key)
+  const head = '<div class="skill-grid head"><span>技能</span><span>当前</span><span class="q1">Lv1</span><span class="q2">Lv2</span><span class="q3">Lv3</span></div>'
   const rows = G.jobMagics(c.job).map((m) => {
     const lv = G.skillLevel(m, c.level)
-    return '<div class="skill-row"><span>' + m.MagName + '</span>' + (lv ? '<b class="lv-pill">Lv.' + lv + '</b>' : '<span class="lv-lock">未学习（' + m.NeedL1 + '级可学）</span>') + '</div>'
+    const need = (n, i) => '<span class="' + (c.level >= n ? 'q' + (i + 1) : '') + '">' + n + '</span>'
+    return '<div class="skill-grid"><span class="sk-name">' + m.MagName + '</span>'
+      + '<span class="sk-cur ' + (lv ? 'q' + lv : '') + '">' + (lv ? 'Lv.' + lv : '-') + '</span>'
+      + need(m.NeedL1, 0) + need(m.NeedL2, 1) + need(m.NeedL3, 2) + '</div>'
   }).join('')
-  openModal(c.name + '的技能', rows || '<div>暂无技能</div>')
+  openModal(c.name + '的技能（数字为解锁等级）', head + (rows || '<div>暂无技能</div>'))
 }
 
 function openModal(title, html) {
   $('#modal-title').textContent = title
   $('#modal-body').innerHTML = html
+  $('.mir2-modal-box').classList.remove('win-box')
   $('#modal').classList.add('open')
 }
 
@@ -125,7 +131,7 @@ document.addEventListener('scroll', hideTip, true)
 
 function save(silent) {
   try {
-    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, bossCd: G.S.bossCd, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
+    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, speedMax: G.S.speedMax, boost: G.S.boost, bossCd: G.S.bossCd, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
     if (!silent) $('#save-tip').textContent = '已保存 ' + new Date().toLocaleTimeString()
   } catch (e) { /* ponytail: 无痕模式存档失败就跳过，游戏照常跑 */ }
 }
@@ -136,7 +142,9 @@ function load() {
     if (!d || !Array.isArray(d.chars)) return false
     G.S.gold = d.gold || 0
     G.S.bag = d.bag || {}
-    G.S.speed = d.speed || 1
+    G.S.speedMax = G.SPEED_TIERS.includes(d.speedMax) ? d.speedMax : 1
+    G.S.speed = Math.min(d.speed || 1, G.S.speedMax)
+    G.S.boost = G.BOOST_TIERS.includes(d.boost) ? d.boost : 1
     G.S.bossCd = {}
     for (const [k, v] of Object.entries(d.bossCd || {})) {
       G.S.bossCd[k] = v > 1e12 ? Math.max(0, v + G.BOSS_COOLDOWN_MS - Date.now()) : v // 老存档存的是时间戳
@@ -144,6 +152,32 @@ function load() {
     G.loadChars(d.chars)
     return true
   } catch (e) { return false }
+}
+
+function fmtGold(n) {
+  if (n < 10000) return n.toLocaleString('zh-CN')
+  const w = n / 10000
+  return (Number.isInteger(w) ? w : w.toFixed(1)) + '万'
+}
+
+function updateSpeedButton() {
+  const n = G.nextSpeed()
+  const btn = $('#btn-speed-up')
+  if (!n) {
+    btn.textContent = '速度已满'
+    btn.disabled = true
+    return
+  }
+  btn.textContent = '升 ×' + n.tier + ' · ' + fmtGold(n.cost)
+  btn.disabled = G.S.gold < n.cost
+}
+
+function updateSpeedUI() {
+  const slider = $('#speed')
+  slider.max = G.S.speedMax
+  slider.value = G.S.speed
+  $('#speed-val').textContent = G.S.speed
+  updateSpeedButton()
 }
 
 let bossView = null // null | 'list' | 'battle' | 'victory'
@@ -222,10 +256,49 @@ function bindFights() {
   })
 }
 
+// 掉率加成选择条：选中档位金币不足时提示，不自动降档
+function boostBarHtml() {
+  const chips = G.BOOST_TIERS.map((b) => {
+    const onsale = b === 1 ? '' : '<i>' + fmtGold(G.BOOST_COST[b]) + '</i>'
+    return '<button data-boost="' + b + '">' + (b === 1 ? '无加成' : '×' + b) + onsale + '</button>'
+  }).join('')
+  return '<div class="boost-bar"><span class="boost-label">掉率加成</span>' + chips + '<span class="boost-tip" id="boost-tip"></span></div>'
+}
+
+function updateBoostUI() {
+  for (const el of document.querySelectorAll('[data-boost]')) {
+    const b = +el.getAttribute('data-boost')
+    el.classList.toggle('active', G.S.boost === b)
+    el.classList.toggle('off', b > 1 && G.BOOST_COST[b] > G.S.gold)
+  }
+}
+
+let boostTipTimer = null
+function tipBoost(msg) {
+  const el = $('#boost-tip')
+  if (!el) return
+  el.textContent = msg
+  clearTimeout(boostTipTimer)
+  boostTipTimer = setTimeout(() => { el.textContent = '' }, 3000)
+}
+
+function bindBoosts() {
+  for (const el of document.querySelectorAll('[data-boost]')) {
+    el.onclick = () => {
+      const b = +el.getAttribute('data-boost')
+      if (b > 1 && G.BOOST_COST[b] > G.S.gold) { tipBoost('金币不足，无法选择 ×' + b + '（需 ' + fmtGold(G.BOOST_COST[b]) + '）'); return }
+      G.S.boost = b
+      $('#boost-tip').textContent = ''
+      updateBoostUI()
+    }
+  }
+}
+
 function tryFight(name) {
   const r = G.startChallenge(name)
   if (!r.ok) {
     if (r.reason === 'level') showGate()
+    else if (r.reason === 'gold') tipBoost('金币不足，无法使用 ×' + r.boost + ' 加成（需 ' + fmtGold(r.cost) + '）')
     else showBossList()
     return
   }
@@ -239,20 +312,28 @@ function showGate() {
 
 function showBossList() {
   bossView = 'list'
-  openBossModal('挑战首领', BOSS_HINT + (G.DB.bosses.map(bossRow).join('') || '<div>暂无首领</div>'))
+  openBossModal('挑战首领', BOSS_HINT + boostBarHtml() + (G.DB.bosses.map(bossRow).join('') || '<div>暂无首领</div>'))
   bindFights()
+  bindBoosts()
+  updateBoostUI()
 }
 
 function showBattle() {
   bossView = 'battle'
   const ch = G.S.challenge
-  openBossModal('讨伐 ' + ch.name, '<div id="boss-hp-text"></div><div class="mir2-bar"><i id="boss-hpbar"></i></div><div class="mir2-log" id="boss-log"></div>')
+  openBossModal('讨伐 ' + ch.name + (ch.boost > 1 ? '（掉率 ×' + ch.boost + '）' : ''), '<div id="boss-hp-text"></div><div class="mir2-bar"><i id="boss-hpbar"></i></div><div class="mir2-log" id="boss-log"></div>')
 }
 
 function showVictory() {
   bossView = 'victory'
   const r = G.S.challenge.result
-  const drops = r.items.map((n) => {
+  // 从好到差：品质降序，同品质按使用等级降序
+  const names = r.items.slice().sort((a, b) => {
+    const ia = G.DB.itemByName[a]
+    const ib = G.DB.itemByName[b]
+    return (G.itemQuality(ib) - G.itemQuality(ia)) || ((ib && ib.NeedLevel || 0) - (ia && ia.NeedLevel || 0))
+  })
+  const drops = names.map((n) => {
     const q = G.itemQuality(G.DB.itemByName[n])
     const cnt = (r.counts && r.counts[n]) || 1
     return '<div class="drop-row q' + q + '"><span>' + n + '</span><b>× ' + cnt + '</b></div>'
@@ -265,6 +346,7 @@ function showVictory() {
     + '<div class="win-section-title">掉落物品</div>'
     + '<div class="win-drops">' + (drops || '<div class="drop-empty">（本次没有物品掉落）</div>') + '</div>'
     + '<div class="modal-btns"><button class="btn" id="btn-next-boss">继续挑战下一个</button></div>')
+  $('.mir2-modal-box').classList.add('win-box')
   $('#btn-next-boss').onclick = showBossList
 }
 
@@ -282,6 +364,7 @@ function renderBossView() {
         if (btn) btn.textContent = '冷却 ' + fmtCdShort(st.left)
       }
     })
+    updateBoostUI()
   } else if (bossView === 'battle' && G.S.challenge) {
     const ch = G.S.challenge
     const bar = $('#boss-hpbar')
@@ -334,8 +417,7 @@ async function init() {
   if (!load()) G.newWorld()
   for (const n of Object.keys(G.S.bag)) if (!G.DB.itemByName[n]) delete G.S.bag[n]
   G.rebalanceEquips(true)
-  $('#speed').value = G.S.speed
-  $('#speed-val').textContent = G.S.speed
+  updateSpeedUI()
   buildDom()
   render()
   setInterval(tick, 500)
@@ -352,8 +434,14 @@ $('#btn-run').onclick = () => {
   setRunBtn()
 }
 $('#speed').oninput = (e) => {
-  G.S.speed = +e.target.value
+  G.S.speed = Math.min(+e.target.value, G.S.speedMax)
   $('#speed-val').textContent = G.S.speed
+}
+$('#btn-speed-up').onclick = () => {
+  if (G.buySpeed().ok) {
+    updateSpeedUI()
+    render()
+  }
 }
 $('#bag-search').addEventListener('input', (e) => {
   bagFilter = e.target.value.trim()

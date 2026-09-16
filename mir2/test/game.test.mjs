@@ -537,6 +537,63 @@ describe('首领挑战', () => {
   })
 })
 
+describe('金币买倍速', () => {
+  it('初始上限 ×1，逐档解锁且钱不够不给买', () => {
+    assert.equal(G.S.speedMax, 1)
+    assert.deepEqual(G.nextSpeed(), { tier: 2, cost: 100 })
+    G.S.gold = 99
+    assert.equal(G.buySpeed().ok, false)
+    G.S.gold = 100
+    assert.deepEqual(G.buySpeed(), { ok: true, tier: 2, cost: 100 })
+    assert.equal(G.S.speedMax, 2)
+    assert.equal(G.S.speed, 2)
+    assert.equal(G.S.gold, 0)
+  })
+  it('买满后 nextSpeed 为 null', () => {
+    G.S.speedMax = 500
+    assert.equal(G.nextSpeed(), null)
+    assert.deepEqual(G.buySpeed(), { ok: false, reason: 'max' })
+  })
+  it('买满总价约 3350~3500 万', () => {
+    const total = Object.values(G.SPEED_COST).reduce((a, b) => a + b, 0)
+    assert.ok(total > 30000000 && total < 40000000, '总价 ' + total)
+  })
+})
+
+describe('首领掉率加成', () => {
+  it('所选档位金币不足则提示，不降档', () => {
+    assert.deepEqual(G.boostCheck(5, 0), { ok: false, boost: 5, cost: 40000 })
+    assert.deepEqual(G.boostCheck(20, 249999), { ok: false, boost: 20, cost: 250000 })
+    assert.deepEqual(G.boostCheck(5, 40000), { ok: true, boost: 5 })
+    assert.deepEqual(G.boostCheck(1, 0), { ok: true, boost: 1 })
+  })
+  it('金币不足时挑战被拒绝且不扣钱', () => {
+    for (const c of G.S.chars) c.level = 40
+    G.S.boost = 20
+    G.S.gold = 100000
+    const r = G.startChallenge(G.DB.bosses[4].Name)
+    assert.deepEqual(r, { ok: false, reason: 'gold', boost: 20, cost: 250000 })
+    assert.equal(G.S.challenge, null)
+    assert.equal(G.S.gold, 100000)
+  })
+  it('加成放大每行概率且封顶 100%', () => {
+    mockRandom(0.5)
+    G.setDrops('测试怪', ['10/100 乌木剑'])
+    assert.deepEqual(G.rollDropLines('测试怪').items, [])
+    assert.deepEqual(G.rollDropLines('测试怪', 20).items, ['乌木剑'])
+  })
+  it('挑战时按所选档位扣金币并记录倍率', () => {
+    for (const c of G.S.chars) c.level = 40
+    G.S.boost = 5
+    G.S.gold = 100000
+    const r = G.startChallenge(G.DB.bosses[4].Name)
+    assert.ok(r.ok)
+    assert.equal(r.boost, 5)
+    assert.equal(G.S.challenge.boost, 5)
+    assert.equal(G.S.gold, 60000)
+  })
+})
+
 describe('itemQuality 装备品质', () => {
   it('每职业每部位最强为橙，凑齐全套即全橙', () => {
     // 每个职业、每个部位至少有一件橙
