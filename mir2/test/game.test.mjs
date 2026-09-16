@@ -147,6 +147,17 @@ describe('calcDamage', () => {
     const { dmg } = G.calcDamage(c)
     assert.ok(dmg >= 15 + 2 + 6 + 12 + 15)
   })
+  it('低倍速用加权随机：伤害越高的技能出现越频繁；高倍速仍取最优', () => {
+    const c = warrior(35)
+    c.target = { Name: 'x', HP: 1e9, MaxHP: 1e9, AC: 0, MAC: 0, Exp: 1 }
+    const count = {}
+    for (let i = 0; i < 3000; i++) {
+      const { skill } = G.calcDamage(c, true)
+      count[skill] = (count[skill] || 0) + 1
+    }
+    assert.ok(count['烈火剑法'] > count['普通攻击'], JSON.stringify(count))
+    for (let i = 0; i < 50; i++) assert.equal(G.calcDamage(c, false).skill, '烈火剑法')
+  })
   it('无技能时用主属性平砍', () => {
     mockRandom(0)
     const c = mage(1)

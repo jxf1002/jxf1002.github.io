@@ -1,5 +1,5 @@
 // 传奇挂机小游戏：DOM 胶水层（渲染、存档、主循环）
-import * as G from './game.js?v=18'
+import * as G from './game.js?v=20'
 
 const $ = (s) => document.querySelector(s)
 
@@ -34,7 +34,7 @@ function render() {
   const names = Object.keys(G.S.bag)
     .filter((n) => (!bagFilter || n.includes(bagFilter)) && (bagQuality === null || G.itemQuality(G.DB.itemByName[n]) === bagQuality))
     .sort((a, b) => G.S.bag[b] - G.S.bag[a])
-  const bagHtml = names.map((n) => '<div class="bag-row" data-item="' + n + '" title="点击装备（自动选最合适的角色）"><span class="q' + G.itemQuality(G.DB.itemByName[n]) + '"' + tipAttrs(n) + '>' + n + '</span><b>× ' + G.S.bag[n] + '</b></div>').join('')
+  const bagHtml = names.map((n) => '<div class="bag-row" data-item="' + n + '"><span class="q' + G.itemQuality(G.DB.itemByName[n]) + '"' + tipAttrs(n) + '>' + n + '</span><b>× ' + G.S.bag[n] + '</b></div>').join('')
   $('#bag').innerHTML = bagHtml || '<div class="bag-empty">空空如也，快去打怪</div>'
   for (const c of G.S.chars) {
     const st = G.stats(c)
@@ -95,7 +95,7 @@ function showSkills(key) {
 function openModal(title, html) {
   $('#modal-title').textContent = title
   $('#modal-body').innerHTML = html
-  $('.mir2-modal-box').classList.remove('win-box')
+  $('.mir2-modal-box').classList.remove('win-box', 'list-box')
   $('#modal').classList.add('open')
 }
 
@@ -312,7 +312,9 @@ function showGate() {
 
 function showBossList() {
   bossView = 'list'
-  openBossModal('挑战首领', BOSS_HINT + boostBarHtml() + (G.DB.bosses.map(bossRow).join('') || '<div>暂无首领</div>'))
+  openBossModal('挑战首领', BOSS_HINT + boostBarHtml()
+    + '<div class="boss-list">' + (G.DB.bosses.map(bossRow).join('') || '<div class="bag-empty">暂无首领</div>') + '</div>')
+  $('.mir2-modal-box').classList.add('list-box')
   bindFights()
   bindBoosts()
   updateBoostUI()

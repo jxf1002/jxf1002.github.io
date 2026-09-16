@@ -154,31 +154,30 @@ export function equipScore(c, it) {
   return ((it[key] || 0) + hi(it[key], it[key + 'Max'])) * 1000 + (it.NeedLevel || 0)
 }
 
-// 自动选择期望伤害最高的技能
-export function bestSkill(c) {
+// 列出该角色已学会的全部攻击手段（含普通攻击），带期望伤害
+function skillOptions(c) {
   const st = stats(c)
   const avg = (r) => (r[0] + r[1]) / 2
+  const opts = []
   if (c.job === 0) {
-    let best = { name: '普通攻击', avg: avg(st.dc), max: st.dc[1], bonus: 0 }
+    opts.push({ name: '普通攻击', avg: avg(st.dc), max: st.dc[1], bonus: 0 })
     for (const [name, bonus] of Object.entries(WAR_BONUS)) {
       const lv = skillLevel(magicByName(name), c.level)
       if (!lv) continue
-      const a = avg(st.dc) * (1 + bonus[lv - 1])
-      if (a > best.avg) best = { name, avg: a, max: st.dc[1] * (1 + bonus[lv - 1]), bonus: bonus[lv - 1] }
+      opts.push({ name, avg: avg(st.dc) * (1 + bonus[lv - 1]), max: st.dc[1] * (1 + bonus[lv - 1]), bonus: bonus[lv - 1] })
     }
-    return best
+    return opts
   }
   if (c.job === 1) {
-    let best = { name: '普通攻击', avg: avg(st.mc), max: st.mc[1], m: null, lv: 0 }
+    opts.push({ name: '普通攻击', avg: avg(st.mc), max: st.mc[1], m: null, lv: 0 })
     for (const name of MAGE_ATK) {
       const m = magicByName(name)
       const lv = skillLevel(m, c.level)
       if (!lv) continue
       const sa = ((m.Power + m.MaxPower) / 2) + ((lv - 1) * ((m.DefPower + m.DefMaxPower) / 2))
-      const a = avg(st.mc) + sa
-      if (a > best.avg) best = { name, avg: a, max: st.mc[1] + m.MaxPower + (lv - 1) * m.DefMaxPower, m, lv }
+      opts.push({ name, avg: avg(st.mc) + sa, max: st.mc[1] + m.MaxPower + (lv - 1) * m.DefMaxPower, m, lv })
     }
-    return best
+    return opts
   }
   const fu = magicByName('灵魂火符')
   const fuLv = skillLevel(fu, c.level)
@@ -186,14 +185,32 @@ export function bestSkill(c) {
   const sk = skillLevel(magicByName('召唤骷髅'), c.level)
   const sv = skillLevel(magicByName('召唤神兽'), c.level)
   const extra = (du ? [0, 2, 4, 6][du] : 0) + (sk ? [0, 8, 12, 16][sk] : 0) + (sv ? [0, 15, 25, 35][sv] : 0)
-  if (!fuLv) return { name: '普通攻击', avg: avg(st.sc) + extra, max: st.sc[1] + extra, m: null, lv: 0 }
-  const sa = ((fu.Power + fu.MaxPower) / 2) + ((fuLv - 1) * ((fu.DefPower + fu.DefMaxPower) / 2))
-  return { name: '灵魂火符', avg: avg(st.sc) + sa + extra, max: st.sc[1] + fu.MaxPower + (fuLv - 1) * fu.DefMaxPower + extra, m: fu, lv: fuLv }
+  opts.push({ name: '普通攻击', avg: avg(st.sc) + extra, max: st.sc[1] + extra, m: null, lv: 0 })
+  if (fuLv) {
+    const sa = ((fu.Power + fu.MaxPower) / 2) + ((fuLv - 1) * ((fu.DefPower + fu.DefMaxPower) / 2))
+    opts.push({ name: '灵魂火符', avg: avg(st.sc) + sa + extra, max: st.sc[1] + fu.MaxPower + (fuLv - 1) * fu.DefMaxPower + extra, m: fu, lv: fuLv })
+  }
+  return opts
 }
 
-export function calcDamage(c) {
+// 自动选择期望伤害最高的技能
+export function bestSkill(c) {
+  return skillOptions(c).reduce((a, b) => (b.avg > a.avg ? b : a))
+}
+
+// 低倍速展示伤害时：按期望伤害加权随机，伤害越高越常出
+function weightedSkill(c) {
+  const opts = skillOptions(c)
+  const total = opts.reduce((s, o) => s + o.avg, 0)
+  if (total <= 0) return opts[0]
+  let r = Math.random() * total
+  for (const o of opts) { r -= o.avg; if (r < 0) return o }
+  return opts[opts.length - 1]
+}
+
+export function calcDamage(c, varied) {
   const st = stats(c)
-  const sk = bestSkill(c)
+  const sk = varied ? weightedSkill(c) : bestSkill(c)
   let dmg, magic = false
   if (c.job === 0) {
     dmg = randi(st.dc[0], st.dc[1]) * (1 + (sk.bonus || 0))
@@ -240,7 +257,7 @@ export function pickElite(c) {
   return pick(pool.slice().sort((a, b) => b.HP - a.HP).slice(0, 3))
 }
 
-// 装备品质 0白1绿2蓝3紫4橙：按 NeedLevel 分档；每个职业、每个部位最强的装备为橙
+// 装备品质 0白1绿2蓝3紫4橙：白<16、绿16–20、蓝21–25、紫≥26；每个职业、每个部位最强的装备为橙
 let bestCache = null
 function jobBests() {
   if (bestCache) return bestCache
@@ -266,7 +283,7 @@ export function itemQuality(it) {
   if (!it) return 0
   if (jobBests().has(it.Name)) return 4
   const need = it.NeedLevel || 0
-  return need >= 35 ? 3 : need >= 25 ? 2 : need >= 15 ? 1 : 0
+  return need >= 26 ? 3 : need >= 21 ? 2 : need >= 16 ? 1 : 0
 }
 
 // 掉落表一次性载入（静态数据，加载一次即可），name -> 行数组
@@ -439,7 +456,7 @@ export function attack(c) {
     return
   }
   const t = c.target
-  const { dmg, skill } = calcDamage(c)
+  const { dmg, skill } = calcDamage(c, S.speed <= 10)
   t.HP -= dmg
   if (S.speed <= 10) log(c, '【' + c.name + '】使用【' + skill + '】对【' + t.Name + '】造成 ' + dmg + ' 点伤害')
   if (t.HP <= 0) {
@@ -509,7 +526,7 @@ export function challengeTick() {
   const ch = S.challenge
   if (!ch || ch.done) return
   for (const c of S.chars) {
-    const { dmg, skill } = calcDamage(c)
+    const { dmg, skill } = calcDamage(c, S.speed <= 10)
     ch.hp -= dmg
     if (S.speed <= 10) clog('【' + c.name + '】使用【' + skill + '】对【' + ch.name + '】造成 ' + dmg + ' 点伤害')
     if (ch.hp <= 0) { finishChallenge(); break }
