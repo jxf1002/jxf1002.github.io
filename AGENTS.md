@@ -22,6 +22,7 @@ Visit `http://localhost:3000/`. Pages load data from `assets/data/*.json`.
 | `/tourism/` | 5A tourist sites |
 | `/college/` | University rankings (supports `?year=2023..2026`, default 2026) |
 | `/mahjong/` | Mahjong game (has own `package.json` and tests) |
+| `/mir2/` | Mir2 idle game (has own `package.json` and tests) |
 | `/dcf/` | DCF valuation calculator |
 | `/sport/` | Sports section |
 | `/photo/` | Photo section |
@@ -30,12 +31,12 @@ Visit `http://localhost:3000/`. Pages load data from `assets/data/*.json`.
 
 ## Testing
 
-Only mahjong has tests:
+mahjong and mir2 have tests:
 
 ```bash
 node test/rules.test.mjs
 # or
-npm test  # from mahjong/
+npm test  # from mahjong/ or mir2/
 ```
 
 ## Code style

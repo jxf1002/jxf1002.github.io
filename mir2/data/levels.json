@@ -1,0 +1,502 @@
+[
+  {
+    "level": 1,
+    "totalExp": 0,
+    "expToNext": 80
+  },
+  {
+    "level": 2,
+    "totalExp": 80,
+    "expToNext": 160
+  },
+  {
+    "level": 3,
+    "totalExp": 240,
+    "expToNext": 260
+  },
+  {
+    "level": 4,
+    "totalExp": 500,
+    "expToNext": 360
+  },
+  {
+    "level": 5,
+    "totalExp": 860,
+    "expToNext": 500
+  },
+  {
+    "level": 6,
+    "totalExp": 1360,
+    "expToNext": 750
+  },
+  {
+    "level": 7,
+    "totalExp": 2110,
+    "expToNext": 1100
+  },
+  {
+    "level": 8,
+    "totalExp": 3210,
+    "expToNext": 1500
+  },
+  {
+    "level": 9,
+    "totalExp": 4710,
+    "expToNext": 2100
+  },
+  {
+    "level": 10,
+    "totalExp": 6810,
+    "expToNext": 3500
+  },
+  {
+    "level": 11,
+    "totalExp": 10310,
+    "expToNext": 8000
+  },
+  {
+    "level": 12,
+    "totalExp": 18310,
+    "expToNext": 10000
+  },
+  {
+    "level": 13,
+    "totalExp": 28310,
+    "expToNext": 15000
+  },
+  {
+    "level": 14,
+    "totalExp": 43310,
+    "expToNext": 30000
+  },
+  {
+    "level": 15,
+    "totalExp": 73310,
+    "expToNext": 40000
+  },
+  {
+    "level": 16,
+    "totalExp": 113310,
+    "expToNext": 50000
+  },
+  {
+    "level": 17,
+    "totalExp": 163310,
+    "expToNext": 75000
+  },
+  {
+    "level": 18,
+    "totalExp": 238310,
+    "expToNext": 100000
+  },
+  {
+    "level": 19,
+    "totalExp": 338310,
+    "expToNext": 120000
+  },
+  {
+    "level": 20,
+    "totalExp": 458310,
+    "expToNext": 140000
+  },
+  {
+    "level": 21,
+    "totalExp": 598310,
+    "expToNext": 250000
+  },
+  {
+    "level": 22,
+    "totalExp": 848310,
+    "expToNext": 300000
+  },
+  {
+    "level": 23,
+    "totalExp": 1148310,
+    "expToNext": 350000
+  },
+  {
+    "level": 24,
+    "totalExp": 1498310,
+    "expToNext": 400000
+  },
+  {
+    "level": 25,
+    "totalExp": 1898310,
+    "expToNext": 500000
+  },
+  {
+    "level": 26,
+    "totalExp": 2398310,
+    "expToNext": 700000
+  },
+  {
+    "level": 27,
+    "totalExp": 3098310,
+    "expToNext": 1000000
+  },
+  {
+    "level": 28,
+    "totalExp": 4098310,
+    "expToNext": 1400000
+  },
+  {
+    "level": 29,
+    "totalExp": 5498310,
+    "expToNext": 1800000
+  },
+  {
+    "level": 30,
+    "totalExp": 7298310,
+    "expToNext": 2000000
+  },
+  {
+    "level": 31,
+    "totalExp": 9298310,
+    "expToNext": 2400000
+  },
+  {
+    "level": 32,
+    "totalExp": 11698310,
+    "expToNext": 2800000
+  },
+  {
+    "level": 33,
+    "totalExp": 14498310,
+    "expToNext": 3200000
+  },
+  {
+    "level": 34,
+    "totalExp": 17698310,
+    "expToNext": 3600000
+  },
+  {
+    "level": 35,
+    "totalExp": 21298310,
+    "expToNext": 4000000
+  },
+  {
+    "level": 36,
+    "totalExp": 25298310,
+    "expToNext": 4800000
+  },
+  {
+    "level": 37,
+    "totalExp": 30098310,
+    "expToNext": 5600000
+  },
+  {
+    "level": 38,
+    "totalExp": 35698310,
+    "expToNext": 8200000
+  },
+  {
+    "level": 39,
+    "totalExp": 43898310,
+    "expToNext": 9000000
+  },
+  {
+    "level": 40,
+    "totalExp": 52898310,
+    "expToNext": 12000000
+  },
+  {
+    "level": 41,
+    "totalExp": 64898310,
+    "expToNext": 16000000
+  },
+  {
+    "level": 42,
+    "totalExp": 80898310,
+    "expToNext": 30000000
+  },
+  {
+    "level": 43,
+    "totalExp": 110898310,
+    "expToNext": 50000000
+  },
+  {
+    "level": 44,
+    "totalExp": 160898310,
+    "expToNext": 80000000
+  },
+  {
+    "level": 45,
+    "totalExp": 240898310,
+    "expToNext": 120000000
+  },
+  {
+    "level": 46,
+    "totalExp": 360898310,
+    "expToNext": 160000000
+  },
+  {
+    "level": 47,
+    "totalExp": 520898310,
+    "expToNext": 200000000
+  },
+  {
+    "level": 48,
+    "totalExp": 720898310,
+    "expToNext": 250000000
+  },
+  {
+    "level": 49,
+    "totalExp": 970898310,
+    "expToNext": 300000000
+  },
+  {
+    "level": 50,
+    "totalExp": 1270898310,
+    "expToNext": 350000000
+  },
+  {
+    "level": 51,
+    "totalExp": 1620898310,
+    "expToNext": 400000000
+  },
+  {
+    "level": 52,
+    "totalExp": 2020898310,
+    "expToNext": 480000000
+  },
+  {
+    "level": 53,
+    "totalExp": 2500898310,
+    "expToNext": 560000000
+  },
+  {
+    "level": 54,
+    "totalExp": 3060898310,
+    "expToNext": 640000000
+  },
+  {
+    "level": 55,
+    "totalExp": 3700898310,
+    "expToNext": 740000000
+  },
+  {
+    "level": 56,
+    "totalExp": 4440898310,
+    "expToNext": 840000000
+  },
+  {
+    "level": 57,
+    "totalExp": 5280898310,
+    "expToNext": 950000000
+  },
+  {
+    "level": 58,
+    "totalExp": 6230898310,
+    "expToNext": 1000000000
+  },
+  {
+    "level": 59,
+    "totalExp": 7230898310,
+    "expToNext": 1200000000
+  },
+  {
+    "level": 60,
+    "totalExp": 8430898310,
+    "expToNext": 1350000000
+  },
+  {
+    "level": 61,
+    "totalExp": 9780898310,
+    "expToNext": 1500000000
+  },
+  {
+    "level": 62,
+    "totalExp": 11280898310,
+    "expToNext": 1600000000
+  },
+  {
+    "level": 63,
+    "totalExp": 12880898310,
+    "expToNext": 1690000000
+  },
+  {
+    "level": 64,
+    "totalExp": 14570898310,
+    "expToNext": 1770000000
+  },
+  {
+    "level": 65,
+    "totalExp": 16340898310,
+    "expToNext": 1850000000
+  },
+  {
+    "level": 66,
+    "totalExp": 18190898310,
+    "expToNext": 1930000000
+  },
+  {
+    "level": 67,
+    "totalExp": 20120898310,
+    "expToNext": 2030000000
+  },
+  {
+    "level": 68,
+    "totalExp": 22150898310,
+    "expToNext": 2130000000
+  },
+  {
+    "level": 69,
+    "totalExp": 24280898310,
+    "expToNext": 2230000000
+  },
+  {
+    "level": 70,
+    "totalExp": 26510898310,
+    "expToNext": 2330000000
+  },
+  {
+    "level": 71,
+    "totalExp": 28840898310,
+    "expToNext": 2450000000
+  },
+  {
+    "level": 72,
+    "totalExp": 31290898310,
+    "expToNext": 2570000000
+  },
+  {
+    "level": 73,
+    "totalExp": 33860898310,
+    "expToNext": 2690000000
+  },
+  {
+    "level": 74,
+    "totalExp": 36550898310,
+    "expToNext": 2810000000
+  },
+  {
+    "level": 75,
+    "totalExp": 39360898310,
+    "expToNext": 2950000000
+  },
+  {
+    "level": 76,
+    "totalExp": 42310898310,
+    "expToNext": 3090000000
+  },
+  {
+    "level": 77,
+    "totalExp": 45400898310,
+    "expToNext": 3230000000
+  },
+  {
+    "level": 78,
+    "totalExp": 48630898310,
+    "expToNext": 3370000000
+  },
+  {
+    "level": 79,
+    "totalExp": 52000898310,
+    "expToNext": 3510000000
+  },
+  {
+    "level": 80,
+    "totalExp": 55510898310,
+    "expToNext": 3680000000
+  },
+  {
+    "level": 81,
+    "totalExp": 59190898310,
+    "expToNext": 3850000000
+  },
+  {
+    "level": 82,
+    "totalExp": 63040898310,
+    "expToNext": 4020000000
+  },
+  {
+    "level": 83,
+    "totalExp": 67060898310,
+    "expToNext": 4190000000
+  },
+  {
+    "level": 84,
+    "totalExp": 71250898310,
+    "expToNext": 4390000000
+  },
+  {
+    "level": 85,
+    "totalExp": 75640898310,
+    "expToNext": 4590000000
+  },
+  {
+    "level": 86,
+    "totalExp": 80230898310,
+    "expToNext": 4790000000
+  },
+  {
+    "level": 87,
+    "totalExp": 85020898310,
+    "expToNext": 5025000000
+  },
+  {
+    "level": 88,
+    "totalExp": 90045898310,
+    "expToNext": 5285000000
+  },
+  {
+    "level": 89,
+    "totalExp": 95330898310,
+    "expToNext": 5545000000
+  },
+  {
+    "level": 90,
+    "totalExp": 100875898310,
+    "expToNext": 5805000000
+  },
+  {
+    "level": 91,
+    "totalExp": 106680898310,
+    "expToNext": 6500000000
+  },
+  {
+    "level": 92,
+    "totalExp": 113180898310,
+    "expToNext": 7280000000
+  },
+  {
+    "level": 93,
+    "totalExp": 120460898310,
+    "expToNext": 14564000000
+  },
+  {
+    "level": 94,
+    "totalExp": 135024898310,
+    "expToNext": 29136000000
+  },
+  {
+    "level": 95,
+    "totalExp": 164160898310,
+    "expToNext": 44000000000
+  },
+  {
+    "level": 96,
+    "totalExp": 208160898310,
+    "expToNext": 30000000000
+  },
+  {
+    "level": 97,
+    "totalExp": 238160898310,
+    "expToNext": 32000000000
+  },
+  {
+    "level": 98,
+    "totalExp": 270160898310,
+    "expToNext": 34000000000
+  },
+  {
+    "level": 99,
+    "totalExp": 304160898310,
+    "expToNext": 36000000000
+  },
+  {
+    "level": 100,
+    "totalExp": 340160898310,
+    "expToNext": 0
+  }
+]

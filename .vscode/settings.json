@@ -12,6 +12,7 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "search.followSymlinks": false,
+  "cSpell.ignorePaths": ["mir2/data/**"],
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.enablePreview": false,
   "git.confirmSync": false,

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content="纯前端传奇挂机小游戏：战法道三职业自动打怪、捡装、升级，还能组队挑战首领。" />
+    <link rel="canonical" href="https://www.justful.cn/mir2/" />
+    <title>传奇挂机小游戏｜贾师傅的小站</title>
+    <link rel="stylesheet" href="/assets/css/site.css?v=5" />
+    <script src="/assets/js/common.js?v=3"></script>
+    <style>
+      :root {
+        --mir2-hp: linear-gradient(90deg, #d43d2a, #f08000);
+        --mir2-exp: linear-gradient(90deg, #2471c8, #38bdf8);
+        --mir2-gold: #e0a800;
+        --mir2-gold-text: #6d4c00;
+        --mir2-warrior: #c0392b;
+        --mir2-mage: #2471a3;
+        --mir2-taoist: #1e8449;
+        --mir2-elite: #0f766e;
+        --on-primary: #ffffff;
+        --danger: #b3261e;
+        --q0: #5b6b62;
+        --q1: #1e8449;
+        --q2: #2471a3;
+        --q3: #7d3c98;
+        --q4: #b45309;
+      }
+      :root.dark {
+        --mir2-hp: linear-gradient(90deg, #cc0000, #ff8800);
+        --mir2-exp: linear-gradient(90deg, #2266cc, #44ddff);
+        --mir2-gold: #ffd34d;
+        --mir2-gold-text: #ffe9a8;
+        --mir2-warrior: #e74c3c;
+        --mir2-mage: #5dade2;
+        --mir2-taoist: #58d68d;
+        --mir2-elite: #2dd4bf;
+        --on-primary: #10221f;
+        --danger: #e74c3c;
+        --q0: #c9d4ce;
+        --q1: #58d68d;
+        --q2: #5dade2;
+        --q3: #bb6bd9;
+        --q4: #f5a623;
+      }
+      .q0 { color: var(--q0); }
+      .q1 { color: var(--q1); }
+      .q2 { color: var(--q2); }
+      .q3 { color: var(--q3); }
+      * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--primary) 45%, transparent) transparent; }
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--primary) 40%, transparent); border: 2px solid transparent; border-radius: 8px; background-clip: padding-box; }
+      ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--primary) 65%, transparent); background-clip: padding-box; }
+      ::-webkit-scrollbar-corner { background: transparent; }
+      .q4 { color: var(--q4); font-weight: 700; }
+      body.tool-page { height: 100vh; display: flex; flex-direction: column; }
+      body.tool-page .site-header { flex: none; }
+      .mir2-wrap { max-width: 1400px; width: 100%; margin: 0 auto; padding: 6px 12px 16px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+      .mir2-title-row { display: flex; align-items: baseline; gap: 10px; }
+      .mir2-title-row h1 { font-size: 20px; margin: 2px 0; }
+      .mir2-title-row .sub { color: var(--muted); font-size: 13px; }
+      .linklike { background: none; border: none; padding: 0; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13px; white-space: nowrap; }
+      .mir2-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0; font-size: 14px; }
+      .mir2-controls .ctl-right { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .mir2-controls label { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+      button.btn { cursor: pointer; padding: 3px 12px; background: var(--surface-muted); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: inherit; white-space: nowrap; transition: background .15s, border-color .15s, color .15s, box-shadow .15s, filter .15s; }
+      button.btn:hover:not(:disabled) { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); color: var(--primary); }
+      button.btn:active:not(:disabled) { transform: translateY(1px); }
+      button.btn:disabled { opacity: .5; cursor: default; }
+      #btn-boss { border-color: var(--accent); color: var(--accent); font-weight: 700; background: color-mix(in srgb, var(--accent) 10%, transparent); }
+      #btn-boss:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 18%, transparent); border-color: var(--accent); color: var(--accent); }
+      #save-tip { color: var(--muted); font-size: 12px; }
+      .mir2-main { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 300px; gap: 10px; }
+      .mir2-chars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; min-height: 0; }
+      .mir2-col { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--surface); border-top: 3px solid var(--border); }
+      .job-warrior { border-top-color: var(--mir2-warrior); }
+      .job-mage { border-top-color: var(--mir2-mage); }
+      .job-taoist { border-top-color: var(--mir2-taoist); }
+      .char-head { display: flex; align-items: center; gap: 8px; }
+      .char-head b { font-size: 16px; }
+      .char-head .lv { color: var(--primary); font-weight: 700; }
+      .char-head button { margin-left: auto; font-size: 12px; }
+      .exp-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+      .exp-row .mir2-bar { flex: 1; margin: 0; }
+      .exptext { font-size: 12px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .mir2-bar { height: 10px; border: 1px solid var(--border); border-radius: 5px; overflow: hidden; background: var(--surface-muted); margin: 4px 0; }
+      .mir2-bar > i { display: block; height: 100%; }
+      .mir2-bar.exp > i { background: var(--mir2-exp); }
+      .mir2-fight .mir2-bar > i, #boss-hpbar { background: var(--mir2-hp); }
+      .sec-t { font-size: 12px; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 5px; margin: 7px 0 2px; }
+      .mir2-equips { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 10px; font-size: 13px; }
+      .eq { display: grid; grid-template-columns: 3.4em 1fr; gap: 4px; white-space: nowrap; }
+      .eq span { color: var(--muted); }
+      .eq b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+      .mir2-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px 10px; font-size: 13px; }
+      .stat { display: flex; justify-content: space-between; gap: 4px; font-variant-numeric: tabular-nums; }
+      .stat span { color: var(--muted); }
+      .stat b { font-weight: 600; }
+      .kills { display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 7px; font-variant-numeric: tabular-nums; }
+      .kill-chip { border: 1px solid var(--border); border-radius: 20px; padding: 0 9px; font-size: 12px; color: var(--muted); }
+      .kill-chip b { font-weight: 700; }
+      .kill-chip.k-elite { color: var(--mir2-elite); border-color: var(--mir2-elite); }
+      .kill-chip.k-boss { color: var(--mir2-warrior); border-color: var(--mir2-warrior); }
+      .mir2-fight { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 7px; }
+      .mob { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .mir2-log { flex: 1; min-height: 40px; overflow-y: auto; font-size: 12px; line-height: 1.7; color: var(--text); }
+      .mir2-bag { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--surface); }
+      .mir2-bag h3 { margin: 0 0 4px; font-size: 15px; }
+      .mir2-gold { font-weight: 700; color: var(--mir2-gold-text); background: linear-gradient(180deg, color-mix(in srgb, var(--mir2-gold) 42%, #fff), color-mix(in srgb, var(--mir2-gold) 90%, #fff)); border: 1px solid color-mix(in srgb, var(--mir2-gold) 82%, #000); border-radius: 8px; padding: 2px 8px; font-variant-numeric: tabular-nums; margin-bottom: 4px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 50%); }
+      :root.dark .mir2-gold { background: linear-gradient(180deg, color-mix(in srgb, var(--mir2-gold) 34%, #000), color-mix(in srgb, var(--mir2-gold) 12%, #000)); border-color: color-mix(in srgb, var(--mir2-gold) 72%, #000); box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%); }
+      .bag-search { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; margin-bottom: 4px; font-size: 13px; }
+      .bag-filter { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+      .bag-filter button { cursor: pointer; font-family: inherit; font-size: 12px; line-height: 1.7; padding: 0 9px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface-muted); color: var(--text); }
+      .bag-filter button.active { border-color: currentColor; background: var(--primary-soft); font-weight: 700; }
+      .mir2-bag-list { border-top: 1px dashed var(--border); padding-top: 4px; }
+      .mir2-bag-list { flex: 1; min-height: 0; overflow-y: auto; font-size: 13px; line-height: 1.75; }
+      .bag-row { display: flex; justify-content: space-between; gap: 8px; padding: 0 4px; border-radius: 4px; font-variant-numeric: tabular-nums; cursor: pointer; }
+      .bag-row:hover { background: var(--primary-soft); }
+      .bag-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .bag-row b { font-weight: 600; white-space: nowrap; }
+      .bag-more, .bag-empty { color: var(--muted); font-size: 12px; }
+      .mir2-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0, 0, 0, .5); z-index: 99; }
+      .mir2-modal.open { display: flex; }
+      .mir2-modal-box { position: relative; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; width: min(560px, 92vw); max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow); font-size: 13px; line-height: 1.7; }
+      .modal-x { position: absolute; top: 9px; right: 9px; width: 26px; height: 26px; padding: 0; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-muted); color: var(--muted); font-size: 14px; line-height: 1; cursor: pointer; }
+      .modal-x:hover { color: var(--text); background: var(--primary-soft); }
+      #tooltip { position: fixed; z-index: 200; display: none; max-width: 260px; pointer-events: none; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 12px; line-height: 1.8; white-space: pre-line; box-shadow: var(--shadow); }
+      #tooltip .tip-sep { border-top: 1px solid var(--border); margin: 5px 0; }
+      #tooltip .tip-rate { float: right; color: var(--muted); margin-left: 12px; }
+      .mir2-modal-box h3 { margin: 0 0 8px; font-size: 15px; }
+      .mir2-modal-box textarea { width: 100%; height: 120px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; resize: vertical; }
+      .modal-btns { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; align-items: center; }
+      .modal-btns .btn { min-width: 96px; padding: 6px 18px; border-radius: 9px; font-weight: 600; }
+      .modal-btns #copy-tip { order: -1; color: var(--muted); font-size: 12px; }
+      .boss-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; padding: 5px 0; border-top: 1px dashed var(--border); font-size: 13px; font-variant-numeric: tabular-nums; }
+      .boss-row:first-child { border-top: none; }
+      .boss-info { display: grid; grid-template-columns: minmax(0, 1fr) 4em 5.5em; gap: 6px; align-items: baseline; }
+      .boss-info b { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .boss-lv { color: var(--primary); }
+      .boss-hp { color: var(--muted); }
+      .boss-action { text-align: right; }
+      .boss-action button { box-sizing: border-box; width: 90px; text-align: center; }
+      .boss-cd-btn { color: var(--muted); }
+      .boss-hint { color: var(--muted); font-size: 12px; margin: -2px 0 6px; }
+      .win-summary { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+      .win-stat { flex: 1; min-width: 110px; background: var(--surface-muted); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; }
+      .win-stat span { display: block; color: var(--muted); font-size: 12px; }
+      .win-stat b { font-size: 16px; font-variant-numeric: tabular-nums; }
+      .win-gold b { color: var(--mir2-gold-text); }
+      .win-section-title { font-size: 12px; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 8px; margin: 10px 0 5px; }
+      .win-drops { display: flex; flex-direction: column; gap: 4px; }
+      .drop-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 3px 9px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface-muted); font-weight: 600; }
+      .drop-row b { color: inherit; opacity: .75; font-weight: 600; white-space: nowrap; }
+      .drop-empty { color: var(--muted); font-size: 12px; }
+      .skill-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-top: 1px dashed var(--border); }
+      .skill-row:first-child { border-top: none; }
+      .lv-pill { font-size: 12px; font-weight: 700; color: var(--primary); background: var(--primary-soft); border-radius: 12px; padding: 0 10px; }
+      .lv-lock { font-size: 12px; color: var(--muted); }
+      .gate-now { font-size: 13px; color: var(--muted); margin-top: 8px; }
+      .gate-now b { color: var(--text); }
+      .help-list { list-style: none; padding: 0; margin: 0; counter-reset: help; }
+      .help-list li { counter-increment: help; position: relative; padding: 6px 0 6px 30px; border-top: 1px dashed var(--border); line-height: 1.6; }
+      .help-list li:first-child { border-top: none; }
+      .help-list li::before { content: counter(help); position: absolute; left: 0; top: 7px; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); font-size: 11px; font-weight: 700; text-align: center; line-height: 20px; }
+      body.tool-page .site-footer { flex: none; margin-top: 0; padding: 6px 20px; }
+      body.tool-page .site-footer p { margin: 0; }
+      @media (max-width: 900px) {
+        body.tool-page { height: auto; }
+        .mir2-wrap { height: auto; }
+        .mir2-main { grid-template-columns: 1fr; }
+        .mir2-chars { grid-template-columns: 1fr; }
+        .mir2-log { height: 160px; flex: none; }
+        .mir2-bag-list { max-height: 320px; }
+        .mir2-title-row { flex-wrap: wrap; column-gap: 10px; row-gap: 2px; }
+        .mir2-title-row h1 { font-size: 18px; }
+        .mir2-title-row .sub { flex-basis: 100%; }
+        [data-tip] { text-decoration: underline dotted; text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
+        .mir2-controls { gap: 5px; }
+        .mir2-controls .ctl-right { display: contents; }
+        .mir2-controls button.btn { padding: 4px 7px; font-size: 12px; }
+        .mir2-controls #btn-export { margin-left: auto; }
+        .mir2-controls label { order: 10; flex: 1 1 100%; margin-top: 2px; }
+        .mir2-controls input[type="range"] { flex: 1; min-width: 0; }
+        #save-tip { order: 20; flex-basis: 100%; }
+        .boss-info { grid-template-columns: minmax(0, 1fr) 3.4em 4.8em; gap: 5px; }
+        .boss-action button { width: 78px; padding-left: 6px; padding-right: 6px; font-size: 12px; }
+      }
+    </style>
+  </head>
+  <body class="tool-page">
+    <header class="site-header">
+      <a class="site-brand" href="/"><img class="site-home-icon" src="/favicon.svg" alt="" /><span>贾师傅的小站</span></a>
+      <div class="site-actions"><button class="theme-toggle" data-theme-toggle onclick="toggleTheme()" title="切换主题">🌓</button></div>
+    </header>
+    <div class="mir2-wrap">
+      <div class="mir2-title-row">
+        <h1>传奇挂机小游戏</h1>
+        <button class="linklike" id="btn-help">玩法说明</button>
+        <span class="sub">战法道三人小队全自动打怪升级，也可组队挑战首领</span>
+      </div>
+      <div class="mir2-controls">
+        <button class="btn" id="btn-boss">⚔ 挑战首领</button>
+        <span class="ctl-right">
+          <label>速度 <input id="speed" type="range" min="1" max="100" value="1" /> <b id="speed-val">1</b>倍</label>
+          <button class="btn" id="btn-export">导出存档</button>
+          <button class="btn" id="btn-import">导入存档</button>
+          <button class="btn" id="btn-run">⏸ 暂停</button>
+          <button class="btn" id="btn-reset">重置</button>
+        </span>
+        <span id="save-tip"></span>
+      </div>
+      <div class="mir2-main">
+        <div class="mir2-chars" id="chars"></div>
+        <div class="mir2-bag">
+          <h3>🎒 背包（共享）</h3>
+          <div class="mir2-gold">🪙 金币：<span id="gold">0</span></div>
+          <input class="bag-search" id="bag-search" placeholder="搜索物品…" />
+          <div class="bag-filter" id="bag-filter">
+            <button data-q="all" class="active">全部</button>
+            <button data-q="4" class="q4">橙</button>
+            <button data-q="3" class="q3">紫</button>
+            <button data-q="2" class="q2">蓝</button>
+            <button data-q="1" class="q1">绿</button>
+            <button data-q="0" class="q0">白</button>
+          </div>
+          <div class="mir2-bag-list" id="bag"></div>
+        </div>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <p>Copyright © <span data-year></span> www.justful.cn版权所有 ｜ <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">京ICP备18007833号-1</a></p>
+    </footer>
+    <div class="mir2-modal" id="modal">
+      <div class="mir2-modal-box">
+        <button class="modal-x" id="modal-close" aria-label="关闭">×</button>
+        <h3 id="modal-title"></h3>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+    <div id="tooltip"></div>
+    <script type="module" src="js/app.js?v=20"></script>
+  </body>
+</html>
