@@ -1,5 +1,5 @@
 // 传奇挂机小游戏：DOM 胶水层（渲染、存档、主循环）
-import * as G from './game.js?v=22'
+import * as G from './game.js?v=23'
 
 const $ = (s) => document.querySelector(s)
 
@@ -159,7 +159,7 @@ document.addEventListener('scroll', hideTip, true)
 
 function save(silent) {
   try {
-    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, speedMax: G.S.speedMax, boost: G.S.boost, bossCd: G.S.bossCd, dropInfo: G.S.dropInfo, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
+    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, speedMax: G.S.speedMax, boost: G.S.boost, bossCd: G.S.bossCd, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
     if (!silent) $('#save-tip').textContent = '已保存 ' + new Date().toLocaleTimeString()
   } catch (e) { /* ponytail: 无痕模式存档失败就跳过，游戏照常跑 */ }
 }
@@ -173,7 +173,6 @@ function load() {
     G.S.speedMax = G.SPEED_TIERS.includes(d.speedMax) ? d.speedMax : 1
     G.S.speed = Math.min(d.speed || 1, G.S.speedMax)
     G.S.boost = G.BOOST_TIERS.includes(d.boost) ? d.boost : 1
-    G.S.dropInfo = d.dropInfo || {}
     G.S.bossCd = {}
     for (const [k, v] of Object.entries(d.bossCd || {})) {
       G.S.bossCd[k] = v > 1e12 ? Math.max(0, v + G.BOSS_COOLDOWN_MS - Date.now()) : v // 老存档存的是时间戳
@@ -535,7 +534,7 @@ const fmtDropTime = (at) => {
   const p = (n) => String(n).padStart(2, '0')
   return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + p(d.getHours()) + ':' + p(d.getMinutes())
 }
-// 橙色掉落列表：每装备一行，按掉落时间新到旧
+// 橙色掉落列表：每次掉落一行，本次登录新到旧（dropInfo 本身即新在前）
 function openDropModal() {
   const elites = new Set(G.DB.elites.map((m) => m.Name))
   const bosses = new Set(G.DB.bosses.map((m) => m.Name))
@@ -543,11 +542,11 @@ function openDropModal() {
     const cls = elites.has(name) ? 'elite-name' : bosses.has(name) ? 'boss-name' : ''
     return cls ? '<b class="' + cls + '">' + name + '</b>' : name
   }
-  const rows = Object.entries(G.S.dropInfo).sort((a, b) => b[1].at - a[1].at).map(([name, d]) =>
-    '<tr><td class="q4"' + tipAttrs(name) + '>' + name + '</td><td>' + d.by + '</td><td>' + mobShown(d.from) + '</td><td>' + fmtDropTime(d.at) + '</td></tr>').join('')
-  openModal('橙色掉落', rows
+  const rows = G.S.dropInfo.map((d) =>
+    '<tr><td class="q4"' + tipAttrs(d.name) + '>' + d.name + '</td><td>' + d.by + '</td><td>' + mobShown(d.from) + '</td><td>' + fmtDropTime(d.at) + '</td></tr>').join('')
+  openModal('掉落查询', '<div class="boss-hint">仅支持本次登录橙色装备掉落查询</div>' + (rows
     ? '<div class="drop-list"><table class="sell-table"><tr><th>装备</th><th>击杀</th><th>掉落怪物</th><th>时间</th></tr>' + rows + '</table></div>'
-    : '<div class="bag-empty">还没有橙色掉落记录。</div>')
+    : '<div class="bag-empty">还没有橙色掉落记录。</div>'))
 }
 $('#btn-drops').onclick = openDropModal
 $('#bag-search').addEventListener('input', (e) => {

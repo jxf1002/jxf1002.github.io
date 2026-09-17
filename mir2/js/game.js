@@ -60,7 +60,7 @@ export function setDB({ levels, items, magics, monsters, elites, bosses }) {
   }).sort((a, b) => a.HP - b.HP)
 }
 
-export const S = { gold: 0, bag: {}, speed: 1, speedMax: 1, boost: 1, running: true, chars: [], challenge: null, bossCd: {}, dropInfo: {} }
+export const S = { gold: 0, bag: {}, speed: 1, speedMax: 1, boost: 1, running: true, chars: [], challenge: null, bossCd: {}, dropInfo: [] }
 
 export function newWorld() {
   S.gold = 0
@@ -72,7 +72,7 @@ export function newWorld() {
   S.chars = JOBS.map(newChar)
   S.challenge = null
   S.bossCd = {}
-  S.dropInfo = {}
+  S.dropInfo = []
   return S
 }
 
@@ -330,11 +330,11 @@ export function addBag(name, n) {
   S.bag[name] = (S.bag[name] || 0) + (n || 1)
 }
 
-// 橙装掉落溯源（悬停提示用）：只记橙色，存最后一次掉落
+// 橙装掉落记录（掉落查询用）：只记橙色，每次掉落一行，新记录插前面；仅内存，刷新即失
 export function markDrop(name, by, from) {
   const it = DB.itemByName[name]
   if (!it || itemQuality(it) !== 4) return
-  S.dropInfo[name] = { by, from, at: Date.now() }
+  S.dropInfo.unshift({ name, by, from, at: Date.now() })
 }
 
 // 一键出售预览：只卖闲置（背包数 - 全队穿戴占用），quality 为 null 全品质，可传数组多选

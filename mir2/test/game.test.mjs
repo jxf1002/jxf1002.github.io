@@ -555,29 +555,33 @@ describe('一键出售', () => {
   })
 })
 
-describe('橙装掉落溯源', () => {
+describe('橙装掉落记录', () => {
   it('只记橙色：裁决记、白板不记', () => {
+    assert.deepEqual(G.S.dropInfo, [])
     G.markDrop('裁决之杖', '战士', '祖玛教主')
-    assert.ok(G.S.dropInfo['裁决之杖'])
-    assert.equal(G.S.dropInfo['裁决之杖'].by, '战士')
-    assert.equal(G.S.dropInfo['裁决之杖'].from, '祖玛教主')
+    assert.equal(G.S.dropInfo.length, 1)
+    assert.equal(G.S.dropInfo[0].name, '裁决之杖')
+    assert.equal(G.S.dropInfo[0].by, '战士')
+    assert.equal(G.S.dropInfo[0].from, '祖玛教主')
+    assert.equal(typeof G.S.dropInfo[0].at, 'number')
     G.markDrop('乌木剑', '战士', '鸡')
-    assert.equal(G.S.dropInfo['乌木剑'], undefined)
+    assert.equal(G.S.dropInfo.length, 1)
   })
   it('悬停提示不带溯源（溯源只在掉落列表看）', () => {
     G.markDrop('裁决之杖', '战士', '祖玛教主')
     assert.ok(!G.itemTip('裁决之杖').includes('掉落怪物'))
   })
-  it('rollDrops 自动记录（同名覆盖为最后一次）', () => {
+  it('rollDrops 自动记录，同装备每次掉落都保留（新在前）', () => {
     mockRandom(0)
     const c = warrior(45)
     G.setDrops('怪', ['10/10 裁决之杖'])
     G.rollDrops(c, { Name: '怪' })
-    assert.equal(G.S.dropInfo['裁决之杖'].by, c.name)
-    assert.equal(G.S.dropInfo['裁决之杖'].from, '怪')
     G.setDrops('怪2', ['10/10 裁决之杖'])
     G.rollDrops(c, { Name: '怪2' })
-    assert.equal(G.S.dropInfo['裁决之杖'].from, '怪2')
+    assert.equal(G.S.dropInfo.length, 2)
+    assert.equal(G.S.dropInfo[0].from, '怪2')
+    assert.equal(G.S.dropInfo[1].from, '怪')
+    assert.equal(G.S.dropInfo[0].by, c.name)
   })
 })
 
