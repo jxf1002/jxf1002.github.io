@@ -28,10 +28,10 @@ describe('setDB / newWorld', () => {
     const names = G.DB.monsters.map((m) => m.Name)
     assert.equal(names.length, new Set(names).size)
     assert.ok(G.DB.monsters.every((m, i, a) => i === 0 || a[i - 1].HP <= m.HP))
-    assert.equal(G.DB.monsters.length, 140)
-    for (const n of ['鸡1', '祖玛卫士00', '祖玛教主', '白野猪']) assert.ok(!names.includes(n))
+    assert.equal(G.DB.monsters.length, 136)
+    for (const n of ['鸡1', '祖玛卫士00', '祖玛教主', '白野猪', '祖玛卫士3']) assert.ok(!names.includes(n))
     assert.ok(names.includes('鸡'))
-    assert.equal(G.DB.elites.length, 16)
+    assert.equal(G.DB.elites.length, 20)
     assert.equal(G.DB.bosses.length, 17)
   })
   it('itemByName 取首个同名', () => {
@@ -449,14 +449,15 @@ describe('首领挑战', () => {
     assert.deepEqual(G.startChallenge('祖玛教主'), { ok: false, reason: 'level' })
     assert.equal(G.canChallenge(), false)
   })
-  it('从 35 级起每级解锁 2 只，等级不够锁定', () => {
-    assert.equal(G.bossUnlockLevel(0), 35)
-    assert.equal(G.bossUnlockLevel(1), 35)
-    assert.equal(G.bossUnlockLevel(2), 36)
-    assert.equal(G.bossUnlockLevel(4), 37)
+  it('前 5 只紫装 35 级全开，橙装 36 级起每级 2 只', () => {
+    for (let i = 0; i < 5; i++) assert.equal(G.bossUnlockLevel(i), 35)
+    assert.equal(G.bossUnlockLevel(5), 36)
+    assert.equal(G.bossUnlockLevel(6), 36)
+    assert.equal(G.bossUnlockLevel(7), 37)
+    assert.equal(G.bossUnlockLevel(16), 41)
     for (const c of G.S.chars) c.level = 35
     assert.equal(G.minCharLevel(), 35)
-    assert.deepEqual(G.startChallenge(G.DB.bosses[2].Name), { ok: false, reason: 'locked', level: 36 })
+    assert.deepEqual(G.startChallenge(G.DB.bosses[5].Name), { ok: false, reason: 'locked', level: 36 })
   })
   it('不存在的首领', () => {
     lv40()
@@ -592,6 +593,25 @@ describe('首领掉率加成', () => {
     G.setDrops('测试怪', ['10/100 乌木剑'])
     assert.deepEqual(G.rollDropLines('测试怪').items, [])
     assert.deepEqual(G.rollDropLines('测试怪', 20).items, ['乌木剑'])
+  })
+  it('加成档按等级开放：35 级 ×2，40 级 ×50', () => {
+    assert.equal(G.boostUnlockLevel(1), 34)
+    assert.equal(G.boostUnlockLevel(2), 35)
+    assert.equal(G.boostUnlockLevel(3), 36)
+    assert.equal(G.boostUnlockLevel(5), 37)
+    assert.equal(G.boostUnlockLevel(10), 38)
+    assert.equal(G.boostUnlockLevel(20), 39)
+    assert.equal(G.boostUnlockLevel(50), 40)
+    assert.equal(G.BOOST_COST[50], 1000000)
+  })
+  it('等级不够用不了高加成（金币再多也拒绝且不扣钱）', () => {
+    for (const c of G.S.chars) c.level = 35
+    G.S.boost = 50
+    G.S.gold = 99999999
+    assert.deepEqual(G.startChallenge(G.DB.bosses[0].Name), { ok: false, reason: 'locked', boost: 50, level: 40 })
+    assert.equal(G.S.gold, 99999999)
+    for (const c of G.S.chars) c.level = 40
+    assert.ok(G.startChallenge(G.DB.bosses[0].Name).ok)
   })
   it('挑战时按所选档位扣金币并记录倍率', () => {
     for (const c of G.S.chars) c.level = 40

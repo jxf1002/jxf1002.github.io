@@ -259,8 +259,10 @@ function bindFights() {
 // 掉率加成选择条：选中档位金币不足时提示，不自动降档
 function boostBarHtml() {
   const chips = G.BOOST_TIERS.map((b) => {
-    const onsale = b === 1 ? '' : '<i>' + fmtGold(G.BOOST_COST[b]) + '</i>'
-    return '<button data-boost="' + b + '">' + (b === 1 ? '无加成' : '×' + b) + onsale + '</button>'
+    const need = G.boostUnlockLevel(b)
+    const locked = G.minCharLevel() < need
+    const onsale = b === 1 ? '' : '<i>' + (locked ? 'Lv.' + need : fmtGold(G.BOOST_COST[b])) + '</i>'
+    return '<button data-boost="' + b + '"' + (locked ? ' disabled' : '') + '>' + (b === 1 ? '无加成' : '×' + b) + onsale + '</button>'
   }).join('')
   return '<div class="boost-bar"><span class="boost-label">掉率加成</span>' + chips + '<span class="boost-tip" id="boost-tip"></span></div>'
 }
@@ -299,6 +301,7 @@ function tryFight(name) {
   if (!r.ok) {
     if (r.reason === 'level') showGate()
     else if (r.reason === 'gold') tipBoost('金币不足，无法使用 ×' + r.boost + ' 加成（需 ' + fmtGold(r.cost) + '）')
+    else if (r.reason === 'locked' && r.boost) tipBoost('×' + r.boost + ' 加成需三人 ' + r.level + ' 级')
     else showBossList()
     return
   }

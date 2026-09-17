@@ -17,7 +17,7 @@ export const SAVE_KEY = 'mir2-save-v1'
 // 挂机遇到精英概率；水货/测试怪（数值错乱的数字后缀变体）直接移出普通池
 export const ELITE_RATE = 0.01
 export const JUNK = ['鸡1', '鹿1', '稻草人1', '白野猪1', '沃玛教主1', '邪恶钳虫1', '邪恶毒蛇1', '沃玛卫士1', '骷髅精灵1', '祖玛卫士00']
-// BOSS 挑战：三人 35 级可打，每只每小时一次
+// BOSS 挑战：三人 35 级可打紫装首领，橙装首领 36 级起解锁，每只每小时一次
 export const CHALLENGE_MIN_LEVEL = 35
 export const BOSS_COOLDOWN_MS = 3600000
 
@@ -26,8 +26,8 @@ export const SPEED_TIERS = [1, 2, 3, 5, 8, 12, 20, 35, 60, 100, 160, 250, 380, 5
 export const SPEED_COST = { 2: 100, 3: 500, 5: 2000, 8: 8000, 12: 25000, 20: 80000, 35: 250000, 60: 700000, 100: 1200000, 160: 2500000, 250: 5000000, 380: 9000000, 500: 16000000 }
 
 // 首领掉率加成：每次挑战前按所选档位扣金币，概率乘倍率（封顶 100%）
-export const BOOST_TIERS = [1, 2, 3, 5, 10, 20]
-export const BOOST_COST = { 1: 0, 2: 5000, 3: 15000, 5: 40000, 10: 100000, 20: 250000 }
+export const BOOST_TIERS = [1, 2, 3, 5, 10, 20, 50]
+export const BOOST_COST = { 1: 0, 2: 5000, 3: 15000, 5: 40000, 10: 100000, 20: 250000, 50: 1000000 }
 
 export const DB = { levels: [], items: [], itemByName: {}, magics: [], monsters: [], elites: [], bosses: [] }
 export const dropCache = {}
@@ -40,7 +40,7 @@ export function setDB({ levels, items, magics, monsters, elites, bosses }) {
   for (const it of DB.items) { if (!DB.itemByName[it.Name]) DB.itemByName[it.Name] = it }
   DB.magics = magics || []
   DB.elites = (elites || []).slice().sort((a, b) => a.HP - b.HP)
-  DB.bosses = (bosses || []).slice().sort((a, b) => a.Lvl - b.Lvl || a.HP - b.HP)
+  DB.bosses = (bosses || []).slice() // 首领保持文件顺序：前 5 只紫装在前，后 12 只橙装按等级、血量升序
   const ban = new Set([...JUNK, ...DB.elites.map((m) => m.Name), ...DB.bosses.map((m) => m.Name)])
   const seen = {}
   DB.monsters = (monsters || []).filter((m) => {
@@ -87,6 +87,11 @@ export function boostCheck(maxB, gold) {
   const b = maxB || 1
   if (b > 1 && gold < BOOST_COST[b]) return { ok: false, boost: b, cost: BOOST_COST[b] }
   return { ok: true, boost: b }
+}
+
+// 加成档按等级开放：×2 要 35 级，之后每级开一档，×50 要 40 级
+export function boostUnlockLevel(b) {
+  return 34 + BOOST_TIERS.indexOf(b)
 }
 
 export function newChar(j) {
@@ -242,7 +247,7 @@ export function log(c, msg) {
 export function pickMonster(c) {
   const sk = bestSkill(c)
   const dmgMax = Math.max(5, sk.max)
-  const pool = DB.monsters.filter((m) => m.Lvl <= c.level + 3)
+  const pool = DB.monsters.filter((m) => m.Lvl <= Math.max(c.level + 5, c.level * 1.25))
   const base = pool.length ? pool : [DB.monsters[0]]
   const afford = base.filter((m) => m.HP <= dmgMax * 25)
   const list = (afford.length ? afford : base).slice().sort((a, b) => b.HP - a.HP)
@@ -479,9 +484,10 @@ export function minCharLevel() {
   return S.chars.length ? Math.min(...S.chars.map((c) => c.level)) : 0
 }
 
-// 从 35 级起，每级解锁 2 只（按列表顺序，列表已按等级、血量升序排好）
+// 前 5 只（只掉紫）35 级一起开放；后 12 只（掉橙）36 级起每级 2 只
 export function bossUnlockLevel(idx) {
-  return CHALLENGE_MIN_LEVEL + Math.floor(idx / 2)
+  if (idx < 5) return CHALLENGE_MIN_LEVEL
+  return CHALLENGE_MIN_LEVEL + 1 + Math.floor((idx - 5) / 2)
 }
 
 // 冷却用游戏内毫秒计时（受倍速影响），存的是剩余时间
@@ -510,6 +516,8 @@ export function startChallenge(name) {
   if (bossCooldownLeft(name) > 0) return { ok: false, reason: 'cooldown' }
   const bc = boostCheck(S.boost, S.gold) // 所选加成金币不够就提示，不降档
   if (!bc.ok) return { ok: false, reason: 'gold', boost: bc.boost, cost: bc.cost }
+  const bUnlock = boostUnlockLevel(S.boost) // 加成档也要看等级
+  if (minCharLevel() < bUnlock) return { ok: false, reason: 'locked', boost: S.boost, level: bUnlock }
   const b = DB.bosses[idx]
   const boost = bc.boost
   if (boost > 1) S.gold -= BOOST_COST[boost]
