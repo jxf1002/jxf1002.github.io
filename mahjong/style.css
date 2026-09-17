@@ -157,13 +157,18 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .tile.sideways { transform: rotate(90deg); margin: 0 8px; }
 
 /* 和牌条件提示卡片 */
-.hints { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; margin-top: 8px; min-height: 26px; }
+.hints { display: flex; flex-direction: column; gap: 4px; justify-content: center; align-items: center; margin-top: 8px; min-height: 26px; }
+.hint-line { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
 .hint-title { font-size: 12px; font-weight: 700; color: var(--gold); }
 .hint { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid; }
 .hint.ok { color: #8fd3b0; border-color: rgba(143,211,176,.5); background: rgba(143,211,176,.08); }
 .hint.no { color: #ff9a9a; border-color: rgba(255,154,154,.5); background: rgba(255,154,154,.08); }
 .hint.neutral { color: var(--muted); border-color: var(--panel-border); background: rgba(255,255,255,.04); }
 .hint-tip { font-size: 11px; color: #ffd479; }
+.hint-dist { font-size: 12px; font-weight: 700; color: var(--gold); }
+.hint-useful { font-size: 11px; color: #ffd479; display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.hint-useful .hu-label { color: var(--muted); font-weight: 700; }
+.hint-useful .hu-tiles { color: #ffd479; font-weight: 700; }
 
 /* 各座位牌尺寸 — 统一：副露在左，手牌在右 */
 /* 通用 seat-body */
@@ -602,6 +607,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
   .ab.hu { width: 82px; height: 82px; font-size: 24px; letter-spacing: 2px; }
   .ab.pass { width: 46px; height: 46px; font-size: 14px; }
   .hints { gap: 3px; margin-top: 4px; min-height: 18px; }
+  .hint-dist { font-size: 10px; }
+  .hint-useful { font-size: 9px; }
   .hint-title { font-size: 10px; }
   .hint { font-size: 9px; padding: 1px 6px; }
   .hint-tip { font-size: 9px; }
@@ -783,3 +790,21 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .win-banner .tile { width: 22px; height: 29px; border-radius: 4px; }
   .win-banner .wb-sep { height: 29px; margin: 0 3px; }
 }
+
+/* ===== 杠牌显示：三张并排，第四张转置 90 度置于其上 ===== */
+.meld.kong-meld, .wb-meld.kong-meld { flex-direction: column; align-items: center; gap: 2px; }
+.kong-top { display: flex; justify-content: center; }
+.kong-row { display: flex; gap: 1px; }
+.meld.kong-meld .tile.raised, .wb-meld.kong-meld .tile.raised { transform: rotate(90deg); margin: 6px 0; }
+/* 左右家整副牌已旋转 90 度，抬高张再相对转 90 度 */
+.seat-left .meld.kong-meld .tile.raised { transform: rotate(180deg); }
+.seat-right .meld.kong-meld .tile.raised { transform: rotate(0deg); }
+/* 左右家副露的负边距会打乱杠的叠放，重置 */
+.seat-left .pm .meld.kong-meld .tile, .seat-right .pm .meld.kong-meld .tile { margin-bottom: 0; }
+
+/* ===== 麻将页 header 不常驻（移动端，覆盖站点的 sticky，仅本页） ===== */
+@media (max-width: 900px) {
+  body.tool-page .site-header { position: static; }
+}
+
+

@@ -100,6 +100,22 @@ function renderHands() {
       let group = document.createElement('div');
       group.className = 'meld';
       let tiles = meldTiles(m);
+      if (m.type === 'kong' && tiles.length === 4) {
+        // 杠：三张并排，第四张转置 90 度置于其上
+        group.classList.add('kong-meld');
+        let top = document.createElement('div');
+        top.className = 'kong-top';
+        let raised = tileEl(tiles[3]);
+        raised.classList.add('raised');
+        top.appendChild(raised);
+        let row = document.createElement('div');
+        row.className = 'kong-row';
+        tiles.slice(0, 3).forEach(t => row.appendChild(tileEl(t)));
+        group.appendChild(top);
+        group.appendChild(row);
+        meldEl.appendChild(group);
+        return;
+      }
       let sidewaysIdx = (m.type === 'chi' || m.type === 'peng') && m.claimedId ? 1 : -1;
       tiles.forEach((t, idx) => {
         let el = tileEl(t);
@@ -114,13 +130,14 @@ function renderHands() {
     let canDiscard = !G.over && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
     let tingSet = null;
     if (i === HUMAN && (G.tingIntent || G.forceTing)) {
+      // 点了听牌（或上听吃）后只能打出听牌张，其余牌不可点
       tingSet = new Set(Game.tingDiscards(HUMAN).map(t => Tile.tid(t)));
     }
 
     if (i === HUMAN || G.over) {
       p.hand.forEach((t, idx) => {
         let isClickable = canDiscard;
-        if (G.forceTing && tingSet) {
+        if (tingSet) {
           isClickable = canDiscard && tingSet.has(Tile.tid(t));
         }
         handEl.appendChild(tileEl(t, {
@@ -190,22 +207,57 @@ function renderHints() {
   if (!el) return;
   if (G.over || !G.players.length) { el.innerHTML = ''; return; }
   let h = Game.handHints(HUMAN);
-  let shText;
-  if (G.ting.has(HUMAN)) shText = '已听牌';
-  else if (Game.tingDiscards(HUMAN).length > 0) shText = '打一张即可听牌';
-  else if (Game.tingTiles(HUMAN).length > 0) shText = '已听牌（未宣告）';
-  else shText = `还差 ${Math.max(h.shanten, 1)} 张听牌`;
+  let shText = '', tip = '';
+  if (G.ting.has(HUMAN)) {
+    shText = '已听牌';
+  } else if (h.plans.length) {
+    // 抓牌上听：多张可打时逐张列出“打哪张→听哪张”
+    shText = '打一张即可听牌（抓牌上听）';
+    tip = h.plans.map(p => {
+      let ws = [...new Set(p.wins.map(Tile.label))].join(' ');
+      return `打${Tile.label(p.discard)}→听${ws}`;
+    }).join('，');
+  } else if (h.wins.length) {
+    shText = '已听牌（未宣告）';
+  }
+  // 吃/碰别家上听：对方出牌时的可响应选项
+  if (!G.ting.has(HUMAN) && G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD) {
+    let tas = Game.claimActions(HUMAN).filter(a => a.ting);
+    if (tas.length) {
+      let s = '可吃/碰上听：' + tas.map(a => a.l).join(' / ');
+      tip = tip ? tip + '；' + s : s;
+    }
+  }
   let tags = [
     { label: h.yao ? '有幺九' : '断幺九', cls: h.yao ? 'ok' : 'no' },
     { label: h.tri ? '有刻子' : '无碰牌', cls: h.tri ? 'ok' : 'no' },
     { label: h.seq ? '有顺子' : '无顺子', cls: h.seq ? 'ok' : 'no' },
     { label: h.pair ? '有对子' : '缺对子', cls: h.pair ? 'ok' : 'no' },
+    { label: h.color ? '花色齐' : '缺花色', cls: h.color ? 'ok' : 'no' },
     { label: h.closed ? '门前清' : '已开门', cls: h.closed ? 'no' : 'ok' }
   ];
-  let html = `<span class="hint-title">${shText}</span>`;
+  let html = '<div class="hint-line">';
+  if (shText) html += `<span class="hint-title">${shText}</span>`;
   tags.forEach(t => { html += `<span class="hint ${t.cls}">${t.label}</span>`; });
-  if (G.forceTing) html += `<span class="hint-tip">上听吃：点击高亮的牌打出即可听牌</span>`;
+  if (tip) html += `<span class="hint-tip">${tip}</span>`;
+  else if (G.forceTing) html += `<span class="hint-tip">上听吃：点击高亮的牌打出即可听牌</span>`;
   else if (G.tingIntent) html += `<span class="hint-tip">点击高亮的牌打出即可听牌</span>`;
+  html += '</div>';
+
+  // 第二行：前半段上听距离，后半段有用上牌（吃碰摸 / 摸，重复只归吃碰摸）
+  let dist = Game.localTingDistance(HUMAN);
+  let distText = G.ting.has(HUMAN) ? '已听牌'
+    : dist <= 0 ? '打一张即可听牌'
+      : `还差 ${dist} 张牌上听`;
+  html += `<div class="hint-line"><span class="hint-dist">${distText}</span>`;
+  let w = Game.tingWatch(HUMAN);
+  if (w && (w.claim.length || w.draws.length)) {
+    html += '<span class="hint-useful"><span class="hu-label">有用上牌</span>';
+    if (w.claim.length) html += `<span class="hu-label">吃碰摸</span><span class="hu-tiles">${w.claim.map(Tile.label).join(' ')}</span>`;
+    if (w.draws.length) html += `<span class="hu-label">摸</span><span class="hu-tiles">${w.draws.map(Tile.label).join(' ')}</span>`;
+    html += '</span>';
+  }
+  html += '</div>';
   el.innerHTML = html;
 }
 
@@ -350,7 +402,21 @@ export function showWinBanner(data) {
   (data.melds || []).forEach(m => {
     let g = document.createElement('div');
     g.className = 'wb-meld';
-    m.ts.forEach(t => g.appendChild(tileEl(t)));
+    if (m.type === 'kong' && m.ts.length === 4) {
+      g.classList.add('kong-meld');
+      let top = document.createElement('div');
+      top.className = 'kong-top';
+      let raised = tileEl(m.ts[3]);
+      raised.classList.add('raised');
+      top.appendChild(raised);
+      let r = document.createElement('div');
+      r.className = 'kong-row';
+      m.ts.slice(0, 3).forEach(t => r.appendChild(tileEl(t)));
+      g.appendChild(top);
+      g.appendChild(r);
+    } else {
+      m.ts.forEach(t => g.appendChild(tileEl(t)));
+    }
     row.appendChild(g);
   });
   if ((data.melds || []).length) {

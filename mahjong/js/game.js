@@ -298,11 +298,10 @@ function humanAutoDiscard() {
 
 export function handleDiscard(idx) {
   if (!G.playing || G.over || G.lock || G.selfHu || G.phase !== 'discard' || G.curP !== HUMAN) return;
-  if (G.forceTing) {
+  // 点了听牌（或上听吃）后只能打出听牌张，防止错误操作
+  if (G.forceTing || G.tingIntent) {
     let p = G.players[HUMAN];
-    let tile = p.hand[idx];
-    let valid = handTingDiscards(p.hand, p.melds);
-    if (!valid.some(t => Tile.tid(t) === Tile.tid(tile))) return;
+    if (!isTingDiscard(p.hand, p.melds, p.hand[idx])) return;
   }
   doDiscard(HUMAN, idx);
 }
@@ -312,6 +311,8 @@ function doDiscard(pI, idx) {
   let p = G.players[pI];
   let t = p.hand[idx];
   if (!t) return;
+  // 本地规则：打出后不断幺九（手牌加副露须保留幺九）才能上听，人类与 AI 一致
+  let tingOk = isTingDiscard(p.hand, p.melds, t);
 
   p.hand.splice(idx, 1);
   sortHand(p);
@@ -323,9 +324,9 @@ function doDiscard(pI, idx) {
   ensureBaopi();
 
   if (pI === HUMAN) {
-    // 人类：点了「听牌」或上听吃强制听牌，且打出后确实听牌，才生效
-    if ((G.tingIntent || G.forceTing) && Tile.isTing(p.hand, p.melds)) addTing(pI);
-  } else if (G.forceTing || Tile.isTing(p.hand, p.melds)) {
+    // 人类：点了「听牌」或上听吃强制听牌，且打出的确实是合法听牌张，才生效
+    if ((G.tingIntent || G.forceTing) && tingOk) addTing(pI);
+  } else if (tingOk) {
     addTing(pI);
   }
   G.tingIntent = false; G.forceTing = false;
@@ -368,13 +369,15 @@ export function claimActions(pI) {
   let p = G.players[pI];
   let acts = [];
   if (G.ting.has(pI) && Tile.canWin([...p.hand, t], p.melds)) acts.push({ a: 'hu', l: '胡' });
-  // 听牌后不能再吃碰杠
-  if (p.melds.length < 4 && !G.ting.has(pI)) {
+  // 听牌后不能再吃碰杠；已有 3 副露时再鸣牌即成手把一（无法听牌），禁止吃碰杠
+  if (p.melds.length < 3 && !G.ting.has(pI)) {
     let isUpper = G.lastDB === (pI + PLAYER_COUNT - 1) % PLAYER_COUNT;
     chiOpts(pI, t).sort((a, b) => a[0] - b[0]).forEach(opt => {
+      let leads = chiLeadsToTing(pI, t, opt);
       if (isUpper) {
-        acts.push({ a: 'chi', l: '吃 ' + opt.join('-') + t.suit, d: opt });
-      } else if (chiLeadsToTing(pI, t, opt)) {
+        // 吃上家为正常吃牌，是否听牌由玩家决定；但吃完能听时按「上听」优先于碰杠
+        acts.push({ a: 'chi', l: '吃 ' + opt.join('-') + t.suit + (leads ? '·听' : ''), d: opt, ting: leads });
+      } else if (leads) {
         // 上听吃：非上家也能吃，吃完强制听牌
         acts.push({ a: 'chi', l: '吃 ' + opt.join('-') + t.suit + '·听', d: opt, ting: true });
       }
@@ -415,28 +418,159 @@ function pengLeadsToTing(pI, t) {
   return handTingDiscards(newHand, newMelds).length > 0;
 }
 
-// 给定手牌与副露，返回能听牌的弃张
+// 给定手牌与副露，返回能听牌的弃张（打出后不断幺九即可，幺九可在副露里）
 function handTingDiscards(hand, melds) {
   let need = 4 - melds.length;
   if (need < 0 || hand.length !== need * 3 + 2) return [];
   if (melds.length < 1 || melds.length >= 4) return [];
-  let yaoCount = hand.filter(Tile.isYao).length;
   let res = [], seen = new Set();
   for (let i = 0; i < hand.length; i++) {
     let t = hand[i];
     if (seen.has(Tile.tid(t))) continue;
     seen.add(Tile.tid(t));
-    if (Tile.isYao(t) && yaoCount === 1) continue; // 禁止打出唯一幺九听牌
     let rest = hand.filter((_, j) => j !== i);
     if (Tile.isTing(rest, melds)) res.push(t);
   }
   return res;
 }
 
+// 这张牌打出后能否进入听牌（含本地限制：打出后须不断幺九、须有副露等）
+export function isTingDiscard(hand, melds, tile) {
+  if (!tile) return false;
+  return handTingDiscards(hand, melds).some(t => Tile.tid(t) === Tile.tid(tile));
+}
+
 // 打哪张牌可以听牌（出牌前可选）
 export function tingDiscards(pI) {
   let p = G.players[pI];
   return handTingDiscards(p.hand, p.melds);
+}
+
+// 抓牌上听方案：14 张时打出哪张可听牌、听哪些牌（回答“差的是哪张”）
+export function tingPlans(pI) {
+  let p = G.players[pI];
+  let plans = [];
+  for (let d of handTingDiscards(p.hand, p.melds)) {
+    let i = p.hand.findIndex(x => Tile.tid(x) === Tile.tid(d));
+    let rest = p.hand.filter((_, j) => j !== i);
+    plans.push({ discard: d, wins: Tile.winTiles(rest, p.melds) });
+  }
+  return plans;
+}
+
+// 还差一张（抓牌）：13 张时摸到哪些牌可上听；见光无剩余的牌会排除
+export function drawsForTing(pI) {
+  return handDrawsForTing(G.players[pI].hand, G.players[pI].melds);
+}
+
+function handDrawsForTing(hand, melds) {
+  melds = melds || [];
+  let need = 4 - melds.length;
+  if (need < 0 || hand.length !== need * 3 + 1) return [];
+  if (melds.length < 1 || melds.length >= 4) return [];
+  if (Tile.isTing(hand, melds)) return [];
+  let counts = {};
+  hand.forEach(t => { counts[Tile.tid(t)] = (counts[Tile.tid(t)] || 0) + 1; });
+  let res = [];
+  let tryTile = (cand) => {
+    if ((counts[Tile.tid(cand)] || 0) + visibleCount(cand) >= 4) return;
+    if (handTingDiscards([...hand, cand], melds).length > 0) res.push(cand);
+  };
+  Tile.TT.forEach(type => {
+    for (let n = 1; n <= 9; n++) tryTile({ type, num: n, suit: Tile.SN[type], id: n + type });
+  });
+  tryTile({ type: 'zhong', num: 0, suit: '红中', id: '红中' });
+  return res;
+}
+
+// 距上听还有几张（本地规则近似）：0=已可听/打一张即听，1=差一张，n=更远
+// “差一张”由 drawsForTing/tingPlans 精确判定；此函数用于更远时给出张数
+export function localTingDistance(pI) {
+  let p = G.players[pI];
+  if (!p || G.ting.has(pI)) return 0;
+  let d = handTingDistance(p.hand, p.melds);
+  // 吃/碰别家的牌后能打一张听牌，同样只差一张
+  let need = 4 - p.melds.length;
+  if (d > 1 && p.hand.length === need * 3 + 1 && claimTingTiles(pI).length) d = 1;
+  return d;
+}
+
+function handTingDistance(hand, melds) {
+  melds = melds || [];
+  let need = 4 - melds.length;
+  if (need < 0) return 8;
+  if (hand.length === need * 3 + 2) {
+    if (handTingDiscards(hand, melds).length) return 0;
+    let best = 8, seen = new Set();
+    for (let i = 0; i < hand.length; i++) {
+      let t = hand[i];
+      if (seen.has(Tile.tid(t))) continue;
+      seen.add(Tile.tid(t));
+      best = Math.min(best, handTingDistance(hand.filter((_, j) => j !== i), melds));
+    }
+    return best;
+  }
+  if (hand.length !== need * 3 + 1) return 8;
+  if (Tile.isTing(hand, melds)) return 0;
+  if (handDrawsForTing(hand, melds).length) return 1;
+  // 更远：标准向听 + 本地约束补正（缺幺九/缺刻子/单花色各至少再加一手）
+  let all = [...hand];
+  melds.forEach(m => all.push(...m.ts));
+  let extra = 0;
+  if (!all.some(Tile.isYao)) extra = Math.max(extra, 1);
+  let hasTri = melds.some(m => m.type !== 'chi') || countMax(hand) >= 3;
+  if (!hasTri) extra = Math.max(extra, 1);
+  let suits = new Set();
+  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+  if (suits.size < 2) extra = Math.max(extra, 1);
+  return Math.max(Tile.shanten(hand, melds) + extra, 2);
+}
+
+// 吃/碰别家可上听的牌：碰（手中有 2 张）或吃（顺子缺一张）后能打一张听牌
+// 见光无剩余的牌会排除；杠不在此列
+export function claimTingTiles(pI) {
+  let p = G.players[pI];
+  if (!p || G.ting.has(pI) || p.melds.length >= 3) return [];
+  let counts = {};
+  p.hand.forEach(t => { counts[Tile.tid(t)] = (counts[Tile.tid(t)] || 0) + 1; });
+  let res = [];
+  let push = (cand, ok) => {
+    if (!ok) return;
+    if ((counts[Tile.tid(cand)] || 0) + visibleCount(cand) >= 4) return;
+    if (!res.some(t => Tile.tid(t) === Tile.tid(cand))) res.push(cand);
+  };
+  let hasNum = (type, n) => p.hand.some(x => x.type === type && x.num === n);
+  Tile.TT.forEach(type => {
+    for (let n = 1; n <= 9; n++) {
+      let cand = { type, num: n, suit: Tile.SN[type], id: n + type };
+      if ((counts[cand.id] || 0) >= 2) push(cand, pengLeadsToTing(pI, cand));
+      if (n >= 2 && n <= 8 && hasNum(type, n - 1) && hasNum(type, n + 1))
+        push(cand, chiLeadsToTing(pI, cand, [n - 1, n, n + 1]));
+      if (n >= 3 && hasNum(type, n - 2) && hasNum(type, n - 1))
+        push(cand, chiLeadsToTing(pI, cand, [n - 2, n - 1, n]));
+      if (n <= 7 && hasNum(type, n + 1) && hasNum(type, n + 2))
+        push(cand, chiLeadsToTing(pI, cand, [n, n + 1, n + 2]));
+    }
+  });
+  let zt = { type: 'zhong', num: 0, suit: '红中', id: '红中' };
+  if ((counts[zt.id] || 0) >= 2) push(zt, pengLeadsToTing(pI, zt));
+  res.sort((a, b) => {
+    let ta = a.type === 'zhong' ? 99 : Tile.TT.indexOf(a.type);
+    let tb = b.type === 'zhong' ? 99 : Tile.TT.indexOf(b.type);
+    return ta - tb || a.num - b.num;
+  });
+  return res;
+}
+
+// 右侧长显：还差一张上听（吃/碰 与 手抓，重复只归吃/碰；都不满足则 null）
+export function tingWatch(pI) {
+  let p = G.players[pI];
+  if (!p || G.ting.has(pI)) return null;
+  let claim = claimTingTiles(pI);
+  let inClaim = new Set(claim.map(Tile.tid));
+  let draws = drawsForTing(pI).filter(t => !inClaim.has(Tile.tid(t)));
+  if (!claim.length && !draws.length) return null;
+  return { claim, draws };
 }
 
 // 出牌前是否可以宣告听牌
@@ -446,9 +580,11 @@ export function canStartTing(pI) {
   return tingDiscards(pI).length > 0;
 }
 
-// 打完后（13 张）已经成听，可立即宣告
+// 打完后（13 张）已经成听，可立即宣告；仅限本人出牌或本人弃张结算中，防止非本人回合非法听牌
 export function canDeclareNow(pI) {
   if (G.over || G.ting.has(pI)) return false;
+  if (G.curP !== pI || G.lock) return false;
+  if (G.phase !== 'discard' && G.phase !== 'claim') return false;
   let p = G.players[pI];
   if (p.melds.length < 1 || p.melds.length >= 4) return false; // 门前清 / 手把一 不能听牌
   let need = 4 - p.melds.length;
@@ -493,27 +629,23 @@ function hasConsecutive(hand) {
   return false;
 }
 
-// 和牌条件提示
+// 和牌条件提示：全部按本地规则计算（标准向听数不计幺九/刻子/花色限制，会误报，不用）
 export function handHints(pI) {
   let p = G.players[pI];
   let all = [...p.hand];
   p.melds.forEach(m => all.push(...m.ts));
 
-  // 离听牌的距离：14 张时取「打出一张后」的最小向听
-  let need = 4 - p.melds.length;
-  let dist;
-  if (p.hand.length === need * 3 + 2) {
-    dist = 99;
-    let seen = new Set();
-    for (let i = 0; i < p.hand.length; i++) {
-      let t = p.hand[i];
-      if (seen.has(Tile.tid(t))) continue;
-      seen.add(Tile.tid(t));
-      let rest = p.hand.filter((_, j) => j !== i);
-      dist = Math.min(dist, Tile.shanten(rest, p.melds));
+  let suits = new Set();
+  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+
+  // 已听 / 14 张抓牌上听 / 13 张已听未宣告 / 13 张差一摸，互斥且按序取
+  let plans = [], wins = [], draws = [];
+  if (!G.ting.has(pI)) {
+    plans = tingPlans(pI);
+    if (!plans.length) {
+      wins = tingTiles(pI);
+      if (!wins.length) draws = drawsForTing(pI);
     }
-  } else {
-    dist = Tile.shanten(p.hand, p.melds);
   }
 
   return {
@@ -522,17 +654,20 @@ export function handHints(pI) {
     seq: p.melds.some(m => m.type === 'chi') || hasConsecutive(p.hand),
     pair: countMax(p.hand) >= 2,
     closed: p.melds.length === 0,
-    shanten: dist
+    color: suits.size >= 2,
+    plans, wins, draws
   };
 }
 
 export function selfActions(pI) {
   if (G.phase !== 'discard' || G.curP !== pI || G.over || G.ting.has(pI)) return [];
   let p = G.players[pI];
+  if (p.melds.length >= 4) return [];
   let acts = [];
   let counts = {};
   p.hand.forEach(t => { counts[Tile.tid(t)] = (counts[Tile.tid(t)] || 0) + 1; });
-  if (Object.values(counts).some(c => c >= 4)) acts.push({ a: 'selfKong', l: '暗杠' });
+  // 暗杠会新增一副露：已有 3 副露时禁止（防手把一）；补杠不增副露，允许
+  if (p.melds.length < 3 && Object.values(counts).some(c => c >= 4)) acts.push({ a: 'selfKong', l: '暗杠' });
   p.melds.forEach(m => {
     if (m.type === 'peng' && p.hand.some(t => Tile.tid(t) === Tile.tid(m.ts[0]))) {
       acts.push({ a: 'buKong', l: '补杠 ' + Tile.label(m.ts[0]), d: m.ts[0] });

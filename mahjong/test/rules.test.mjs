@@ -77,10 +77,15 @@ G.players[HUMAN].hand = [T('wan',9),T('wan',9)];
 ok('手把一（4副露）不能听牌', !Game.canDeclareNow(HUMAN) && Game.tingDiscards(HUMAN).length === 0);
 
 G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',8),T('tiao',8),T('tong',8),T('tong',8),T('tong',9)];
+ok('打出 9筒后断幺九，不可听牌；打 8筒听 7筒',
+  !Game.tingDiscards(HUMAN).some(t => t.id === '9tong') &&
+  Game.tingDiscards(HUMAN).some(t => t.id === '8tong'));
 G.players[HUMAN].melds = [{ type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] }];
-G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',8),T('tong',9)];
-const td = Game.tingDiscards(HUMAN).map(t => t.id);
-ok('唯一幺九（9筒）不可打出听牌', !td.includes('9tong') && td.length > 0);
+ok('副露有幺九时手牌幺九（9筒）可打出听牌',
+  Game.tingDiscards(HUMAN).some(t => t.id === '9tong') &&
+  Game.isTingDiscard(G.players[HUMAN].hand, G.players[HUMAN].melds, T('tong',9)));
 
 // ============ 上听吃 / 吃幺九 ============
 section('上听吃（吃三家）');
@@ -276,7 +281,7 @@ function upperChiGame(lastDB) {
 upperChiGame(3);
 let uActs = Game.claimActions(HUMAN);
 let uChi = uActs.find(a => a.a === 'chi');
-ok('吃上家提供普通吃（不标强制听）', !!uChi && !uChi.ting && !uChi.l.includes('·听'));
+ok('吃上家能听时标为上听（优先于碰杠，但仍不强制）', !!uChi && uChi.ting === true && uChi.l.includes('·听'));
 Game.handleAB(HUMAN, 'chi', uChi.d);
 ok('吃上家后不强制听牌', !G.ting.has(HUMAN));
 ok('吃上家后可主动听牌（打 7条）',
@@ -304,6 +309,34 @@ let discardTile3 = td3[0];
 let discardIdx3 = G.players[HUMAN].hand.findIndex(t => Tile.tid(t) === Tile.tid(discardTile3));
 Game.handleDiscard(discardIdx3);
 ok('打出听牌张后进入听牌', G.ting.has(HUMAN));
+
+// ============ 上家打出幺九：吃上听应优先于下家碰 ============
+section('上家打出幺九：吃上听优先于下家碰');
+G = newGame();
+// 断幺九手牌：5条5条5条 + 2-4条 + 2-4万 + 7万7万 + 7筒8筒
+G.players[HUMAN].hand = [
+  T('tiao',5),T('tiao',5),T('tiao',5),
+  T('tiao',2),T('tiao',3),T('tiao',4),
+  T('wan',2),T('wan',3),T('wan',4),
+  T('wan',7),T('wan',7),
+  T('tong',7),T('tong',8)
+];
+ok('构造的断幺九手牌确实无幺九', !G.players[HUMAN].hand.some(Tile.isYao));
+// 下家(1)手中有两张九筒可碰
+G.players[1].hand = [T('tong',9),T('tong',9),T('wan',1),T('wan',2),T('wan',3),T('tiao',1),T('tiao',2),T('tiao',3),T('tong',2),T('tong',3),T('tong',4),T('wan',6),T('wan',6)];
+G.lastD = T('tong',9); G.lastDB = 3; // 上家打出九筒（人类的下家是 1）
+G.phase = 'claim'; G.pending = []; G.over = false; G.curP = 3; G.ting = new Set();
+let upChiActs = Game.claimActions(HUMAN);
+let upChiTing = upChiActs.find(a => a.a === 'chi');
+ok('人类可吃九筒上听（吃 7-8-9筒）', !!upChiTing && upChiTing.ting === true);
+let downPengActs = Game.claimActions(1);
+ok('下家可碰九筒', downPengActs.some(a => a.a === 'peng'));
+let chosenChi = Game.pickClaim([{ i: HUMAN, acts: upChiActs }, { i: 1, acts: downPengActs }], 3);
+ok('吃上听优先于下家碰', !!chosenChi && chosenChi.i === HUMAN);
+// 若人类选择不听，下家仍可碰
+G.pending = [HUMAN];
+Game.handleAB(HUMAN, 'pass');
+ok('人类放弃后不再等待人类响应', !G.pending.includes(HUMAN));
 
 // ============ 上听吃后用户选择权 ============
 section('上听吃后用户选择权（forceTing行为）');
@@ -446,6 +479,113 @@ ok('同一玩家多选项按最高优先级比较', Game.pickClaim([
 ], 0).i === 1);
 ok('无鸣牌返回 null', Game.pickClaim([], 0) === null);
 
+// ============ 上听检测复核（本地规则 vs 标准向听） ============
+section('上听检测复核（无刻子无对子时不误报“还差一张”）');
+G = newGame();
+// 1 副露 + 10 张：无刻子、无对子，标准向听=1，但本地规则缺刻子又缺对子，远未上听
+G.players[HUMAN].melds = [{ type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',1),T('tiao',2),T('tong',8),T('wan',9)];
+let hh = Game.handHints(HUMAN);
+ok('标准向听为 1（旧提示误报“还差1张”的来源）',
+  Tile.shanten(G.players[HUMAN].hand, G.players[HUMAN].melds) === 1);
+ok('本地规则下打不出听牌张', Game.tingDiscards(HUMAN).length === 0);
+ok('hint 不再误报：plans/draws/wins 均为空',
+  hh.plans.length === 0 && hh.draws.length === 0 && hh.wins.length === 0);
+ok('hint 标签指出无碰牌、缺对子', hh.tri === false && hh.pair === false);
+
+section('断幺九时摸到幺九可上听');
+G = newGame();
+// 1 副露 + 10 张：形状标准已听（向听 0），但手牌无幺九，本地不能听
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('wan',8),T('wan',8),T('tong',7),T('tong',8)];
+ok('标准向听为 0 但本地未听',
+  Tile.shanten(G.players[HUMAN].hand, G.players[HUMAN].melds) === 0 &&
+  !Tile.isTing(G.players[HUMAN].hand, G.players[HUMAN].melds));
+hh = Game.handHints(HUMAN);
+ok('hint 不误报已听/可打听', hh.plans.length === 0 && hh.wins.length === 0);
+ok('差的一张是幺九：摸 1万/9筒可上听',
+  Game.drawsForTing(HUMAN).map(t => t.id).sort().join(',') === '1wan,9tong');
+
+// ============ 抓牌上听方案（差的是哪张：打哪张、听哪张） ============
+section('抓牌上听方案（打哪张、听哪张）');
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',8),T('tong',9)];
+let plans = Game.tingPlans(HUMAN);
+ok('有上听方案', plans.length > 0);
+ok('方案弃张与听牌张一致',
+  plans.map(p => p.discard.id).sort().join(',') ===
+  Game.tingDiscards(HUMAN).map(t => t.id).sort().join(','));
+ok('每个方案都有胡牌', plans.every(p => p.wins.length > 0));
+ok('打 5条听 7筒', plans.some(p => p.discard.id === '5tiao' && p.wins.some(w => w.id === '7tong')));
+ok('打 8筒听 9筒', plans.some(p => p.discard.id === '8tong' && p.wins.some(w => w.id === '9tong')));
+ok('副露有幺九时 9筒可打：打 9筒听 8筒', plans.some(p => p.discard.id === '9tong' && p.wins.some(w => w.id === '8tong')));
+ok('方案弃张均为合法上听弃张',
+  plans.every(p => Game.isTingDiscard(G.players[HUMAN].hand, G.players[HUMAN].melds, p.discard)));
+ok('14 张时不计算摸牌 draws', Game.drawsForTing(HUMAN).length === 0);
+hh = Game.handHints(HUMAN);
+ok('hint 给出 plans 且无 draws', hh.plans.length > 0 && hh.draws.length === 0);
+
+// ============ 摸牌上听（13 张差一摸：差哪张、见光排除） ============
+section('摸牌上听（差哪张、见光排除）');
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',7),T('tiao',7),T('tong',8),T('tiao',9)];
+ok('13 张未听', !Tile.isTing(G.players[HUMAN].hand, G.players[HUMAN].melds));
+let draws = Game.drawsForTing(HUMAN);
+ok('差的一张含 7条：摸到即打 9条/8筒可听', draws.some(t => t.id === '7tiao'));
+G.discard = [T('tiao',7),T('tiao',7)]; // 另两张 7条见光，无剩余
+draws = Game.drawsForTing(HUMAN);
+ok('见光无剩余的 7条不再提示', !draws.some(t => t.id === '7tiao'));
+ok('仍有其他摸牌可上听', draws.length > 0);
+hh = Game.handHints(HUMAN);
+ok('hint 给出 draws 且无 plans', hh.draws.length > 0 && hh.plans.length === 0 && hh.wins.length === 0);
+
+// ============ 回归：吃九万后可打九筒上听（副露有幺九不断幺九） ============
+section('回归：吃九万后可打九筒上听');
+G = newGame();
+// 2 副露（碰 5条 + 吃 345筒）+ 7 张：二三四五七八万 + 九筒
+G.players[HUMAN].melds = [
+  { type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] },
+  { type: 'chi', ts: [T('tong',3),T('tong',4),T('tong',5)] }
+];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',7),T('wan',8),T('tong',9)];
+G.lastD = T('wan',9); G.lastDB = 2; // 对家打出九万（非上家）
+G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = 2; G.ting = new Set();
+let chi9 = Game.claimActions(HUMAN).find(a => a.a === 'chi');
+ok('吃九万可上听', !!chi9 && chi9.ting === true);
+Game.handleAB(HUMAN, 'chi', chi9.d);
+ok('吃后待打听牌张', G.forceTing === true && !G.ting.has(HUMAN));
+ok('九筒可打出上听', Game.tingDiscards(HUMAN).some(t => t.id === '9tong'));
+let plan9 = Game.tingPlans(HUMAN).find(p => p.discard.id === '9tong');
+ok('打九筒听二万/五万', !!plan9 && plan9.wins.some(w => w.id === '2wan') && plan9.wins.some(w => w.id === '5wan'));
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '9tong'));
+ok('打出九筒后进入听牌', G.ting.has(HUMAN));
+
+// ============ 吃/碰上听与抓牌上听的区分 ============
+section('吃碰上听与抓牌上听的区分');
+function tingClaimGame(lastDB) {
+  const g = newGame();
+  g.players[HUMAN].hand = [
+    T('wan',3),T('wan',3),T('wan',4),T('wan',5),
+    T('tong',1),T('tong',2),T('tong',3),
+    T('tong',5),T('tong',5),T('tong',5),
+    T('tiao',7),T('tiao',7),T('tiao',9)
+  ];
+  g.lastD = T('wan',3); g.lastDB = lastDB;
+  g.phase = 'claim'; g.pending = [HUMAN]; g.over = false; g.curP = lastDB; g.ting = new Set();
+  return g;
+}
+// 对家打出：吃/碰都能上听（吃碰别家），与抓牌无关
+tingClaimGame(2);
+let tas = Game.claimActions(HUMAN).filter(a => a.ting);
+ok('吃碰别家可上听（吃·听/碰·听）',
+  tas.some(a => a.a === 'chi') && tas.some(a => a.a === 'peng'));
+// 上家打出：能听则标为上听（优先于碰杠），但不强制；抓牌上听另看提示栏
+tingClaimGame(3);
+let upperChi = Game.claimActions(HUMAN).find(a => a.a === 'chi');
+ok('吃上家能听时标为上听', !!upperChi && upperChi.ting === true);
+
 // ============ 每人统计 ============
 section('每人统计（自摸/点炮/黑炮/宝牌）');
 G = newGame();
@@ -462,6 +602,132 @@ G.curP = 0; G.phase = 'discard'; G.lock = false; G.over = false;
 Game.handleDiscard(G.players[0].hand.findIndex(t => t.id === '红中'));
 ok('南自摸 记入南 zimo=1', G.stats.per[1].zimo === 1);
 ok('其他玩家无胡牌记录', G.stats.per[0].zimo === 0 && G.stats.per[0].ron === 0 && G.stats.per[2].zimo === 0);
+
+
+// ============ 右侧长显：还差一张上听（吃/碰 vs 手抓） ============
+section('右侧长显：还差一张上听');
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',7),T('tiao',7),T('tong',8),T('tiao',9)];
+let watch = Game.tingWatch(HUMAN);
+ok('吃/碰含碰 7条与吃 8条',
+  !!watch && watch.claim.map(t => t.id).join(',') === '7tiao,8tiao');
+ok('重复进张只在吃/碰里，手抓不再列 7条/8条',
+  !!watch && !watch.draws.some(t => t.id === '7tiao' || t.id === '8tiao'));
+ok('手抓仍有其余进张', !!watch && watch.draws.length > 0);
+G.discard = [T('tiao',7),T('tiao',7)]; // 7条见光无剩余
+watch = Game.tingWatch(HUMAN);
+ok('见光的 7条移出吃/碰', !!watch && watch.claim.map(t => t.id).join(',') === '8tiao');
+ok('见光后手抓也不含 7条', !!watch && !watch.draws.some(t => t.id === '7tiao'));
+
+// 碰开门上听：碰 8条后打 9筒/1万可听
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',8),T('tiao',8),T('tong',9),T('wan',1)];
+watch = Game.tingWatch(HUMAN);
+ok('碰开门上听：吃/碰含 8条', !!watch && watch.claim.some(t => t.id === '8tiao'));
+ok('碰开门上听：手抓含 4万（摸 4万打 9筒可听）', !!watch && watch.draws.some(t => t.id === '4wan'));
+
+// 门前清也能吃/碰开门上听（手抓为空）
+G = newGame();
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tong',7),T('tong',8),T('tong',9),T('tiao',7),T('tiao',7),T('tiao',9),T('wan',9)];
+watch = Game.tingWatch(HUMAN);
+ok('门前清：吃/碰 7条可开门上听',
+  !!watch && watch.claim.map(t => t.id).join(',') === '7tiao' && watch.draws.length === 0);
+
+// 差多张 / 已听牌：不显示
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',1),T('tiao',2),T('tong',8),T('wan',9)];
+ok('差多张时不显示', Game.tingWatch(HUMAN) === null);
+G.ting = new Set([HUMAN]);
+ok('已听牌时不显示', Game.tingWatch(HUMAN) === null);
+
+
+// ============ 3副露后禁吃碰杠（防手把一） ============
+section('3副露后禁吃碰杠');
+G = newGame();
+G.players[HUMAN].melds = [
+  { type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] },
+  { type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] },
+  { type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }
+];
+G.players[HUMAN].hand = [T('tong',5),T('tong',5),T('wan',7),T('wan',8)];
+G.lastD = T('tong',5); G.lastDB = 2;
+G.phase = 'claim'; G.pending = [HUMAN]; G.over = false; G.curP = 2; G.ting = new Set();
+ok('3副露时碰/吃/杠都不提供', Game.claimActions(HUMAN).length === 0);
+// 已听牌时胡仍可响应
+G.ting = new Set([HUMAN]);
+G.players[HUMAN].hand = [T('tiao',7),T('tiao',7),T('tong',8),T('tong',9)];
+G.lastD = T('tong',7); G.lastDB = 2;
+ok('3副露听牌后胡仍可响应', Game.claimActions(HUMAN).some(a => a.a === 'hu'));
+// 暗杠会成第4副露：3副露时禁止；补杠不增副露：允许
+G = newGame();
+G.players[HUMAN].melds = [
+  { type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] },
+  { type: 'peng', ts: [T('wan',2),T('wan',2),T('wan',2)] },
+  { type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }
+];
+G.players[HUMAN].hand = [T('tong',3),T('tong',3),T('tong',3),T('tong',3),T('wan',1)];
+G.phase = 'discard'; G.curP = HUMAN; G.over = false; G.ting = new Set();
+let sa = Game.selfActions(HUMAN);
+ok('3副露时不提供暗杠', !sa.some(a => a.a === 'selfKong'));
+ok('3副露时补杠仍可（不增副露）', sa.some(a => a.a === 'buKong'));
+G.players[HUMAN].melds.pop();
+sa = Game.selfActions(HUMAN);
+ok('2副露时暗杠正常提供', sa.some(a => a.a === 'selfKong'));
+
+// ============ 非本人回合不可宣告听牌 ============
+section('非本人回合不可宣告听牌');
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',7),T('tiao',7),T('tong',8),T('tong',9)];
+G.phase = 'discard'; G.curP = HUMAN; G.over = false; G.lock = false; G.ting = new Set();
+ok('本人回合可宣告', Game.canDeclareNow(HUMAN));
+G.curP = 1;
+ok('他人回合不可宣告', !Game.canDeclareNow(HUMAN));
+G.curP = HUMAN; G.phase = 'claim'; G.lastD = T('wan',9); G.lastDB = HUMAN;
+ok('本人弃张结算中可立即宣告', Game.canDeclareNow(HUMAN));
+G.curP = 1; G.lastDB = 1;
+ok('他人弃张结算中不可宣告', !Game.canDeclareNow(HUMAN));
+
+// ============ 点听牌后只能打出听牌张 ============
+section('点听牌后只能打出听牌张');
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',8),T('tong',9)];
+G.phase = 'discard'; G.curP = HUMAN; G.lock = false; G.over = false; G.ting = new Set();
+Game.handleAB(HUMAN, 'ting');
+ok('点听牌进入待打状态', G.tingIntent === true && !G.ting.has(HUMAN));
+let before = G.players[HUMAN].hand.length;
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '2wan'));
+ok('非听牌张打出无效', G.players[HUMAN].hand.length === before && G.tingIntent === true);
+Game.handleDiscard(G.players[HUMAN].hand.findIndex(t => t.id === '8tong'));
+ok('听牌张打出后进入听牌', G.ting.has(HUMAN));
+
+
+// ============ 上听距离（本地规则提示） ============
+section('上听距离（本地规则）');
+G = newGame();
+// 无刻子无对子：标准向听=1，本地应为还差 2 张
+G.players[HUMAN].melds = [{ type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',1),T('tiao',2),T('tong',8),T('wan',9)];
+ok('无刻子无对子：还差 2 张上听', Game.localTingDistance(HUMAN) === 2);
+// 断幺九差一张
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('wan',8),T('wan',8),T('tong',7),T('tong',8)];
+ok('断幺九：还差 1 张上听', Game.localTingDistance(HUMAN) === 1);
+// 已听
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',7),T('tiao',7),T('tong',8),T('tong',9),T('wan',9)];
+ok('已听牌：距离 0', Game.localTingDistance(HUMAN) === 0);
+// 14 张可打一张即听
+G = newGame();
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('wan',1),T('wan',1),T('wan',1)] }];
+G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',8),T('tong',9)];
+ok('14 张可打一张听：距离 0', Game.localTingDistance(HUMAN) === 0);
 
 
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
