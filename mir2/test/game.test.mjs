@@ -555,6 +555,32 @@ describe('一键出售', () => {
   })
 })
 
+describe('橙装掉落溯源', () => {
+  it('只记橙色：裁决记、白板不记', () => {
+    G.markDrop('裁决之杖', '战士', '祖玛教主')
+    assert.ok(G.S.dropInfo['裁决之杖'])
+    assert.equal(G.S.dropInfo['裁决之杖'].by, '战士')
+    assert.equal(G.S.dropInfo['裁决之杖'].from, '祖玛教主')
+    G.markDrop('乌木剑', '战士', '鸡')
+    assert.equal(G.S.dropInfo['乌木剑'], undefined)
+  })
+  it('悬停提示不带溯源（溯源只在掉落列表看）', () => {
+    G.markDrop('裁决之杖', '战士', '祖玛教主')
+    assert.ok(!G.itemTip('裁决之杖').includes('掉落怪物'))
+  })
+  it('rollDrops 自动记录（同名覆盖为最后一次）', () => {
+    mockRandom(0)
+    const c = warrior(45)
+    G.setDrops('怪', ['10/10 裁决之杖'])
+    G.rollDrops(c, { Name: '怪' })
+    assert.equal(G.S.dropInfo['裁决之杖'].by, c.name)
+    assert.equal(G.S.dropInfo['裁决之杖'].from, '怪')
+    G.setDrops('怪2', ['10/10 裁决之杖'])
+    G.rollDrops(c, { Name: '怪2' })
+    assert.equal(G.S.dropInfo['裁决之杖'].from, '怪2')
+  })
+})
+
 describe('loadChars 存档迁移', () => {
   it('老存档 kills 并入 killsNormal', () => {
     G.loadChars([{ key: 'warrior', level: 10, exp: 5, kills: 7, equip: {} }])

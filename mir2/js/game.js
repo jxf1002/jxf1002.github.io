@@ -60,7 +60,7 @@ export function setDB({ levels, items, magics, monsters, elites, bosses }) {
   }).sort((a, b) => a.HP - b.HP)
 }
 
-export const S = { gold: 0, bag: {}, speed: 1, speedMax: 1, boost: 1, running: true, chars: [], challenge: null, bossCd: {} }
+export const S = { gold: 0, bag: {}, speed: 1, speedMax: 1, boost: 1, running: true, chars: [], challenge: null, bossCd: {}, dropInfo: {} }
 
 export function newWorld() {
   S.gold = 0
@@ -72,6 +72,7 @@ export function newWorld() {
   S.chars = JOBS.map(newChar)
   S.challenge = null
   S.bossCd = {}
+  S.dropInfo = {}
   return S
 }
 
@@ -329,6 +330,13 @@ export function addBag(name, n) {
   S.bag[name] = (S.bag[name] || 0) + (n || 1)
 }
 
+// 橙装掉落溯源（悬停提示用）：只记橙色，存最后一次掉落
+export function markDrop(name, by, from) {
+  const it = DB.itemByName[name]
+  if (!it || itemQuality(it) !== 4) return
+  S.dropInfo[name] = { by, from, at: Date.now() }
+}
+
 // 一键出售预览：只卖闲置（背包数 - 全队穿戴占用），quality 为 null 全品质，可传数组多选
 export function sellPreview(quality) {
   const qs = quality == null ? null : new Set([].concat(quality))
@@ -517,6 +525,7 @@ export function rollDrops(c, m) {
   for (const name of r.items) {
     const n = r.counts[name] || 1
     addBag(name, n)
+    markDrop(name, c.name, m.Name)
     log(c, '【' + c.name + '】获得了【' + name + '】' + (n > 1 ? ' ×' + n : ''))
     equipBestForItem(name, true)
   }
@@ -620,7 +629,7 @@ function finishChallenge() {
   ch.done = true
   const r = rollDropLines(ch.name, ch.boost)
   S.gold += r.gold
-  for (const name of r.items) addBag(name, r.counts[name] || 1)
+  for (const name of r.items) { addBag(name, r.counts[name] || 1); markDrop(name, '集火', ch.name) }
   const before = S.chars.map((c) => JSON.stringify(c.equip))
   rebalanceEquips(true)
   S.chars.forEach((c, i) => {

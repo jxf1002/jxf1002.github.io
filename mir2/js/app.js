@@ -1,5 +1,5 @@
 // 传奇挂机小游戏：DOM 胶水层（渲染、存档、主循环）
-import * as G from './game.js?v=21'
+import * as G from './game.js?v=22'
 
 const $ = (s) => document.querySelector(s)
 
@@ -159,7 +159,7 @@ document.addEventListener('scroll', hideTip, true)
 
 function save(silent) {
   try {
-    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, speedMax: G.S.speedMax, boost: G.S.boost, bossCd: G.S.bossCd, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
+    localStorage.setItem(G.SAVE_KEY, JSON.stringify({ gold: G.S.gold, bag: G.S.bag, speed: G.S.speed, speedMax: G.S.speedMax, boost: G.S.boost, bossCd: G.S.bossCd, dropInfo: G.S.dropInfo, chars: G.S.chars.map((c) => ({ key: c.key, level: c.level, exp: c.exp, killsNormal: c.killsNormal, killsElite: c.killsElite, killsBoss: c.killsBoss, equip: c.equip })) }))
     if (!silent) $('#save-tip').textContent = '已保存 ' + new Date().toLocaleTimeString()
   } catch (e) { /* ponytail: 无痕模式存档失败就跳过，游戏照常跑 */ }
 }
@@ -173,6 +173,7 @@ function load() {
     G.S.speedMax = G.SPEED_TIERS.includes(d.speedMax) ? d.speedMax : 1
     G.S.speed = Math.min(d.speed || 1, G.S.speedMax)
     G.S.boost = G.BOOST_TIERS.includes(d.boost) ? d.boost : 1
+    G.S.dropInfo = d.dropInfo || {}
     G.S.bossCd = {}
     for (const [k, v] of Object.entries(d.bossCd || {})) {
       G.S.bossCd[k] = v > 1e12 ? Math.max(0, v + G.BOSS_COOLDOWN_MS - Date.now()) : v // 老存档存的是时间戳
@@ -210,12 +211,13 @@ function updateSpeedUI() {
 
 let bossView = null // null | 'list' | 'battle' | 'victory'
 let bossOpen = false // 挑战页面打开时暂停挂机
+let bossListTop = 0 // 列表滚动位置：进战斗前记住，打完回来恢复
 
 function setRunBtn() {
   $('#btn-run').textContent = G.S.running ? '⏸ 暂停' : '▶ 继续'
 }
 
-const BOSS_HINT = '<div class="boss-hint">打开本页暂停挂机，关闭恢复</div>'
+const BOSS_HINT = '<div class="boss-hint">⚠️ 打开本页暂停挂机，关闭恢复</div>'
 
 function openBossModal(title, html) {
   bossOpen = true
@@ -284,23 +286,33 @@ function bindFights() {
   })
 }
 
-// 掉率加成选择条：选中档位金币不足时提示，不自动降档
+// 掉率加成拖动条（仿倍速滑杆）：上限取已开放最高档，下一档只做文字提示
+function boostMaxIdx() {
+  let idx = 0
+  G.BOOST_TIERS.forEach((b, i) => { if (G.minCharLevel() >= G.boostUnlockLevel(b)) idx = i })
+  return idx
+}
+function boostLabel(b) {
+  if (b <= 1) return '无加成'
+  const s = '×' + b + ' · ' + fmtGold(G.BOOST_COST[b]) + '金币'
+  return G.S.gold < G.BOOST_COST[b] ? s + '（金币不足）' : s
+}
 function boostBarHtml() {
-  const chips = G.BOOST_TIERS.map((b) => {
-    const need = G.boostUnlockLevel(b)
-    const locked = G.minCharLevel() < need
-    const onsale = b === 1 ? '' : '<i>' + (locked ? 'Lv.' + need : fmtGold(G.BOOST_COST[b])) + '</i>'
-    return '<button data-boost="' + b + '"' + (locked ? ' disabled' : '') + '>' + (b === 1 ? '无加成' : '×' + b) + onsale + '</button>'
-  }).join('')
-  return '<div class="boost-bar"><span class="boost-label">掉率加成</span>' + chips + '<span class="boost-tip" id="boost-tip"></span></div>'
+  const max = boostMaxIdx()
+  const cur = Math.min(Math.max(G.BOOST_TIERS.indexOf(G.S.boost), 0), max)
+  const next = G.BOOST_TIERS[max + 1]
+  return '<div class="boost-bar"><span class="boost-label">掉率加成</span>'
+    + '<input id="boost" type="range" min="0" max="' + max + '" step="1" value="' + cur + '" />'
+    + '<b id="boost-val">' + boostLabel(G.BOOST_TIERS[cur]) + '</b></div>'
+    + (next ? '<div class="boost-next">下一档 ×' + next + '（Lv.' + G.boostUnlockLevel(next) + '解锁）</div>' : '')
+    + '<span class="boost-tip" id="boost-tip"></span>'
 }
 
 function updateBoostUI() {
-  for (const el of document.querySelectorAll('[data-boost]')) {
-    const b = +el.getAttribute('data-boost')
-    el.classList.toggle('active', G.S.boost === b)
-    el.classList.toggle('off', b > 1 && G.BOOST_COST[b] > G.S.gold)
-  }
+  const el = $('#boost')
+  if (!el) return
+  el.value = Math.min(Math.max(G.BOOST_TIERS.indexOf(G.S.boost), 0), +el.max)
+  $('#boost-val').textContent = boostLabel(G.S.boost)
 }
 
 let boostTipTimer = null
@@ -313,14 +325,12 @@ function tipBoost(msg) {
 }
 
 function bindBoosts() {
-  for (const el of document.querySelectorAll('[data-boost]')) {
-    el.onclick = () => {
-      const b = +el.getAttribute('data-boost')
-      if (b > 1 && G.BOOST_COST[b] > G.S.gold) { tipBoost('金币不足，无法选择 ×' + b + '（需 ' + fmtGold(G.BOOST_COST[b]) + '）'); return }
-      G.S.boost = b
-      $('#boost-tip').textContent = ''
-      updateBoostUI()
-    }
+  const el = $('#boost')
+  if (!el) return
+  el.oninput = (e) => {
+    G.S.boost = G.BOOST_TIERS[+e.target.value]
+    $('#boost-tip').textContent = ''
+    updateBoostUI()
   }
 }
 
@@ -343,9 +353,16 @@ function showGate() {
 
 function showBossList() {
   bossView = 'list'
+  // 列表还在（同页重渲染）用实时位置；已进战斗/结算页则用进战斗前记住的位置
+  const old = document.querySelector('.boss-list')
+  const top = old ? old.scrollTop : bossListTop
+  const maxIdx = boostMaxIdx()
+  if (G.BOOST_TIERS.indexOf(G.S.boost) > maxIdx) G.S.boost = G.BOOST_TIERS[maxIdx]
   openBossModal('挑战首领', BOSS_HINT + boostBarHtml()
     + '<div class="boss-list">' + (G.DB.bosses.map(bossRow).join('') || '<div class="bag-empty">暂无首领</div>') + '</div>')
   $('.mir2-modal-box').classList.add('list-box')
+  const list = document.querySelector('.boss-list')
+  if (list) { list.scrollTop = top; bossListTop = top }
   bindFights()
   bindBoosts()
   updateBoostUI()
@@ -353,6 +370,8 @@ function showBossList() {
 
 function showBattle() {
   bossView = 'battle'
+  const old = document.querySelector('.boss-list')
+  if (old) bossListTop = old.scrollTop
   const ch = G.S.challenge
   openBossModal('讨伐 ' + ch.name + (ch.boost > 1 ? '（掉率 ×' + ch.boost + '）' : ''), '<div id="boss-hp-text"></div><div class="mir2-bar"><i id="boss-hpbar"></i></div><div class="mir2-log" id="boss-log"></div>')
 }
@@ -493,7 +512,7 @@ function sellModalHtml() {
     : '<table class="sell-table"><tr><th>品质</th><th>种数</th><th>件数</th><th>金币</th></tr>' + [4, 3, 2, 1, 0].filter((q) => byQ[q]).map((q) =>
       '<tr><td class="q' + q + '">' + QNAME[q] + '色</td><td>' + byQ[q].kinds + '</td><td>' + byQ[q].n + '</td><td>+' + byQ[q].gold.toLocaleString('zh-CN') + '</td></tr>').join('') + '</table>'
     + '<div class="sell-total"><div><span>共计件数</span><b>' + r.rows.length + '种 ' + r.count + '件</b></div><div><span>共计金币</span><b>+' + r.total.toLocaleString('zh-CN') + '</b></div></div>'
-  return '<div>勾选要出售的品质：' + boxes + '</div>' + body
+  return '<div>勾选要出售的品质：</div><div class="sell-qs">' + boxes + '</div>' + body
     + '<div class="modal-btns"><button class="btn" id="sell-no">取消</button><button class="btn" id="sell-yes"' + (r.total ? '' : ' disabled') + '>确认出售</button></div>'
 }
 function openSellModal() {
@@ -511,6 +530,26 @@ function openSellModal() {
   if (yes && !yes.disabled) yes.onclick = () => { G.sellBag([...sellQs]); $('#modal').classList.remove('open'); render() }
 }
 $('#btn-sell').onclick = openSellModal
+const fmtDropTime = (at) => {
+  const d = new Date(at)
+  const p = (n) => String(n).padStart(2, '0')
+  return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + p(d.getHours()) + ':' + p(d.getMinutes())
+}
+// 橙色掉落列表：每装备一行，按掉落时间新到旧
+function openDropModal() {
+  const elites = new Set(G.DB.elites.map((m) => m.Name))
+  const bosses = new Set(G.DB.bosses.map((m) => m.Name))
+  const mobShown = (name) => {
+    const cls = elites.has(name) ? 'elite-name' : bosses.has(name) ? 'boss-name' : ''
+    return cls ? '<b class="' + cls + '">' + name + '</b>' : name
+  }
+  const rows = Object.entries(G.S.dropInfo).sort((a, b) => b[1].at - a[1].at).map(([name, d]) =>
+    '<tr><td class="q4"' + tipAttrs(name) + '>' + name + '</td><td>' + d.by + '</td><td>' + mobShown(d.from) + '</td><td>' + fmtDropTime(d.at) + '</td></tr>').join('')
+  openModal('橙色掉落', rows
+    ? '<div class="drop-list"><table class="sell-table"><tr><th>装备</th><th>击杀</th><th>掉落怪物</th><th>时间</th></tr>' + rows + '</table></div>'
+    : '<div class="bag-empty">还没有橙色掉落记录。</div>')
+}
+$('#btn-drops').onclick = openDropModal
 $('#bag-search').addEventListener('input', (e) => {
   bagFilter = e.target.value.trim()
   render()
