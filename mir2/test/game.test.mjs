@@ -118,13 +118,14 @@ describe('bestSkill 自动选最高伤害', () => {
 })
 
 describe('calcDamage', () => {
-  it('战士伤害落在技能加成区间内', () => {
+  it('战士伤害落在技能加成区间内（mock 0 必暴击，翻倍）', () => {
     mockRandom(0)
     const c = warrior(35)
     c.target = { Name: 'x', HP: 9999, MaxHP: 9999, AC: 0, MAC: 0 }
-    const { dmg, skill } = G.calcDamage(c)
+    const { dmg, skill, crit } = G.calcDamage(c)
     assert.equal(skill, '烈火剑法')
-    assert.equal(dmg, Math.round(19 * 2.2)) // dc下限19 × (1+1.2)，35级烈火刚学是Lv.1
+    assert.equal(crit, true)
+    assert.equal(dmg, Math.round(19 * 2.2) * 2) // dc下限19 × (1+1.2)，35级烈火刚学是Lv.1，再 ×2 暴击
   })
   it('护甲减伤且保底 1 点', () => {
     mockRandom(0.9999)
@@ -158,11 +159,32 @@ describe('calcDamage', () => {
     assert.ok(count['烈火剑法'] > count['普通攻击'], JSON.stringify(count))
     for (let i = 0; i < 50; i++) assert.equal(G.calcDamage(c, false).skill, '烈火剑法')
   })
-  it('无技能时用主属性平砍', () => {
+  it('无技能时用主属性平砍（mock 0 必暴击，翻倍）', () => {
     mockRandom(0)
     const c = mage(1)
     c.target = { Name: 'x', HP: 9999, MaxHP: 9999, AC: 0, MAC: 0 }
-    assert.equal(G.calcDamage(c).dmg, 2)
+    const r = G.calcDamage(c)
+    assert.equal(r.dmg, 4)
+    assert.equal(r.crit, true)
+  })
+  it('暴击默认 20% 概率、命中伤害翻倍，低速文案带暴击二字', () => {
+    assert.equal(G.CRIT_RATE, 0.2)
+    assert.equal(G.CRIT_MULT, 2)
+    mockRandom(0.19)
+    const c = warrior(1)
+    c.target = { Name: 'x', HP: 9999, MaxHP: 9999, AC: 0, MAC: 0 }
+    const a = G.calcDamage(c)
+    assert.equal(a.crit, true)
+    assert.equal(a.dmg, 4) // dc下限2 ×2
+    mockRandom(0.2)
+    const b = G.calcDamage(c)
+    assert.equal(b.crit, false)
+    assert.equal(b.dmg, 2)
+    mockRandom(0)
+    G.S.speed = 1
+    c.target = { Name: '木桩', HP: 9999, MaxHP: 9999, AC: 0, MAC: 0, Exp: 1 }
+    G.attack(c)
+    assert.ok(c.logs.some((l) => l.includes('暴击')))
   })
 })
 

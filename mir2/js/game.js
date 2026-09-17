@@ -16,6 +16,9 @@ export const JOBS = [
 export const SAVE_KEY = 'mir2-save-v1'
 // 挂机遇到精英概率；水货/测试怪（数值错乱的数字后缀变体）直接移出普通池
 export const ELITE_RATE = 0.01
+// 暴击：全员默认 20% 概率，命中时伤害翻倍
+export const CRIT_RATE = 0.2
+export const CRIT_MULT = 2
 export const JUNK = ['鸡1', '鹿1', '稻草人1', '白野猪1', '沃玛教主1', '邪恶钳虫1', '邪恶毒蛇1', '沃玛卫士1', '骷髅精灵1', '祖玛卫士00']
 // BOSS 挑战：三人 35 级可打紫装首领，橙装首领 36 级起解锁，每只每小时一次
 export const CHALLENGE_MIN_LEVEL = 35
@@ -236,7 +239,9 @@ export function calcDamage(c, varied) {
   const t = c.target
   const armor = magic ? (t.MAC || 0) : (t.AC || 0)
   dmg = Math.max(1, Math.round(dmg - randi(0, armor)))
-  return { dmg, skill: sk.name }
+  const crit = Math.random() < CRIT_RATE
+  if (crit) dmg *= CRIT_MULT
+  return { dmg, skill: sk.name, crit }
 }
 
 export function log(c, msg) {
@@ -461,9 +466,9 @@ export function attack(c) {
     return
   }
   const t = c.target
-  const { dmg, skill } = calcDamage(c, S.speed <= 10)
+  const { dmg, skill, crit } = calcDamage(c, S.speed <= 10)
   t.HP -= dmg
-  if (S.speed <= 10) log(c, '【' + c.name + '】使用【' + skill + '】对【' + t.Name + '】造成 ' + dmg + ' 点伤害')
+  if (S.speed <= 10) log(c, '【' + c.name + '】使用【' + skill + '】对【' + t.Name + '】造成 ' + dmg + ' 点' + (crit ? '暴击' : '') + '伤害')
   if (t.HP <= 0) {
     if (t.kind === 'elite') c.killsElite += 1
     else c.killsNormal += 1
@@ -534,9 +539,9 @@ export function challengeTick() {
   const ch = S.challenge
   if (!ch || ch.done) return
   for (const c of S.chars) {
-    const { dmg, skill } = calcDamage(c, S.speed <= 10)
+    const { dmg, skill, crit } = calcDamage(c, S.speed <= 10)
     ch.hp -= dmg
-    if (S.speed <= 10) clog('【' + c.name + '】使用【' + skill + '】对【' + ch.name + '】造成 ' + dmg + ' 点伤害')
+    if (S.speed <= 10) clog('【' + c.name + '】使用【' + skill + '】对【' + ch.name + '】造成 ' + dmg + ' 点' + (crit ? '暴击' : '') + '伤害')
     if (ch.hp <= 0) { finishChallenge(); break }
   }
 }
