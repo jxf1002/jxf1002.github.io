@@ -16,9 +16,16 @@ export const JOBS = [
 export const SAVE_KEY = 'mir2-save-v1'
 // 挂机遇到精英概率；水货/测试怪（数值错乱的数字后缀变体）直接移出普通池
 export const ELITE_RATE = 0.01
-// 暴击：全员默认 20% 概率，命中时伤害翻倍
+// 暴击：全员锁定 20% 概率，命中时伤害翻倍
 export const CRIT_RATE = 0.2
 export const CRIT_MULT = 2
+// 50级起遭遇倍数 m=1+(Lv-50)×0.25：后台仍打一只，结算经验×N、掉落独立掷N遍
+export const MULTI_BASE_LEVEL = 50
+export const MULTI_STEP = 0.25
+// 经验补偿（只乘经验）：落后最高10%开，领先另外两人各10%关，可双开
+export const COMP_COEF = { warrior: 1.5, mage: 2.8, taoist: 2.2 }
+export const COMP_LAG = 0.10
+export const COMP_LEAD = 1.1
 export const JUNK = ['鸡1', '鹿1', '稻草人1', '白野猪1', '沃玛教主1', '邪恶钳虫1', '邪恶毒蛇1', '沃玛卫士1', '骷髅精灵1', '祖玛卫士00']
 // BOSS 挑战：三人 35 级可打紫装首领，橙装首领 36 级起解锁，每只每小时一次
 export const CHALLENGE_MIN_LEVEL = 35
@@ -98,7 +105,7 @@ export function boostUnlockLevel(b) {
 }
 
 export function newChar(j) {
-  return { key: j.key, name: j.name, job: j.job, level: 1, exp: 0, killsNormal: 0, killsElite: 0, killsBoss: 0, equip: {}, target: null, logs: [], acc: 0, hinted: {} }
+  return { key: j.key, name: j.name, job: j.job, level: 1, exp: 0, killsNormal: 0, killsElite: 0, killsBoss: 0, equip: {}, target: null, logs: [], acc: 0, hinted: {}, comp: false }
 }
 
 // 存档读入（含老存档 kills 迁移）
@@ -249,6 +256,19 @@ export function log(c, msg) {
   if (c.logs.length > 40) c.logs.splice(0, c.logs.length - 40)
 }
 
+// 展示用短名：隐去数字后缀怪的尾数（如 僵尸10→僵尸），普通名原样返回
+export const shortName = (n) => (n || '').replace(/\d+$/, '')
+
+// 遭遇倍数期望（50级以下恒为1）；实际只数 = 取整 + 小数部分伯努利，保证期望精确
+export function encounterMult(level) {
+  return level >= MULTI_BASE_LEVEL ? 1 + (level - MULTI_BASE_LEVEL) * MULTI_STEP : 1
+}
+export function rollCount(level) {
+  const m = encounterMult(level)
+  const n = Math.floor(m)
+  return n + (Math.random() < m - n ? 1 : 0)
+}
+
 export function pickMonster(c) {
   const sk = bestSkill(c)
   const dmgMax = Math.max(5, sk.max)
@@ -307,6 +327,36 @@ export function setDrops(name, lines) {
 
 export function addBag(name, n) {
   S.bag[name] = (S.bag[name] || 0) + (n || 1)
+}
+
+// 一键出售预览：只卖闲置（背包数 - 全队穿戴占用），quality 为 null 全品质，可传数组多选
+export function sellPreview(quality) {
+  const qs = quality == null ? null : new Set([].concat(quality))
+  const rows = []
+  let total = 0
+  let count = 0
+  for (const [name, n] of Object.entries(S.bag)) {
+    if (n <= 0) continue
+    const it = DB.itemByName[name]
+    if (!it || !(it.Price > 0)) continue
+    if (qs && !qs.has(itemQuality(it))) continue
+    const sellN = n - equippedCount(name)
+    if (sellN <= 0) continue
+    rows.push({ name, n: sellN, gold: sellN * it.Price })
+    total += sellN * it.Price
+    count += sellN
+  }
+  return { rows, total, count }
+}
+
+export function sellBag(quality) {
+  const r = sellPreview(quality)
+  for (const row of r.rows) {
+    S.bag[row.name] -= row.n
+    if (S.bag[row.name] <= 0) delete S.bag[row.name]
+  }
+  S.gold += r.total
+  return r
 }
 
 // 全队已穿在身上的某件装备总数（背包只计数，穿戴要占用数量）
@@ -407,8 +457,23 @@ export function rebalanceEquips(loud) {
   }
 }
 
+export function totalExpOf(c) {
+  return ((DB.levels.find((l) => l.level === c.level) || {}).totalExp || 0) + c.exp
+}
+
+// 每人独立补偿状态（读档后默认关，下次击杀自愈，不进存档）
+export function updateComp() {
+  const ts = Object.fromEntries(S.chars.map((c) => [c.key, totalExpOf(c)]))
+  const mx = Math.max(...Object.values(ts))
+  for (const c of S.chars) {
+    if (!c.comp && (mx - ts[c.key]) / mx >= COMP_LAG) c.comp = true
+    else if (c.comp && S.chars.every((o) => o.key === c.key || ts[c.key] >= COMP_LEAD * ts[o.key])) c.comp = false
+  }
+}
+
 export function gainExp(c, n) {
-  c.exp += n
+  const granted = Math.round(n * (c.comp ? (COMP_COEF[c.key] || 1) : 1))
+  c.exp += granted
   for (;;) {
     const need = (DB.levels.find((l) => l.level === c.level) || {}).expToNext
     if (!need || c.exp < need) break
@@ -417,6 +482,7 @@ export function gainExp(c, n) {
     recheckEquips(c, true)
     log(c, '【' + c.name + '】升级了！当前等级 Lv.' + c.level)
   }
+  return granted
 }
 
 // 掉落表每行独立判定：分子/分母为概率（可乘 boost 倍率，封顶 100%），命中后行末数字为数量（默认 1），重复行会累加
@@ -461,8 +527,9 @@ export function attack(c) {
   if (!c.target) {
     const lucky = Math.random() < ELITE_RATE ? pickElite(c) : null
     const { mon, kind } = lucky ? { mon: lucky, kind: 'elite' } : pickMonster(c)
-    c.target = { Name: mon.Name, HP: mon.HP, MaxHP: mon.HP, AC: mon.AC, MAC: mon.MAC, Exp: mon.Exp, kind }
-    log(c, '【' + c.name + '】遭遇到了' + (kind === 'elite' ? '精英' : '') + '【' + mon.Name + '】')
+    const count = rollCount(c.level)
+    c.target = { Name: mon.Name, HP: mon.HP, MaxHP: mon.HP, AC: mon.AC, MAC: mon.MAC, Exp: mon.Exp, kind, count }
+    log(c, '【' + c.name + '】遭遇到了' + (kind === 'elite' ? '精英' : '') + '【' + mon.Name + '】' + (count > 1 ? '×' + count : ''))
     return
   }
   const t = c.target
@@ -472,9 +539,11 @@ export function attack(c) {
   if (t.HP <= 0) {
     if (t.kind === 'elite') c.killsElite += 1
     else c.killsNormal += 1
-    log(c, '【' + c.name + '】击杀了' + (t.kind === 'elite' ? '精英' : '') + '【' + t.Name + '】，获得经验 ' + t.Exp)
-    gainExp(c, t.Exp)
-    rollDrops(c, t)
+    const n = t.count || 1
+    const g = gainExp(c, t.Exp * n)
+    log(c, '【' + c.name + '】击杀了' + (t.kind === 'elite' ? '精英' : '') + '【' + t.Name + '】' + (n > 1 ? '×' + n : '') + '，获得经验 ' + g)
+    for (let i = 0; i < n; i++) rollDrops(c, t)
+    updateComp()
     c.target = null
   }
 }
@@ -561,10 +630,11 @@ function finishChallenge() {
   })
   for (const c of S.chars) {
     c.killsBoss += 1
-    gainExp(c, ch.exp)
+    const g = gainExp(c, ch.exp)
     c.target = null
-    log(c, '【' + c.name + '】参与击杀了首领【' + ch.name + '】，获得经验 ' + ch.exp)
+    log(c, '【' + c.name + '】参与击杀了首领【' + ch.name + '】，获得经验 ' + g)
   }
+  updateComp()
   if (r.gold) clog('获得了【' + r.gold + '金币】')
   for (const name of r.items) clog('获得了【' + name + '】' + (r.counts[name] > 1 ? ' ×' + r.counts[name] : ''))
   S.bossCd[ch.name] = BOSS_COOLDOWN_MS

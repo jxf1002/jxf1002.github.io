@@ -7,7 +7,7 @@
     <meta name="description" content="纯前端传奇挂机小游戏：战法道三职业自动打怪、捡装、升级，还能组队挑战首领。" />
     <link rel="canonical" href="https://www.justful.cn/mir2/" />
     <title>传奇挂机小游戏｜贾师傅的小站</title>
-    <link rel="stylesheet" href="/assets/css/site.css?v=8" />
+    <link rel="stylesheet" href="/assets/css/site.css?v=9" />
     <script src="/assets/js/common.js?v=3"></script>
     <script>
       var _hmt = _hmt || [];
@@ -78,6 +78,9 @@
       button.btn:hover:not(:disabled) { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); color: var(--primary); }
       button.btn:active:not(:disabled) { transform: translateY(1px); }
       button.btn:disabled { opacity: .5; cursor: default; }
+      #btn-reset { color: var(--danger); border-color: var(--danger); }
+      #reset-yes { color: var(--danger); border-color: var(--danger); }
+      #btn-reset:hover:not(:disabled), #reset-yes:hover:not(:disabled) { background: color-mix(in srgb, var(--danger) 12%, transparent); border-color: var(--danger); color: var(--danger); }
       #btn-boss { border-color: var(--accent); color: var(--accent); font-weight: 700; background: color-mix(in srgb, var(--accent) 10%, transparent); }
       #btn-boss:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 18%, transparent); border-color: var(--accent); color: var(--accent); }
       #save-tip { color: var(--muted); font-size: 12px; }
@@ -90,6 +93,8 @@
       .char-head { display: flex; align-items: center; gap: 8px; }
       .char-head b { font-size: 16px; }
       .char-head .lv { color: var(--primary); font-weight: 700; }
+      .char-head .comp-lamp { font-size: 12px; border: 1px solid currentColor; border-radius: 20px; padding: 0 8px; white-space: nowrap; }
+      .char-head .comp-lamp:empty { display: none; }
       .char-head button { margin-left: auto; font-size: 12px; }
       .exp-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
       .exp-row .mir2-bar { flex: 1; margin: 0; }
@@ -112,11 +117,13 @@
       .kill-chip b { font-weight: 700; }
       .kill-chip.k-elite { color: var(--mir2-elite); border-color: var(--mir2-elite); }
       .kill-chip.k-boss { color: var(--mir2-warrior); border-color: var(--mir2-warrior); }
+      .elite-name { color: var(--mir2-elite); }
       .mir2-fight { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 7px; }
       .mob { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .mir2-log { flex: 1; min-height: 40px; overflow-y: auto; font-size: 12px; line-height: 1.7; color: var(--text); }
       .mir2-bag { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--surface); }
-      .mir2-bag h3 { margin: 0 0 4px; font-size: 15px; }
+      .mir2-bag h3 { margin: 0 0 4px; font-size: 15px; display: flex; align-items: center; }
+      .mir2-bag h3 #btn-sell { margin-left: auto; font-size: 12px; }
       .mir2-gold { display: inline-flex; align-items: center; gap: 3px; font-weight: 700; color: var(--mir2-gold-text); background: linear-gradient(180deg, color-mix(in srgb, var(--mir2-gold) 42%, #fff), color-mix(in srgb, var(--mir2-gold) 90%, #fff)); border: 1px solid color-mix(in srgb, var(--mir2-gold) 82%, #000); border-radius: 8px; padding: 2px 8px; font-variant-numeric: tabular-nums; margin-bottom: 4px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 50%); }
       :root.dark .mir2-gold { background: linear-gradient(180deg, color-mix(in srgb, var(--mir2-gold) 34%, #000), color-mix(in srgb, var(--mir2-gold) 12%, #000)); border-color: color-mix(in srgb, var(--mir2-gold) 72%, #000); box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%); }
       .mobile-gold { display: none; }
@@ -181,6 +188,22 @@
       .list-box .boss-list { flex: 1; min-height: 0; overflow-y: auto; padding-right: 2px; }
       .drop-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 3px 9px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface-muted); font-weight: 600; }
       .drop-row b { color: inherit; opacity: .75; font-weight: 600; white-space: nowrap; }
+      .sell-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; margin: 6px 0; }
+      .sell-table th, .sell-table td { padding: 4px 8px; border-bottom: 1px solid var(--border); }
+      .sell-table th { color: var(--muted); font-weight: 500; font-size: 12px; }
+      .sell-table th:first-child, .sell-table td:first-child { text-align: left; }
+      .sell-table th + th, .sell-table td + td { text-align: right; }
+      .sell-total { display: flex; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-muted); margin: 6px 0; }
+      .sell-total > div { flex: 1; padding: 6px 10px; text-align: center; }
+      .sell-total > div + div { border-left: 1px solid var(--border); }
+      .sell-total span { display: block; color: var(--muted); font-size: 12px; }
+      .sell-total b { font-size: 16px; font-variant-numeric: tabular-nums; }
+      .sell-q { display: inline-flex; align-items: center; gap: 4px; margin: 2px 10px 2px 0; font-size: 13px; cursor: pointer; }
+      .mir2-modal-box .q0 { color: var(--q0); }
+      .mir2-modal-box .q1 { color: var(--q1); }
+      .mir2-modal-box .q2 { color: var(--q2); }
+      .mir2-modal-box .q3 { color: var(--q3); }
+      .mir2-modal-box .q4 { color: var(--q4); }
       .drop-empty { color: var(--muted); font-size: 12px; }
       .skill-grid { display: grid; grid-template-columns: minmax(0, 1fr) 3.2em 2.6em 2.6em 2.6em; align-items: center; gap: 4px; padding: 4px 0; border-top: 1px dashed var(--border); font-size: 13px; font-variant-numeric: tabular-nums; }
       .skill-grid.head { border-top: none; color: var(--muted); font-size: 12px; padding: 0 0 3px; }
@@ -248,7 +271,7 @@
       <div class="mir2-main">
         <div class="mir2-chars" id="chars"></div>
         <div class="mir2-bag">
-          <h3>🎒 背包（共享）</h3>
+          <h3>🎒 背包（共享）<button class="btn" id="btn-sell">一键出售</button></h3>
           <div class="mir2-gold"><i class="coin"></i> 金币：<span class="gold-num">0</span></div>
           <input class="bag-search" id="bag-search" placeholder="搜索物品…" />
           <div class="bag-filter" id="bag-filter">
@@ -275,6 +298,6 @@
       </div>
     </div>
     <div id="tooltip"></div>
-    <script type="module" src="js/app.js?v=36"></script>
+    <script type="module" src="js/app.js?v=37"></script>
   </body>
 </html>

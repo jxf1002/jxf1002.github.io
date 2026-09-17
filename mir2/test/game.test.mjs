@@ -450,6 +450,111 @@ describe('attack 战斗循环', () => {
   })
 })
 
+describe('多倍遭遇与经验补偿', () => {
+  it('encounterMult：50级以下恒1，之后每级+0.25', () => {
+    assert.equal(G.encounterMult(1), 1)
+    assert.equal(G.encounterMult(50), 1)
+    assert.equal(G.encounterMult(60), 3.5)
+    assert.equal(G.encounterMult(100), 13.5)
+  })
+  it('rollCount 随机取整保证期望：60级mock0→4、mock0.5→3', () => {
+    mockRandom(0)
+    assert.equal(G.rollCount(60), 4)
+    mockRandom(0.5)
+    assert.equal(G.rollCount(60), 3)
+    assert.equal(G.rollCount(40), 1)
+  })
+  it('遭遇存只数且文案带×N（60级mock0遇精英重装使者×4）', () => {
+    mockRandom(0)
+    const c = warrior(60)
+    G.attack(c)
+    assert.equal(c.target.count, 4)
+    assert.ok(c.logs.some((l) => l.includes('【重装使者】×4')))
+  })
+  it('击杀结算×N：经验×N、掉落独立掷N遍', () => {
+    mockRandom(0)
+    const c = warrior(10)
+    c.target = { Name: '稻草人', HP: 1, MaxHP: 1, AC: 0, MAC: 0, Exp: 5, count: 3 }
+    G.setDrops('稻草人', ['10/10 金币 300', '10/10 乌木剑'])
+    G.attack(c)
+    assert.equal(c.killsNormal, 1)
+    assert.equal(c.exp, 15)
+    assert.equal(G.S.gold, 900)
+    assert.equal(G.S.bag['乌木剑'], 3)
+    assert.ok(c.logs.some((l) => l.includes('×3')))
+  })
+  it('落后最高10%开补偿，领先两人各10%才关', () => {
+    const [w, m, t] = G.S.chars
+    for (const c of G.S.chars) { c.level = 60; c.exp = 0 }
+    m.level = 55 // 落后56% → 开
+    G.updateComp()
+    assert.equal(m.comp, true)
+    assert.equal(w.comp, false)
+    assert.equal(t.comp, false)
+    m.level = 70 // 反超3倍 → 关
+    G.updateComp()
+    assert.equal(m.comp, false)
+    w.level = 55 // 战士落后 → 开（系数1.5，状态照记）
+    G.updateComp()
+    assert.equal(w.comp, true)
+  })
+  it('经验补偿系数只乘经验（战1.5/法2.8/道2.2），可双开', () => {
+    const [w, m, t] = G.S.chars
+    for (const c of G.S.chars) { c.level = 60; c.exp = 0 }
+    w.comp = true; m.comp = true // 双开：各记各的
+    G.gainExp(w, 100)
+    G.gainExp(m, 100)
+    G.gainExp(t, 100)
+    assert.equal(w.exp, 150)
+    assert.equal(m.exp, 280)
+    assert.equal(t.exp, 100)
+    t.comp = true
+    G.gainExp(t, 100)
+    assert.equal(t.exp, 320) // 100+220
+  })
+})
+
+describe('一键出售', () => {
+  it('只卖闲置、保留穿戴', () => {
+    const w = G.S.chars[0]
+    G.S.bag = { 乌木剑: 3 }
+    w.equip = { weapon: '乌木剑' }
+    const r = G.sellPreview(null)
+    assert.deepEqual(r.rows, [{ name: '乌木剑', n: 2, gold: 8000 }])
+    assert.equal(r.total, 8000)
+    assert.equal(r.count, 2)
+    G.sellBag(null)
+    assert.deepEqual(G.S.bag, { 乌木剑: 1 })
+    assert.equal(G.S.gold, 8000)
+    assert.equal(w.equip.weapon, '乌木剑')
+  })
+  it('品质过滤只卖该品质', () => {
+    G.S.bag = { 乌木剑: 1, 裁决之杖: 1 }
+    assert.equal(G.sellPreview(4).total, 50000)
+    assert.equal(G.sellPreview(0).total, 4000)
+    G.sellBag(4)
+    assert.deepEqual(G.S.bag, { 乌木剑: 1 })
+    assert.equal(G.S.gold, 50000)
+  })
+  it('品质数组多选', () => {
+    G.S.bag = { 乌木剑: 1, 裁决之杖: 1, 偃月: 1 }
+    const r = G.sellPreview([4, 0])
+    assert.equal(r.rows.length, 2)
+    assert.equal(r.total, 50000 + 4000)
+    G.sellBag([4, 0])
+    assert.deepEqual(G.S.bag, { 偃月: 1 })
+  })
+  it('无闲置可卖时 total 为 0 且不扣东西', () => {
+    const w = G.S.chars[0]
+    G.S.bag = { 乌木剑: 1 }
+    w.equip = { weapon: '乌木剑' }
+    assert.equal(G.sellPreview(null).total, 0)
+    G.sellBag(null)
+    assert.deepEqual(G.S.bag, { 乌木剑: 1 })
+    assert.equal(G.S.gold, 0)
+  })
+})
+
 describe('loadChars 存档迁移', () => {
   it('老存档 kills 并入 killsNormal', () => {
     G.loadChars([{ key: 'warrior', level: 10, exp: 5, kills: 7, equip: {} }])
@@ -672,6 +777,13 @@ describe('itemQuality 装备品质', () => {
 })
 
 describe('杂项', () => {
+  it('shortName 隐去怪物尾数', () => {
+    assert.equal(G.shortName('僵尸10'), '僵尸')
+    assert.equal(G.shortName('祖玛卫士00'), '祖玛卫士')
+    assert.equal(G.shortName('宝箱'), '宝箱')
+    assert.equal(G.shortName('白野猪'), '白野猪')
+    assert.equal(G.shortName(''), '')
+  })
   it('addBag 累加', () => {
     G.addBag('鸡肉', 1)
     G.addBag('鸡肉', 2)

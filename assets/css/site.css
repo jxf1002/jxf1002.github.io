@@ -201,6 +201,12 @@ td { white-space: normal; }
 :root:not(.dark) .tool-page .result-card .value,
 :root:not(.dark) .tool-page .result-detail-item .value,
 :root:not(.dark) .tool-page table td { color: var(--text) !important; }
+/* 出售表品质色例外（仅认 .sell-table td.qN，其余表格不受影响） */
+:root:not(.dark) .tool-page table.sell-table td.q0 { color: var(--q0) !important; }
+:root:not(.dark) .tool-page table.sell-table td.q1 { color: var(--q1) !important; }
+:root:not(.dark) .tool-page table.sell-table td.q2 { color: var(--q2) !important; }
+:root:not(.dark) .tool-page table.sell-table td.q3 { color: var(--q3) !important; }
+:root:not(.dark) .tool-page table.sell-table td.q4 { color: var(--q4) !important; }
 :root:not(.dark) .tool-page .result-card .label,
 :root:not(.dark) .tool-page .result-card .sub,
 :root:not(.dark) .tool-page .result-detail-item .label,
@@ -285,6 +291,12 @@ td { white-space: normal; }
 :root.dark .tool-page .result-card .value,
 :root.dark .tool-page .result-detail-item .value,
 :root.dark .tool-page table td { color: var(--text) !important; }
+/* 出售表品质色例外（仅认 .sell-table td.qN，其余表格不受影响） */
+:root.dark .tool-page table.sell-table td.q0 { color: var(--q0) !important; }
+:root.dark .tool-page table.sell-table td.q1 { color: var(--q1) !important; }
+:root.dark .tool-page table.sell-table td.q2 { color: var(--q2) !important; }
+:root.dark .tool-page table.sell-table td.q3 { color: var(--q3) !important; }
+:root.dark .tool-page table.sell-table td.q4 { color: var(--q4) !important; }
 :root.dark .tool-page .result-card .label,
 :root.dark .tool-page .result-card .sub,
 :root.dark .tool-page .result-detail-item .label,

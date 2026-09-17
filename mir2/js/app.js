@@ -1,5 +1,5 @@
 // 传奇挂机小游戏：DOM 胶水层（渲染、存档、主循环）
-import * as G from './game.js?v=20'
+import * as G from './game.js?v=21'
 
 const $ = (s) => document.querySelector(s)
 
@@ -49,14 +49,19 @@ function render() {
     const tpct = t ? Math.max(0, (t.HP / t.MaxHP) * 100) : 0
     const el = document.getElementById('char-' + c.key)
     el.querySelector('.lv').textContent = 'Lv.' + c.level
+    const lamp = el.querySelector('.comp-lamp')
+    const coef = G.COMP_COEF[c.key] || 1
+    lamp.textContent = c.comp ? '经验×' + coef : ''
+    lamp.title = c.comp ? '落后补偿中：经验×' + coef + '，领先另外两人各 10% 后关闭' : ''
     el.querySelector('.expbar').style.width = pct + '%'
     el.querySelector('.exptext').textContent = c.exp + ' / ' + need
     el.querySelector('.mir2-equips').innerHTML = eqHtml
     el.querySelector('.mir2-stats').innerHTML = sr('攻击', fmtRange(st.dc)) + sr('魔法', fmtRange(st.mc)) + sr('道术', fmtRange(st.sc)) + sr('防御', fmtRange(st.ac)) + sr('魔御', fmtRange(st.mac))
     el.querySelector('.kills').innerHTML = '<span class="kill-chip">普通 <b>' + c.killsNormal + '</b></span><span class="kill-chip k-elite">精英 <b>' + c.killsElite + '</b></span><span class="kill-chip k-boss">首领 <b>' + c.killsBoss + '</b></span>'
-    el.querySelector('.mob').textContent = !t ? '寻找怪物中…' : t.kind === 'boss' ? '讨伐【' + t.Name + '】中…' : t.Name + '（' + Math.max(0, t.HP) + ' / ' + t.MaxHP + '）'
+    const mobName = t ? G.shortName(t.Name) : ''
+    el.querySelector('.mob').innerHTML = !t ? '寻找怪物中…' : t.kind === 'boss' ? '讨伐【' + t.Name + '】中…' : (t.kind === 'elite' ? '<b class="elite-name">' + mobName + '</b>' : mobName) + ((t.count || 1) > 1 ? '×' + t.count : '') + '（' + Math.max(0, t.HP) + ' / ' + t.MaxHP + '）'
     el.querySelector('.mobbar').style.width = tpct + '%'
-    el.querySelector('.mir2-log').innerHTML = c.logs.slice().reverse().map((l) => '<div>' + l + '</div>').join('')
+    el.querySelector('.mir2-log').innerHTML = c.logs.slice().reverse().map((l) => '<div>' + fmtLog(l) + '</div>').join('')
   }
   updateSpeedButton()
   refreshTip()
@@ -64,10 +69,33 @@ function render() {
 
 let bagFilter = ''
 let bagQuality = null
+let resetting = false // 重置中：跳过 beforeunload 自动存档，否则删了也白删
+
+// 怪物展示名：全名→{短名, 是否精英}，日志与血条上方共用（括号精确匹配，技能/物品名不受影响）
+let dispMap = null
+function mobDisp() {
+  if (dispMap) return dispMap
+  dispMap = new Map()
+  for (const m of G.DB.monsters) if (/\d$/.test(m.Name)) dispMap.set(m.Name, { base: G.shortName(m.Name), elite: false })
+  for (const m of G.DB.elites) dispMap.set(m.Name, { base: G.shortName(m.Name), elite: true })
+  return dispMap
+}
+function fmtLog(l) {
+  for (const [full, d] of mobDisp()) {
+    if (!l.includes(full)) continue
+    l = l.split('【' + full + '】').join('【' + (d.elite ? '<b class="elite-name">' + d.base + '</b>' : d.base) + '】')
+  }
+  return l.replace(/【([^【】]+)】/g, (full, name) => {
+    const it = G.DB.itemByName[name]
+    if (!it) return full
+    const q = G.itemQuality(it)
+    return q > 0 ? '【<b class="q' + q + '">' + name + '</b>】' : full
+  })
+}
 
 function buildDom() {
   $('#chars').innerHTML = G.S.chars.map((c) => '<div class="mir2-col job-' + c.key + '" id="char-' + c.key + '">'
-    + '<div><div class="char-head"><b>' + (JOB_ICON[c.key] || '') + c.name + '</b><span class="lv"></span><button class="btn" data-skill="' + c.key + '">技能</button></div>'
+    + '<div><div class="char-head"><b>' + (JOB_ICON[c.key] || '') + c.name + '</b><span class="lv"></span><span class="comp-lamp q4"></span><button class="btn" data-skill="' + c.key + '">技能</button></div>'
     + '<div class="exp-row"><div class="mir2-bar exp"><i class="expbar"></i></div><span class="exptext"></span></div>'
     + '<div class="sec-t">装备</div><div class="mir2-equips"></div>'
     + '<div class="sec-t">属性</div><div class="mir2-stats"></div>'
@@ -376,7 +404,7 @@ function renderBossView() {
     if (!bar) return
     $('#boss-hp-text').textContent = ch.name + '（' + Math.max(0, ch.hp) + ' / ' + ch.maxHp + '）'
     bar.style.width = Math.max(0, (ch.hp / ch.maxHp) * 100) + '%'
-    $('#boss-log').innerHTML = ch.logs.slice().reverse().map((l) => '<div>' + l + '</div>').join('')
+    $('#boss-log').innerHTML = ch.logs.slice().reverse().map((l) => '<div>' + fmtLog(l) + '</div>').join('')
   }
 }
 
@@ -430,7 +458,7 @@ async function init() {
     G.rebalanceEquips(false)
     save(true)
   }, 5000)
-  addEventListener('beforeunload', () => save(true))
+  addEventListener('beforeunload', () => { if (!resetting) save(true) })
 }
 
 $('#btn-help').onclick = () => openModal('玩法说明', HELP_HTML)
@@ -448,6 +476,41 @@ $('#btn-speed-up').onclick = () => {
     render()
   }
 }
+const QNAME = ['白', '绿', '蓝', '紫', '橙']
+let sellQs = new Set([4, 3, 2, 1, 0]) // 出售弹窗的品质多选，会话内记住上次选择
+function sellModalHtml() {
+  const r = G.sellPreview([...sellQs])
+  const boxes = [4, 3, 2, 1, 0].map((q) =>
+    '<label class="sell-q q' + q + '"><input type="checkbox" data-sq="' + q + '"' + (sellQs.has(q) ? ' checked' : '') + '>' + QNAME[q] + '</label>').join('')
+  const byQ = {}
+  for (const row of r.rows) {
+    const q = G.itemQuality(G.DB.itemByName[row.name])
+    byQ[q] = byQ[q] || { kinds: 0, n: 0, gold: 0 }
+    byQ[q].kinds += 1; byQ[q].n += row.n; byQ[q].gold += row.gold
+  }
+  const body = !r.total
+    ? '<div class="bag-empty">没有可出售的所选品质闲置物品。</div>'
+    : '<table class="sell-table"><tr><th>品质</th><th>种数</th><th>件数</th><th>金币</th></tr>' + [4, 3, 2, 1, 0].filter((q) => byQ[q]).map((q) =>
+      '<tr><td class="q' + q + '">' + QNAME[q] + '色</td><td>' + byQ[q].kinds + '</td><td>' + byQ[q].n + '</td><td>+' + byQ[q].gold.toLocaleString('zh-CN') + '</td></tr>').join('') + '</table>'
+    + '<div class="sell-total"><div><span>共计件数</span><b>' + r.rows.length + '种 ' + r.count + '件</b></div><div><span>共计金币</span><b>+' + r.total.toLocaleString('zh-CN') + '</b></div></div>'
+  return '<div>勾选要出售的品质：' + boxes + '</div>' + body
+    + '<div class="modal-btns"><button class="btn" id="sell-no">取消</button><button class="btn" id="sell-yes"' + (r.total ? '' : ' disabled') + '>确认出售</button></div>'
+}
+function openSellModal() {
+  openModal('一键出售', sellModalHtml())
+  document.querySelectorAll('[data-sq]').forEach((box) => {
+    box.onchange = () => {
+      const q = +box.getAttribute('data-sq')
+      if (box.checked) sellQs.add(q)
+      else sellQs.delete(q)
+      openSellModal()
+    }
+  })
+  $('#sell-no').onclick = () => $('#modal').classList.remove('open')
+  const yes = $('#sell-yes')
+  if (yes && !yes.disabled) yes.onclick = () => { G.sellBag([...sellQs]); $('#modal').classList.remove('open'); render() }
+}
+$('#btn-sell').onclick = openSellModal
 $('#bag-search').addEventListener('input', (e) => {
   bagFilter = e.target.value.trim()
   render()
@@ -494,7 +557,7 @@ $('#btn-import').onclick = () => {
 $('#btn-reset').onclick = () => {
   openModal('重置进度', '<div>确定要清空全部进度吗？等级、装备、背包、金币和首领冷却都会丢失，建议先导出存档备份。</div>'
     + '<div class="modal-btns"><button class="btn" id="reset-no">取消</button><button class="btn" id="reset-yes">确认重置</button></div>')
-  $('#reset-yes').onclick = () => { localStorage.removeItem(G.SAVE_KEY); location.reload() }
+  $('#reset-yes').onclick = () => { resetting = true; localStorage.removeItem(G.SAVE_KEY); location.reload() }
   $('#reset-no').onclick = () => $('#modal').classList.remove('open')
 }
 $('#btn-boss').onclick = () => {
