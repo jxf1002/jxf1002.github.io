@@ -1168,15 +1168,24 @@ function hardClaimOutcome(pI, act) {
   return bestDiscardEval(res.hand, res.melds);
 }
 
-function evalClaim(pI, act) {
+function evalClaim(pI, act, cur) {
   if (act.a === 'kong') return 300 + claimPriority(act); // 杠补摸 + 凑副露，近似取正收益
   let p = G.players[pI];
   let out = hardClaimOutcome(pI, act);
   if (!out) return -Infinity;
-  let cur = evalHand(p.hand, p.melds); // 鸣牌前手牌为 need*3+1 张，用 evalHand 而非 bestDiscardEval（后者按 14 张口径会返回哨兵）
-  let s = evalQuality(out) - evalQuality(cur);
-  if (act.ting) s += 100000;
-  return s + claimPriority(act);
+  if (act.a === 'peng') {
+    // 已有刻子时，手里最后一对要留着做雀头：碰掉就没雀头，往往只剩单调（最差听口）
+    let c = {};
+    p.hand.forEach(t => { c[Tile.tid(t)] = (c[Tile.tid(t)] || 0) + 1; });
+    let pairs = Object.values(c).filter(n => n === 2).length;
+    let hasTri = p.melds.some(m => m.type !== 'chi') || Object.values(c).some(n => n >= 3);
+    if (pairs === 1 && hasTri && !(out.dist === 0 && out.wins >= 2)) return -Infinity;
+  }
+  let q = evalQuality(out) - evalQuality(cur);
+  if (act.ting) return 100000 + q; // 能听优先；同类之间仍按听口质量排（双头/多头 > 夹 > 单吊）
+  // 不吃碰“换了张牌但距离没降”的鸣牌：已经开门后更没必要，等于白耗一次抓牌
+  if (out.dist >= cur.dist) return -Infinity;
+  return q + claimPriority(act);
 }
 
 // 安全度 0~1：现物 + 已见张数；宝牌扣分。
@@ -1361,9 +1370,11 @@ function aiChooseClaimHard(pI, acts) {
   let hu = acts.find(a => a.a === 'hu');
   if (hu) return hu;
   if (G.ting.has(pI)) return null;
-  let scored = acts.map(a => ({ a, s: evalClaim(pI, a) }));
+  let p = G.players[pI];
+  let cur = evalHand(p.hand, p.melds);
+  let scored = acts.map(a => ({ a, s: evalClaim(pI, a, cur) }));
   scored.sort((x, y) => (y.s - x.s) || (claimPriority(y.a) - claimPriority(x.a)));
-  // 只在正收益（或能上听，evalClaim 已加 100000）时鸣牌，不再急于开门
+  // 只在正收益（或能上听，evalClaim 已加 100000）时鸣牌：不急于开门、不空耗吃碰
   if (scored.length && scored[0].s > 0) return scored[0].a;
   return null;
 }
