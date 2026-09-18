@@ -3,10 +3,11 @@ import * as UI from './ui.js';
 
 Game.setUI(UI);
 
-// 移动端开局强制横屏：先 requestFullscreen 再 orientation.lock（Chrome 要求全屏才给锁）
-// 必须在点击手势里同步触发；iOS 无此 API 会静默失败，靠竖屏遮罩引导手动旋转
+// 移动端横屏偏好：先 requestFullscreen 再 orientation.lock（Chrome 要求全屏才给锁）
+// 必须在点击手势里同步触发；iOS 无此 API 会静默失败，靠 CSS 伪横屏旋转
 function tryLandscape() {
   try {
+    if (UI.getOrient() !== 'landscape') return
     if (!matchMedia('(pointer: coarse)').matches) return
     let fs = document.documentElement.requestFullscreen
       ? document.documentElement.requestFullscreen().catch(() => {})
@@ -55,8 +56,12 @@ rulesBtn.addEventListener('click', () => { rulesModal.classList.add('show'); });
 rulesClose.addEventListener('click', () => { rulesModal.classList.remove('show'); rulesClose.blur(); });
 rulesModal.addEventListener('click', e => { if (e.target === rulesModal) rulesModal.classList.remove('show'); });
 
+const orientBtn = document.getElementById('orient-btn');
+orientBtn.addEventListener('click', e => { e.target.blur(); UI.cycleOrient(); });
+
 // 启动：有存档则大厅显示继续游戏，否则只显示新的游戏
 Game.G.playing = false;
+UI.applyOrient();
 if (Game.restore()) {
   UI.update();
 } else {

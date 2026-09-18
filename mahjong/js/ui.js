@@ -271,6 +271,7 @@ function updateStartButton() {
     }
   }
   document.body.classList.toggle('playing', !!G.playing);
+  applyOrient();
   // 退出游玩态即解横屏锁定 + 退全屏（桌面端/不支持的浏览器无操作）
   if (!G.playing && screen.orientation && screen.orientation.unlock) {
     try { screen.orientation.unlock() } catch (e) {}
@@ -328,9 +329,7 @@ function renderHints() {
 export function showTingPop(anchorEl, wins) {
   if (!wins || !wins.length) return;
   // 伪横屏下 fixed 定位坐标系被旋转，弹窗位置会错，直接不显示
-  if (typeof matchMedia === 'function' && document.body.classList
-    && document.body.classList.contains('playing')
-    && matchMedia('(orientation: portrait) and (pointer: coarse)').matches) return;
+  if (document.body.classList && document.body.classList.contains('land')) return;
   let pop = document.getElementById('ting-pop');
   if (!pop) {
     pop = document.createElement('div');
@@ -365,6 +364,49 @@ let tingSelIdx = -1;
 
 function isCoarse() {
   return typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+}
+
+// ===== 竖屏/横屏偏好：默认竖屏，触屏横屏偏好时伪横屏旋转（真机竖屏视口） =====
+const ORIENT_KEY = 'mahjong_orient';
+
+export function getOrient() {
+  try { return localStorage.getItem(ORIENT_KEY) === 'landscape' ? 'landscape' : 'portrait'; } catch (e) { return 'portrait'; }
+}
+
+export function applyOrient() {
+  let coarse = isCoarse();
+  let portraitView = typeof matchMedia === 'function' && matchMedia('(orientation: portrait)').matches;
+  let mode = getOrient();
+  let on = !!(G.playing && coarse && portraitView);
+  document.body.classList.toggle('land', on && mode === 'landscape');
+  document.body.classList.toggle('port', on && mode === 'portrait');
+  let b = EL('orient-btn');
+  if (b) b.textContent = mode === 'landscape' ? '切换竖屏' : '切换横屏';
+}
+
+// 切换方向：持久化后立即应用；切横屏在点击手势内请求全屏+锁方向，切竖屏解锁
+export function cycleOrient() {
+  let next = getOrient() === 'landscape' ? 'portrait' : 'landscape';
+  try { localStorage.setItem(ORIENT_KEY, next); } catch (e) {}
+  if (next === 'portrait') {
+    if (screen.orientation && screen.orientation.unlock) { try { screen.orientation.unlock(); } catch (e) {} }
+  } else if (isCoarse()) {
+    try {
+      let fs = document.documentElement.requestFullscreen
+        ? document.documentElement.requestFullscreen().catch(() => {})
+        : Promise.resolve();
+      Promise.resolve(fs).then(() => {
+        if (screen.orientation && screen.orientation.lock)
+          return screen.orientation.lock('landscape').catch(() => {});
+      }).catch(() => {});
+    } catch (e) {}
+  }
+  applyOrient();
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', applyOrient);
+  window.addEventListener('orientationchange', applyOrient);
 }
 
 function clearTingSel() {

@@ -659,10 +659,10 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
 .m-sep { width: 2px; align-self: stretch; min-height: 43px; border-radius: 2px; background: rgba(255,255,255,.25); margin: 0 5px; }
 .m-dora-label { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; }
 
-/* ===== 伪横屏：iOS 无转屏 API，触屏竖屏游玩态把整页旋转 90° 假装横屏 ===== */
-/* 大厅（非 playing）/ 桌面端（pointer 非 coarse）不受影响；真横屏后媒体查询自动失效 */
+/* ===== 伪横屏：iOS 无转屏 API，触屏 + 横屏偏好时把整页旋转 90° 假装横屏 ===== */
+/* 仅 body.playing.land 生效（JS 按偏好与视口方向添加）；竖屏偏好/桌面端不受影响 */
 @media (orientation: portrait) and (pointer: coarse) {
-  body.playing {
+  body.playing.land {
     position: fixed; left: 0; top: 0;
     width: 100vh; height: 100vw;
     width: 100dvh; height: 100dvw;
@@ -673,7 +673,24 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
     transform-origin: top left;
   }
   /* 竖屏视口 vh 会撑破旋转后的高度，按住不让 table 顶出去 */
-  body.playing .table { min-height: 0; }
+  body.playing.land .table { min-height: 0; }
   /* 结算卡：伪横屏下 vw/vh 互换，用旋转后的屏宽铺开（压缩样式见 ≤500 矮视口规则） */
-  #mo .mdl { width: auto; max-width: 96dvh; max-height: 96dvw; }
+  body.playing.land #mo .mdl { width: auto; max-width: 96dvh; max-height: 96dvw; }
 }
+
+/* ===== 竖屏偏好（触屏竖屏游玩）：中央区收窄，牌河竖排不被裁 ===== */
+/* 压缩牌面尺寸沿用 ≤500 矮视口规则，这里只调中央区横向分配 */
+body.playing.port .table { grid-template-columns: 56px minmax(0, 1fr) 56px; }
+body.playing.port .center { min-height: 0; gap: 2px; }
+body.playing.port .center-mid { gap: 4px; }
+body.playing.port .disc-col { width: 52px; max-height: 240px; }
+body.playing.port .wall { max-width: 82px; }
+@media (max-width: 380px) {
+  body.playing.port .table { grid-template-columns: 44px minmax(0, 1fr) 44px; }
+  body.playing.port .disc-col { width: 40px; max-height: 210px; }
+  body.playing.port .wall { max-width: 66px; }
+}
+
+/* 方向切换按钮：仅触屏显示（桌面端转屏无意义） */
+.orient-btn { display: none; }
+@media (pointer: coarse) { .orient-btn { display: inline-block; } }
