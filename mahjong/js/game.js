@@ -20,8 +20,12 @@ export let G = {
 function freshStats() {
   return {
     hands: 0, rotations: 0, draw: 0,
-    per: [0, 1, 2, 3].map(() => ({ zimo: 0, ron: 0, heipao: 0, baopi: 0 }))
+    per: [0, 1, 2, 3].map(() => ({ zimo: 0, ron: 0, heipao: 0, baopi: 0, dianpao: 0, dianhei: 0 }))
   };
+}
+
+function normPer(p) {
+  return { zimo: p.zimo || 0, ron: p.ron || 0, heipao: p.heipao || 0, baopi: p.baopi || 0, dianpao: p.dianpao || 0, dianhei: p.dianhei || 0 };
 }
 
 let uiCB = null;
@@ -31,26 +35,34 @@ function ui(fn, ...args) {
   if (fn === 'update') saveState();
 }
 
-// ===== 存档：页面被自动刷新（如 Live Server）后可恢复 =====
-const SAVE_KEY = 'mahjong_save_v1';
+// ===== 存档：localStorage 实时记录，关页面后可继续 =====
+const SAVE_KEY = 'mahjong_save_v2';
 
 function saveState() {
   try {
-    if (G.over || !G.players.length) { sessionStorage.removeItem(SAVE_KEY); return; }
-    sessionStorage.setItem(SAVE_KEY, JSON.stringify({
+    if (G.over || !G.players.length) return;
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
       deck: G.deck, players: G.players, curP: G.curP, dealer: G.dealer,
       discard: G.discard, wall: G.wall, baopi: G.baopi, bpR: G.bpR,
       ting: [...G.ting], winner: G.winner, lastD: G.lastD, lastDB: G.lastDB,
       lastDraw: G.lastDraw, lastFrom: G.lastFrom, phase: G.phase,
       pending: G.pending, passed: [...G.passed], tingIntent: G.tingIntent, selfHu: G.selfHu,
-      token: G.token, playing: G.playing, stats: G.stats, forceTing: G.forceTing
+      token: G.token, playing: true, stats: G.stats, forceTing: G.forceTing
     }));
   } catch (e) { /* 忽略存储异常 */ }
 }
 
+export function hasSave() {
+  try { return !!localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
+}
+
+export function clearSave() {
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+}
+
 export function restore() {
   try {
-    let raw = sessionStorage.getItem(SAVE_KEY);
+    let raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return false;
     let d = JSON.parse(raw);
     if (!d.players || !d.players.length) return false;
@@ -61,11 +73,31 @@ export function restore() {
     G.pending = d.pending || []; G.passed = new Set(d.passed || []);
     G.tingIntent = !!d.tingIntent; G.selfHu = !!d.selfHu; G.forceTing = !!d.forceTing; G.token = (d.token || 0) + 1;
     G.lock = false; G.over = false;
-    G.playing = !!d.playing; G.stats = d.stats || freshStats();
-    ui('update');
-    resume();
+    G.playing = false;
+    G.stats = d.stats ? { hands: d.stats.hands || 0, rotations: d.stats.rotations || 0, draw: d.stats.draw || 0, per: (d.stats.per || []).map(normPer) } : freshStats();
+    while (G.stats.per.length < 4) G.stats.per.push(normPer({}));
     return true;
   } catch (e) { return false; }
+}
+
+// 回主页面：冻结牌局、保留存档、回大厅
+export function toLobby() {
+  if (!G.players.length) { G.playing = false; ui('update'); return; }
+  G.playing = false;
+  G.lock = true;
+  G.token = (G.token || 0) + 1; // 作废所有待执行的定时器
+  saveState();
+  ui('update');
+}
+
+// 大厅继续游戏：恢复冻结前的牌局
+export function resumeGame() {
+  if (!G.players.length) return;
+  G.playing = true;
+  G.token = (G.token || 0) + 1;
+  G.lock = false;
+  ui('update');
+  resume();
 }
 
 function resume() {
@@ -116,10 +148,37 @@ function takeFromHand(p, tile, n) {
 }
 
 export function init() {
+  clearSave();
   G.dealer = 0;
   G.playing = true;
   G.stats = freshStats();
   startRound(true);
+}
+
+function buildSummary() {
+  let s = G.stats || freshStats();
+  let tot = { zimo: 0, ron: 0, heipao: 0, baopi: 0, dianpao: 0, dianhei: 0 };
+  (s.per || []).forEach(p => {
+    p = normPer(p);
+    tot.zimo += p.zimo; tot.ron += p.ron; tot.heipao += p.heipao; tot.baopi += p.baopi;
+    tot.dianpao += p.dianpao; tot.dianhei += p.dianhei;
+  });
+  return {
+    hands: s.hands, rotations: s.rotations, draw: s.draw,
+    zimo: tot.zimo, ron: tot.ron, heipao: tot.heipao, baopi: tot.baopi,
+    dianpao: tot.dianpao, dianhei: tot.dianhei,
+    hu: tot.zimo + tot.ron,
+    scores: G.players.map((p, i) => ({
+      name: p.name, me: i === HUMAN, isD: p.isD, score: p.score,
+      stat: normPer((s.per && s.per[i]) || {})
+    }))
+  };
+}
+
+// 大厅查看战绩：只展示，不结束牌局
+export function showStats() {
+  if (!G.players.length) return;
+  ui('showSummary', buildSummary());
 }
 
 // 结束整局，返回统计并弹出结算
@@ -129,20 +188,9 @@ export function endGame() {
   G.over = true;      // 冻结牌局
   G.lock = true;
   G.token = (G.token || 0) + 1; // 作废所有待执行的定时器
-  let s = G.stats || freshStats();
-  let tot = { zimo: 0, ron: 0, heipao: 0, baopi: 0 };
-  (s.per || []).forEach(p => { tot.zimo += p.zimo; tot.ron += p.ron; tot.heipao += p.heipao; tot.baopi += p.baopi; });
-  let summary = {
-    hands: s.hands, rotations: s.rotations, draw: s.draw,
-    zimo: tot.zimo, ron: tot.ron, heipao: tot.heipao, baopi: tot.baopi,
-    scores: G.players.map((p, i) => ({
-      name: p.name, me: i === HUMAN, isD: p.isD, score: p.score,
-      stat: (s.per && s.per[i]) || { zimo: 0, ron: 0, heipao: 0, baopi: 0 }
-    }))
-  };
-  try { sessionStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+  clearSave();
   ui('update');
-  ui('showSummary', summary);
+  ui('showSummary', buildSummary());
 }
 
 function startRound(resetScores) {
@@ -320,6 +368,7 @@ function doDiscard(pI, idx) {
   G.discard.push(t);
   G.lastD = t;
   G.lastDB = pI;
+  G.lastDraw = null; // 打出后新摸标记清除
   ui('addLog', p.name + ' 打出 ' + Tile.label(t));
   ensureBaopi();
 
@@ -945,9 +994,14 @@ function win(pI, discarder, isZimo) {
   let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: sc.deltas[i], total: pl.score }));
 
   if (G.stats && G.stats.per) {
-    let s = G.stats.per[pI];
+    let s = normPer(G.stats.per[pI]);
+    G.stats.per[pI] = s;
     if (isZimo) s.zimo++;
-    else { s.ron++; if (heipao) s.heipao++; }
+    else {
+      s.ron++;
+      if (heipao) { s.heipao++; if (discarder >= 0) { let ds = normPer(G.stats.per[discarder]); G.stats.per[discarder] = ds; ds.dianhei++; } }
+      else s.dianpao++;
+    }
     if (isBaopi) s.baopi++;
   }
 

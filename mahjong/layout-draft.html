@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>布局草稿（定稿对照，勿删）</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'PingFang SC','Microsoft YaHei',sans-serif; background: #101a15; color: #eef2ef; padding: 12px; }
+h2 { font-size: 15px; color: #e8c15a; margin: 4px 0 8px; }
+.note { font-size: 12px; color: #9db3a8; margin-bottom: 10px; line-height: 1.7; }
+.note b { color: #e8c15a; }
+.table { display: grid; grid-template-columns: 120px 1fr 120px; grid-template-areas: 'left top right' 'left center right' 'bottom bottom bottom'; grid-template-rows: auto 1fr auto; gap: 8px; padding: 12px; border-radius: 18px; background: #0e3a28; border: 6px solid #5a3a1a; max-width: 1112px; margin: 0 auto; }
+.center { grid-area: center; min-height: 380px; display: flex; align-items: center; justify-content: center; color: #9db3a8; font-size: 12px; text-align: center; }
+.seat { background: #123528; border: 1px solid #2a5a44; border-radius: 10px; padding: 6px; min-width: 0; min-height: 0; overflow: hidden; }
+.seat-bottom { grid-area: bottom; border: 2px solid #e8c15a; }
+.seat-top { grid-area: top; }
+.seat-left { grid-area: left; }
+.seat-right { grid-area: right; }
+.box { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.seat-head { font-size: 14px; font-weight: 700; white-space: nowrap; display: flex; gap: 8px; align-items: center; }
+.seat-top .seat-head, .seat-left .seat-head, .seat-right .seat-head { font-size: 12px; color: #e8c15a; }
+.seat-head .score { color: #5fd39a; }
+.seat-body-b { display: flex; flex-direction: row; align-items: flex-end; justify-content: center; gap: 22px; }
+.seat-top .seat-body-b { flex-direction: row-reverse; }
+.seat-left .seat-body-s, .seat-right .seat-body-s { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.seat-right .seat-body-s { flex-direction: column-reverse; }
+.pm { display: flex; gap: 6px; align-items: flex-end; }
+.ph { display: flex; gap: 3px; align-items: flex-end; }
+.seat-bottom .pm { gap: 12px; }
+.seat-bottom .ph { gap: 4px; }
+.seat-left .pm, .seat-left .ph, .seat-right .pm, .seat-right .ph { display: flex; flex-direction: column; gap: 0; align-items: center; }
+.seat-left .pm, .seat-right .pm { gap: 10px; }
+.tile { border-radius: 5px; background: #fdfbf5; color: #333; display: flex; align-items: center; justify-content: center; font-weight: 700; position: relative; flex-shrink: 0; border: 1px solid #c3b795; }
+.seat-bottom .tile { width: 56px; height: 76px; font-size: 20px; }
+.seat-bottom .tile.meld { background: #f0dfa8; }
+.tile.claimed { background: #f0dfa8; }
+.tile.claimed::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(232,193,90,.38); pointer-events: none; }
+.tile.back { background: #2f7a58; color: transparent; }
+.meld { display: flex; gap: 0; }
+.meld.kong-meld { position: relative; }
+.kong-row { display: flex; gap: 0; }
+.seat-left .kong-row, .seat-right .kong-row { flex-direction: column; }
+.seat-left .kong-row, .seat-right .kong-row { flex-direction: column; }
+.meld.kong-meld .tile.top { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); }
+.tile.new::after { content: ''; position: absolute; top: -1px; right: -1px; border: 7px solid transparent; border-top-color: #e74c3c; border-right-color: #e74c3c; border-top-right-radius: 5px; }
+.seat-top .meld { flex-direction: row-reverse; }
+.seat-top .meld .tile { transform: rotate(180deg); }
+.seat-top .meld.kong-meld .tile.top { transform: translateX(-50%) rotate(180deg); }
+.seat-top .pm .tile, .seat-left .pm .tile, .seat-right .pm .tile { width: 34px; height: 46px; font-size: 13px; background: #f0dfa8; }
+.seat-top .ph .tile, .seat-left .ph .tile, .seat-right .ph .tile { width: 36px; height: 48px; font-size: 12px; }
+.seat-left .tile { transform: rotate(90deg); margin: -4.5px 0; }
+.seat-right .tile { transform: rotate(-90deg); margin: -4.5px 0; }
+.seat-left .meld, .seat-right .meld { flex-direction: column; position: relative; }
+.seat-left .meld.kong-meld .tile.top { left: 2px; bottom: auto; top: 50%; transform: translateY(-50%) rotate(90deg); }
+.seat-right .meld.kong-meld .tile.top { left: auto; right: 2px; bottom: auto; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+.fake-bar { display: flex; align-items: center; justify-content: space-between; max-width: 1112px; margin: 0 auto 8px; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); font-size: 12px; color: #9db3a8; }
+.fake-footer { margin: 8px auto 0; justify-content: center; }
+#fs-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #e8c15a; background: #1f9e57; color: #fff; font-weight: 700; cursor: pointer; }
+body.fs { padding: 6px; }
+body.fs .fake-bar, body.fs h2, body.fs .note { display: none; }
+body.fs .table { max-width: none; height: 100dvh; margin: 0; }
+body.fs .center { min-height: 0; }
+</style>
+</head>
+<body>
+<div class="fake-bar"><span>贾师傅的小站（header，游玩时隐藏）</span><span><button type="button" id="fs-btn">⛶ 全屏预览</button></span></div>
+<h2>定稿对照草稿（极端 3 副露+5 手牌）</h2>
+<div class="note">主家左副露右手牌 56×76；西家手牌左副露右+副露翻转；北上副露下手牌、南上手牌下副露；电脑 34×46/36×48；被吃碰整面泛黄；杠底3+顶1叠中。</div>
+<div class="table">
+  <div class="seat seat-top"><div class="box"><div class="seat-head">🎲 西 <span class="score">-4</span></div><div class="seat-body-b"><div class="pm"><div class="meld"><span class="tile meld">2万</span><span class="tile meld claimed">2万</span><span class="tile meld">2万</span></div><div class="meld"><span class="tile meld">3条</span><span class="tile meld claimed">4条</span><span class="tile meld">5条</span></div><div class="meld kong-meld"><div class="kong-row"><span class="tile meld">7筒</span><span class="tile meld">7筒</span><span class="tile meld">7筒</span></div><div class="kong-top"><span class="tile meld top">7筒</span></div></div></div><div class="ph"><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span></div></div></div></div>
+  <div class="seat seat-left"><div class="box"><div class="seat-head">北 +6</div><div class="seat-body-s"><div class="pm"><div class="meld"><span class="tile meld">2万</span><span class="tile meld claimed">2万</span><span class="tile meld">2万</span></div><div class="meld"><span class="tile meld">3条</span><span class="tile meld claimed">4条</span><span class="tile meld">5条</span></div><div class="meld kong-meld"><div class="kong-row"><span class="tile meld">7筒</span><span class="tile meld">7筒</span><span class="tile meld">7筒</span></div><div class="kong-top"><span class="tile meld top">7筒</span></div></div></div><div class="ph"><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span></div></div></div></div>
+  <div class="center">极端压测对照区</div>
+  <div class="seat seat-right"><div class="box"><div class="seat-head">南 +2</div><div class="seat-body-s"><div class="ph"><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span><span class="tile back">背</span></div><div class="pm"><div class="meld"><span class="tile meld">2万</span><span class="tile meld claimed">2万</span><span class="tile meld">2万</span></div><div class="meld"><span class="tile meld">3条</span><span class="tile meld claimed">4条</span><span class="tile meld">5条</span></div><div class="meld kong-meld"><div class="kong-row"><span class="tile meld">7筒</span><span class="tile meld">7筒</span><span class="tile meld">7筒</span></div><div class="kong-top"><span class="tile meld top">7筒</span></div></div></div></div></div></div>
+  <div class="seat seat-bottom"><div class="box"><div class="seat-head">🎲 东(我) <span class="score">-4</span></div><div class="seat-body-b"><div class="pm"><div class="meld"><span class="tile meld">3万</span><span class="tile meld claimed">4万</span><span class="tile meld">5万</span></div><div class="meld"><span class="tile meld">6条</span><span class="tile meld claimed">6条</span><span class="tile meld">6条</span></div><div class="meld kong-meld"><div class="kong-row"><span class="tile meld">7筒</span><span class="tile meld">7筒</span><span class="tile meld">7筒</span></div><div class="kong-top"><span class="tile meld top">7筒</span></div></div></div><div class="ph"><span class="tile">1条</span><span class="tile">3条</span><span class="tile">5筒</span><span class="tile">9筒</span><span class="tile new">中</span></div></div></div></div>
+</div>
+<p class="note">正式页同结构。改对前此文件不动。</p>
+<div class="fake-bar fake-footer"><span>Copyright footer（游玩时隐藏）</span></div>
+<script>
+const btn = document.getElementById('fs-btn');
+function setFs(on) { document.body.classList.toggle('fs', on); btn.textContent = on ? '⛶ 退出全屏' : '⛶ 全屏预览'; }
+btn.onclick = async () => {
+  if (document.body.classList.contains('fs')) { setFs(false); if (document.fullscreenElement) { try { await document.exitFullscreen(); } catch (e) {} } return; }
+  setFs(true);
+  try { if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen(); } catch (e) {}
+};
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) setFs(false); });
+</script>
+</body>
+</html>

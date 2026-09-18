@@ -3,11 +3,25 @@ import * as UI from './ui.js';
 
 Game.setUI(UI);
 
-const startBtn = document.getElementById('btn-s');
-startBtn.addEventListener('click', () => {
-  startBtn.blur();
-  if (Game.G.playing) Game.endGame();
-  else Game.init();
+document.getElementById('btn-new').addEventListener('click', e => {
+  e.target.blur();
+  Game.init();
+});
+
+document.getElementById('btn-continue').addEventListener('click', e => {
+  e.target.blur();
+  Game.resumeGame();
+});
+
+document.getElementById('btn-stats').addEventListener('click', e => {
+  e.target.blur();
+  Game.showStats();
+});
+
+const backBtn = document.getElementById('btn-s');
+backBtn.addEventListener('click', () => {
+  backBtn.blur();
+  Game.toLobby();
 });
 
 const logBtn = document.getElementById('log-btn');
@@ -24,5 +38,11 @@ rulesBtn.addEventListener('click', () => { rulesModal.classList.add('show'); });
 rulesClose.addEventListener('click', () => { rulesModal.classList.remove('show'); rulesClose.blur(); });
 rulesModal.addEventListener('click', e => { if (e.target === rulesModal) rulesModal.classList.remove('show'); });
 
-// 页面被 Live Server 等自动刷新后，尝试恢复未结束的牌局
-Game.restore();
+// 启动：有存档则大厅显示继续游戏，否则只显示新的游戏
+Game.G.playing = false;
+if (Game.restore()) {
+  UI.update();
+} else {
+  Game.G.players = [];
+  UI.update();
+}

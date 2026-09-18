@@ -35,16 +35,13 @@ var _hmt = _hmt || [];
 <div class="gc">
   <div class="topbar">
     <h1>麻将</h1>
-    <div class="gi">
-      <span>牌墙 <b id="wc">0</b></span>
-      <span class="baopi" id="bi"></span>
-      <button type="button" class="log-btn" id="rules-btn">📖 规则</button>
-      <button type="button" class="log-btn" id="log-btn">📜 日志</button>
-    </div>
+      <div class="gi">
+        <span class="baopi" id="bi"></span>
+        <button type="button" class="log-btn" id="rules-btn">📖 规则</button>
+        <button type="button" class="log-btn" id="log-btn">📜 日志</button>
+        <button type="button" class="log-btn hide" id="btn-s">回主页面</button>
+      </div>
   </div>
-  <div class="sb" id="sb"></div>
-  <div class="sbt" id="sbt"></div>
-
   <div class="table">
     <div class="seat seat-top" id="pt">
       <div class="seat-head"><span class="pn" id="nt">西</span><span class="pr" id="rt"></span></div>
@@ -56,7 +53,7 @@ var _hmt = _hmt || [];
     </div>
 
     <div class="seat seat-left" id="pl">
-      <div class="seat-head"><span class="pn" id="nl">南</span><span class="pr" id="rl"></span></div>
+      <div class="seat-head"><span class="pn" id="nl">北</span><span class="pr" id="rl"></span></div>
       <div class="seat-body">
         <div class="pm" id="ml"></div>
         <div class="ph" id="hl"></div>
@@ -79,7 +76,7 @@ var _hmt = _hmt || [];
     </div>
 
     <div class="seat seat-right" id="pr">
-      <div class="seat-head"><span class="pn" id="nr">北</span><span class="pr" id="rr"></span></div>
+      <div class="seat-head"><span class="pn" id="nr">南</span><span class="pr" id="rr"></span></div>
       <div class="seat-body">
         <div class="pm" id="mr"></div>
         <div class="ph" id="hr"></div>
@@ -88,17 +85,29 @@ var _hmt = _hmt || [];
     </div>
 
     <div class="seat seat-bottom" id="pb">
+      <div class="ext" id="ext">
+        <div class="pa hide" id="ab2"></div>
+        <div class="hints" id="hints"></div>
+      </div>
       <div class="seat-head"><span class="pn" id="nb">东</span><span class="pr" id="rb"></span></div>
       <div class="seat-body">
         <div class="pm" id="mb"></div>
         <div class="ph" id="hb"></div>
       </div>
-      <div class="pa hide" id="ab2"></div>
-      <div class="hints" id="hints"></div>
+    </div>
+
+    <div class="lobby" id="lobby">
+      <div class="lobby-card">
+        <h2>麻将</h2>
+        <p id="lobby-sub"></p>
+        <div class="lobby-btns">
+          <button type="button" class="sb2b hide" id="btn-continue">继续游戏</button>
+          <button type="button" class="sb2b" id="btn-new">新的游戏</button>
+        </div>
+        <button type="button" class="lobby-stats hide" id="btn-stats">查看战绩</button>
+      </div>
     </div>
   </div>
-
-  <div class="start-wrap"><button type="button" class="sb2b" id="btn-s">开始游戏</button></div>
 </div>
 
 <footer class="site-footer">
