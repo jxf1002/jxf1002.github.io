@@ -186,3 +186,55 @@ export function shanten(hand, melds) {
   dfs(0, melds.length, 0, false);
   return best;
 }
+
+// 非标向听：在标准向听基础上计入本变体约束（须有刻子、须有顺子、须有幺九、至少两花色）。
+// 与 winInfo 的口径一致；缺刻子时会区分“有对子可升刻”与“没有”，从而体现“无碰时保两对”。
+export function effectiveShanten(hand, melds) {
+  melds = melds || [];
+  let c = new Array(34).fill(0);
+  hand.forEach(t => { c[tileIdx(t)]++; });
+  let mTri = melds.filter(m => m.type !== 'chi').length;
+  let mSeq = melds.filter(m => m.type === 'chi').length;
+  let all = [...hand];
+  melds.forEach(m => all.push(...m.ts));
+  let yaoPen = all.some(isYao) ? 0 : 1;
+  let suits = new Set();
+  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+  let suitPen = suits.size >= 2 ? 0 : 1;
+  let best = 8;
+
+  function dfs(i, sets, partials, head, headZhong, triSets, seqSets, pairPartials, runPartials) {
+    while (i < 34 && c[i] === 0) i++;
+    if (i >= 34) {
+      if (sets + partials > 4) return;
+      let fresh = 4 - sets - partials;
+      let triOk = mTri > 0 || triSets > 0;
+      let seqOk = mSeq > 0 || seqSets > 0;
+      // 未成刻子时，一对要留给雀头，另一对才能升刻；没有对子搭子就得多摸一手
+      let freePairs = Math.max(0, pairPartials - (head ? 0 : 1));
+      let triPen = (triOk || headZhong || freePairs >= 1 || fresh >= 1) ? 0 : 1;
+      let seqPen = (seqOk || runPartials >= 1 || fresh >= 1) ? 0 : 1;
+      let s = 8 - 2 * sets - partials - (head ? 1 : 0) + triPen + seqPen + yaoPen + suitPen;
+      if (s < best) best = s;
+      return;
+    }
+    c[i]--; dfs(i, sets, partials, head, headZhong, triSets, seqSets, pairPartials, runPartials); c[i]++;
+    if (c[i] >= 3) { c[i] -= 3; dfs(i, sets + 1, partials, head, headZhong, triSets + 1, seqSets, pairPartials, runPartials); c[i] += 3; }
+    if (i < 27 && i % 9 <= 6 && c[i + 1] > 0 && c[i + 2] > 0) {
+      c[i]--; c[i + 1]--; c[i + 2]--;
+      dfs(i, sets + 1, partials, head, headZhong, triSets, seqSets + 1, pairPartials, runPartials);
+      c[i]++; c[i + 1]++; c[i + 2]++;
+    }
+    if (!head && c[i] >= 2) { c[i] -= 2; dfs(i, sets, partials, true, i === 27, triSets, seqSets, pairPartials, runPartials); c[i] += 2; }
+    if (c[i] >= 2 && sets + partials < 4) { c[i] -= 2; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials + 1, runPartials); c[i] += 2; }
+    if (i < 27 && i % 9 <= 7 && c[i + 1] > 0 && sets + partials < 4) {
+      c[i]--; c[i + 1]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 1]++;
+    }
+    if (i < 27 && i % 9 <= 6 && c[i + 2] > 0 && sets + partials < 4) {
+      c[i]--; c[i + 2]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 2]++;
+    }
+  }
+
+  dfs(0, melds.length, 0, false, false, 0, 0, 0, 0);
+  return best;
+}

@@ -636,17 +636,8 @@ function handTingDistance(hand, melds) {
   if (hand.length !== need * 3 + 1) return 8;
   if (Tile.isTing(hand, melds)) return 0;
   if (handDrawsForTing(hand, melds).length) return 1;
-  // 更远：标准向听 + 本地约束补正（缺幺九/缺刻子/单花色各至少再加一手）
-  let all = [...hand];
-  melds.forEach(m => all.push(...m.ts));
-  let extra = 0;
-  if (!all.some(Tile.isYao)) extra = Math.max(extra, 1);
-  let hasTri = melds.some(m => m.type !== 'chi') || countMax(hand) >= 3;
-  if (!hasTri) extra = Math.max(extra, 1);
-  let suits = new Set();
-  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
-  if (suits.size < 2) extra = Math.max(extra, 1);
-  return Math.max(Tile.shanten(hand, melds) + extra, 2);
+  // 更远：直接用非标向听（已含缺幺九/缺刻子/缺顺子/单花色约束）
+  return Math.max(Tile.effectiveShanten(hand, melds), 2);
 }
 
 // 吃/碰别家可上听的牌：碰（手中有 2 张）或吃（顺子缺一张）后能打一张听牌
@@ -974,32 +965,18 @@ function remainingCount(tile, hand) {
   return Math.max(0, 4 - visibleCount(tile) - own);
 }
 
-// 本地约束补正：幺九 / 刻子 / 顺子 / 至少两种花色，各缺一项 +1 手
-function localExtra(hand, melds) {
-  let all = [...hand];
-  melds.forEach(m => all.push(...m.ts));
-  let extra = 0;
-  if (!all.some(Tile.isYao)) extra = Math.max(extra, 1);
-  if (!(melds.some(m => m.type === 'peng' || m.type === 'kong') || countMax(hand) >= 3)) extra = Math.max(extra, 1);
-  if (!(melds.some(m => m.type === 'chi') || hasConsecutive(hand))) extra = Math.max(extra, 1);
-  let suits = new Set();
-  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
-  if (suits.size < 2) extra = Math.max(extra, 1);
-  return extra;
-}
-
-// 有效进张：摸到后本地距离下降的牌张数（含剩余枚数）
+// 有效进张：摸到后非标距离下降的牌张数（含剩余枚数）
 function localEval(hand, melds) {
   let need = 4 - melds.length;
   if (need < 0 || hand.length !== need * 3 + 1) return { dist: 8, uke: 0 };
   if (Tile.isTing(hand, melds)) return { dist: 0, uke: 0 };
-  let base = Tile.shanten(hand, melds) + localExtra(hand, melds);
+  let base = Tile.effectiveShanten(hand, melds);
   let uke = 0;
   let tryTile = (cand) => {
     let rem = remainingCount(cand, hand);
     if (rem <= 0) return;
     let after = [...hand, cand];
-    if (Tile.shanten(after, melds) + localExtra(after, melds) < base) uke += rem;
+    if (Tile.effectiveShanten(after, melds) < base) uke += rem;
   };
   Tile.TT.forEach(type => {
     for (let n = 1; n <= 9; n++) tryTile({ type, num: n, suit: Tile.SN[type], id: n + type });
@@ -1107,12 +1084,12 @@ function nextDrawEV(pI, hand13, deadline) {
   let melds = G.players[pI].melds;
   let need = 4 - melds.length;
   if (hand13.length !== need * 3 + 1) return evalQuality(evalHand(hand13, melds));
-  let baseSh = Tile.shanten(hand13, melds);
+  let baseSh = Tile.effectiveShanten(hand13, melds);
   let cands = [];
   let push = (t) => {
     let rem = remainingCount(t, hand13);
     if (rem <= 0) return;
-    if (Tile.shanten([...hand13, t], melds) >= baseSh) return; // 只展开能降向听的进张
+    if (Tile.effectiveShanten([...hand13, t], melds) >= baseSh) return; // 只展开能降向听的进张
     cands.push({ t, rem });
   };
   Tile.TT.forEach(type => {
@@ -1134,7 +1111,7 @@ function hardDiscardIndex(pI) {
   let p = G.players[pI];
   let cfg = AI_LEVELS.hard;
   let deadline = performance.now() + 40;
-  // 能听：按真实听口枚数 + 安全度挑
+  // 能听：听牌那一轮的弃张算「听牌点炮」，比黑炮少 1 番，可趁机把手里的危险牌丢出去
   let tingTiles = handTingDiscards(p.hand, p.melds);
   if (tingTiles.length) {
     let best = tingTiles[0], bestScore = -Infinity, seen = new Set();
@@ -1145,7 +1122,7 @@ function hardDiscardIndex(pI) {
       let rest = p.hand.filter((_, j) => j !== i);
       let wins = Tile.winTiles(rest, p.melds);
       let rem = wins.reduce((s, w) => s + remainingCount(w, rest), 0);
-      let score = rem * 10 + wins.length - dangerOf(pI, t) * 30;
+      let score = rem * 10 + wins.length + dangerOf(pI, t) * 30;
       if (score > bestScore) { bestScore = score; best = t; }
     }
     return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(best));
@@ -1160,9 +1137,13 @@ function hardDiscardIndex(pI) {
     cands.push({ i, rest, e: evalHand(rest, p.melds) });
   }
   cands.sort((a, b) => (a.e.dist - b.e.dist) || (b.e.uke - a.e.uke));
+  // 自己未听且已有人听牌：此时点炮是黑炮（独付、+2 番），宁可拆牌也不放
+  let oppTing = false;
+  G.ting.forEach(i => { if (i !== pI) oppTing = true; });
   let attack = hardAttackMode(pI, cands[0].e.dist);
   let safeW = attack ? 0.3 : 1.3;
-  let top = cands.slice(0, 4);
+  if (oppTing) safeW = Math.max(safeW, 4);
+  let top = cands.slice(0, oppTing ? cands.length : (attack ? 4 : 8));
   let best = p.hand[top[0].i], bestScore = -Infinity;
   for (let c of top) {
     let t = p.hand[c.i];
@@ -1192,7 +1173,7 @@ function evalClaim(pI, act) {
   let p = G.players[pI];
   let out = hardClaimOutcome(pI, act);
   if (!out) return -Infinity;
-  let cur = bestDiscardEval(p.hand, p.melds);
+  let cur = evalHand(p.hand, p.melds); // 鸣牌前手牌为 need*3+1 张，用 evalHand 而非 bestDiscardEval（后者按 14 张口径会返回哨兵）
   let s = evalQuality(out) - evalQuality(cur);
   if (act.ting) s += 100000;
   return s + claimPriority(act);
@@ -1382,11 +1363,8 @@ function aiChooseClaimHard(pI, acts) {
   if (G.ting.has(pI)) return null;
   let scored = acts.map(a => ({ a, s: evalClaim(pI, a) }));
   scored.sort((x, y) => (y.s - x.s) || (claimPriority(y.a) - claimPriority(x.a)));
+  // 只在正收益（或能上听，evalClaim 已加 100000）时鸣牌，不再急于开门
   if (scored.length && scored[0].s > 0) return scored[0].a;
-  // 本地规则须有副露才能听牌：自己还没开门时，退而求其次也要吃/碰/杠一次
-  if (G.players[pI].melds.length === 0) {
-    return acts.find(a => a.a === 'kong') || acts.find(a => a.a === 'peng') || acts.find(a => a.a === 'chi') || null;
-  }
   return null;
 }
 
@@ -1424,8 +1402,8 @@ function evalSelfKong(pI, act) {
   let p = G.players[pI];
   let res = simulateSelfKong(p, act);
   if (!res) return -1;
-  let before = Tile.shanten(p.hand, p.melds);
-  let after = Tile.shanten(res.hand, res.melds);
+  let before = Tile.effectiveShanten(p.hand, p.melds);
+  let after = Tile.effectiveShanten(res.hand, res.melds);
   let s = (before - after) * 10;
   if (res.melds.length > p.melds.length) s += 2; // 新增副露有利于满足“须有副露”才能听
   return s;

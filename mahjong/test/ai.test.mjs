@@ -68,7 +68,8 @@ section('听牌弃牌标注');
 }
 
 // ============ 三级无头模拟（worker_threads 多核并行）============
-const ROUNDS = Number(process.env.AI_ROUNDS || 60);
+const TOTAL_ROUNDS = Number(process.env.AI_ROUNDS || 1000);
+const THREADS = Math.max(1, Number(process.env.AI_THREADS || Math.min(os.cpus().length || 4, 10)));
 const levels = ['easy', 'normal', 'hard'];
 
 function runJob(job) {
@@ -93,37 +94,37 @@ async function runPool(jobs, size) {
   return results;
 }
 
-const cpu = os.cpus().length || 4;
-// 每个 难度×模式 再切块，尽量铺满核心（hard 最重，排最前先跑）
-const chunks = Math.max(1, Math.min(4, Math.round((cpu * 2) / 6)));
-const per = Math.max(1, Math.round(ROUNDS / chunks));
+// 总局数按线程数均分，每个线程轮流覆盖各难度（同局同时统计“同级四家”与“座0对基准”）
 const jobs = [];
-for (const lv of ['hard', 'normal', 'easy']) {
-  for (let c = 0; c * per < ROUNDS; c++) {
-    const rounds = Math.min(per, ROUNDS - c * per);
-    jobs.push({ mode: 'aggregate', level: lv, rounds });
-    jobs.push({ mode: 'vs', level: lv, rounds });
-  }
+const base = Math.floor(TOTAL_ROUNDS / THREADS);
+const rem = TOTAL_ROUNDS % THREADS;
+for (let t = 0; t < THREADS; t++) {
+  const rounds = base + (t < rem ? 1 : 0);
+  if (rounds > 0) jobs.push({ mode: 'mixed', levels, rounds });
 }
 
-console.log(`\n== 模拟任务：${jobs.length} 个，${cpu} 核并行，每档 ${ROUNDS} 局 ==`);
+console.log(`\n== 模拟：共 ${TOTAL_ROUNDS} 局 / ${jobs.length} 线程（每线程约 ${base} 局），轮流覆盖 easy/normal/hard ==`);
 const simT0 = Date.now();
-const results = await runPool(jobs, cpu);
+const results = await runPool(jobs, THREADS);
 console.log(`  模拟耗时 ${((Date.now() - simT0) / 1000).toFixed(1)}s`);
 
 const agg = {}, vss = {};
 for (const r of results) {
-  const t = r.mode === 'aggregate' ? agg : vss;
-  const a = t[r.level] || (t[r.level] = { n: 0, win: 0, ting: 0, firstSum: 0, firstN: 0, seatWin: 0, baseWin: 0, score: 0, dealIn: 0 });
-  a.n += r.n;
-  a.win += r.win || 0;
-  a.ting += r.ting || 0;
-  a.firstSum += r.firstSum || 0;
-  a.firstN += r.firstN || 0;
-  a.seatWin += r.seatWin || 0;
-  a.baseWin += r.baseWin || 0;
-  a.score += r.score || 0;
-  a.dealIn += r.dealIn || 0;
+  for (const lv of levels) {
+    const p = r.per[lv];
+    const a = agg[lv] || (agg[lv] = { n: 0, win: 0, ting: 0, firstSum: 0, firstN: 0 });
+    a.n += p.agg.n;
+    a.win += p.agg.win;
+    a.ting += p.agg.ting;
+    a.firstSum += p.agg.firstSum;
+    a.firstN += p.agg.firstN;
+    const v = vss[lv] || (vss[lv] = { n: 0, seatWin: 0, baseWin: 0, score: 0, dealIn: 0 });
+    v.n += p.vs.n;
+    v.seatWin += p.vs.seatWin;
+    v.baseWin += p.vs.baseWin;
+    v.score += p.vs.score;
+    v.dealIn += p.vs.dealIn;
+  }
 }
 
 const stat = {}, vs = {};

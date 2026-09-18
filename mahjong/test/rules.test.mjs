@@ -769,5 +769,28 @@ G.players[HUMAN].hand = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),
 ok('14 张可打一张听：距离 0', Game.localTingDistance(HUMAN) === 0);
 
 
+// ============ 非标向听 effectiveShanten（计入须有刻子/顺子等约束） ============
+section('非标向听 effectiveShanten');
+G = newGame();
+let mc1 = [{ type: 'chi', ts: [T('tong',1),T('tong',2),T('tong',3)] }];
+let hNoTri = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tiao',1),T('tiao',2),T('tong',8),T('wan',9)];
+ok('无刻无对：标准1 / 非标2',
+  Tile.shanten(hNoTri, mc1) === 1 && Tile.effectiveShanten(hNoTri, mc1) === 2, Tile.effectiveShanten(hNoTri, mc1));
+// 无刻子但有两对：一对作雀头、一对可升刻，非标已听
+let hTwoPair = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tong',8),T('tong',8),T('tiao',5),T('tiao',5)];
+ok('无刻子但有两对：非标0', Tile.effectiveShanten(hTwoPair, mc1) === 0, Tile.effectiveShanten(hTwoPair, mc1));
+// 一对 + 顺子搭子且无刻：标准 0 但非标还差一手
+let hOnePairRun = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('tong',8),T('tong',8),T('tiao',5),T('tiao',6)];
+ok('一对+搭子无刻：标准0 / 非标1',
+  Tile.shanten(hOnePairRun, mc1) === 0 && Tile.effectiveShanten(hOnePairRun, mc1) === 1);
+// 红中雀头免刻子：4 顺 + 红中雀头成胡
+let hZhong = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',1),T('tiao',2),T('tiao',3),T('tong',7),T('tong',8),T('tong',9),Z,Z];
+ok('红中雀头免刻子：非标 -1', Tile.effectiveShanten(hZhong, []) === -1, Tile.effectiveShanten(hZhong, []));
+// 断幺九：标准 0 / 非标 1
+let mp5 = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
+let hYao = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('wan',8),T('wan',8),T('tong',7),T('tong',8)];
+ok('断幺九：标准0 / 非标1', Tile.shanten(hYao, mp5) === 0 && Tile.effectiveShanten(hYao, mp5) === 1);
+
+
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
 process.exit(fail ? 1 : 0);
