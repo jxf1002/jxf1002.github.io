@@ -143,10 +143,6 @@ function renderHands() {
 
     let res = '';
     if (G.ting.has(i)) res += '<span class="ti">听牌</span>';
-    if (i === HUMAN && !G.over) {
-      let tiles = Game.tingTiles(HUMAN);
-      if (tiles.length) res += '<span class="ting-tiles">听 ' + tiles.map(t => Tile.label(t)).join(' ') + '</span>';
-    }
     EL(RESULTS[i]).innerHTML = res;
 
     let meldEl = EL(MELDS[i]);
@@ -254,44 +250,31 @@ function renderReminder() {
   big.className = 'tile big';
   big.innerHTML = `<img class="face-img" src="svg/${svgName(G.lastD)}.svg" alt="${Tile.label(G.lastD)}" draggable="false">`;
   el.appendChild(big);
-  let lab = document.createElement('div');
-  lab.className = 'reminder-label';
-  lab.textContent = '可响应 ' + Tile.label(G.lastD);
-  el.appendChild(lab);
 }
 
 function renderHints() {
   let el = EL('hints');
   if (!el) return;
-  if (G.over || !G.playing || !G.players.length) { el.innerHTML = ''; return; }
+  // 已听 / 听牌待选（按钮出现或已点选）时不显示，避免单吊红中等已听牌型误导
+  if (G.over || !G.playing || !G.players.length || G.ting.has(HUMAN) || G.tingIntent || G.forceTing || Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN)) { el.innerHTML = ''; return; }
   let h = Game.handHints(HUMAN);
+  // 只保留不满足项；全满足时空行占位（防布局跳动）
   let tags = [
-    { label: h.yao ? '有幺九' : '断幺九', cls: h.yao ? 'ok' : 'no' },
-    { label: h.tri ? '有刻子' : '无碰牌', cls: h.tri ? 'ok' : 'no' },
-    { label: h.seq ? '有顺子' : '无顺子', cls: h.seq ? 'ok' : 'no' },
-    { label: h.pair ? '有对子' : '缺对子', cls: h.pair ? 'ok' : 'no' },
-    { label: h.color ? '花色齐' : '缺花色', cls: h.color ? 'ok' : 'no' },
-    { label: h.closed ? '门前清' : '已开门', cls: h.closed ? 'no' : 'ok' }
-  ];
+    !h.yao && '断幺九',
+    !h.tri && '无碰牌',
+    !h.seq && '无顺子',
+    !h.pair && '缺对子',
+    !h.color && '缺花色',
+    h.closed && '门前清'
+  ].filter(Boolean);
   let html = '<div class="hint-line">';
-  tags.forEach(t => { html += `<span class="hint ${t.cls}">${t.label}</span>`; });
-  if (G.forceTing) html += `<span class="hint-tip">上听吃：把高亮的牌打出去</span>`;
-  else if (G.tingIntent) html += `<span class="hint-tip">把高亮的牌打出去即听牌，悬停可看听哪些牌</span>`;
+  tags.forEach(label => { html += `<span class="hint no">${label}</span>`; });
   html += '</div>';
-
-  // 第二行：有用上牌（吃碰摸 / 摸，重复只归吃碰摸）
-  let w = Game.tingWatch(HUMAN);
-  if (w && (w.claim.length || w.draws.length)) {
-    html += `<div class="hint-line"><span class="hint-useful"><span class="hu-label">有用上牌</span>`;
-    if (w.claim.length) html += `<span class="hu-label">吃碰摸</span><span class="hu-tiles">${w.claim.map(Tile.label).join(' ')}</span>`;
-    if (w.draws.length) html += `<span class="hu-label">摸</span><span class="hu-tiles">${w.draws.map(Tile.label).join(' ')}</span>`;
-    html += '</span></div>';
-  }
   el.innerHTML = html;
 }
 
 // 点听牌后：悬停高亮牌，弹窗显示打出这张会听哪些牌（牌图，无文字）
-function showTingPop(anchorEl, wins) {
+export function showTingPop(anchorEl, wins) {
   if (!wins || !wins.length) return;
   let pop = document.getElementById('ting-pop');
   if (!pop) {
@@ -299,6 +282,8 @@ function showTingPop(anchorEl, wins) {
     pop.id = 'ting-pop';
     pop.className = 'hide';
     document.body.appendChild(pop);
+    // 触屏/失焦兜底：下一次点按即关闭（本次点按先于 mouseenter，不影响弹出；重复注册会被浏览器去重）
+    document.addEventListener('pointerdown', hideTingPop, true);
   }
   pop.innerHTML = '';
   wins.forEach(t => {
@@ -315,7 +300,7 @@ function showTingPop(anchorEl, wins) {
   pop.style.top = top + 'px';
 }
 
-function hideTingPop() {
+export function hideTingPop() {
   let pop = document.getElementById('ting-pop');
   if (pop) { pop.classList.add('hide'); pop.innerHTML = ''; }
 }
@@ -369,10 +354,10 @@ function renderActions() {
   let acts = [];
   if (G.playing && !G.over) {
     if (G.selfHu) {
-      acts = [{ a: 'hu', l: '胡' }];
+      acts = [{ a: 'hu', l: '和' }];
     } else if (G.phase === 'claim' && G.pending.includes(HUMAN)) {
       acts = Game.claimActions(HUMAN);
-      // 有胡无过：能胡时不给过
+      // 有和无过：能和时不给过
       if (!acts.some(x => x.a === 'hu')) acts.push({ a: 'pass', l: '过' });
     } else if (G.phase === 'discard' && G.curP === HUMAN) {
       acts = Game.selfActions(HUMAN);
@@ -389,7 +374,7 @@ function renderActions() {
     main.className = 'ab-main';
     main.textContent = a.a === 'chi' ? '吃' : a.a === 'peng' ? '碰'
       : a.a === 'kong' || a.a === 'selfKong' || a.a === 'buKong' ? '杠'
-      : a.a === 'hu' ? '胡' : a.l;
+      : a.a === 'hu' ? '和' : a.l;
     b.appendChild(main);
     let prev = meldPreview(a);
     if (prev) {
@@ -429,6 +414,7 @@ function updateWallCount() {
 }
 
 export function update() {
+  hideTingPop(); // 重渲染会移除原牌节点，其 mouseleave 永不触发，先清掉过期弹窗
   if (!G.playing) {
     renderLobbyTable();
     renderActions();
@@ -491,7 +477,7 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
   EL('m-btn').onclick = () => { ov.classList.remove('show'); EL('m-btn').blur(); hideWinBanner(); if (cb) cb(); };
 }
 
-// ===== 胡牌手牌横幅：显示胡牌方手牌与所胡的牌 =====
+// ===== 和牌手牌横幅：显示和牌方手牌与所和的牌 =====
 export function showWinBanner(data) {
   let el = EL('win-banner');
   if (!el || !data) return;
@@ -516,7 +502,7 @@ export function showWinBanner(data) {
     row.appendChild(sep);
   }
 
-  // 自摸时胡牌张已在手牌中；点炮时把胡牌张补到末尾
+  // 自摸时和牌张已在手牌中；点炮时把和牌张补到末尾
   let tiles = [...(data.hand || [])];
   if (!data.isZimo && data.winTile) tiles.push(data.winTile);
   tiles.forEach(t => {
@@ -528,11 +514,11 @@ export function showWinBanner(data) {
   el.appendChild(row);
   el.classList.add('show');
 
-  // 让结算弹窗避开横幅：按横幅实际高度下移
+  // 让结算弹窗避开横幅：按横幅实际高度下移（横幅已下移贴近窗口，这里只留 8px 间隙）
   let ov = EL('mo');
   if (ov) {
     let top = parseFloat(getComputedStyle(el).top) || 0;
-    ov.style.setProperty('--win-offset', Math.ceil(top + el.offsetHeight + 14) + 'px');
+    ov.style.setProperty('--win-offset', Math.ceil(top + el.offsetHeight + 8) + 'px');
     ov.classList.add('win-open');
   }
 }
@@ -544,7 +530,7 @@ export function hideWinBanner() {
   if (ov) { ov.classList.remove('win-open'); ov.style.removeProperty('--win-offset'); }
 }
 
-// ===== 胡牌特效 =====
+// ===== 和牌特效 =====
 export function effect(type) {
   let layer = EL('fx');
   if (!layer) return;
@@ -570,18 +556,20 @@ export function effect(type) {
     layer.appendChild(ring);
     let label = document.createElement('div');
     label.className = 'fx-label';
-    label.textContent = '宝牌胡！';
+    label.textContent = '宝牌和！';
     layer.appendChild(label);
   }
   setTimeout(() => { layer.classList.remove('show'); layer.innerHTML = ''; }, 1500);
 }
 
 // ===== 整局结算 =====
-function statOf(s) {
+// 展示口径（互斥）：自摸宝牌仅计宝牌和；存储里 zimo 含宝牌自摸，这里扣除，老存档自动兼容
+export function statOf(s) {
   let st = s.stat || {};
-  let zimo = st.zimo || 0, ron = st.ron || 0, heipao = st.heipao || 0, baopi = st.baopi || 0;
-  let dianpao = st.dianpao || 0, dianhei = st.dianhei || 0;
-  return { zong: zimo + ron, zimo, dianpao, heipaoHu: heipao, dianhei, baopi };
+  let baopi = st.baopi || 0;
+  let zimo = Math.max(0, (st.zimo || 0) - baopi);
+  let dianpao = st.dianpao || 0, heipaoHu = st.heipao || 0, dianhei = st.dianhei || 0;
+  return { zong: dianpao + heipaoHu + zimo + baopi, zimo, dianpao, heipaoHu, dianhei, baopi };
 }
 
 export function showSummary(summary) {
@@ -592,7 +580,7 @@ export function showSummary(summary) {
     let st = statOf(s);
     return `<div class="sum-row${s.me ? ' me' : ''}">` +
       `<span class="sum-name">${s.name}${s.isD ? ' 🎲' : ''}${s.me ? '(我)' : ''}</span>` +
-      `<span>${st.zong}</span><span>${st.zimo}</span><span>${st.dianpao}</span><span>${st.heipaoHu}</span><span>${st.dianhei}</span><span>${st.baopi}</span>` +
+      `<span>${st.dianhei}</span><span>${st.dianpao}</span><span>${st.heipaoHu}</span><span>${st.zimo}</span><span>${st.baopi}</span><span>${st.zong}</span>` +
       `<span class="sum-score" style="color:${color}">${s.score}</span>` +
       `</div>`;
   }).join('');
@@ -602,11 +590,11 @@ export function showSummary(summary) {
       <div class="sum-meta">
         <div><b>${summary.rotations}</b><span>圈数</span></div>
         <div><b>${summary.hands}</b><span>把数</span></div>
-        <div><b>${summary.hu}</b><span>胡牌</span></div>
+        <div><b>${summary.hu}</b><span>和牌</span></div>
         <div><b>${summary.draw}</b><span>流局</span></div>
       </div>
       <div class="sum-scores">
-        <div class="sum-head"><span>玩家</span><span>总胡牌</span><span>自摸胡</span><span>点炮胡</span><span>黑炮胡</span><span>点黑炮</span><span>宝牌胡</span><span>积分</span></div>
+        <div class="sum-head"><span>玩家</span><span>点黑炮</span><span>点炮和</span><span>黑炮和</span><span>自摸和</span><span>宝牌和</span><span>总和牌</span><span>积分</span></div>
         ${rows}
       </div>
       <div class="sum-actions">
@@ -636,7 +624,7 @@ function downloadSummary(summary) {
   let meta = [
     [summary.rotations, '圈数'],
     [summary.hands, '把数'],
-    [summary.hu, '胡牌'],
+    [summary.hu, '和牌'],
     [summary.draw, '流局']
   ];
   let bw = 120, gap = 16, startX = (W - (bw * 4 + gap * 3)) / 2;
@@ -652,7 +640,7 @@ function downloadSummary(summary) {
     ctx.fillText(m[1], x + bw / 2, y + 70);
   });
 
-  // 每人统计表：玩家 / 总胡牌 / 自摸胡 / 点炮胡 / 黑炮胡 / 点黑炮 / 宝牌胡 / 积分
+  // 每人统计表：玩家 / 点黑炮 / 点炮和 / 黑炮和 / 自摸和 / 宝牌和 / 总和牌 / 积分
   const tableX = 30, tableW = W - 60;
   const colW = [0.22, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12].map(r => r * tableW);
   const colX = [];
@@ -674,7 +662,7 @@ function downloadSummary(summary) {
   ctx.textAlign = 'left';
   ctx.fillText('玩家', colX[0] + 8, y + 25);
   ctx.textAlign = 'center';
-  ['总胡', '自摸', '点炮胡', '黑炮胡', '点黑炮', '宝牌'].forEach((h, i) => ctx.fillText(h, center(i + 1), y + 25));
+  ['点黑炮', '点炮和', '黑炮和', '自摸', '宝牌', '总和牌'].forEach((h, i) => ctx.fillText(h, center(i + 1), y + 25));
   ctx.fillText('积分', center(7), y + 25);
   y += 42;
 
@@ -689,7 +677,7 @@ function downloadSummary(summary) {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#eef2ef';
     ctx.font = 'bold 18px "PingFang SC",sans-serif';
-    [st.zong, st.zimo, st.dianpao, st.heipaoHu, st.dianhei, st.baopi].forEach((v, i) => ctx.fillText(String(v), center(i + 1), y + 34));
+    [st.dianhei, st.dianpao, st.heipaoHu, st.zimo, st.baopi, st.zong].forEach((v, i) => ctx.fillText(String(v), center(i + 1), y + 34));
     ctx.fillStyle = s.score > 0 ? '#5fd39a' : s.score < 0 ? '#ff7b6b' : '#fff';
     ctx.fillText((s.score > 0 ? '+' : '') + s.score, center(7), y + 34);
     y += 62;

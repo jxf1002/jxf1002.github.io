@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <title>麻将小游戏｜贾师傅的小站</title>
 <link rel="stylesheet" href="/assets/css/site.css?v=8" />
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=10">
 <script src="/assets/js/common.js?v=3"></script>
 <script type="module" src="js/app.js"></script>
 <script>
@@ -148,17 +148,17 @@ var _hmt = _hmt || [];
         <li><b>吃</b>：本游戏<b>不支持吃牌</b>。</li>
       </ul>
 
-      <h3>听牌与胡牌</h3>
-      <p>当只差一张牌就能和牌时，系统会提示"听"。点击"胡"按钮即可和牌。</p>
+      <h3>听牌与和牌</h3>
+      <p>当只差一张牌就能和牌时，系统会提示"听"。点击"和"按钮即可和牌。</p>
       <div class="rules-hint">💡 听牌条件：手牌（含副露）中必须已有幺九牌（1/9/字牌），否则无法听牌。</div>
 
       <h3>计分规则</h3>
-      <p>胡牌后根据<b>番数</b>计算得分，每份分数 = 2<sup>番数</sup>。番数由以下条件累加：</p>
+      <p>和牌后根据<b>番数</b>计算得分，每份分数 = 2<sup>番数</sup>。番数由以下条件累加：</p>
       <table class="rules-table">
         <tr><th>条件</th><th>番数</th><th>说明</th></tr>
-        <tr><td>庄家</td><td>+1</td><td>胡牌者是庄家</td></tr>
-        <tr><td>自摸</td><td>+1</td><td>自己摸到胡牌，三家各付一份</td></tr>
-        <tr><td>宝牌</td><td>+1</td><td>自摸胡的牌恰好是宝牌</td></tr>
+        <tr><td>庄家</td><td>+1</td><td>和牌者是庄家</td></tr>
+        <tr><td>自摸</td><td>+1</td><td>自己摸到和牌，三家各付一份</td></tr>
+        <tr><td>宝牌</td><td>+1</td><td>自摸和的牌恰好是宝牌</td></tr>
         <tr><td>黑炮</td><td>+2</td><td>放炮者未听牌，由放炮者独付（不分三家）</td></tr>
       </table>
 
@@ -170,15 +170,15 @@ var _hmt = _hmt || [];
       </ul>
 
       <h3>宝牌（宝）</h3>
-      <p>翻出的第一张牌为"宝"，宝牌每回合轮转。听牌后宝牌信息会显示，自摸胡牌时若胡的牌是宝牌可获额外 +1 番。</p>
+      <p>翻出的第一张牌为"宝"，宝牌每回合轮转。听牌后宝牌信息会显示，自摸和牌时若和的牌是宝牌可获额外 +1 番。</p>
 
       <h3>流局</h3>
-      <p>牌墙摸完仍无人胡牌，则本局流局，庄家继续坐庄。</p>
+      <p>牌墙摸完仍无人和牌，则本局流局，庄家继续坐庄。</p>
 
       <h3>操作说明</h3>
       <ul>
         <li>点击手牌中的牌打出</li>
-        <li>出现"碰""杠""胡"按钮时，点击执行操作</li>
+        <li>出现"碰""杠""和"按钮时，点击执行操作</li>
         <li>点击"过"跳过本次机会</li>
         <li>左上角显示剩余牌数和宝牌信息</li>
       </ul>

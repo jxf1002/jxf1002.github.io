@@ -69,16 +69,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .ext .pa { pointer-events: auto; }
 .hints { display: flex; flex-direction: column; gap: 4px; justify-content: center; align-items: center; min-height: 26px; }
 .hint-line { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
-.hint-title { font-size: 12px; font-weight: 700; color: var(--gold); }
 .hint { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid; }
-.hint.ok { color: #8fd3b0; border-color: rgba(143,211,176,.5); background: rgba(143,211,176,.08); }
 .hint.no { color: #ff9a9a; border-color: rgba(255,154,154,.5); background: rgba(255,154,154,.08); }
-.hint.neutral { color: var(--muted); border-color: var(--panel-border); background: rgba(255,255,255,.04); }
-.hint-tip { font-size: 11px; color: #ffd479; }
-.hint-dist { font-size: 12px; font-weight: 700; color: var(--gold); }
-.hint-useful { font-size: 11px; color: #ffd479; display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-.hint-useful .hu-label { color: var(--muted); font-weight: 700; }
-.hint-useful .hu-tiles { color: #ffd479; font-weight: 700; }
 
 /* ===== 牌桌 ===== */
 .table {
@@ -104,6 +96,9 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .seat-top { grid-area: top; }
 .seat-left { grid-area: left; }
 .seat-right { grid-area: right; }
+/* 南北家 seat 纵跨两行，设为 flex 列让 seat-body 吃掉剩余高度后垂直居中，head 留顶 */
+.seat-left, .seat-right { display: flex; flex-direction: column; }
+.seat-left .seat-head, .seat-right .seat-head { flex-shrink: 0; }
 .seat-bottom { grid-area: bottom; border: 2px solid var(--gold); position: relative; overflow: visible; }
 .seat.active { outline: 2px solid var(--gold); outline-offset: -2px; }
 .seat.ting { outline: 3px solid #ff5a5a; outline-offset: -3px; }
@@ -114,15 +109,14 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .head-score { font-size: 15px; font-weight: 700; }
 .pr { min-height: 14px; font-size: 11px; }
 .ti { display: inline-block; background: #c0392b; color: #fff; padding: 1px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; }
-.ting-tiles { display: inline-block; margin-left: 6px; color: #8fd3b0; font-size: 11px; font-weight: 600; }
 
 .seat-body { display: flex; flex-direction: row; align-items: flex-end; justify-content: center; gap: 14px; }
 .pm { display: flex; flex-direction: row; gap: 6px; align-items: flex-end; }
 .ph { display: flex; flex-direction: row; align-items: flex-end; }
 /* 西家：手牌左副露右（对面视角） */
 .seat-top .seat-body { flex-direction: row-reverse; }
-/* 南北家：竖列；北上副露下手牌，南上手牌下副露 */
-.seat-left .seat-body, .seat-right .seat-body { flex-direction: column; gap: 12px; align-items: center; }
+/* 南北家：竖列；北上副露下手牌，南上手牌下副露；flex:1 占满剩余高度后垂直居中 */
+.seat-left .seat-body, .seat-right .seat-body { flex: 1; min-height: 0; flex-direction: column; gap: 12px; align-items: center; justify-content: center; }
 .seat-right .seat-body { flex-direction: column-reverse; }
 .seat-left .pm, .seat-left .ph, .seat-right .pm, .seat-right .ph { display: flex; flex-direction: column; gap: 0; align-items: center; }
 .seat-left .pm, .seat-right .pm { gap: 10px; }
@@ -207,7 +201,6 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 }
 .claim-reminder.show { opacity: 1; }
 .claim-reminder .tile.big { width: 80px; height: 108px; border-radius: 8px; outline: 3px solid var(--gold); }
-.reminder-label { font-size: 12px; font-weight: 700; color: var(--gold); }
 
 /* ===== 操作按钮（悬浮，主家面板上方，无外框） ===== */
 .pa { display: flex; gap: 12px; justify-content: center; align-items: stretch; min-height: 10px; }
@@ -302,7 +295,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 
 /* ===== 宝牌横幅 ===== */
 .dora-banner {
-  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
   display: none; align-items: center; gap: 10px; z-index: 110;
   padding: 8px 18px 8px 14px; border-radius: 14px;
   background: #2a1f08;
@@ -312,9 +305,9 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .dora-banner .dora-label { color: var(--gold); font-weight: 800; font-size: 14px; letter-spacing: 3px; }
 .dora-banner .dora-tile .face-img { width: 46px; height: 62px; display: block; border-radius: 6px; }
 
-/* ===== 胡牌手牌横幅 ===== */
+/* ===== 和牌手牌横幅 ===== */
 .win-banner {
-  position: fixed; top: 92px; left: 50%; transform: translateX(-50%);
+  position: fixed; top: 106px; left: 50%; transform: translateX(-50%);
   display: none; flex-direction: column; align-items: center; gap: 6px;
   z-index: 120; padding: 8px 14px; border-radius: 14px;
   max-width: 92vw;
@@ -339,7 +332,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 }
 #ting-pop .tile.mini { width: 26px; height: 35px; border-radius: 4px; }
 
-/* 胡牌小特效（快乐感）：胡牌撒花，宝牌胡金色+光环 */
+/* 和牌小特效（快乐感）：和牌撒花，宝牌和金色+光环 */
 .fx-layer { position: fixed; inset: 0; pointer-events: none; z-index: 200; display: none; }
 .fx-layer.show { display: block; }
 .fx-layer.show::before {
@@ -443,7 +436,6 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .pr { font-size: 9px; min-height: 10px; }
   .dealer-die { font-size: 12px; }
   .ti { font-size: 8px; padding: 0 4px; }
-  .ting-tiles { font-size: 9px; margin-left: 3px; }
 
   .seat-bottom .tile { width: 34px; height: 46px; font-size: 14px; border-radius: 5px; }
   .seat-bottom .seat-body { gap: 8px; flex-wrap: wrap; row-gap: 6px; }
@@ -471,11 +463,7 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .ab.hu .ab-main { font-size: 28px; }
   .ab.ting { width: 64px; height: 64px; min-width: 64px; }
   .hints { min-height: 18px; }
-  .hint-dist { font-size: 10px; }
-  .hint-useful { font-size: 9px; }
-  .hint-title { font-size: 10px; }
   .hint { font-size: 9px; padding: 1px 6px; }
-  .hint-tip { font-size: 9px; }
 
   .lobby-card { padding: 20px 24px; }
   .lobby-card h2 { font-size: 22px; }
@@ -487,11 +475,11 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .sum-card { width: 94vw; padding: 16px 14px; }
   .sum-head, .sum-row { font-size: 11px; gap: 2px; padding: 6px 4px; }
 
-  .dora-banner { top: 4px; padding: 5px 10px 5px 8px; gap: 6px; border-radius: 10px; }
+  .dora-banner { top: 14px; padding: 5px 10px 5px 8px; gap: 6px; border-radius: 10px; }
   .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
   .dora-banner .dora-tile .face-img { width: 32px; height: 44px; }
 
-  .win-banner { top: 64px; padding: 6px 10px; gap: 4px; border-radius: 10px; max-width: 94vw; }
+  .win-banner { top: 76px; padding: 6px 10px; gap: 4px; border-radius: 10px; max-width: 94vw; }
   .win-banner .wb-head { font-size: 11px; letter-spacing: 1px; }
   .win-banner .wb-tiles { gap: 2px; }
   .win-banner .tile { width: 22px; height: 29px; border-radius: 4px; }

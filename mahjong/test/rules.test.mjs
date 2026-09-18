@@ -2,6 +2,7 @@
 import * as Tile from '../js/tile.js';
 import * as Score from '../js/score.js';
 import * as Game from '../js/game.js';
+import * as UI from '../js/ui.js';
 import { HUMAN } from '../js/constants.js';
 
 let pass = 0, fail = 0;
@@ -602,6 +603,44 @@ G.curP = 0; G.phase = 'discard'; G.lock = false; G.over = false;
 Game.handleDiscard(G.players[0].hand.findIndex(t => t.id === '红中'));
 ok('南自摸 记入南 zimo=1', G.stats.per[1].zimo === 1);
 ok('其他玩家无胡牌记录', G.stats.per[0].zimo === 0 && G.stats.per[0].ron === 0 && G.stats.per[2].zimo === 0);
+
+// ============ 战绩口径（宝牌自摸仅计宝牌胡） ============
+section('战绩口径（宝牌自摸仅计宝牌胡）');
+let st = UI.statOf({ stat: { zimo: 3, ron: 4, dianpao: 2, heipao: 2, baopi: 2, dianhei: 1 } });
+ok('自摸宝牌不计入自摸胡', st.zimo === 1 && st.baopi === 2);
+ok('点炮胡+黑炮胡+自摸胡+宝牌胡=总胡', st.zong === 2 + 2 + 1 + 2);
+ok('零数据为零', UI.statOf({ stat: {} }).zong === 0);
+
+// ============ 听牌弹窗（失焦不残留） ============
+section('听牌弹窗（失焦不残留）');
+{
+  let fakeEl = () => {
+    let s = new Set();
+    return {
+      id: '', className: '', title: '', innerHTML: '', style: {}, children: [],
+      classList: { add: c => s.add(c), remove: c => s.delete(c), contains: c => s.has(c) },
+      appendChild(c) { this.children.push(c); return c; },
+      get offsetWidth() { return 60; }, get offsetHeight() { return 40; }
+    };
+  };
+  let popRef = null;
+  globalThis.document = {
+    getElementById: id => id === 'ting-pop' ? popRef : null,
+    createElement: () => fakeEl(),
+    body: { appendChild(e) { if (e.id === 'ting-pop') popRef = e; } },
+    addEventListener() {}
+  };
+  globalThis.window = { innerWidth: 800 };
+  let anchor = { getBoundingClientRect: () => ({ left: 100, top: 200, width: 40, height: 50 }) };
+  UI.showTingPop(anchor, [T('wan', 1), T('tong', 2)]);
+  ok('悬停显示两张听牌', !!popRef && !popRef.classList.contains('hide') && popRef.children.length === 2);
+  UI.hideTingPop();
+  ok('失焦后关闭并清空', popRef.classList.contains('hide') && popRef.innerHTML === '');
+  UI.hideTingPop();
+  ok('无弹窗时关闭不报错', true);
+  delete globalThis.document;
+  delete globalThis.window;
+}
 
 
 // ============ 右侧长显：还差一张上听（吃/碰 vs 手抓） ============

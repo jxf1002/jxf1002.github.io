@@ -417,7 +417,7 @@ export function claimActions(pI) {
   if (!t || G.lastDB === pI) return [];
   let p = G.players[pI];
   let acts = [];
-  if (G.ting.has(pI) && Tile.canWin([...p.hand, t], p.melds)) acts.push({ a: 'hu', l: '胡' });
+  if (G.ting.has(pI) && Tile.canWin([...p.hand, t], p.melds)) acts.push({ a: 'hu', l: '和' });
   // 听牌后不能再吃碰杠；已有 3 副露时再鸣牌即成手把一（无法听牌），禁止吃碰杠
   if (p.melds.length < 3 && !G.ting.has(pI)) {
     let isUpper = G.lastDB === (pI + PLAYER_COUNT - 1) % PLAYER_COUNT;
@@ -979,7 +979,7 @@ function win(pI, discarder, isZimo) {
   let sc = Score.calcScore({ fan, isZimo, discarderIsTing, discarder, winner: pI, dealer: G.dealer });
   sc.deltas.forEach((d, i) => { G.players[i].score += d; });
 
-  let title = isZimo ? (isDealer ? '庄家自摸' : '自摸') : (isDealer ? '庄家胡牌' : '胡牌');
+  let title = isZimo ? (isDealer ? '庄家自摸' : '自摸') : (isDealer ? '庄家和牌' : '和牌');
   let base = Math.pow(2, fan);
   // 庄家作为付款方时翻倍
   let dealerPays = isZimo ? (pI !== G.dealer)
@@ -1023,8 +1023,8 @@ function continueGame(winnerIdx) {
 function endDraw() {
   G.over = true;
   if (G.stats) G.stats.draw++;
-  ui('addLog', '流局，无人胡牌');
+  ui('addLog', '流局，无人和牌');
   ui('update');
   let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: 0, total: pl.score }));
-  ui('showModal', '流局', '牌墙摸完，无人胡牌', '本局不扣分', '', '继续', () => startRound(false), breakdown);
+  ui('showModal', '流局', '牌墙摸完，无人和牌', '本局不扣分', '', '继续', () => startRound(false), breakdown);
 }
