@@ -26,8 +26,10 @@ function svgName(t) {
 
 function updateWallDisplay() {
   let el = EL('wd');
-  el.innerHTML = '';
   let c = Math.min(G.wall, 24);
+  if (el.dataset.wsig === String(c)) return;
+  el.dataset.wsig = String(c);
+  el.innerHTML = '';
   for (let i = 0; i < c; i++) {
     let t = document.createElement('div');
     t.className = 'wt';
@@ -105,6 +107,8 @@ function renderLobbyTable() {
     EL(HANDS[i]).innerHTML = '';
     EL(DISCS[i]).innerHTML = '';
     EL(PANELS[i]).classList.remove('active', 'ting');
+    EL(PANELS[i]).dataset.hsig = '';
+    EL(DISCS[i]).dataset.dsig = '';
     if (p) {
       let sc = document.createElement('span');
       sc.className = 'head-score';
@@ -113,9 +117,9 @@ function renderLobbyTable() {
     }
   }
   EL('wd').innerHTML = '';
+  EL('wd').dataset.wsig = '';
   let c = EL('wall-count');
   if (c) c.textContent = '';
-  updateBaopi();
   renderReminder();
 }
 
@@ -123,11 +127,37 @@ function renderHands() {
   if (!G.players.length) return;
   for (let i = 0; i < 4; i++) {
     let p = G.players[i];
+    let panel = EL(PANELS[i]);
+    let canDiscard = !G.over && G.playing && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
+    let tingSet = null, tingPlanMap = null;
+    if (i === HUMAN && (G.tingIntent || G.forceTing)) {
+      // 点了听牌（或上听吃）后只能打出听牌张，其余牌不可点
+      tingSet = new Set(Game.tingDiscards(HUMAN).map(t => Tile.tid(t)));
+      tingPlanMap = {};
+      Game.tingPlans(HUMAN).forEach(pl => { tingPlanMap[Tile.tid(pl.discard)] = pl.wins; });
+    }
+    // 新摸的牌：仅自己抓牌时标右下角，手牌最右同 id 的一张，红三角标
+    let newIdx = -1;
+    if (i === HUMAN && G.lastDraw && G.lastFrom === 'wall' && G.curP === HUMAN) {
+      for (let k = p.hand.length - 1; k >= 0; k--) {
+        if (Tile.tid(p.hand[k]) === Tile.tid(G.lastDraw)) { newIdx = k; break; }
+      }
+    }
+    let active = !G.over && G.playing && i === G.curP;
+    let ting = !G.over && G.ting.has(i);
+    // 状态签名：只有变化时才重建该座位的 DOM（避免每次出牌整桌重刷）
+    let meldSig = p.melds.map(m => m.type + ':' + (m.claimedId || '') + ':' + m.ts.map(t => t.id).join(',')).join(';');
+    let handSig = (i === HUMAN || G.over) ? p.hand.map(t => t.id).join(',') : String(p.hand.length);
+    let sig = [p.name, p.score, p.isD && !G.over ? 1 : 0, active ? 1 : 0, ting ? 1 : 0, meldSig, handSig,
+      canDiscard ? 1 : 0, newIdx, tingSet ? [...tingSet].sort().join(',') : ''].join('#');
+    if (panel.dataset.hsig === sig) continue;
+    panel.dataset.hsig = sig;
+
     let nameEl = EL(NAMES[i]);
     let head = nameEl.parentNode;
     nameEl.textContent = p.name + (i === HUMAN ? '(我)' : '');
-    EL(PANELS[i]).classList.toggle('active', !G.over && G.playing && i === G.curP);
-    EL(PANELS[i]).classList.toggle('ting', !G.over && G.ting.has(i));
+    panel.classList.toggle('active', active);
+    panel.classList.toggle('ting', ting);
 
     // 姓名板：🎲(静态) 玩家名 当前积分
     head.querySelectorAll('.dealer-die,.head-score').forEach(e => e.remove());
@@ -154,21 +184,6 @@ function renderHands() {
 
     let handEl = EL(HANDS[i]);
     handEl.innerHTML = '';
-    let canDiscard = !G.over && G.playing && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
-    let tingSet = null, tingPlanMap = null;
-    if (i === HUMAN && (G.tingIntent || G.forceTing)) {
-      // 点了听牌（或上听吃）后只能打出听牌张，其余牌不可点
-      tingSet = new Set(Game.tingDiscards(HUMAN).map(t => Tile.tid(t)));
-      tingPlanMap = {};
-      Game.tingPlans(HUMAN).forEach(pl => { tingPlanMap[Tile.tid(pl.discard)] = pl.wins; });
-    }
-    // 新摸的牌：仅自己抓牌时标右下角，手牌最右同 id 的一张，红三角标
-    let newIdx = -1;
-    if (i === HUMAN && G.lastDraw && G.lastFrom === 'wall' && G.curP === HUMAN) {
-      for (let k = p.hand.length - 1; k >= 0; k--) {
-        if (Tile.tid(p.hand[k]) === Tile.tid(G.lastDraw)) { newIdx = k; break; }
-      }
-    }
 
     if (i === HUMAN || G.over) {
       p.hand.forEach((t, idx) => {
@@ -179,11 +194,14 @@ function renderHands() {
         let isTingTile = !!(tingSet && tingSet.has(Tile.tid(t)));
         let node = tileEl(t, {
           clickable: isClickable,
-          onClick: isClickable ? () => Game.handleDiscard(idx) : null,
           tingTarget: isTingTile,
           isNew: idx === newIdx
         });
-        if (isTingTile && tingPlanMap) {
+        if (isClickable) {
+          let wins = (isTingTile && tingPlanMap) ? (tingPlanMap[Tile.tid(t)] || []) : null;
+          node.onclick = () => (wins && wins.length ? onTingTile(idx, node, wins) : Game.handleDiscard(idx));
+        }
+        if (isTingTile && tingPlanMap && !isCoarse()) {
           node.onmouseenter = () => showTingPop(node, tingPlanMap[Tile.tid(t)] || []);
           node.onmouseleave = hideTingPop;
         }
@@ -198,11 +216,21 @@ function renderHands() {
 function renderDiscards() {
   for (let i = 0; i < 4; i++) {
     let el = EL(DISCS[i]);
+    if (!G.players.length) {
+      if (el.dataset.dsig !== '') { el.innerHTML = ''; el.dataset.dsig = ''; }
+      continue;
+    }
+    let disc = G.players[i].disc;
+    // 只有牌堆变化（新增/被吃碰）时才重建该家的牌河
+    // 新摸牌后上一张弃牌不再可响应，取消「最新出牌」高亮
+    let lastIdx = (i === G.lastDB && !G.lastDraw) ? disc.length - 1 : -1;
+    let sig = disc.map((t, idx) => t.id + (t.claimed ? 'c' : '') + (idx === lastIdx ? 'L' : '')).join(',');
+    if (el.dataset.dsig === sig) continue;
+    el.dataset.dsig = sig;
     el.innerHTML = '';
-    if (!G.players.length) continue;
-    G.players[i].disc.forEach((t, idx) => {
+    disc.forEach((t, idx) => {
       let e = tileEl(t);
-      if (i === G.lastDB && idx === G.players[i].disc.length - 1 && !t.claimed) e.classList.add('latest');
+      if (idx === lastIdx && !t.claimed) e.classList.add('latest');
       if (t.claimed) e.classList.add('claimed');
       el.appendChild(e);
     });
@@ -218,6 +246,9 @@ function renderDora() {
   if (!el) return;
   let show = canSeeBaopi();
   el.classList.toggle('show', show);
+  let key = show ? 's' + Tile.tid(G.baopi) : 'h';
+  if (el.dataset.doraSig === key) return;
+  el.dataset.doraSig = key;
   if (!show) { el.innerHTML = ''; return; }
   el.innerHTML = `<span class="dora-label">宝牌</span><span class="dora-tile"><img class="face-img" src="svg/${svgName(G.baopi)}.svg" alt="${Tile.label(G.baopi)}" draggable="false"></span>`;
 }
@@ -240,49 +271,66 @@ function updateStartButton() {
     }
   }
   document.body.classList.toggle('playing', !!G.playing);
-  // 退出游玩态即解横屏锁定（桌面端/不支持的浏览器无操作）
+  // 退出游玩态即解横屏锁定 + 退全屏（桌面端/不支持的浏览器无操作）
   if (!G.playing && screen.orientation && screen.orientation.unlock) {
     try { screen.orientation.unlock() } catch (e) {}
+  }
+  if (!G.playing && document.fullscreenElement && document.exitFullscreen) {
+    try { document.exitFullscreen().catch(() => {}) } catch (e) {}
   }
 }
 
 function renderReminder() {
   let el = EL('reminder');
   if (!el) return;
-  let show = G.playing && !G.over && G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD;
-  el.classList.toggle('show', !!show);
-  if (!show) { el.innerHTML = ''; return; }
+  // 中央大牌：可吃碰杠和时显示放炮张；自摸可和时显示刚摸到的和牌张
+  let tile = null;
+  if (G.playing && !G.over) {
+    if (G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD) tile = G.lastD;
+    else if (G.selfHu && G.lastDraw) tile = G.lastDraw;
+  }
+  el.classList.toggle('show', !!tile);
+  let key = tile ? 's' + Tile.tid(tile) : 'h';
+  if (el.dataset.rsig === key) return;
+  el.dataset.rsig = key;
+  if (!tile) { el.innerHTML = ''; return; }
   el.innerHTML = '';
   let big = document.createElement('div');
   big.className = 'tile big';
-  big.innerHTML = `<img class="face-img" src="svg/${svgName(G.lastD)}.svg" alt="${Tile.label(G.lastD)}" draggable="false">`;
+  big.innerHTML = `<img class="face-img" src="svg/${svgName(tile)}.svg" alt="${Tile.label(tile)}" draggable="false">`;
   el.appendChild(big);
 }
 
 function renderHints() {
   let el = EL('hints');
   if (!el) return;
+  let html = '';
   // 已听 / 听牌待选（按钮出现或已点选）时不显示，避免单吊红中等已听牌型误导
-  if (G.over || !G.playing || !G.players.length || G.ting.has(HUMAN) || G.tingIntent || G.forceTing || Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN)) { el.innerHTML = ''; return; }
-  let h = Game.handHints(HUMAN);
-  // 只保留不满足项；全满足时空行占位（防布局跳动）
-  let tags = [
-    !h.yao && '断幺九',
-    !h.tri && '无碰牌',
-    !h.seq && '无顺子',
-    !h.pair && '缺对子',
-    !h.color && '缺花色',
-    h.closed && '门前清'
-  ].filter(Boolean);
-  let html = '<div class="hint-line">';
-  tags.forEach(label => { html += `<span class="hint no">${label}</span>`; });
-  html += '</div>';
+  if (!(G.over || !G.playing || !G.players.length || G.ting.has(HUMAN) || G.tingIntent || G.forceTing || Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN))) {
+    let h = Game.handHints(HUMAN);
+    // 只保留不满足项；全满足时空行占位（防布局跳动）
+    let tags = [
+      !h.yao && '断幺九',
+      !h.tri && '无碰牌',
+      !h.seq && '无顺子',
+      !h.pair && '缺对子',
+      !h.color && '缺花色',
+      h.closed && '门前清'
+    ].filter(Boolean);
+    html = '<div class="hint-line">' + tags.map(label => `<span class="hint no">${label}</span>`).join('') + '</div>';
+  }
+  if (el.dataset.hintsig === html) return;
+  el.dataset.hintsig = html;
   el.innerHTML = html;
 }
 
 // 点听牌后：悬停高亮牌，弹窗显示打出这张会听哪些牌（牌图，无文字）
 export function showTingPop(anchorEl, wins) {
   if (!wins || !wins.length) return;
+  // 伪横屏下 fixed 定位坐标系被旋转，弹窗位置会错，直接不显示
+  if (typeof matchMedia === 'function' && document.body.classList
+    && document.body.classList.contains('playing')
+    && matchMedia('(orientation: portrait) and (pointer: coarse)').matches) return;
   let pop = document.getElementById('ting-pop');
   if (!pop) {
     pop = document.createElement('div');
@@ -310,6 +358,61 @@ export function showTingPop(anchorEl, wins) {
 export function hideTingPop() {
   let pop = document.getElementById('ting-pop');
   if (pop) { pop.classList.add('hide'); pop.innerHTML = ''; }
+}
+
+// ===== 触屏听牌：先点预览「打出后听哪些」，再点同张或「打出」确认（PC 仍是 hover 弹窗） =====
+let tingSelIdx = -1;
+
+function isCoarse() {
+  return typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+}
+
+function clearTingSel() {
+  tingSelIdx = -1;
+  hideTingPop();
+  let p = EL('ting-preview');
+  if (p) { p.classList.add('hide'); p.innerHTML = ''; }
+  document.querySelectorAll('.seat-bottom .tile.ting-armed').forEach(e => e.classList.remove('ting-armed'));
+}
+
+function renderTingPreview(wins) {
+  let p = EL('ting-preview');
+  if (!p) return;
+  p.innerHTML = '';
+  let label = document.createElement('span');
+  label.className = 'tp-label';
+  label.textContent = '打出后听';
+  p.appendChild(label);
+  wins.forEach(t => {
+    let m = tileEl(t);
+    m.classList.add('mini');
+    p.appendChild(m);
+  });
+  let btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tp-btn';
+  btn.textContent = '打出';
+  btn.onclick = () => { let i = tingSelIdx; clearTingSel(); Game.handleDiscard(i); };
+  p.appendChild(btn);
+  p.classList.remove('hide');
+}
+
+function onTingTile(idx, node, wins) {
+  if (!isCoarse()) { Game.handleDiscard(idx); return; }
+  if (tingSelIdx === idx) { clearTingSel(); Game.handleDiscard(idx); return; }
+  tingSelIdx = idx;
+  document.querySelectorAll('.seat-bottom .tile.ting-armed').forEach(e => e.classList.remove('ting-armed'));
+  node.classList.add('ting-armed');
+  renderTingPreview(wins);
+}
+
+// 点按候选牌以外区域取消预览
+if (typeof document !== 'undefined') {
+  document.addEventListener('pointerdown', e => {
+    if (tingSelIdx < 0) return;
+    if (e.target.closest && e.target.closest('.tile, .ting-preview')) return;
+    clearTingSel();
+  }, true);
 }
 
 function findFourKind() {
@@ -356,7 +459,6 @@ function renderActions() {
   }
   let el = EL(ACTIONS[0]);
   if (!el) return;
-  el.innerHTML = '';
 
   let acts = [];
   if (G.playing && !G.over) {
@@ -371,6 +473,11 @@ function renderActions() {
     }
     if (!G.selfHu && G.players.length && (Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN))) acts.push({ a: 'ting', l: '听牌' });
   }
+  // 按钮集合不变时不重建，避免每次刷新重放入场动画
+  let sig = acts.map(a => [a.a, a.l, a.d ? a.d.join('-') : '', a.ting ? 1 : 0].join(':')).join(';') + '|' + (G.selfHu ? 1 : 0);
+  if (el.dataset.asig === sig) return;
+  el.dataset.asig = sig;
+  el.innerHTML = '';
   el.classList.toggle('hide', !acts.length);
 
   acts.forEach(a => {
@@ -401,18 +508,6 @@ function renderActions() {
   });
 }
 
-function updateBaopi() {
-  let el = EL('bi');
-  if (!el) return;
-  if (canSeeBaopi()) {
-    el.textContent = '宝牌 ' + Tile.label(G.baopi);
-    el.style.visibility = 'visible';
-  } else {
-    el.textContent = '';
-    el.style.visibility = 'hidden';
-  }
-}
-
 function updateWallCount() {
   let w = EL('wc');
   if (w) w.textContent = G.wall;
@@ -421,7 +516,7 @@ function updateWallCount() {
 }
 
 export function update() {
-  hideTingPop(); // 重渲染会移除原牌节点，其 mouseleave 永不触发，先清掉过期弹窗
+  clearTingSel(); // 重渲染会移除原牌节点，先清掉过期的预览/选中态
   if (!G.playing) {
     renderLobbyTable();
     renderActions();
@@ -437,7 +532,6 @@ export function update() {
   renderHints();
   renderDora();
   updateWallDisplay();
-  updateBaopi();
   updateWallCount();
   updateStartButton();
 }
