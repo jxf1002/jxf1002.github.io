@@ -272,7 +272,15 @@ function renderDora() {
   el.innerHTML = `<span class="dora-label">宝牌</span><span class="dora-tile"><img class="face-img" src="svg/${svgName(G.baopi)}.svg" alt="${Tile.label(G.baopi)}" draggable="false"></span>`;
 }
 
+export function renderAILevel() {
+  let cur = Game.getAILevel();
+  document.querySelectorAll('.diff-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.level === cur);
+  });
+}
+
 function updateStartButton() {
+  renderAILevel();
   let b = EL('btn-s');
   if (b) b.classList.toggle('hide', !G.playing);
   let lobby = EL('lobby');

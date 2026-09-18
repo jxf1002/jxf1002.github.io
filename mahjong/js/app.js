@@ -30,6 +30,14 @@ document.getElementById('btn-stats').addEventListener('click', e => {
   Game.showStats();
 });
 
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.blur();
+    Game.setAILevel(btn.dataset.level);
+    UI.renderAILevel();
+  });
+});
+
 const backBtn = document.getElementById('btn-s');
 backBtn.addEventListener('click', () => {
   backBtn.blur();
@@ -55,6 +63,7 @@ orientBtn.addEventListener('click', e => { e.target.blur(); UI.cycleOrient(); })
 
 // 启动：有存档则大厅显示继续游戏，否则只显示新的游戏
 Game.G.playing = false;
+Game.loadAILevel();
 UI.applyOrient();
 if (Game.restore()) {
   UI.update();

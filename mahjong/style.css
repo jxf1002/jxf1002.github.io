@@ -275,6 +275,17 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
 .lobby-btns { display: flex; gap: 14px; justify-content: center; }
 .lobby-stats { margin-top: 14px; background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; text-decoration: underline; }
 
+.diff-picker { margin-bottom: 16px; }
+.diff-label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; letter-spacing: 2px; }
+.diff-btns { display: flex; gap: 8px; justify-content: center; }
+.diff-btn {
+  padding: 6px 16px; border-radius: 999px;
+  border: 1px solid var(--panel-border); background: transparent;
+  color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.diff-btn:hover { border-color: var(--gold); color: var(--text); }
+.diff-btn.active { background: var(--gold); border-color: var(--gold); color: #1b2b22; font-weight: 800; }
+
 .sb2b {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 12px 40px;
@@ -284,6 +295,10 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
   background: #1f9e57;
 }
 .sb2b:hover { background: #27ae60; }
+.sb2b-new { background: #1f9e57; }
+.sb2b-new:hover { background: #27ae60; }
+.sb2b-continue { background: #2f6fd0; }
+.sb2b-continue:hover { background: #3b82e0; }
 
 .lp {
   background: rgba(0,0,0,.35); border: 1px solid var(--panel-border);
