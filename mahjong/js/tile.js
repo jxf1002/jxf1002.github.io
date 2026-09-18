@@ -189,8 +189,11 @@ export function shanten(hand, melds) {
 
 // 非标向听：在标准向听基础上计入本变体约束（须有刻子、须有顺子、须有幺九、至少两花色）。
 // 与 winInfo 的口径一致；缺刻子时会区分“有对子可升刻”与“没有”，从而体现“无碰时保两对”。
-export function effectiveShanten(hand, melds) {
+// remainFn(tile) 返回该牌的实际剩余枚数；返回 0 的搭子视为死搭（如别人碰了八万，留七九万没意义），
+// 不再计入搭子数。不传时默认全部存活，行为与标准口径一致。
+export function effectiveShanten(hand, melds, remainFn) {
   melds = melds || [];
+  remainFn = remainFn || (() => 4);
   let c = new Array(34).fill(0);
   hand.forEach(t => { c[tileIdx(t)]++; });
   let mTri = melds.filter(m => m.type !== 'chi').length;
@@ -202,6 +205,19 @@ export function effectiveShanten(hand, melds) {
   all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
   let suitPen = suits.size >= 2 ? 0 : 1;
   let best = 8;
+
+  // 预算 28 个牌位的剩余枚数，DFS 中 O(1) 读取，避免每次都造牌对象
+  let rc = new Array(28);
+  for (let k = 0; k < 28; k++) {
+    if (k < 27) {
+      let type = TT[Math.floor(k / 9)];
+      let num = (k % 9) + 1;
+      rc[k] = remainFn({ type, num, suit: SN[type], id: num + type });
+    } else {
+      rc[k] = remainFn({ type: 'zhong', num: 0, suit: '红中', id: '红中' });
+    }
+  }
+  function remainAt(idx) { return (idx >= 0 && idx < 28) ? rc[idx] : 0; }
 
   function dfs(i, sets, partials, head, headZhong, triSets, seqSets, pairPartials, runPartials) {
     while (i < 34 && c[i] === 0) i++;
@@ -226,12 +242,24 @@ export function effectiveShanten(hand, melds) {
       c[i]++; c[i + 1]++; c[i + 2]++;
     }
     if (!head && c[i] >= 2) { c[i] -= 2; dfs(i, sets, partials, true, i === 27, triSets, seqSets, pairPartials, runPartials); c[i] += 2; }
-    if (c[i] >= 2 && sets + partials < 4) { c[i] -= 2; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials + 1, runPartials); c[i] += 2; }
-    if (i < 27 && i % 9 <= 7 && c[i + 1] > 0 && sets + partials < 4) {
-      c[i]--; c[i + 1]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 1]++;
+    // 对子搭子：仅当还能摸到第三张升刻才算搭子；否则只能当雀头（上面已处理）
+    if (c[i] >= 2 && sets + partials < 4 && remainAt(i) > 0) {
+      c[i] -= 2; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials + 1, runPartials); c[i] += 2;
     }
+    // 两面/边张搭子：缺的那两张至少还有一张活着才算搭子
+    if (i < 27 && i % 9 <= 7 && c[i + 1] > 0 && sets + partials < 4) {
+      let n = i % 9, outs = 0;
+      if (n >= 1) outs += remainAt(i - 1);
+      if (n <= 6) outs += remainAt(i + 2);
+      if (outs > 0) {
+        c[i]--; c[i + 1]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 1]++;
+      }
+    }
+    // 坎张搭子：中间那张还活着才算搭子
     if (i < 27 && i % 9 <= 6 && c[i + 2] > 0 && sets + partials < 4) {
-      c[i]--; c[i + 2]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 2]++;
+      if (remainAt(i + 1) > 0) {
+        c[i]--; c[i + 2]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 2]++;
+      }
     }
   }
 

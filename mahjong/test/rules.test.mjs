@@ -790,6 +790,19 @@ ok('红中雀头免刻子：非标 -1', Tile.effectiveShanten(hZhong, []) === -1
 let mp5 = [{ type: 'peng', ts: [T('tiao',5),T('tiao',5),T('tiao',5)] }];
 let hYao = [T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('wan',7),T('wan',8),T('wan',8),T('tong',7),T('tong',8)];
 ok('断幺九：标准0 / 非标1', Tile.shanten(hYao, mp5) === 0 && Tile.effectiveShanten(hYao, mp5) === 1);
+// 死搭：等 8 万的坎张 7-9，若 8 万已见光（如被碰）则不再算搭子
+let handKan = [T('wan',2),T('wan',3),T('wan',4),T('tiao',2),T('tiao',3),T('tiao',4),T('wan',7),T('wan',9),T('tong',8),T('tong',8)];
+let no8 = (t) => (t.type === 'wan' && t.num === 8) ? 0 : 4;
+ok('死坎张（8万见光）不再算搭子：非标0→1',
+  Tile.effectiveShanten(handKan, mp5, () => 4) === 0 && Tile.effectiveShanten(handKan, mp5, no8) === 1);
+// 两面：缺的一侧见光仍有价值，两侧都见光才算死搭
+let handRy = [T('wan',2),T('wan',3),T('wan',4),T('tiao',2),T('tiao',3),T('tiao',4),T('wan',7),T('wan',8),T('tong',8),T('tong',8)];
+let no6 = (t) => (t.type === 'wan' && t.num === 6) ? 0 : 4;
+let no69 = (t) => (t.type === 'wan' && (t.num === 6 || t.num === 9)) ? 0 : 4;
+ok('两面单侧见光仍有价值，两侧见光才降为死搭',
+  Tile.effectiveShanten(handRy, mp5, () => 4) === 1 &&
+  Tile.effectiveShanten(handRy, mp5, no6) === 1 &&
+  Tile.effectiveShanten(handRy, mp5, no69) === 2);
 
 
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);

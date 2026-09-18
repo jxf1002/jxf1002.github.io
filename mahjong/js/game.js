@@ -127,6 +127,7 @@ export function restore() {
     if (!d.players || !d.players.length) return false;
     G.deck = d.deck; G.players = d.players; G.curP = d.curP; G.dealer = d.dealer;
     G.discard = d.discard; G.wall = d.wall; G.baopi = d.baopi; G.bpR = d.bpR;
+    visSig = ''; visMap = null; // 恢复存档时重置已见牌缓存
     G.ting = new Set(d.ting); G.winner = d.winner; G.lastD = d.lastD; G.lastDB = d.lastDB;
     G.lastDraw = d.lastDraw; G.lastFrom = d.lastFrom; G.phase = d.phase;
     G.pending = d.pending || []; G.passed = new Set(d.passed || []);
@@ -270,6 +271,7 @@ function startRound(resetScores) {
   }
   G.curP = G.dealer;
   G.discard = []; G.baopi = null; G.bpR = false; G.ting = new Set();
+  visSig = ''; visMap = null; // 新一局重置已见牌缓存
   G.over = false; G.winner = null; G.lastD = null; G.lastDB = -1;
   G.lastDraw = null; G.lastFrom = ''; G.phase = 'discard'; G.pending = [];
   G.passed = new Set(); G.lock = false; G.tingIntent = false; G.selfHu = false; G.forceTing = false;
@@ -313,7 +315,8 @@ function addTing(i) {
 function visibleCount(t) {
   let exposed = [];
   G.players.forEach(p => p.melds.forEach(m => exposed.push(...m.ts)));
-  return G.discard.filter(x => Tile.tid(x) === Tile.tid(t)).length +
+  // 已被吃/碰/杠走的弃牌同时算在副露里，避免重复计数
+  return G.discard.filter(x => !x.claimed && Tile.tid(x) === Tile.tid(t)).length +
     exposed.filter(x => Tile.tid(x) === Tile.tid(t)).length;
 }
 
@@ -636,8 +639,8 @@ function handTingDistance(hand, melds) {
   if (hand.length !== need * 3 + 1) return 8;
   if (Tile.isTing(hand, melds)) return 0;
   if (handDrawsForTing(hand, melds).length) return 1;
-  // 更远：直接用非标向听（已含缺幺九/缺刻子/缺顺子/单花色约束）
-  return Math.max(Tile.effectiveShanten(hand, melds), 2);
+  // 更远：直接用非标向听（已含缺幺九/缺刻子/缺顺子/单花色约束与死搭扣除）
+  return Math.max(Tile.effectiveShanten(hand, melds, liveRemainFn(hand)), 2);
 }
 
 // 吃/碰别家可上听的牌：碰（手中有 2 张）或吃（顺子缺一张）后能打一张听牌
@@ -959,10 +962,34 @@ function connectedness(hand) {
 }
 
 // ===== AI 公开信息评估 =====
+// 已见牌（弃牌 + 开门副露）缓存：AI 评估高频调用，按牌局签名复用
+let visSig = '';
+let visMap = null;
+function boardVisible() {
+  let meldTotal = 0;
+  G.players.forEach(p => { meldTotal += p.melds.length; });
+  let sig = G.discard.length + ':' + meldTotal;
+  if (sig === visSig && visMap) return visMap;
+  let v = {};
+  G.players.forEach(p => p.melds.forEach(m => m.ts.forEach(t => { v[Tile.tid(t)] = (v[Tile.tid(t)] || 0) + 1; })));
+  G.discard.forEach(t => { if (!t.claimed) v[Tile.tid(t)] = (v[Tile.tid(t)] || 0) + 1; });
+  visSig = sig;
+  visMap = v;
+  return v;
+}
+
 // 剩余可用张数：4 - 弃牌/副露已见 - 自己手牌（对手手牌不可见）
 function remainingCount(tile, hand) {
   let own = hand ? hand.filter(t => Tile.tid(t) === Tile.tid(tile)).length : 0;
-  return Math.max(0, 4 - visibleCount(tile) - own);
+  return Math.max(0, 4 - (boardVisible()[Tile.tid(tile)] || 0) - own);
+}
+
+// 给 effectiveShanten 用的剩余数闭包：预计算自己手牌计数，避免 DFS 里反复遍历
+function liveRemainFn(hand) {
+  let own = {};
+  hand.forEach(t => { own[Tile.tid(t)] = (own[Tile.tid(t)] || 0) + 1; });
+  let vis = boardVisible();
+  return (t) => Math.max(0, 4 - (vis[Tile.tid(t)] || 0) - (own[Tile.tid(t)] || 0));
 }
 
 // 有效进张：摸到后非标距离下降的牌张数（含剩余枚数）
@@ -970,13 +997,13 @@ function localEval(hand, melds) {
   let need = 4 - melds.length;
   if (need < 0 || hand.length !== need * 3 + 1) return { dist: 8, uke: 0 };
   if (Tile.isTing(hand, melds)) return { dist: 0, uke: 0 };
-  let base = Tile.effectiveShanten(hand, melds);
+  let base = Tile.effectiveShanten(hand, melds, liveRemainFn(hand));
   let uke = 0;
   let tryTile = (cand) => {
     let rem = remainingCount(cand, hand);
     if (rem <= 0) return;
     let after = [...hand, cand];
-    if (Tile.effectiveShanten(after, melds) < base) uke += rem;
+    if (Tile.effectiveShanten(after, melds, liveRemainFn(after)) < base) uke += rem;
   };
   Tile.TT.forEach(type => {
     for (let n = 1; n <= 9; n++) tryTile({ type, num: n, suit: Tile.SN[type], id: n + type });
@@ -1084,12 +1111,13 @@ function nextDrawEV(pI, hand13, deadline) {
   let melds = G.players[pI].melds;
   let need = 4 - melds.length;
   if (hand13.length !== need * 3 + 1) return evalQuality(evalHand(hand13, melds));
-  let baseSh = Tile.effectiveShanten(hand13, melds);
+  let baseSh = Tile.effectiveShanten(hand13, melds, liveRemainFn(hand13));
   let cands = [];
   let push = (t) => {
     let rem = remainingCount(t, hand13);
     if (rem <= 0) return;
-    if (Tile.effectiveShanten([...hand13, t], melds) >= baseSh) return; // 只展开能降向听的进张
+    let after = [...hand13, t];
+    if (Tile.effectiveShanten(after, melds, liveRemainFn(after)) >= baseSh) return; // 只展开能降向听的进张
     cands.push({ t, rem });
   };
   Tile.TT.forEach(type => {
@@ -1413,8 +1441,8 @@ function evalSelfKong(pI, act) {
   let p = G.players[pI];
   let res = simulateSelfKong(p, act);
   if (!res) return -1;
-  let before = Tile.effectiveShanten(p.hand, p.melds);
-  let after = Tile.effectiveShanten(res.hand, res.melds);
+  let before = Tile.effectiveShanten(p.hand, p.melds, liveRemainFn(p.hand));
+  let after = Tile.effectiveShanten(res.hand, res.melds, liveRemainFn(res.hand));
   let s = (before - after) * 10;
   if (res.melds.length > p.melds.length) s += 2; // 新增副露有利于满足“须有副露”才能听
   return s;
