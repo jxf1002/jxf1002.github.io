@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <title>麻将小游戏｜贾师傅的小站</title>
 <link rel="stylesheet" href="/assets/css/site.css?v=8" />
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=19">
 <script src="/assets/js/common.js?v=3"></script>
 <script type="module" src="js/app.js"></script>
 <script>
@@ -107,6 +107,13 @@ var _hmt = _hmt || [];
         <button type="button" class="lobby-stats hide" id="btn-stats">查看战绩</button>
       </div>
     </div>
+    <div class="rotate-tip" id="rotate-tip" aria-hidden="true">
+      <div class="rotate-card">
+        <div class="rotate-icon">🔄</div>
+        <p>请横屏游玩</p>
+        <span>将手机横过来，获得完整牌桌视野</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -122,6 +129,7 @@ var _hmt = _hmt || [];
 <div class="mo" id="mo">
   <div class="mdl">
     <h2 id="m-title"></h2>
+    <div class="m-hand hide" id="m-hand"></div>
     <div class="rt" id="m-result"></div>
     <div class="st" id="m-score"></div>
     <div class="dt" id="m-detail"></div>

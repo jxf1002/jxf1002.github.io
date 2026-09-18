@@ -5,6 +5,9 @@ import { HUMAN } from './constants.js';
 const G = Game.G;
 const EL = id => document.getElementById(id);
 
+// 和牌数据暂存：showWinBanner 紧挨着 showModal 调用，结算卡合并渲染一次消费
+let lastWin = null;
+
 // 南北互换：左=北(3)、右=南(1)，出牌下→右→上→左即逆时针
 const NAMES = ['nb', 'nr', 'nt', 'nl'];
 const RESULTS = ['rb', 'rr', 'rt', 'rl'];
@@ -237,6 +240,10 @@ function updateStartButton() {
     }
   }
   document.body.classList.toggle('playing', !!G.playing);
+  // 退出游玩态即解横屏锁定（桌面端/不支持的浏览器无操作）
+  if (!G.playing && screen.orientation && screen.orientation.unlock) {
+    try { screen.orientation.unlock() } catch (e) {}
+  }
 }
 
 function renderReminder() {
@@ -445,11 +452,25 @@ export function addLog(msg) {
 }
 
 export function showModal(title, result, score, detail, btnText, cb, breakdown) {
+  // 旧的独立宝牌/手牌横幅不再单独显示，统一合并进结算卡
+  let win = lastWin;
+  lastWin = null;
+  let wb0 = EL('win-banner');
+  if (wb0) { wb0.classList.remove('show'); wb0.innerHTML = ''; }
+  let db0 = EL('dora-banner');
+  if (db0) db0.classList.remove('show');
+  let ov0 = EL('mo');
+  if (ov0) { ov0.classList.remove('win-open'); ov0.style.removeProperty('--win-offset'); }
+
   let ov = EL('mo');
-  EL('m-title').textContent = title;
-  EL('m-result').textContent = result;
-  EL('m-score').textContent = score;
-  EL('m-detail').textContent = detail || '';
+  renderModalTitle(win, title);
+  renderModalHand(win);
+  EL('m-result').textContent = '';
+  // 和牌时按人计番，统一得分行删除；流局保留说明行
+  let scEl = EL('m-score');
+  if (win) { scEl.textContent = ''; scEl.classList.add('hide'); }
+  else { scEl.textContent = result + (score ? '，' + score : ''); scEl.classList.remove('hide'); }
+  EL('m-detail').textContent = '';
 
   let bd = EL('m-breakdown');
   if (bd) {
@@ -460,11 +481,12 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
         let sign = d > 0 ? '+' + d : String(d);
         return `<div class="bd-row${b.me ? ' me' : ''}">` +
           `<span class="bd-name">${b.name}${b.isD ? ' 🎲' : ''}${b.me ? '(我)' : ''}</span>` +
+          `<span class="bd-fan">${b.fan || '—'}</span>` +
           `<span class="bd-delta" style="color:${color}">${sign}</span>` +
           `<span class="bd-total">${b.total}</span>` +
           `</div>`;
       }).join('');
-      bd.innerHTML = `<div class="bd-head"><span>玩家</span><span>本局</span><span>总分</span></div>${rows}`;
+      bd.innerHTML = `<div class="bd-head"><span>玩家</span><span>计番</span><span>本局</span><span>总分</span></div>${rows}`;
       bd.classList.add('show');
     } else {
       bd.innerHTML = '';
@@ -477,57 +499,67 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
   EL('m-btn').onclick = () => { ov.classList.remove('show'); EL('m-btn').blur(); hideWinBanner(); if (cb) cb(); };
 }
 
-// ===== 和牌手牌横幅：显示和牌方手牌与所和的牌 =====
+// ===== 和牌手牌横幅：不再单独展示，仅暂存数据供结算卡合并渲染 =====
 export function showWinBanner(data) {
-  let el = EL('win-banner');
-  if (!el || !data) return;
-  el.innerHTML = '';
-
-  let head = document.createElement('div');
-  head.className = 'wb-head';
-  head.textContent = data.name + ' ' + data.title + (data.isBaopi ? ' · 宝牌' : '');
-  el.appendChild(head);
-
-  let row = document.createElement('div');
-  row.className = 'wb-tiles';
-
-  (data.melds || []).forEach(m => {
-    let g = meldGroup(m);
-    g.classList.add('wb-meld');
-    row.appendChild(g);
-  });
-  if ((data.melds || []).length) {
-    let sep = document.createElement('div');
-    sep.className = 'wb-sep';
-    row.appendChild(sep);
-  }
-
-  // 自摸时和牌张已在手牌中；点炮时把和牌张补到末尾
-  let tiles = [...(data.hand || [])];
-  if (!data.isZimo && data.winTile) tiles.push(data.winTile);
-  tiles.forEach(t => {
-    let e = tileEl(t);
-    if (t === data.winTile) e.classList.add('wb-win');
-    row.appendChild(e);
-  });
-
-  el.appendChild(row);
-  el.classList.add('show');
-
-  // 让结算弹窗避开横幅：按横幅实际高度下移（横幅已下移贴近窗口，这里只留 8px 间隙）
-  let ov = EL('mo');
-  if (ov) {
-    let top = parseFloat(getComputedStyle(el).top) || 0;
-    ov.style.setProperty('--win-offset', Math.ceil(top + el.offsetHeight + 8) + 'px');
-    ov.classList.add('win-open');
-  }
+  lastWin = data || null;
 }
 
 export function hideWinBanner() {
+  lastWin = null;
   let el = EL('win-banner');
   if (el) { el.classList.remove('show'); el.innerHTML = ''; }
   let ov = EL('mo');
   if (ov) { ov.classList.remove('win-open'); ov.style.removeProperty('--win-offset'); }
+}
+
+// ===== 结算卡第一行：[🎲 ]玩家名 和牌 | 宝牌🀄（标题不再写“庄家”，🎲 已表示） =====
+function renderModalTitle(win, title) {
+  let h = EL('m-title');
+  h.innerHTML = '';
+  let main = document.createElement('span');
+  if (win) {
+    let isD = !!((G.players.find(p => p.name === win.name) || {}).isD);
+    main.textContent = (isD ? '🎲 ' : '') + win.name + ' ' + title.replace(/^庄家/, '');
+  } else {
+    main.textContent = title;
+  }
+  h.appendChild(main);
+  if (win && G.baopi) {
+    let sep = document.createElement('span');
+    sep.className = 'm-title-sep';
+    h.appendChild(sep);
+    let lab = document.createElement('span');
+    lab.className = 'm-dora-label';
+    lab.textContent = '宝牌';
+    h.appendChild(lab);
+    h.appendChild(tileEl(G.baopi));
+  }
+}
+
+// ===== 结算卡第二行：和牌手牌 =====
+function renderModalHand(win) {
+  let box = EL('m-hand');
+  if (!box) return;
+  box.innerHTML = '';
+  if (!win) { box.classList.add('hide'); return; }
+  box.classList.remove('hide');
+  let row = document.createElement('div');
+  row.className = 'm-tiles';
+  (win.melds || []).forEach(m => row.appendChild(meldGroup(m)));
+  if ((win.melds || []).length) {
+    let sep = document.createElement('div');
+    sep.className = 'm-sep';
+    row.appendChild(sep);
+  }
+  // 自摸时和牌张已在手牌中；点炮时把和牌张补到末尾并高亮
+  let tiles = [...(win.hand || [])];
+  if (!win.isZimo && win.winTile) tiles.push(win.winTile);
+  tiles.forEach(t => {
+    let e = tileEl(t);
+    if (t === win.winTile) e.classList.add('wb-win');
+    row.appendChild(e);
+  });
+  box.appendChild(row);
 }
 
 // ===== 和牌特效 =====

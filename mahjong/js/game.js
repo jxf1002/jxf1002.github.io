@@ -991,7 +991,18 @@ function win(pI, discarder, isZimo) {
   if (heipao) detail += ' · 黑炮';
   else if (!isZimo) detail += ' · 听牌点炮';
 
-  let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: sc.deltas[i], total: pl.score }));
+  // 每人计番文本：和牌者为本人番型；付款的庄家多一番；未参与付款的不计
+  let baseParts = [];
+  if (isDealer) baseParts.push('庄家 1番');
+  if (isZimo) baseParts.push('自摸 1番');
+  if (isBaopi) baseParts.push('宝牌 1番');
+  if (heipao) baseParts.push('黑炮 2番');
+  let breakdown = G.players.map((pl, i) => {
+    let parts = [...baseParts];
+    if (i !== pI && sc.deltas[i] < 0 && i === G.dealer) parts.push('庄家 1番');
+    let fan = i !== pI && sc.deltas[i] < 0 && parts.length ? parts.join('·') : '—';
+    return { name: pl.name, me: i === HUMAN, isD: pl.isD, delta: sc.deltas[i], total: pl.score, fan };
+  });
 
   if (G.stats && G.stats.per) {
     let s = normPer(G.stats.per[pI]);
@@ -1025,6 +1036,6 @@ function endDraw() {
   if (G.stats) G.stats.draw++;
   ui('addLog', '流局，无人和牌');
   ui('update');
-  let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: 0, total: pl.score }));
+  let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: 0, total: pl.score, fan: '—' }));
   ui('showModal', '流局', '牌墙摸完，无人和牌', '本局不扣分', '', '继续', () => startRound(false), breakdown);
 }

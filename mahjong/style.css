@@ -285,10 +285,11 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .m-breakdown { display: none; margin-bottom: 18px; }
 .m-breakdown.show { display: block; }
 .m-breakdown .bd-head,
-.m-breakdown .bd-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; align-items: center; padding: 5px 10px; border-radius: 8px; }
+.m-breakdown .bd-row { display: grid; grid-template-columns: 1fr 1.4fr .7fr .8fr; gap: 8px; align-items: center; padding: 5px 10px; border-radius: 8px; }
 .m-breakdown .bd-head { font-size: 11px; color: var(--muted); border-bottom: 1px solid var(--panel-border); margin-bottom: 2px; }
 .m-breakdown .bd-row { font-size: 14px; background: rgba(255,255,255,.04); margin-bottom: 4px; }
 .m-breakdown .bd-row.me { background: rgba(232,193,90,.12); }
+.bd-fan { font-size: 12px; color: #9db3a8; line-height: 1.6; }
 .m-breakdown .bd-name { text-align: left; color: var(--text); }
 .m-breakdown .bd-delta { font-weight: 700; }
 .m-breakdown .bd-total { font-weight: 700; color: var(--gold); }
@@ -498,3 +499,120 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
   body.tool-page .site-header { position: static; }
   body.tool-page.playing .site-header { display: none; }
 }
+
+/* ===== 移动端游玩态竖屏强制横屏：仅触屏小屏竖屏 + 游玩态生效，大厅/桌面端不受影响 ===== */
+.rotate-tip { display: none; }
+@media (max-width: 760px) and (orientation: portrait) and (pointer: coarse) {
+  body.playing .rotate-tip {
+    display: flex; position: absolute; inset: 0; z-index: 20;
+    align-items: center; justify-content: center; text-align: center;
+    background: rgba(10,20,15,.94); border-radius: 12px; padding: 20px;
+  }
+  .rotate-card p { color: var(--gold); font-size: 20px; font-weight: 800; letter-spacing: 4px; margin: 10px 0 6px; }
+  .rotate-card span { color: var(--muted); font-size: 13px; }
+  .rotate-icon { font-size: 44px; animation: rotate-hint 1.6s ease-in-out infinite; }
+  @keyframes rotate-hint { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(90deg); } }
+}
+
+/* ===== 移动端横屏游玩一屏放下：横屏 + 矮视口 + 游玩态，大厅/正常桌面窗口不动 ===== */
+/* 不限定 pointer:coarse：桌面端把窗口压到 ≤500px 高同样需要缩小，否则桌面大尺寸双向溢出 */
+@media (orientation: landscape) and (max-height: 500px) {
+  body.playing { padding: 3px 6px 0; }
+  body.playing .topbar { margin-bottom: 2px; gap: 6px; }
+  body.playing h1 { font-size: 14px; letter-spacing: 2px; }
+  body.playing .gi { font-size: 10px; gap: 6px; }
+  body.playing .log-btn { padding: 2px 8px; font-size: 10px; }
+  body.playing .table {
+    grid-template-columns: 56px minmax(0, 1fr) 56px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 3px; padding: 5px; border-width: 3px; border-radius: 12px;
+    min-height: 0;
+  }
+  body.playing .seat { padding: 3px; border-radius: 6px; }
+  body.playing .seat-head { margin-bottom: 2px; gap: 3px; }
+  body.playing .pn { font-size: 10px; }
+  body.playing .head-score { font-size: 11px; }
+  body.playing .pr { font-size: 8px; min-height: 8px; }
+  body.playing .dealer-die { font-size: 11px; }
+  body.playing .ti { font-size: 8px; padding: 0 4px; }
+  body.playing .seat-left .seat-body, body.playing .seat-right .seat-body { gap: 4px; }
+  body.playing .seat-left .pm, body.playing .seat-right .pm { gap: 4px; }
+
+  body.playing .seat-bottom .tile { width: 30px; height: 42px; font-size: 13px; border-radius: 4px; }
+  body.playing .seat-bottom .seat-body { gap: 6px; row-gap: 3px; }
+  body.playing .seat-top .ph .tile { width: 20px; height: 27px; }
+  body.playing .seat-top .pm .tile { width: 18px; height: 25px; font-size: 8px; }
+  body.playing .seat-left .tile, body.playing .seat-right .tile { width: 17px; height: 23px; margin: -5px 0; }
+  body.playing .seat-left .pm .tile, body.playing .seat-right .pm .tile { width: 16px; height: 22px; font-size: 8px; }
+
+  body.playing .ext { min-height: 22px; }
+  body.playing .hints { min-height: 16px; }
+  body.playing .hint { font-size: 9px; padding: 1px 6px; }
+
+  body.playing .center { min-height: 0; padding: 2px; gap: 2px; }
+  body.playing .center-mid { gap: 4px; }
+  body.playing .disc-row { min-height: 22px; }
+  body.playing .disc { gap: 2px; }
+  body.playing .disc .tile, body.playing .disc-col .tile { width: 19px; height: 26px; border-radius: 3px; }
+  body.playing .disc-col { width: 126px; max-height: 82px; }
+  body.playing .wall-count { font-size: 10px; }
+  body.playing .wall { max-width: 120px; min-height: 18px; gap: 1px; }
+  body.playing .wt { width: 11px; height: 15px; }
+
+  body.playing .ab { min-width: 56px; padding: 6px 10px; }
+  body.playing .ab-main { font-size: 16px; }
+  body.playing .ab-sub .tile { width: 16px; height: 22px; }
+  body.playing .ab.hu { width: 72px; height: 72px; min-width: 72px; }
+  body.playing .ab.hu .ab-main { font-size: 26px; }
+  body.playing .ab.ting { width: 60px; height: 60px; min-width: 60px; }
+
+  body.playing .dora-banner { top: 8px; padding: 4px 10px 4px 8px; gap: 6px; }
+  body.playing .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
+  body.playing .dora-banner .dora-tile .face-img { width: 28px; height: 38px; }
+  /* 待响应大牌上移：错开下方吃碰杠按钮区，避免盖住按钮 */
+  body.playing .claim-reminder { top: 17%; }
+}
+
+/* ===== 超矮视口（浏览器顶栏占用后约 320~360px）：再缩一档，游玩态才生效 ===== */
+@media (orientation: landscape) and (max-height: 360px) {
+  body.playing { padding: 2px 4px 0; }
+  body.playing .topbar { margin-bottom: 1px; }
+  body.playing h1 { font-size: 12px; }
+  body.playing .table {
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    gap: 2px; padding: 4px; border-width: 3px; border-radius: 10px;
+  }
+  body.playing .seat-bottom .tile { width: 26px; height: 36px; font-size: 12px; }
+  body.playing .seat-top .ph .tile { width: 18px; height: 24px; }
+  body.playing .seat-top .pm .tile { width: 16px; height: 22px; }
+  body.playing .seat-left .tile, body.playing .seat-right .tile { width: 15px; height: 21px; margin: -6px 0; }
+  body.playing .seat-left .pm .tile, body.playing .seat-right .pm .tile { width: 14px; height: 20px; }
+  body.playing .ext { min-height: 18px; }
+  body.playing .hints { min-height: 14px; }
+  body.playing .disc-row { min-height: 20px; }
+  body.playing .disc .tile, body.playing .disc-col .tile { width: 17px; height: 23px; }
+  body.playing .disc-col { width: 132px; max-height: 78px; }
+  body.playing .wall { max-width: 100px; }
+  body.playing .wt { width: 10px; height: 13px; }
+  body.playing .ab { min-width: 50px; padding: 5px 8px; }
+  body.playing .ab-main { font-size: 14px; }
+  body.playing .ab-sub .tile { width: 14px; height: 19px; }
+  body.playing .ab.hu { width: 64px; height: 64px; min-width: 64px; }
+  body.playing .ab.hu .ab-main { font-size: 24px; }
+  body.playing .ab.ting { width: 54px; height: 54px; min-width: 54px; }
+  /* 待响应大牌上移：错开下方吃碰杠按钮区，避免盖住按钮 */
+  body.playing .claim-reminder { top: 13%; }
+}
+
+/* ===== 结算卡合并布局（桌面 + 移动统一）：标题 / 手牌+宝牌 / 得分 / 战绩表 / 按钮 ===== */
+#mo .mdl { max-width: 94vw; max-height: 94dvh; overflow-y: auto; }
+#mo .mdl .rt, #mo .mdl .dt { display: none; }
+#mo .mdl h2 { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px; }
+#mo .mdl h2 .tile { width: 22px; height: 30px; border-radius: 4px; }
+.m-title-sep { width: 2px; align-self: stretch; min-height: 1.4em; border-radius: 2px; background: rgba(255,255,255,.25); margin: 0 2px; }
+.m-hand { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 2px 0 8px; }
+.m-tiles { display: flex; align-items: center; justify-content: center; gap: 2px; flex-wrap: wrap; }
+.m-hand .tile { width: 32px; height: 43px; }
+.m-hand .tile.wb-win { outline: 3px solid #ffd34d; outline-offset: 1px; margin-left: 12px; }
+.m-sep { width: 2px; align-self: stretch; min-height: 43px; border-radius: 2px; background: rgba(255,255,255,.25); margin: 0 5px; }
+.m-dora-label { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; }

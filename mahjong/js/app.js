@@ -3,13 +3,23 @@ import * as UI from './ui.js';
 
 Game.setUI(UI);
 
+// 移动端开局尝试锁定横屏（iOS 不支持则静默失败，靠竖屏遮罩提示）
+function tryLandscape() {
+  try {
+    if (matchMedia('(pointer: coarse)').matches && screen.orientation && screen.orientation.lock)
+      screen.orientation.lock('landscape').catch(() => {})
+  } catch (e) {}
+}
+
 document.getElementById('btn-new').addEventListener('click', e => {
   e.target.blur();
+  tryLandscape();
   Game.init();
 });
 
 document.getElementById('btn-continue').addEventListener('click', e => {
   e.target.blur();
+  tryLandscape();
   Game.resumeGame();
 });
 
