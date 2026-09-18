@@ -192,6 +192,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .disc .tile.claimed { opacity: .55; }
 .wall-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .wall-count { font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+/* 顶部剩余牌量：仅移动端显示（见对应媒体查询） */
+.wall-top { display: none; color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
 .wall { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; max-width: 220px; min-height: 34px; }
 .wt { width: 16px; height: 22px; border-radius: 3px; background: var(--tile-back); border: 1px solid #123524; }
 
@@ -206,7 +208,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .claim-reminder .tile.big { width: 80px; height: 108px; border-radius: 8px; outline: 3px solid var(--gold); }
 
 /* ===== 操作按钮（悬浮，主家面板上方，无外框） ===== */
-.pa { display: flex; gap: 12px; justify-content: center; align-items: stretch; min-height: 10px; }
+.pa { display: flex; flex-wrap: wrap; gap: 8px 12px; justify-content: center; align-items: stretch; min-height: 10px; max-width: 100%; }
 .ab {
   min-width: 76px; padding: 10px 16px;
   border: none; border-radius: 10px;
@@ -648,6 +650,25 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
   body.playing .claim-reminder { top: 13%; }
 }
 
+/* ===== 移动端横屏：中央只留弃牌并放大，剩余量移到顶部 ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+  body.playing .wall-top { display: inline-block; }
+  body.playing .wall,
+  body.playing .wall-wrap,
+  body.playing .wall-count { display: none; }
+  body.playing .center-mid { gap: 10px; }
+  body.playing .disc .tile,
+  body.playing .disc-col .tile { width: 26px; height: 35px; border-radius: 4px; }
+  body.playing .disc-col { width: 210px; max-height: 150px; }
+  body.playing .disc-row { min-height: 39px; }
+}
+@media (orientation: landscape) and (max-height: 360px) {
+  body.playing .disc .tile,
+  body.playing .disc-col .tile { width: 22px; height: 30px; }
+  body.playing .disc-col { width: 168px; max-height: 96px; }
+  body.playing .disc-row { min-height: 34px; }
+}
+
 /* ===== 结算卡合并布局（桌面 + 移动统一）：标题 / 手牌+宝牌 / 得分 / 战绩表 / 按钮 ===== */
 #mo .mdl { max-width: 94vw; max-height: 94dvh; overflow-y: auto; }
 #mo .mdl .rt, #mo .mdl .dt { display: none; }
@@ -698,16 +719,10 @@ body.playing.port .center { min-height: 0; gap: 2px; }
 body.playing.port .center-mid { gap: 10px; }
 body.playing.port .disc-col { width: 118px; max-height: 300px; }
 body.playing.port .disc-row { min-height: 41px; }
-/* 牌墙只留"剩余 xx"：隐藏示意牌，数字绝对居中到中央 */
-body.playing.port .wall { display: none; }
-body.playing.port .wall-wrap {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  pointer-events: none; z-index: 1;
-}
-body.playing.port .wall-count {
-  font-size: 14px; padding: 2px 10px; border-radius: 999px;
-  background: rgba(10, 20, 15, .88); border: 1px solid rgba(232, 193, 90, .5);
-}
+/* 牌墙移到顶部，中央只留弃牌 */
+body.playing.port .wall,
+body.playing.port .wall-wrap { display: none; }
+body.playing.port .wall-top { display: inline-block; }
 /* 弃牌放大 */
 body.playing.port .disc .tile,
 body.playing.port .disc-col .tile { width: 28px; height: 37px; border-radius: 4px; }

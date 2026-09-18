@@ -562,8 +562,11 @@ function renderActions() {
 function updateWallCount() {
   let w = EL('wc');
   if (w) w.textContent = G.wall;
+  let txt = '剩余 ' + G.wall;
   let c = EL('wall-count');
-  if (c) c.textContent = '剩余 ' + G.wall;
+  if (c) c.textContent = txt;
+  let t = EL('wall-count-top');
+  if (t) t.textContent = txt;
 }
 
 export function update() {
