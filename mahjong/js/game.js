@@ -28,6 +28,8 @@ export let G = {
   lock: false, token: 0, tingIntent: false, selfHu: false, forceTing: false,
   playing: false,
   aiLevel: 'normal',
+  aiLevels: null,
+  auto: false,
   stats: null
 };
 
@@ -75,7 +77,11 @@ export function clearSave() {
 }
 
 // ===== AI 难度读写 =====
-export function getAILevel() { return G.aiLevel || 'normal'; }
+export function getAILevel(pI) {
+  if (pI !== undefined && G.auto && pI === HUMAN) return 'hard'; // 托管：东家直接用最强 AI
+  if (pI !== undefined && G.aiLevels && AI_LEVELS[G.aiLevels[pI]]) return G.aiLevels[pI];
+  return G.aiLevel || 'normal';
+}
 
 export function setAILevel(level) {
   if (!AI_LEVELS[level]) return false;
@@ -89,6 +95,28 @@ export function loadAILevel() {
     let l = localStorage.getItem(AI_LEVEL_KEY);
     if (AI_LEVELS[l]) G.aiLevel = l;
   } catch (e) { /* ignore */ }
+}
+
+// ===== 托管：东家交给最强 AI 自动打 =====
+export function getAuto() { return !!G.auto; }
+
+export function setAuto(on) {
+  G.auto = !!on;
+  ui('update');
+  if (G.auto) autoResume();
+}
+
+// 开启托管或续局时，立即接管东家当前等待的操作
+function autoResume() {
+  if (!G.auto || SIM_MODE || !G.playing || G.over) return;
+  if (G.selfHu) { G.selfHu = false; win(HUMAN, null, true); return; }
+  if (G.phase === 'claim' && G.pending.includes(HUMAN)) {
+    let act = aiChooseClaim(HUMAN, claimActions(HUMAN));
+    if (act) executeClaim(HUMAN, act);
+    else { G.pending = []; G.passed.add(HUMAN); resolveClaims(); }
+    return;
+  }
+  if (G.phase === 'discard' && G.curP === HUMAN && !G.lock) scheduleAIDiscard(HUMAN);
 }
 
 export function restore() {
@@ -134,14 +162,16 @@ export function resumeGame() {
 
 function resume() {
   if (G.over) return;
-  if (G.selfHu) return; // 等待玩家确认自摸
+  if (G.selfHu) { if (G.auto) autoResume(); return; } // 等待玩家确认自摸
   if (G.phase === 'claim') {
-    if (G.pending.includes(HUMAN)) return;
+    if (G.pending.includes(HUMAN)) { if (G.auto) autoResume(); return; }
     let token = G.token;
     scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, CLAIM_DELAY);
   } else if (G.phase === 'discard') {
     if (G.curP === HUMAN) {
-      if (G.forceTing) {
+      if (G.auto) {
+        scheduleAIDiscard(HUMAN);
+      } else if (G.forceTing) {
         // 上听吃状态恢复，让用户选择出牌
         ui('update');
       } else if (G.ting.has(HUMAN)) {
@@ -265,6 +295,8 @@ function startRound(resetScores) {
     scheduleTask(() => { if (G.token === token && !G.over) win(G.dealer, null, true); }, AI_DELAY);
   } else if (G.dealer !== HUMAN) {
     scheduleAIDiscard(G.dealer);
+  } else if (G.auto) {
+    scheduleAIDiscard(G.dealer);
   }
 }
 
@@ -339,7 +371,7 @@ function advanceTurn() {
 
   if (canSelfHu) {
     if (pI === HUMAN) {
-      if (SIM_MODE) { win(pI, null, true); return; }
+      if (SIM_MODE || G.auto) { win(pI, null, true); return; }
       // 等玩家确认是否胡牌
       G.selfHu = true;
       G.phase = 'discard';
@@ -358,6 +390,7 @@ function advanceTurn() {
 
   if (pI === HUMAN) {
     if (SIM_MODE) { aiDiscard(HUMAN); return; }
+    if (G.auto) { scheduleAIDiscard(HUMAN); return; }
     if (G.ting.has(pI)) {
       G.lock = true;
       let token = G.token;
@@ -380,7 +413,7 @@ function humanAutoDiscard() {
 }
 
 export function handleDiscard(idx) {
-  if (!G.playing || G.over || G.lock || G.selfHu || G.phase !== 'discard' || G.curP !== HUMAN) return;
+  if (!G.playing || G.over || G.lock || G.selfHu || G.auto || G.phase !== 'discard' || G.curP !== HUMAN) return;
   // 点了听牌（或上听吃）后只能打出听牌张，防止错误操作
   if (G.forceTing || G.tingIntent) {
     let p = G.players[HUMAN];
@@ -407,11 +440,17 @@ function doDiscard(pI, idx) {
   ui('addLog', p.name + ' 打出 ' + Tile.label(t));
   ensureBaopi();
 
-  if (pI === HUMAN && !SIM_MODE) {
+  let wasTing = G.ting.has(pI);
+  if (pI === HUMAN && !SIM_MODE && !G.auto) {
     // 人类：点了「听牌」或上听吃强制听牌，且打出的确实是合法听牌张，才生效
-    if ((G.tingIntent || G.forceTing) && tingOk) addTing(pI);
+    if ((G.tingIntent || G.forceTing) && tingOk) {
+      addTing(pI);
+      if (!wasTing && G.ting.has(pI)) t.tingDiscard = true;
+    }
   } else if (tingOk) {
     addTing(pI);
+    // 仅“首次听牌”打出的这张标注，之后维持听牌的弃牌用正常颜色
+    if (!wasTing && G.ting.has(pI)) t.tingDiscard = true;
   }
   G.tingIntent = false; G.forceTing = false;
 
@@ -792,7 +831,7 @@ function resolveClaims() {
   let chosen = pickClaim(claims, G.lastDB);
 
   if (chosen.i === HUMAN) {
-    if (SIM_MODE) {
+    if (SIM_MODE || G.auto) {
       let act = aiChooseClaim(HUMAN, chosen.acts);
       if (act) executeClaim(HUMAN, act);
       else { G.passed.add(HUMAN); resolveClaims(); }
@@ -855,7 +894,7 @@ function executeClaim(pI, act) {
     // 上听吃（吃另外两家）：吃完若能听牌则强制听牌
     let opts = isUpper ? [] : handTingDiscards(p.hand, p.melds);
     if (opts.length) {
-      if (pI === HUMAN && !SIM_MODE) {
+      if (pI === HUMAN && !SIM_MODE && !G.auto) {
         // 人类玩家：只设标记让用户自己选择打出哪张
         G.forceTing = true;
         G.curP = pI;
@@ -881,7 +920,7 @@ function executeClaim(pI, act) {
   ensureBaopi();
   ui('update');
   if (pI !== HUMAN) scheduleAIDiscard(pI);
-  else if (SIM_MODE) scheduleAIDiscard(HUMAN);
+  else if (SIM_MODE || G.auto) scheduleAIDiscard(HUMAN);
 }
 
 function selfAct(pIdx, a, d) {
@@ -970,6 +1009,195 @@ function localEval(hand, melds) {
   return { dist: Math.max(base, 2), uke: 0 };
 }
 
+// ===== 高级：评估缓存 / 危险模型 / 2-ply 搜索 =====
+const HAND_CACHE = new Map();
+const HAND_CACHE_MAX = 6000;
+
+function handKey(hand, melds) {
+  let h = hand.map(t => Tile.tid(t)).sort().join(',');
+  let m = melds.map(x => x.type + ':' + x.ts.map(Tile.tid).sort().join(',')).sort().join('|');
+  return h + '#' + m;
+}
+
+// 本地评估（带缓存）：dist=本地向听距离，uke=进张数（听牌时为听口剩余枚数），wins=听口种类
+function evalHand(hand, melds) {
+  let key = handKey(hand, melds);
+  let c = HAND_CACHE.get(key);
+  if (c) return c;
+  let res = computeEvalHand(hand, melds);
+  if (HAND_CACHE.size >= HAND_CACHE_MAX) HAND_CACHE.clear();
+  HAND_CACHE.set(key, res);
+  return res;
+}
+
+function computeEvalHand(hand, melds) {
+  let need = 4 - melds.length;
+  if (need < 0 || hand.length !== need * 3 + 1) return { dist: 8, uke: 0, wins: 0 };
+  // 用近似的 localEval 快速评估（2-ply 内层搜索量很大，不在此做精确 drawsForTing）
+  let le = localEval(hand, melds);
+  if (le.dist === 0) {
+    let wins = Tile.winTiles(hand, melds).length;
+    return { dist: 0, uke: 0, wins };
+  }
+  return { dist: le.dist, uke: le.uke, wins: 0 };
+}
+
+// 单张手牌质量（越大越好）
+function evalQuality(e) {
+  return -e.dist * 1000 + e.uke * 8 + e.wins * 200;
+}
+
+// 14 张手的“最优弃张后”评估
+function bestDiscardEval(hand, melds) {
+  let need = 4 - melds.length;
+  if (hand.length !== need * 3 + 2) return { dist: 8, uke: 0, wins: 0 };
+  let best = null, bestScore = -Infinity, seen = new Set();
+  for (let i = 0; i < hand.length; i++) {
+    let id = Tile.tid(hand[i]);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    let rest = hand.filter((_, j) => j !== i);
+    let e = evalHand(rest, melds);
+    let sc = evalQuality(e);
+    if (sc > bestScore) { bestScore = sc; best = e; }
+  }
+  return best || { dist: 8, uke: 0, wins: 0 };
+}
+
+// 对手听牌威胁 0~1（本变体须有副露才能听，副露数是强信号）
+function threatOf(i) {
+  let p = G.players[i];
+  if (G.ting.has(i)) return 1;
+  let t = p.melds.length * 0.45;
+  if (p.isD) t += 0.1;
+  if (G.bpR) t += 0.1;
+  return Math.min(0.9, t);
+}
+
+// 某张牌对三家对手的综合危险度 0~1
+function dangerOf(pI, tile) {
+  let id = Tile.tid(tile);
+  if (visibleCount(tile) >= 3) return 0;
+  let d = 0;
+  for (let i = 0; i < PLAYER_COUNT; i++) {
+    if (i === pI) continue;
+    let th = threatOf(i);
+    if (th <= 0) continue;
+    let p = G.players[i];
+    if (p.disc.some(t => Tile.tid(t) === id)) continue; // 现物相对安全
+    let nearMeld = p.melds.some(m => m.ts.some(t => t.type === tile.type && tile.type !== 'zhong' && Math.abs(t.num - tile.num) <= 1));
+    let risk = 0.5 + (nearMeld ? 0.35 : 0);
+    if (G.bpR && G.baopi && Tile.tid(G.baopi) === id) risk += 0.25;
+    d += th * Math.min(1, risk);
+  }
+  return Math.min(1, d / 3);
+}
+
+// 攻防切换：默认进攻；仅当离听远、已过中盘且领先时才转守
+function hardAttackMode(pI, dist) {
+  if (dist <= 2) return true;
+  if (G.discard.length < 24) return true;
+  let p = G.players[pI];
+  let maxOther = Math.max(...G.players.filter((_, i) => i !== pI).map(x => x.score));
+  return p.score <= maxOther;
+}
+
+// 2-ply：下一摸的期望手牌质量（按进张枚数加权，带超时）
+function nextDrawEV(pI, hand13, deadline) {
+  let melds = G.players[pI].melds;
+  let need = 4 - melds.length;
+  if (hand13.length !== need * 3 + 1) return evalQuality(evalHand(hand13, melds));
+  let baseSh = Tile.shanten(hand13, melds);
+  let cands = [];
+  let push = (t) => {
+    let rem = remainingCount(t, hand13);
+    if (rem <= 0) return;
+    if (Tile.shanten([...hand13, t], melds) >= baseSh) return; // 只展开能降向听的进张
+    cands.push({ t, rem });
+  };
+  Tile.TT.forEach(type => {
+    for (let n = 1; n <= 9; n++) push({ type, num: n, suit: Tile.SN[type], id: n + type });
+  });
+  push({ type: 'zhong', num: 0, suit: '红中', id: '红中' });
+  let sum = 0, wsum = 0;
+  for (let c of cands) {
+    if (performance.now() > deadline) break;
+    let e = bestDiscardEval([...hand13, c.t], melds);
+    sum += c.rem * evalQuality(e);
+    wsum += c.rem;
+  }
+  return wsum ? sum / wsum : evalQuality(evalHand(hand13, melds));
+}
+
+// 高级：2-ply 出牌
+function hardDiscardIndex(pI) {
+  let p = G.players[pI];
+  let cfg = AI_LEVELS.hard;
+  let deadline = performance.now() + 40;
+  // 能听：按真实听口枚数 + 安全度挑
+  let tingTiles = handTingDiscards(p.hand, p.melds);
+  if (tingTiles.length) {
+    let best = tingTiles[0], bestScore = -Infinity, seen = new Set();
+    for (let t of tingTiles) {
+      if (seen.has(Tile.tid(t))) continue;
+      seen.add(Tile.tid(t));
+      let i = p.hand.findIndex(x => Tile.tid(x) === Tile.tid(t));
+      let rest = p.hand.filter((_, j) => j !== i);
+      let wins = Tile.winTiles(rest, p.melds);
+      let rem = wins.reduce((s, w) => s + remainingCount(w, rest), 0);
+      let score = rem * 10 + wins.length - dangerOf(pI, t) * 30;
+      if (score > bestScore) { bestScore = score; best = t; }
+    }
+    return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(best));
+  }
+  // 候选 1-ply 粗排
+  let cands = [], seen = new Set();
+  for (let i = 0; i < p.hand.length; i++) {
+    let id = Tile.tid(p.hand[i]);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    let rest = p.hand.filter((_, j) => j !== i);
+    cands.push({ i, rest, e: evalHand(rest, p.melds) });
+  }
+  cands.sort((a, b) => (a.e.dist - b.e.dist) || (b.e.uke - a.e.uke));
+  let attack = hardAttackMode(pI, cands[0].e.dist);
+  let safeW = attack ? 0.3 : 1.3;
+  let top = cands.slice(0, 4);
+  let best = p.hand[top[0].i], bestScore = -Infinity;
+  for (let c of top) {
+    let t = p.hand[c.i];
+    let dora = (G.bpR && G.baopi && Tile.tid(G.baopi) === Tile.tid(t)) ? 1 : 0;
+    let score = evalQuality(c.e)
+      - dangerOf(pI, t) * safeW * 500
+      - dora * cfg.baopiWeight * 100;
+    if (c.e.dist <= 2 && performance.now() < deadline) {
+      score += nextDrawEV(pI, c.rest, deadline) * 0.6;
+    }
+    if (score > bestScore) { bestScore = score; best = t; }
+  }
+  return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(best));
+}
+
+// 高级：2-ply 鸣牌评估
+function hardClaimOutcome(pI, act) {
+  let res = simulateClaim(pI, act);
+  if (!res) return null;
+  let need = 4 - res.melds.length;
+  if (res.hand.length !== need * 3 + 2) return null;
+  return bestDiscardEval(res.hand, res.melds);
+}
+
+function evalClaim(pI, act) {
+  if (act.a === 'kong') return 300 + claimPriority(act); // 杠补摸 + 凑副露，近似取正收益
+  let p = G.players[pI];
+  let out = hardClaimOutcome(pI, act);
+  if (!out) return -Infinity;
+  let cur = bestDiscardEval(p.hand, p.melds);
+  let s = evalQuality(out) - evalQuality(cur);
+  if (act.ting) s += 100000;
+  return s + claimPriority(act);
+}
+
 // 安全度 0~1：现物 + 已见张数；宝牌扣分。
 // 本变体无筋/壁/振听/抢杠概念，故不实现对应标准理论
 // ponytail: 安全模型为启发式，若实测点炮率偏高再引入对手听口推断
@@ -996,38 +1224,6 @@ function opponentThreat(pI) {
   return threat;
 }
 
-// ===== AI 出牌 =====
-function evalDiscard(pI, idx, cfg) {
-  let p = G.players[pI];
-  let t = p.hand[idx];
-  let rest = p.hand.filter((_, j) => j !== idx);
-  let wins = Tile.winTiles(rest, p.melds).length;
-  let conn = connectedness(rest);
-  let threat = cfg.useOpponentModel ? opponentThreat(pI) : 0;
-  let safeW = cfg.defenseWeight * (threat >= 2 ? 2 : 1);
-  let dora = (G.bpR && G.baopi && Tile.tid(G.baopi) === Tile.tid(t)) ? 1 : 0;
-  let le = localEval(rest, p.melds);
-  return -le.dist * 5000
-    + wins * 300
-    + le.uke * cfg.ukeireWeight * 10
-    + conn * (1 + cfg.scoreWeight * 0.2)
-    + tileSafety(pI, t) * safeW * 40
-    - dora * cfg.baopiWeight * 100;
-}
-
-function chooseBestDiscard(pI, mode) {
-  let p = G.players[pI];
-  let cfg = AI_LEVELS[mode] || AI_LEVELS.normal;
-  let seen = new Set(), best = p.hand[0], bestScore = -Infinity;
-  for (let i = 0; i < p.hand.length; i++) {
-    let id = Tile.tid(p.hand[i]);
-    if (seen.has(id)) continue;
-    seen.add(id);
-    let score = evalDiscard(pI, i, cfg);
-    if (score > bestScore) { bestScore = score; best = p.hand[i]; }
-  }
-  return p.hand.indexOf(best);
-}
 
 // 中级：先保听牌，再比有效进张，保留宝牌/搭子，轻度避炮
 function normalDiscardIndex(pI) {
@@ -1086,10 +1282,10 @@ function aiDiscard(pI) {
   let p = G.players[pI];
   if (!p.hand.length) return;
   if (G.ting.has(pI)) { doDiscard(pI, p.hand.length - 1); return; } // 听牌后摸啥打啥，避免拆听
-  let lvl = getAILevel();
+  let lvl = getAILevel(pI);
   let idx;
   if (lvl === 'easy') idx = easyDiscardIndex(pI);
-  else if (lvl === 'hard') idx = chooseBestDiscard(pI, 'hard');
+  else if (lvl === 'hard') idx = hardDiscardIndex(pI);
   else idx = normalDiscardIndex(pI);
   doDiscard(pI, idx);
 }
@@ -1136,18 +1332,6 @@ function claimOutcome(pI, act) {
     if (score > bestScore) { bestScore = score; best = { dist: le.dist, wins, uke: le.uke }; }
   }
   return best;
-}
-
-function evalClaim(pI, act) {
-  let p = G.players[pI];
-  if (act.a === 'kong') return 40 + claimPriority(act); // 杠补摸+凑副露，近似取正收益
-  let out = claimOutcome(pI, act);
-  if (!out) return -1;
-  let s = -out.dist * 1000 + out.wins * 200 + out.uke * 6;
-  // 本变体副露本身就满足“须有刻子/顺子”且减少待组面子，开门价值高
-  if (p.melds.length < 3) s += 700;
-  if (act.ting) s += 5000;
-  return s + claimPriority(act);
 }
 
 function bestTingAct(pI, acts) {
@@ -1207,7 +1391,7 @@ function aiChooseClaimHard(pI, acts) {
 }
 
 function aiChooseClaim(pI, acts) {
-  let lvl = getAILevel();
+  let lvl = getAILevel(pI);
   if (lvl === 'easy') return aiChooseClaimEasy(pI, acts);
   if (lvl === 'hard') return aiChooseClaimHard(pI, acts);
   return aiChooseClaimNormal(pI, acts);
@@ -1251,7 +1435,7 @@ function aiTurn(pI) {
   if (G.over || G.phase !== 'discard' || G.curP !== pI) return;
   let selfActs = selfActions(pI);
   if (selfActs.length) {
-    let lvl = getAILevel();
+    let lvl = getAILevel(pI);
     let act = selfActs[0], doIt = false;
     if (lvl === 'easy') doIt = Math.random() < 0.5;
     else if (lvl === 'hard') {
@@ -1285,15 +1469,22 @@ function scheduleAIDiscard(pI, delay = AI_DELAY) {
 }
 
 // ===== 无头模拟（仅测试用）=====
-// 同步驱动整局（含 HUMAN 也交给 AI），返回结果供难度对比
+// 同步驱动整局（含 HUMAN 也交给 AI）。level 可为字符串（四家同档）
+// 或长度为 4 的数组（按座位分别指定，用于“模块对战”）
 export function simulateRound(level) {
-  let prev = getAILevel();
+  let prevLevel = G.aiLevel;
+  let prevLevels = G.aiLevels;
   SIM_MODE = true;
   simQueue = [];
   simFirstTing = null;
-  G.aiLevel = AI_LEVELS[level] ? level : 'normal';
+  if (Array.isArray(level)) {
+    G.aiLevels = level.slice(0, PLAYER_COUNT);
+  } else {
+    G.aiLevels = null;
+    G.aiLevel = AI_LEVELS[level] ? level : 'normal';
+  }
   try {
-    G.dealer = 0;
+    G.dealer = Math.floor(Math.random() * PLAYER_COUNT); // 随机庄家，消除座位先手优势
     G.playing = true;
     G.stats = freshStats();
     startRound(true);
@@ -1313,7 +1504,8 @@ export function simulateRound(level) {
   } finally {
     SIM_MODE = false;
     simQueue = [];
-    G.aiLevel = prev;
+    G.aiLevel = prevLevel;
+    G.aiLevels = prevLevels;
   }
 }
 

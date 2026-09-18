@@ -61,6 +61,12 @@ rulesModal.addEventListener('click', e => { if (e.target === rulesModal) rulesMo
 const orientBtn = document.getElementById('orient-btn');
 orientBtn.addEventListener('click', e => { e.target.blur(); UI.cycleOrient(); });
 
+const autoBtn = document.getElementById('auto-btn');
+autoBtn.addEventListener('click', e => {
+  e.target.blur();
+  Game.setAuto(!Game.getAuto());
+});
+
 // 启动：有存档则大厅显示继续游戏，否则只显示新的游戏
 Game.G.playing = false;
 Game.loadAILevel();

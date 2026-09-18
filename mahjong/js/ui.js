@@ -7,6 +7,11 @@ const EL = id => document.getElementById(id);
 
 // 和牌数据暂存：showWinBanner 紧挨着 showModal 调用，结算卡合并渲染一次消费
 let lastWin = null;
+// 托管时结算自动继续的倒计时
+let modalTimer = null;
+function clearModalTimer() {
+  if (modalTimer) { clearInterval(modalTimer); modalTimer = null; }
+}
 
 // 南北互换：左=北(3)、右=南(1)，出牌下→右→上→左即逆时针
 const NAMES = ['nb', 'nr', 'nt', 'nl'];
@@ -128,7 +133,7 @@ function renderHands() {
   for (let i = 0; i < 4; i++) {
     let p = G.players[i];
     let panel = EL(PANELS[i]);
-    let canDiscard = !G.over && G.playing && !G.lock && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
+    let canDiscard = !G.over && G.playing && !G.lock && !G.auto && i === HUMAN && G.curP === HUMAN && G.phase === 'discard';
     let tingSet = null, tingPlanMap = null;
     if (i === HUMAN && (G.tingIntent || G.forceTing)) {
       // 点了听牌（或上听吃）后只能打出听牌张，其余牌不可点
@@ -243,7 +248,7 @@ function renderDiscards() {
     // 只有牌堆变化（新增/被吃碰）时才重建该家的牌河
     // 新摸牌后上一张弃牌不再可响应，取消「最新出牌」高亮
     let lastIdx = (i === G.lastDB && !G.lastDraw) ? disc.length - 1 : -1;
-    let sig = disc.map((t, idx) => t.id + (t.claimed ? 'c' : '') + (idx === lastIdx ? 'L' : '')).join(',');
+    let sig = disc.map((t, idx) => t.id + (t.claimed ? 'c' : '') + (t.tingDiscard && !t.claimed ? 'T' : '') + (idx === lastIdx ? 'L' : '')).join(',');
     if (el.dataset.dsig === sig) continue;
     el.dataset.dsig = sig;
     el.innerHTML = '';
@@ -251,6 +256,7 @@ function renderDiscards() {
       let e = tileEl(t);
       if (idx === lastIdx && !t.claimed) e.classList.add('latest');
       if (t.claimed) e.classList.add('claimed');
+      else if (t.tingDiscard) e.classList.add('ting-discard');
       el.appendChild(e);
     });
   }
@@ -283,6 +289,12 @@ function updateStartButton() {
   renderAILevel();
   let b = EL('btn-s');
   if (b) b.classList.toggle('hide', !G.playing);
+  let autoBtn = EL('auto-btn');
+  if (autoBtn) {
+    autoBtn.classList.toggle('hide', !G.playing);
+    autoBtn.classList.toggle('active', !!G.auto);
+    autoBtn.textContent = G.auto ? '托管中' : '托管';
+  }
   let lobby = EL('lobby');
   if (!lobby) return;
   lobby.classList.toggle('hide', !!G.playing);
@@ -520,7 +532,7 @@ function renderActions() {
   if (!el) return;
 
   let acts = [];
-  if (G.playing && !G.over) {
+  if (G.playing && !G.over && !G.auto) {
     if (G.selfHu) {
       acts = [{ a: 'hu', l: '和' }];
     } else if (G.phase === 'claim' && G.pending.includes(HUMAN)) {
@@ -652,7 +664,22 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
 
   EL('m-btn').textContent = btnText || '继续';
   ov.classList.add('show');
-  EL('m-btn').onclick = () => { ov.classList.remove('show'); EL('m-btn').blur(); hideWinBanner(); if (cb) cb(); };
+  let btn = EL('m-btn');
+  let label = btnText || '继续';
+  let fire = () => { clearModalTimer(); ov.classList.remove('show'); btn.blur(); hideWinBanner(); if (cb) cb(); };
+  clearModalTimer();
+  btn.onclick = fire;
+  // 托管：显示倒计时并自动继续
+  if (G.auto && cb) {
+    let left = 3;
+    btn.textContent = `自动继续 (${left})`;
+    modalTimer = setInterval(() => {
+      if (!G.auto) { clearModalTimer(); btn.textContent = label; return; }
+      left--;
+      if (left <= 0) { fire(); return; }
+      btn.textContent = `自动继续 (${left})`;
+    }, 1000);
+  }
 }
 
 // ===== 和牌手牌横幅：不再单独展示，仅暂存数据供结算卡合并渲染 =====
