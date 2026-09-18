@@ -3,19 +3,13 @@ import * as UI from './ui.js';
 
 Game.setUI(UI);
 
-// 移动端横屏偏好：先 requestFullscreen 再 orientation.lock（Chrome 要求全屏才给锁）
-// 必须在点击手势里同步触发；iOS 无此 API 会静默失败，靠 CSS 伪横屏旋转
+// 移动端横屏偏好：尝试锁定方向（不请求全屏）；不支持的浏览器静默失败，靠 CSS 伪横屏旋转
 function tryLandscape() {
   try {
     if (UI.getOrient() !== 'landscape') return
     if (!matchMedia('(pointer: coarse)').matches) return
-    let fs = document.documentElement.requestFullscreen
-      ? document.documentElement.requestFullscreen().catch(() => {})
-      : Promise.resolve()
-    Promise.resolve(fs).then(() => {
-      if (screen.orientation && screen.orientation.lock)
-        return screen.orientation.lock('landscape').catch(() => {})
-    }).catch(() => {})
+    if (screen.orientation && screen.orientation.lock)
+      screen.orientation.lock('landscape').catch(() => {})
   } catch (e) {}
 }
 

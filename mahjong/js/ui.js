@@ -186,6 +186,8 @@ function renderHands() {
     handEl.innerHTML = '';
 
     if (i === HUMAN || G.over) {
+      // 东家（下方）按连续花色分组，折行时整组一起折
+      let suitGroup = null, suitType = null;
       p.hand.forEach((t, idx) => {
         let isClickable = canDiscard;
         if (tingSet) {
@@ -205,8 +207,25 @@ function renderHands() {
           node.onmouseenter = () => showTingPop(node, tingPlanMap[Tile.tid(t)] || []);
           node.onmouseleave = hideTingPop;
         }
-        handEl.appendChild(node);
+        if (i === HUMAN) {
+          if (!suitGroup || suitType !== t.type) {
+            suitGroup = document.createElement('div');
+            suitGroup.className = 'hand-suit';
+            handEl.appendChild(suitGroup);
+            suitType = t.type;
+          }
+          suitGroup.appendChild(node);
+        } else {
+          handEl.appendChild(node);
+        }
       });
+      // 预留摸牌位：13 张（3n+1）时留一张空位，避免摸第 14 张时折行跳动
+      if (i === HUMAN && !G.over && p.hand.length % 3 === 1) {
+        let sp = document.createElement('div');
+        sp.className = 'tile hand-spacer';
+        sp.setAttribute('aria-hidden', 'true');
+        handEl.appendChild(sp);
+      }
     } else {
       p.hand.forEach(t => handEl.appendChild(tileEl(t, { folded: true })));
     }
@@ -384,22 +403,12 @@ export function applyOrient() {
   if (b) b.textContent = mode === 'landscape' ? '切换竖屏' : '切换横屏';
 }
 
-// 切换方向：持久化后立即应用；切横屏在点击手势内请求全屏+锁方向，切竖屏解锁
+// 切换方向：只切 CSS 布局，不请求全屏；切竖屏时顺带解锁方向
 export function cycleOrient() {
   let next = getOrient() === 'landscape' ? 'portrait' : 'landscape';
   try { localStorage.setItem(ORIENT_KEY, next); } catch (e) {}
-  if (next === 'portrait') {
-    if (screen.orientation && screen.orientation.unlock) { try { screen.orientation.unlock(); } catch (e) {} }
-  } else if (isCoarse()) {
-    try {
-      let fs = document.documentElement.requestFullscreen
-        ? document.documentElement.requestFullscreen().catch(() => {})
-        : Promise.resolve();
-      Promise.resolve(fs).then(() => {
-        if (screen.orientation && screen.orientation.lock)
-          return screen.orientation.lock('landscape').catch(() => {});
-      }).catch(() => {});
-    } catch (e) {}
+  if (next === 'portrait' && screen.orientation && screen.orientation.unlock) {
+    try { screen.orientation.unlock(); } catch (e) {}
   }
   applyOrient();
 }
@@ -690,10 +699,18 @@ function renderModalHand(win) {
   // 自摸时和牌张已在手牌中；点炮时把和牌张补到末尾并高亮
   let tiles = [...(win.hand || [])];
   if (!win.isZimo && win.winTile) tiles.push(win.winTile);
+  // 按连续花色分组，竖屏折行时整组一起折（与牌桌手牌一致）
+  let suitGroup = null, suitType = null;
   tiles.forEach(t => {
     let e = tileEl(t);
     if (t === win.winTile) e.classList.add('wb-win');
-    row.appendChild(e);
+    if (!suitGroup || suitType !== t.type) {
+      suitGroup = document.createElement('div');
+      suitGroup.className = 'hand-suit';
+      row.appendChild(suitGroup);
+      suitType = t.type;
+    }
+    suitGroup.appendChild(e);
   });
   box.appendChild(row);
 }

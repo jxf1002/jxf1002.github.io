@@ -120,6 +120,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .seat-left .pm, .seat-left .ph, .seat-right .pm, .seat-right .ph { display: flex; flex-direction: column; gap: 0; align-items: center; }
 .seat-left .pm, .seat-right .pm { gap: 10px; }
 .meld { display: flex; flex-direction: row; gap: 0; }
+/* 手牌花色分组：flex 容器，避免行内基线留白导致与副露对不齐 */
+.hand-suit { display: flex; }
 .seat-left .meld, .seat-right .meld { flex-direction: column; position: relative; }
 /* 西家副露翻转 180 度 */
 .seat-top .meld { flex-direction: row-reverse; }
@@ -655,7 +657,11 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
 .m-hand { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 2px 0 8px; }
 .m-tiles { display: flex; align-items: center; justify-content: center; gap: 2px; flex-wrap: wrap; }
 .m-hand .tile { width: 32px; height: 43px; }
-.m-hand .tile.wb-win { outline: 3px solid #ffd34d; outline-offset: 1px; margin-left: 12px; }
+.m-hand .tile.wb-win {
+  outline: 3px solid #ffd34d; outline-offset: 2px;
+  margin-left: 14px; position: relative; z-index: 2;
+  box-shadow: 0 0 12px rgba(255, 211, 77, .8);
+}
 .m-sep { width: 2px; align-self: stretch; min-height: 43px; border-radius: 2px; background: rgba(255,255,255,.25); margin: 0 5px; }
 .m-dora-label { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; }
 
@@ -678,17 +684,82 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
   body.playing.land #mo .mdl { width: auto; max-width: 96dvh; max-height: 96dvw; }
 }
 
-/* ===== 竖屏偏好（触屏竖屏游玩）：中央区收窄，牌河竖排不被裁 ===== */
-/* 压缩牌面尺寸沿用 ≤500 矮视口规则，这里只调中央区横向分配 */
-body.playing.port .table { grid-template-columns: 56px minmax(0, 1fr) 56px; }
+/* ===== 竖屏偏好（触屏竖屏游玩）：西家整行、南北归中行、东家分两区 ===== */
+/* 压缩牌面尺寸沿用 ≤500 矮视口规则，这里只调牌桌行列与中央区分配 */
+body.playing.port .table {
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "top top top"
+    "left center right"
+    "bottom bottom bottom";
+}
 body.playing.port .center { min-height: 0; gap: 2px; }
-body.playing.port .center-mid { gap: 4px; }
-body.playing.port .disc-col { width: 52px; max-height: 240px; }
-body.playing.port .wall { max-width: 82px; }
+body.playing.port .center-mid { gap: 10px; }
+body.playing.port .disc-col { width: 118px; max-height: 300px; }
+body.playing.port .disc-row { min-height: 41px; }
+/* 牌墙只留"剩余 xx"：隐藏示意牌，数字绝对居中到中央 */
+body.playing.port .wall { display: none; }
+body.playing.port .wall-wrap {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 1;
+}
+body.playing.port .wall-count {
+  font-size: 14px; padding: 2px 10px; border-radius: 999px;
+  background: rgba(10, 20, 15, .88); border: 1px solid rgba(232, 193, 90, .5);
+}
+/* 弃牌放大 */
+body.playing.port .disc .tile,
+body.playing.port .disc-col .tile { width: 28px; height: 37px; border-radius: 4px; }
+/* 东家：副露在上、手牌在下，各自整宽折行；手牌按花色整组折 */
+body.playing.port .seat-bottom .seat-body { flex-direction: column; align-items: center; gap: 4px; }
+body.playing.port .seat-bottom .pm,
+body.playing.port .seat-bottom .ph { flex-wrap: wrap; width: 100%; justify-content: center; gap: 4px 6px; }
+body.playing.port .seat-bottom .tile { width: 34px; height: 46px; font-size: 14px; border-radius: 5px; }
+/* 整组不拆；单花色多到超过一行时才允许组内折行 */
+body.playing.port .hand-suit { display: flex; flex-wrap: wrap; max-width: 100%; }
+/* 预留摸牌位：仅竖屏占位，其它端完全隐藏（避免出现空白牌） */
+.tile.hand-spacer { display: none; }
+body.playing.port .tile.hand-spacer { display: inline-flex; visibility: hidden; pointer-events: none; }
+/* 胡牌可响应大牌居中 */
+body.playing.port .claim-reminder { top: 50%; }
+/* 副露与手牌之间加分隔线（无副露时不显示） */
+body.playing.port .seat-bottom .pm:not(:empty) {
+  border-bottom: 1px solid rgba(232,193,90,.35);
+  padding-bottom: 6px;
+}
+/* 西家整行后仍允许折行，防副露多时溢出被裁 */
+body.playing.port .seat-top .seat-body { flex-wrap: wrap; justify-content: center; row-gap: 3px; }
+/* 三家 AI 手牌与副露统一放大，南北每张全露不折叠 */
+body.playing.port .seat-top .pm .tile,
+body.playing.port .seat-top .ph .tile { width: 22px; height: 29px; font-size: 11px; }
+body.playing.port .seat-left .tile,
+body.playing.port .seat-right .tile { width: 22px; height: 29px; margin: -3px 0; }
+body.playing.port .seat-left .pm .tile,
+body.playing.port .seat-right .pm .tile { width: 22px; height: 29px; font-size: 11px; }
+/* 南北定宽保证对称；庄家🎲/长分数换行，避免撑宽 */
+body.playing.port .seat-left .seat-head,
+body.playing.port .seat-right .seat-head { flex-wrap: wrap; gap: 1px 3px; }
+
+/* 结算卡：副露与手牌分多行，花色整组折行，分隔线占整行 */
+body.playing.port #mo .m-tiles { gap: 3px 2px; }
+body.playing.port #mo .m-sep {
+  flex-basis: 100%; width: 100%; height: 1px; min-height: 0;
+  margin: 4px 0; background: rgba(255,255,255,.25);
+}
 @media (max-width: 380px) {
-  body.playing.port .table { grid-template-columns: 44px minmax(0, 1fr) 44px; }
-  body.playing.port .disc-col { width: 40px; max-height: 210px; }
-  body.playing.port .wall { max-width: 66px; }
+  body.playing.port .table { grid-template-columns: 38px minmax(0, 1fr) 38px; }
+  body.playing.port .disc-col { width: 98px; max-height: 250px; }
+  body.playing.port .disc-row { min-height: 35px; }
+  body.playing.port .disc .tile,
+  body.playing.port .disc-col .tile { width: 23px; height: 31px; }
+  body.playing.port .seat-bottom .tile { width: 30px; height: 42px; font-size: 12px; }
+  body.playing.port .seat-top .pm .tile,
+  body.playing.port .seat-top .ph .tile { width: 20px; height: 27px; font-size: 10px; }
+  body.playing.port .seat-left .tile,
+  body.playing.port .seat-right .tile { width: 20px; height: 27px; margin: -3px 0; }
+  body.playing.port .seat-left .pm .tile,
+  body.playing.port .seat-right .pm .tile { width: 20px; height: 27px; font-size: 10px; }
 }
 
 /* 方向切换按钮：仅触屏显示（桌面端转屏无意义） */
