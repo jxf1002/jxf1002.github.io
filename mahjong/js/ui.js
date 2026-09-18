@@ -89,6 +89,33 @@ function meldGroup(m) {
   return group;
 }
 
+// 大厅空白桌：只留座位框（名+分），不渲染任何牌
+function renderLobbyTable() {
+  for (let i = 0; i < 4; i++) {
+    let p = G.players[i];
+    let nameEl = EL(NAMES[i]);
+    let head = nameEl.parentNode;
+    head.querySelectorAll('.dealer-die,.head-score').forEach(e => e.remove());
+    nameEl.textContent = p ? p.name + (i === HUMAN ? '(我)' : '') : ['东', '南', '西', '北'][i];
+    EL(RESULTS[i]).innerHTML = '';
+    EL(MELDS[i]).innerHTML = '';
+    EL(HANDS[i]).innerHTML = '';
+    EL(DISCS[i]).innerHTML = '';
+    EL(PANELS[i]).classList.remove('active', 'ting');
+    if (p) {
+      let sc = document.createElement('span');
+      sc.className = 'head-score';
+      sc.textContent = p.score;
+      head.insertBefore(sc, EL(RESULTS[i]));
+    }
+  }
+  EL('wd').innerHTML = '';
+  let c = EL('wall-count');
+  if (c) c.textContent = '';
+  updateBaopi();
+  renderReminder();
+}
+
 function renderHands() {
   if (!G.players.length) return;
   for (let i = 0; i < 4; i++) {
@@ -184,7 +211,7 @@ function renderDiscards() {
 }
 
 function canSeeBaopi() {
-  return !!(G.bpR && G.baopi && (G.ting.has(HUMAN) || G.over));
+  return !!G.playing && !!(G.bpR && G.baopi && (G.ting.has(HUMAN) || G.over));
 }
 
 function renderDora() {
@@ -219,7 +246,7 @@ function updateStartButton() {
 function renderReminder() {
   let el = EL('reminder');
   if (!el) return;
-  let show = !G.over && G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD;
+  let show = G.playing && !G.over && G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD;
   el.classList.toggle('show', !!show);
   if (!show) { el.innerHTML = ''; return; }
   el.innerHTML = '';
@@ -236,7 +263,7 @@ function renderReminder() {
 function renderHints() {
   let el = EL('hints');
   if (!el) return;
-  if (G.over || !G.players.length) { el.innerHTML = ''; return; }
+  if (G.over || !G.playing || !G.players.length) { el.innerHTML = ''; return; }
   let h = Game.handHints(HUMAN);
   let tags = [
     { label: h.yao ? '有幺九' : '断幺九', cls: h.yao ? 'ok' : 'no' },
@@ -402,6 +429,14 @@ function updateWallCount() {
 }
 
 export function update() {
+  if (!G.playing) {
+    renderLobbyTable();
+    renderActions();
+    renderHints();
+    renderDora();
+    updateStartButton();
+    return;
+  }
   renderHands();
   renderDiscards();
   renderReminder();

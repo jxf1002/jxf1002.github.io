@@ -15,17 +15,21 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scrollbar-gutter: stable; }
+html { scrollbar-gutter: stable; background: var(--bg); }
 .hide { display: none !important; }
 body {
   font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
   background: var(--bg);
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex; flex-direction: column;
   color: var(--text);
-  padding: 12px;
+  padding: 12px 12px 0;
   overflow-anchor: none;
 }
-.gc { max-width: 1112px; margin: 0 auto; padding: 12px 12px 0; }
+.gc { max-width: 1112px; width: 100%; min-width: 0; margin: 0 auto; padding: 12px 12px 0; flex: 1; display: flex; flex-direction: column; }
+body > .site-header, body > .site-footer { flex-shrink: 0; }
+.table { flex: 1; }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700; }
@@ -80,7 +84,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .table {
   position: relative;
   display: grid;
-  grid-template-columns: 120px 1fr 120px;
+  grid-template-columns: 120px minmax(0, 1fr) 120px;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "left top right"
@@ -114,7 +118,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 
 .seat-body { display: flex; flex-direction: row; align-items: flex-end; justify-content: center; gap: 14px; }
 .pm { display: flex; flex-direction: row; gap: 6px; align-items: flex-end; }
-.ph { display: flex; flex-direction: row; gap: 3px; align-items: flex-end; }
+.ph { display: flex; flex-direction: row; align-items: flex-end; }
 /* 西家：手牌左副露右（对面视角） */
 .seat-top .seat-body { flex-direction: row-reverse; }
 /* 南北家：竖列；北上副露下手牌，南上手牌下副露 */
@@ -162,8 +166,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .seat-left .tile, .seat-right .tile { width: 36px; height: 48px; }
 .seat-left .ph .tile, .seat-right .ph .tile { background: var(--tile-back); border-color: #123524; color: transparent; }
 .seat-left .pm .tile, .seat-right .pm .tile { width: 34px; height: 46px; font-size: 13px; font-weight: 700; color: #333; }
-.seat-left .tile { transform: rotate(90deg); margin: -4.5px 0; }
-.seat-right .tile { transform: rotate(-90deg); margin: -4.5px 0; }
+.seat-left .tile { transform: rotate(90deg); margin: -6px 0; }
+.seat-right .tile { transform: rotate(-90deg); margin: -6px 0; }
 
 /* 杠：底3 + 顶1几乎同位叠中牌 */
 .meld.kong-meld { position: relative; }
@@ -406,7 +410,7 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 #sum-close { background: #4a5a52; color: #fff; }
 
 /* 游玩态：单屏，隐藏 header/footer */
-body.playing { height: 100dvh; overflow: hidden; display: flex; flex-direction: column; padding: 8px; }
+body.playing { height: 100dvh; overflow: hidden; display: flex; flex-direction: column; padding: 8px 8px 0; }
 body.playing .site-header, body.playing .site-footer { display: none; }
 body.playing .gc { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
 body.playing .table { flex: 1; min-height: 0; }
@@ -428,7 +432,7 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .log-btn { padding: 4px 10px; font-size: 10px; }
   .ext { min-height: 40px; margin-bottom: 6px; }
   .table {
-    grid-template-columns: 64px 1fr 64px;
+    grid-template-columns: 64px minmax(0, 1fr) 64px;
     gap: 4px; padding: 7px; border-width: 4px; border-radius: 14px;
     min-height: 70vh;
   }
@@ -442,7 +446,7 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .ting-tiles { font-size: 9px; margin-left: 3px; }
 
   .seat-bottom .tile { width: 34px; height: 46px; font-size: 14px; border-radius: 5px; }
-  .seat-bottom .seat-body { gap: 8px; }
+  .seat-bottom .seat-body { gap: 8px; flex-wrap: wrap; row-gap: 6px; }
   .seat-top .ph .tile { width: 22px; height: 30px; }
   .seat-top .pm .tile { width: 20px; height: 27px; font-size: 9px; }
   .seat-left .tile, .seat-right .tile { width: 22px; height: 30px; }
@@ -493,6 +497,13 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .win-banner .tile { width: 22px; height: 29px; border-radius: 4px; }
   .win-banner .wb-sep { height: 29px; margin: 0 3px; }
 }
+
+/* 本页 footer 收紧贴底（站点头尾样式不动，只收本页） */
+/* site.css 里 .tool-page{display:block;padding:0!important} 会覆盖上面的 body{display:flex}，
+   导致非游玩态 body 退化为 block，.gc 的 flex:1 失效，内容不足一屏时 footer 后面留一截 body 底色。
+   这里用更高特异度把 flex 布局抢回来，游玩态 body.playing 本身特异度已够所以不受影响。 */
+body.tool-page { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
 
 /* ===== 麻将页 header 不常驻（移动端，覆盖站点的 sticky，仅本页） ===== */
 @media (max-width: 900px) {
