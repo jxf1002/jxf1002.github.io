@@ -1226,12 +1226,14 @@ function hardDiscardIndex(pI) {
   }
   cands.sort((a, b) => (a.e.dist - b.e.dist) || (b.e.uke - a.e.uke));
   // 自己未听且已有人听牌：此时点炮是黑炮（独付、+2 番），宁可拆牌也不放
-  let oppTing = false;
-  G.ting.forEach(i => { if (i !== pI) oppTing = true; });
+  // 三档：无人上听偏激进（safeW 0.1+候选放宽），有人上听偏保守（safeW 4），听牌的是庄家更保守（safeW 8，点庄赢家黑炮独付 8 分）
+  let oppTing = false, dealerTing = false;
+  G.ting.forEach(i => { if (i !== pI) { oppTing = true; if (G.players[i].isD) dealerTing = true; } });
   let attack = hardAttackMode(pI, cands[0].e.dist);
-  let safeW = attack ? 0.3 : 1.3;
+  let safeW = attack ? 0.1 : 1.3;
   if (oppTing) safeW = Math.max(safeW, 4);
-  let top = cands.slice(0, oppTing ? cands.length : (attack ? 4 : 8));
+  if (dealerTing) safeW = Math.max(safeW, 8);
+  let top = cands.slice(0, oppTing ? cands.length : 8);
   let best = p.hand[top[0].i], bestScore = -Infinity;
   for (let c of top) {
     let t = p.hand[c.i];

@@ -48,6 +48,10 @@ node test/ai.test.mjs      # from mahjong/, AI changes only
 node test/ai-sim.mjs       # from mahjong/, slow, manual only (AI_TABLES/AI_THREADS/AI_CIRCLES tunable)
 ```
 
+When AI strategy changes: default to a 10-thread × 10-table smoke run
+(`AI_TABLES=10 AI_THREADS=10 node test/ai-sim.mjs`); only run the full
+100 tables after the user confirms.
+
 ## Code style
 
 - ESLint extends `@antfu`; Prettier `semi: false`

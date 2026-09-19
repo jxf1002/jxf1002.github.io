@@ -1,6 +1,7 @@
 // 整桌模拟：困难随机座 vs 3 normal，打满 4 圈；慢，手动跑：node test/ai-sim.mjs
-// 可调：AI_TABLES（默认100） AI_THREADS（默认10） AI_CIRCLES（默认4）
+// 可调：AI_TABLES（默认10） AI_THREADS（默认10） AI_CIRCLES（默认4）
 import os from 'node:os';
+import fs from 'node:fs';
 import { Worker } from 'node:worker_threads';
 
 let pass = 0, fail = 0;
@@ -31,7 +32,7 @@ function printTable(head, rows) {
 }
 
 // 桌数按线程数均分，每桌困难座位随机、圈数相同
-const TABLES = Math.max(1, Number(process.env.AI_TABLES || 100));
+const TABLES = Math.max(1, Number(process.env.AI_TABLES || 10));
 const THREADS = Math.max(1, Number(process.env.AI_THREADS || Math.min(os.cpus().length || 4, 10)));
 const CIRCLES = Math.max(1, Number(process.env.AI_CIRCLES || 4));
 
@@ -134,6 +135,21 @@ ok('胜率好桌超 30%', winG > n * 0.3, `${winG}/${n}`);
 ok('均分好桌超 30%', scoreG > n * 0.3, `${scoreG}/${n}`);
 ok('黑炮好桌超 30%', dealG > n * 0.3, `${dealG}/${n}`);
 ok('上听好桌超 30%', tingG > tingCounted * 0.3, `${tingG}/${tingCounted}`);
+
+// 趋势记录：每次跑完追加一行（过没过都记）
+{
+  const csv = new URL('./ai-sim-log.csv', import.meta.url);
+  const fmt = (v, d) => (v === Infinity || v === undefined || Number.isNaN(v)) ? '' : Number(v).toFixed(d);
+  const now = new Date();
+  const pad = x => String(x).padStart(2, '0');
+  const time = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const row = [time, n, THREADS, CIRCLES, fmt(avgRank, 3), fmt(winRate, 3), fmt(avgScore, 3),
+    fmt(avgDealH, 3), fmt(avgDealN, 3), fmt(avgTingH, 1), fmt(avgTingN, 1), fmt(handSum / n, 1),
+    rankG, winG, scoreG, dealG, tingG, tingCounted, pass, fail, ''].join(',');
+  if (!fs.existsSync(csv)) fs.writeFileSync(csv, 'time(时间),tables(桌数),threads(线程数),circles(圈数),avgRank(平均排名),winRate(和牌胜率),avgScore(每局均分),avgDealHard(困难黑炮率),avgDealNorm(同桌黑炮率),avgTingHard(困难上听轮数),avgTingNorm(同桌上听轮数),avgHands(平均把数),rankG(排名好桌),winG(胜率好桌),scoreG(均分好桌),dealG(黑炮好桌),tingG(上听好桌),tingCounted(上听计入桌),pass(通过),fail(失败),note(备注)\n');
+  fs.appendFileSync(csv, row + '\n');
+  console.log('  已记入 test/ai-sim-log.csv');
+}
 
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
 process.exit(fail ? 1 : 0);
