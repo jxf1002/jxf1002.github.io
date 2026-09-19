@@ -348,6 +348,13 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
 .mdl .st { font-size: 15px; color: #8fd3b0; margin-bottom: 6px; }
 .mdl .dt { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 .mdl button { padding: 10px 26px; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; background: #27ae60; color: #fff; }
+#m-btn { display: block; width: 100%; padding: 12px 0; }
+.m-links { display: flex; gap: 18px; justify-content: center; margin-top: 14px; }
+.mdl .m-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  color: var(--muted); font-size: 13px; text-decoration: underline;
+}
+.mdl .m-link:hover { color: var(--gold); }
 .confirm-tip { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
 .confirm-actions { display: flex; gap: 10px; justify-content: center; }
 #confirm-cancel { background: #4a5a52; }

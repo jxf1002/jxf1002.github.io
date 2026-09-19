@@ -822,5 +822,39 @@ G.forceTing = false; G.tingIntent = true;
 ok('点听牌选张中不再提供杠', Game.selfActions(HUMAN).length === 0);
 G.tingIntent = false;
 
+section('结算后回主页仍可继续下一局');
+G = newGame();
+G.playing = true; G.over = false; G.selfHu = true;
+G.lastDraw = T('wan',9);
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',7),T('tong',8),T('tong',9),T('tong',9),T('tong',9)];
+Game.handleAB(HUMAN, 'hu');
+ok('自摸后进入结算 over', G.over === true);
+Game.toLobby();
+ok('回主页保留本局玩家与积分', G.players.length === 4 && G.playing === false);
+Game.resumeGame();
+ok('继续游戏接力开下一局', G.over === false && G.playing === true && G.players.length === 4);
+
+section('结算落盘：刷新后回到新一局而非已结束手牌');
+{
+  let store = new Map();
+  globalThis.localStorage = {
+    getItem: k => (store.has(k) ? store.get(k) : null),
+    setItem: (k, v) => { store.set(k, String(v)); },
+    removeItem: k => { store.delete(k); }
+  };
+}
+G = newGame();
+G.playing = true; G.over = false; G.selfHu = true;
+G.lastDraw = T('wan',9);
+G.players[HUMAN].hand = [T('wan',1),T('wan',2),T('wan',3),T('wan',4),T('wan',5),T('wan',6),T('tiao',5),T('tiao',5),T('tiao',5),T('tong',7),T('tong',8),T('tong',9),T('tong',9),T('tong',9)];
+Game.handleAB(HUMAN, 'hu');
+let snap = JSON.parse(localStorage.getItem('mahjong_save_v2'));
+ok('结算后存档标记为本局结束', snap && snap.over === true && Array.isArray(snap.scores));
+// 模拟刷新：清空内存态，从存档恢复
+G.players = []; G.over = false; G.playing = true;
+ok('刷新恢复为结束态（无手牌可打）', Game.restore() === true && G.over === true && G.playing === false && G.players.length === 4);
+Game.resumeGame();
+ok('恢复后继续即开新一局', G.over === false && G.playing === true && G.players.length === 4);
+
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
 process.exit(fail ? 1 : 0);

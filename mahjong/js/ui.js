@@ -9,8 +9,10 @@ const EL = id => document.getElementById(id);
 let lastWin = null;
 // 托管时结算自动继续的倒计时
 let modalTimer = null;
+let modalAbort = null;
 function clearModalTimer() {
   if (modalTimer) { clearInterval(modalTimer); modalTimer = null; }
+  if (modalAbort) { document.removeEventListener('pointerdown', modalAbort, true); modalAbort = null; }
 }
 
 // 南北互换：左=北(3)、右=南(1)，出牌下→右→上→左即逆时针
@@ -669,16 +671,28 @@ export function showModal(title, result, score, detail, btnText, cb, breakdown) 
   let fire = () => { clearModalTimer(); ov.classList.remove('show'); btn.blur(); hideWinBanner(); if (cb) cb(); };
   clearModalTimer();
   btn.onclick = fire;
-  // 托管：显示倒计时并自动继续
-  if (G.auto && cb) {
-    let left = 3;
-    btn.textContent = `自动继续 (${left})`;
+  // 回到主页：冻结回大厅，「继续游戏」接力开下一局（保留积分）
+  let home = EL('m-home');
+  if (home) home.onclick = () => {
+    clearModalTimer();
+    ov.classList.remove('show'); ov.classList.remove('win-open');
+    home.blur(); hideWinBanner();
+    Game.toLobby();
+  };
+  // 自动继续倒计时：托管 3 秒，普通 15 秒；点页面任意处即中止
+  if (cb) {
+    let autoMode = G.auto;
+    let left = autoMode ? 3 : 15;
+    let paint = () => { btn.textContent = autoMode ? `自动继续 (${left})` : `${label} (${left})`; };
+    paint();
     modalTimer = setInterval(() => {
-      if (!G.auto) { clearModalTimer(); btn.textContent = label; return; }
+      if (autoMode && !G.auto) { clearModalTimer(); btn.textContent = label; return; }
       left--;
       if (left <= 0) { fire(); return; }
-      btn.textContent = `自动继续 (${left})`;
+      paint();
     }, 1000);
+    modalAbort = () => { clearModalTimer(); btn.textContent = label; };
+    document.addEventListener('pointerdown', modalAbort, true);
   }
 }
 

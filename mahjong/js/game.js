@@ -53,6 +53,9 @@ function ui(fn, ...args) {
   if (fn === 'update') saveState();
 }
 
+// 结算后待执行的下一局动作：回主页暂停后点「继续游戏」仍可接力
+let pendingNext = null;
+
 // 电脑动作汉字提示：仅电脑玩家；托管时东家也显示
 function showAct(pI, text) {
   if (SIM_MODE || (pI === HUMAN && !G.auto)) return;
@@ -64,7 +67,15 @@ const SAVE_KEY = 'mahjong_save_v2';
 
 export function saveState() {
   try {
-    if (G.demo || G.over || !G.players.length) return;
+    if (G.demo || !G.players.length) return;
+    if (G.over) {
+      // 本局已结算：只留积分与统计。刷新后从大厅开新一局，不再回到已结束的手牌
+      localStorage.setItem(SAVE_KEY, JSON.stringify({
+        over: true, dealer: G.dealer, stats: G.stats,
+        scores: G.players.map(p => p.score)
+      }));
+      return;
+    }
     localStorage.setItem(SAVE_KEY, JSON.stringify({
       deck: G.deck, players: G.players, curP: G.curP, dealer: G.dealer,
       discard: G.discard, wall: G.wall, baopi: G.baopi, bpR: G.bpR,
@@ -154,6 +165,27 @@ export function restore() {
     let raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return false;
     let d = JSON.parse(raw);
+    if (d.over) {
+      // 上局已结算的存档：只恢复积分与统计，回大厅，继续则开新一局
+      G.dealer = Number.isInteger(d.dealer) ? d.dealer : 0;
+      G.players = [];
+      for (let i = 0; i < PLAYER_COUNT; i++) {
+        let p = mkPlayer(i);
+        p.score = (d.scores && d.scores[i]) || 0;
+        p.isD = (i === G.dealer);
+        G.players.push(p);
+      }
+      G.stats = d.stats ? { hands: d.stats.hands || 0, rotations: d.stats.rotations || 0, draw: d.stats.draw || 0, per: (d.stats.per || []).map(normPer) } : freshStats();
+      while (G.stats.per.length < 4) G.stats.per.push(normPer({}));
+      G.deck = []; G.discard = []; G.wall = 0; G.baopi = null; G.bpR = false;
+      visSig = ''; visMap = null;
+      G.ting = new Set(); G.winner = null; G.lastD = null; G.lastDB = -1;
+      G.lastDraw = null; G.lastFrom = ''; G.phase = 'discard'; G.pending = []; G.passed = new Set();
+      G.tingIntent = false; G.selfHu = false; G.forceTing = false; G.lock = false; G.token = (d.token || 0) + 1;
+      G.playing = false; G.over = true;
+      pendingNext = () => startRound(false);
+      return true;
+    }
     if (!d.players || !d.players.length) return false;
     G.deck = d.deck; G.players = d.players; G.curP = d.curP; G.dealer = d.dealer;
     G.discard = d.discard; G.wall = d.wall; G.baopi = d.baopi; G.bpR = d.bpR;
@@ -177,13 +209,16 @@ export function toLobby() {
   G.playing = false;
   G.lock = true;
   G.token = (G.token || 0) + 1; // 作废所有待执行的定时器
-  saveState();
-  ui('update');
-}
+  saveState(); // 已结算则落盘「本局结束」快照，刷新后开新一局
+  ui('update');}
 
-// 大厅继续游戏：恢复冻结前的牌局
+// 大厅继续游戏：恢复冻结前的牌局；若上一局已结算，则接力开始下一局
 export function resumeGame() {
   if (!G.players.length) return;
+  if (G.over) {
+    if (pendingNext) { let f = pendingNext; pendingNext = null; G.playing = true; f(); }
+    return;
+  }
   G.playing = true;
   G.token = (G.token || 0) + 1;
   G.lock = false;
@@ -260,6 +295,7 @@ export function startDemo() {
 // 退出演示：凭存档恢复真牌局；无存档则回空大厅
 export function endDemo() {
   G.demo = false;
+  pendingNext = null;
   G.token = (G.token || 0) + 1;
   G.lock = false;
   G.pending = [];
@@ -340,6 +376,7 @@ export function endGame() {
 }
 
 function startRound(resetScores) {
+  pendingNext = null;
   let scores = resetScores ? [0, 0, 0, 0] : G.players.map(p => p.score);
 
   if (G.stats) G.stats.hands++;
@@ -1638,7 +1675,7 @@ export function simulateRound(level) {
 }
 
 // ===== 整桌模拟（仅测试用）：首把随机庄家清零开打，带分连打到 rotations>=circles =====
-// levels 为长度 4 的数组（按座位指定难度）；转庄/连庄/流局规则与 continueGame/endDraw 一致，改了那边要同步改这里
+// levels 为长度 4 的数组（按座位指定难度）；转庄/连庄/流局规则与 win()/endDraw 一致，改了那边要同步改这里
 // 返回单桌 {rank, wins, hands, score, hard, dealIn, tingSum, tingN}（rank=1+严格更高分人数，并列取最好名次）
 export function simulateTable(levels, circles) {
   circles = Math.max(1, circles || 4);
@@ -1675,11 +1712,7 @@ export function simulateTable(levels, circles) {
         tingSum[seat] += baseMin; tingN[seat]++;
       }
       if (G.stats.rotations >= circles) break;
-      // 把间转庄（同 continueGame）：非庄和牌才转庄，回到 0 位记一圈；庄和/流局不转
-      if (G.winner !== null && G.winner !== undefined && G.winner !== G.dealer) {
-        G.dealer = (G.dealer + 1) % PLAYER_COUNT;
-        if (G.dealer === 0) G.stats.rotations++;
-      }
+      // 转庄已在 win() 内完成（非庄和牌才转庄，回到 0 位记一圈；庄和/流局不转）
       startRound(false);
     }
     let scores = G.players.map(p => p.score);
@@ -1787,19 +1820,16 @@ function win(pI, discarder, isZimo) {
     if (isBaopi) s.baopi++;
   }
 
+  // 本局结束：先定好下一局庄家（非庄和牌才转庄），再落盘，刷新即从新一局开始
+  if (pI !== G.dealer) {
+    G.dealer = (G.dealer + 1) % PLAYER_COUNT;
+    if (G.dealer === 0 && G.stats) G.stats.rotations++;
+  }
   ui('addLog', p.name + ' ' + title + '！' + detail + '，得分 +' + sc.gain);
   ui('update');
   ui('effect', isBaopi ? 'baopi' : 'win');
   ui('showWinBanner', { name: p.name, title, isZimo, isBaopi, hand: p.hand, melds: p.melds, winTile });
-  ui('showModal', title, p.name + title + '了', '本局得分 +' + sc.gain, detail, '继续', () => continueGame(pI), breakdown);
-}
-
-function continueGame(winnerIdx) {
-  if (winnerIdx !== G.dealer) {
-    G.dealer = (G.dealer + 1) % PLAYER_COUNT;
-    if (G.dealer === 0 && G.stats) G.stats.rotations++;
-  }
-  startRound(false);
+  ui('showModal', title, p.name + title + '了', '本局得分 +' + sc.gain, detail, '继续', (pendingNext = () => startRound(false)), breakdown);
 }
 
 function endDraw() {
@@ -1808,5 +1838,5 @@ function endDraw() {
   ui('addLog', '流局，无人和牌');
   ui('update');
   let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: 0, total: pl.score, fan: '—' }));
-  ui('showModal', '流局', '牌墙摸完，无人和牌', '本局不扣分', '', '继续', () => startRound(false), breakdown);
+  ui('showModal', '流局', '牌墙摸完，无人和牌', '本局不扣分', '', '继续', (pendingNext = () => startRound(false)), breakdown);
 }
