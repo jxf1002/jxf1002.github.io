@@ -281,6 +281,7 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
 .lobby-card p { color: var(--muted); font-size: 13px; margin-bottom: 18px; min-height: 18px; }
 .lobby-btns { display: flex; gap: 14px; justify-content: center; }
 .lobby-stats { margin-top: 14px; background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; text-decoration: underline; }
+.mdl .lobby-stats { background: none; padding: 0; display: block; margin-left: auto; margin-right: auto; }
 
 .diff-picker { margin-bottom: 16px; }
 .diff-label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; letter-spacing: 2px; }
@@ -330,6 +331,9 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
 .mdl .st { font-size: 15px; color: #8fd3b0; margin-bottom: 6px; }
 .mdl .dt { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 .mdl button { padding: 10px 26px; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; background: #27ae60; color: #fff; }
+.confirm-tip { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.confirm-actions { display: flex; gap: 10px; justify-content: center; }
+#confirm-cancel { background: #4a5a52; }
 
 .m-breakdown { display: none; margin-bottom: 18px; }
 .m-breakdown.show { display: block; }

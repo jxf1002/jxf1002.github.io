@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary">
 <title>麻将小游戏｜贾师傅的小站</title>
 <link rel="stylesheet" href="/assets/css/site.css?v=8" />
-<link rel="stylesheet" href="style.css?v=38">
+<link rel="stylesheet" href="style.css?v=40">
 <script src="/assets/js/common.js?v=3"></script>
 <script type="module" src="js/app.js"></script>
 <script>
@@ -148,6 +148,7 @@ var _hmt = _hmt || [];
     <div class="dt" id="m-detail"></div>
     <div class="m-breakdown" id="m-breakdown"></div>
     <button type="button" id="m-btn">继续</button>
+    <button type="button" class="lobby-stats" id="m-stats">查看战绩</button>
   </div>
 </div>
 
@@ -213,6 +214,17 @@ var _hmt = _hmt || [];
     <h2>📜 出牌日志</h2>
     <div class="lp" id="lp"></div>
     <button type="button" id="log-close">关闭</button>
+  </div>
+</div>
+
+<div class="mo" id="confirm-modal">
+  <div class="mdl">
+    <h2>开始新的游戏？</h2>
+    <p class="confirm-tip">已有游戏存档，开始新游戏将覆盖当前进度。</p>
+    <div class="confirm-actions">
+      <button type="button" id="confirm-cancel">取消</button>
+      <button type="button" id="confirm-ok">确认开始</button>
+    </div>
   </div>
 </div>
 

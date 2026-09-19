@@ -13,11 +13,34 @@ function tryLandscape() {
   } catch (e) {}
 }
 
+const confirmModal = document.getElementById('confirm-modal')
+const confirmOk = document.getElementById('confirm-ok')
+const confirmCancel = document.getElementById('confirm-cancel')
+
+function startNewGame() {
+  tryLandscape()
+  Game.init()
+}
+
 document.getElementById('btn-new').addEventListener('click', e => {
-  e.target.blur();
-  tryLandscape();
-  Game.init();
-});
+  e.target.blur()
+  if (Game.hasSave() || Game.G.players.length) {
+    confirmModal.classList.add('show')
+  } else {
+    startNewGame()
+  }
+})
+
+confirmOk.addEventListener('click', () => {
+  confirmOk.blur()
+  confirmModal.classList.remove('show')
+  startNewGame()
+})
+confirmCancel.addEventListener('click', () => {
+  confirmCancel.blur()
+  confirmModal.classList.remove('show')
+})
+confirmModal.addEventListener('click', e => { if (e.target === confirmModal) confirmModal.classList.remove('show') })
 
 document.getElementById('btn-continue').addEventListener('click', e => {
   e.target.blur();
@@ -26,6 +49,11 @@ document.getElementById('btn-continue').addEventListener('click', e => {
 });
 
 document.getElementById('btn-stats').addEventListener('click', e => {
+  e.target.blur();
+  Game.showStats();
+});
+
+document.getElementById('m-stats').addEventListener('click', e => {
   e.target.blur();
   Game.showStats();
 });

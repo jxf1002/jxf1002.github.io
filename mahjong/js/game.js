@@ -1081,16 +1081,19 @@ function threatOf(i) {
 // 某张牌对三家对手的综合危险度 0~1
 function dangerOf(pI, tile) {
   let id = Tile.tid(tile);
-  if (visibleCount(tile) >= 3) return 0;
+  let vis = visibleCount(tile);
+  if (vis >= 4) return 0; // 四张全见，不可能再被和
   let d = 0;
   for (let i = 0; i < PLAYER_COUNT; i++) {
     if (i === pI) continue;
     let th = threatOf(i);
     if (th <= 0) continue;
     let p = G.players[i];
-    if (p.disc.some(t => Tile.tid(t) === id)) continue; // 现物相对安全
+    // 本变体无振听：对手打过的牌仍可能被其和（概率略低），不能当绝对安全牌
+    let discarded = p.disc.some(t => Tile.tid(t) === id);
     let nearMeld = p.melds.some(m => m.ts.some(t => t.type === tile.type && tile.type !== 'zhong' && Math.abs(t.num - tile.num) <= 1));
-    let risk = 0.5 + (nearMeld ? 0.35 : 0);
+    let base = vis >= 3 ? 0.2 : 0.5; // 只剩最后一张时风险很低但非零
+    let risk = (base + (nearMeld ? 0.35 : 0)) * (discarded ? 0.4 : 1);
     if (G.bpR && G.baopi && Tile.tid(G.baopi) === id) risk += 0.25;
     d += th * Math.min(1, risk);
   }
