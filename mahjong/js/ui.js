@@ -330,6 +330,7 @@ function renderReminder() {
   if (G.playing && !G.over) {
     if (G.phase === 'claim' && G.pending.includes(HUMAN) && G.lastD) tile = G.lastD;
     else if (G.selfHu && G.lastDraw) tile = G.lastDraw;
+    else if (G.revealDraw >= 0 && G.lastDraw) tile = G.lastDraw;
   }
   el.classList.toggle('show', !!tile);
   let key = tile ? 's' + Tile.tid(tile) : 'h';
