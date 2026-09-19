@@ -601,6 +601,7 @@ G.ting = new Set([1]);
 G.deck[G.deck.length - 1] = T('tong',6);
 G.curP = 0; G.phase = 'discard'; G.lock = false; G.over = false;
 Game.handleDiscard(G.players[0].hand.findIndex(t => t.id === '红中'));
+await new Promise(r => setTimeout(r, Game.TICK + 50)); // 出牌后经 TICK 节拍才轮到下家摸牌
 ok('南自摸 记入南 zimo=1', G.stats.per[1].zimo === 1);
 ok('其他玩家无胡牌记录', G.stats.per[0].zimo === 0 && G.stats.per[0].ron === 0 && G.stats.per[2].zimo === 0);
 
@@ -804,6 +805,22 @@ ok('两面单侧见光仍有价值，两侧见光才降为死搭',
   Tile.effectiveShanten(handRy, mp5, no6) === 1 &&
   Tile.effectiveShanten(handRy, mp5, no69) === 2);
 
+
+ok('节奏档位', (Game.setPace(0), Game.TICK) === 500 && Game.setPace(2) && Game.TICK === 1500
+  && Game.setPace(9) === false && (Game.setPace(1), Game.TICK) === 1000);
+
+section('吃听/点听牌时不提供暗杠补杠');
+G = newGame();
+G.players[HUMAN].hand = [T('wan',5),T('wan',5),T('wan',5),T('wan',5),T('tiao',3),T('tiao',4),T('tiao',5),T('tong',1),T('tong',2),T('tong',3),T('tong',7),T('tong',8),T('tong',9),T('zhong')];
+G.players[HUMAN].melds = [{ type: 'peng', ts: [T('tiao',3),T('tiao',3),T('tiao',3)], claimedId: '3tiao' }];
+G.curP = HUMAN; G.phase = 'discard'; G.over = false; G.ting = new Set(); G.forceTing = false; G.tingIntent = false; G.lock = false;
+let saTing = Game.selfActions(HUMAN).map(a => a.a);
+ok('正常出牌时提供暗杠与补杠', saTing.includes('selfKong') && saTing.includes('buKong'));
+G.forceTing = true;
+ok('吃听中不再提供杠', Game.selfActions(HUMAN).length === 0);
+G.forceTing = false; G.tingIntent = true;
+ok('点听牌选张中不再提供杠', Game.selfActions(HUMAN).length === 0);
+G.tingIntent = false;
 
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
 process.exit(fail ? 1 : 0);

@@ -248,7 +248,7 @@ function renderDiscards() {
     // 只有牌堆变化（新增/被吃碰）时才重建该家的牌河
     // 新摸牌后上一张弃牌不再可响应，取消「最新出牌」高亮
     let lastIdx = (i === G.lastDB && !G.lastDraw) ? disc.length - 1 : -1;
-    let sig = disc.map((t, idx) => t.id + (t.claimed ? 'c' : '') + (t.tingDiscard && !t.claimed ? 'T' : '') + (idx === lastIdx ? 'L' : '')).join(',');
+    let sig = disc.map((t, idx) => t.id + (t.claimed ? 'c' : '') + (t.tingDiscard ? 'T' : '') + (idx === lastIdx ? 'L' : '')).join(',');
     if (el.dataset.dsig === sig) continue;
     el.dataset.dsig = sig;
     el.innerHTML = '';
@@ -256,7 +256,7 @@ function renderDiscards() {
       let e = tileEl(t);
       if (idx === lastIdx && !t.claimed) e.classList.add('latest');
       if (t.claimed) e.classList.add('claimed');
-      else if (t.tingDiscard) e.classList.add('ting-discard');
+      if (t.tingDiscard) e.classList.add('ting-discard');
       el.appendChild(e);
     });
   }
@@ -545,7 +545,7 @@ function renderActions() {
     if (!G.selfHu && G.players.length && (Game.canStartTing(HUMAN) || Game.canDeclareNow(HUMAN))) acts.push({ a: 'ting', l: '听牌' });
   }
   // 按钮集合不变时不重建，避免每次刷新重放入场动画
-  let sig = acts.map(a => [a.a, a.l, a.d ? a.d.join('-') : '', a.ting ? 1 : 0].join(':')).join(';') + '|' + (G.selfHu ? 1 : 0);
+  let sig = acts.map(a => [a.a, a.l, a.d ? (Array.isArray(a.d) ? a.d.join('-') : Tile.tid(a.d)) : '', a.ting ? 1 : 0].join(':')).join(';') + '|' + (G.selfHu ? 1 : 0);
   if (el.dataset.asig === sig) return;
   el.dataset.asig = sig;
   el.innerHTML = '';
@@ -783,6 +783,24 @@ export function effect(type) {
     layer.appendChild(label);
   }
   setTimeout(() => { layer.classList.remove('show'); layer.innerHTML = ''; }, 1500);
+}
+
+// ===== 电脑动作提示：对应座位中央浮出汉字（吃/碰/杠/听） =====
+const ACT_CLS = { 吃: 'chi', 碰: 'peng', 杠: 'kong', 听: 'ting' };
+export function actFx(pI, text) {
+  let table = document.querySelector('.table');
+  let seat = EL(PANELS[pI]);
+  if (!table || !seat) return;
+  let el = document.createElement('div');
+  el.className = 'act-fx ' + (ACT_CLS[text] || '');
+  let span = document.createElement('span');
+  span.textContent = text;
+  el.appendChild(span);
+  el.style.left = (seat.offsetLeft + seat.offsetWidth / 2) + 'px';
+  el.style.top = (seat.offsetTop + seat.offsetHeight / 2) + 'px';
+  table.appendChild(el);
+  span.addEventListener('animationend', () => el.remove());
+  setTimeout(() => { if (el.parentNode) el.remove(); }, 1400);
 }
 
 // ===== 整局结算 =====

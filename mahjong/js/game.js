@@ -2,8 +2,8 @@ import { PN, PLAYER_COUNT, HUMAN } from './constants.js';
 import * as Tile from './tile.js';
 import * as Score from './score.js';
 
-const AI_DELAY = 700;
-const CLAIM_DELAY = 500;
+// 全局节拍（毫秒）：所有动作间隔统一走它，随时可调；轮到玩家时自然阻塞不等
+export let TICK = 1000;
 
 // ===== AI 难度配置 =====
 export const AI_LEVELS = {
@@ -53,6 +53,12 @@ function ui(fn, ...args) {
   if (fn === 'update') saveState();
 }
 
+// 电脑动作汉字提示：仅电脑玩家；托管时东家也显示
+function showAct(pI, text) {
+  if (SIM_MODE || (pI === HUMAN && !G.auto)) return;
+  ui('actFx', pI, text);
+}
+
 // ===== 存档：localStorage 实时记录，关页面后可继续 =====
 const SAVE_KEY = 'mahjong_save_v2';
 
@@ -96,6 +102,28 @@ export function loadAILevel() {
   try {
     let l = localStorage.getItem(AI_LEVEL_KEY);
     if (AI_LEVELS[l]) G.aiLevel = l;
+  } catch (e) { /* ignore */ }
+}
+
+// ===== 游戏节奏：统一动作节拍，三档可调 =====
+const PACE_KEY = 'mahjong_pace';
+export const PACE_MS = [500, 1000, 1500]; // 快/中/慢
+let pace = 1;
+export function getPace() { return pace; }
+export function setPace(i) {
+  i = Number(i);
+  if (!(i >= 0 && i < PACE_MS.length)) return false;
+  pace = i;
+  TICK = PACE_MS[i];
+  try { localStorage.setItem(PACE_KEY, String(i)); } catch (e) { /* ignore */ }
+  return true;
+}
+export function loadPace() {
+  try {
+    let raw = localStorage.getItem(PACE_KEY);
+    if (raw === null) return;
+    let v = Number(raw);
+    if (v >= 0 && v < PACE_MS.length) { pace = v; TICK = PACE_MS[v]; }
   } catch (e) { /* ignore */ }
 }
 
@@ -169,7 +197,7 @@ function resume() {
   if (G.phase === 'claim') {
     if (G.pending.includes(HUMAN)) { if (G.auto) autoResume(); return; }
     let token = G.token;
-    scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, CLAIM_DELAY);
+    scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, TICK);
   } else if (G.phase === 'discard') {
     if (G.curP === HUMAN) {
       if (G.auto) {
@@ -183,7 +211,7 @@ function resume() {
         scheduleTask(() => {
           if (G.token !== token || G.over) { G.lock = false; return; }
           humanAutoDiscard();
-        }, AI_DELAY);
+        }, TICK);
       }
     } else {
       scheduleAIDiscard(G.curP);
@@ -349,7 +377,7 @@ function startRound(resetScores) {
 
   if (G.ting.has(G.dealer) && Tile.canWin(G.players[G.dealer].hand, G.players[G.dealer].melds)) {
     let token = G.token;
-    scheduleTask(() => { if (G.token === token && !G.over) win(G.dealer, null, true); }, AI_DELAY);
+    scheduleTask(() => { if (G.token === token && !G.over) win(G.dealer, null, true); }, TICK);
   } else if (G.dealer !== HUMAN) {
     scheduleAIDiscard(G.dealer);
   } else if (G.auto) {
@@ -416,6 +444,7 @@ function drawWall(pI) {
 
 function advanceTurn() {
   if (G.over) return;
+  G.lock = false; // 新回合解锁；轮到自己时可直接操作
   G.curP = (G.curP + 1) % PLAYER_COUNT;
   let pI = G.curP;
   let drawn = drawWall(pI);
@@ -457,7 +486,7 @@ function advanceTurn() {
       scheduleTask(() => {
         if (G.token !== token || G.over) { G.lock = false; return; }
         humanAutoDiscard();
-      }, AI_DELAY);
+      }, TICK);
     }
   } else {
     scheduleAIDiscard(pI);
@@ -512,6 +541,8 @@ function doDiscard(pI, idx) {
     // 仅“首次听牌”打出的这张标注，之后维持听牌的弃牌用正常颜色
     if (!wasTing && G.ting.has(pI)) t.tingDiscard = true;
   }
+  // 仅“打出上听牌”这一刻提示「听」（电脑；托管时东家也算）
+  if (!wasTing && G.ting.has(pI)) showAct(pI, '听');
   G.tingIntent = false; G.forceTing = false;
 
   G.passed = new Set();
@@ -521,12 +552,17 @@ function doDiscard(pI, idx) {
     if (claimActions(i).length > 0) { hasClaim = true; break; }
   }
 
+  if (hasClaim) G.phase = 'claim';
+  else G.lock = true; // 等待期间锁住操作，防止重复出牌
+
+  // 出牌先进牌河并立即刷新，再空1拍等下家抓牌/吃碰副露
+  ui('update');
+
+  let token = G.token;
   if (hasClaim) {
-    G.phase = 'claim';
-    let token = G.token;
-    scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, CLAIM_DELAY);
+    scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, TICK);
   } else {
-    advanceTurn();
+    scheduleTask(() => { if (G.token === token && !G.over) advanceTurn(); }, TICK);
   }
 }
 
@@ -834,7 +870,8 @@ export function handHints(pI) {
 }
 
 export function selfActions(pI) {
-  if (G.phase !== 'discard' || G.curP !== pI || G.over || G.ting.has(pI)) return [];
+  // 已听牌，或吃听/点听牌后只能打听牌张，均不再提供吃碰杠
+  if (G.phase !== 'discard' || G.curP !== pI || G.over || G.ting.has(pI) || G.forceTing || G.tingIntent) return [];
   let p = G.players[pI];
   if (p.melds.length >= 4) return [];
   let acts = [];
@@ -896,8 +933,8 @@ function resolveClaims() {
 
   let act = aiChooseClaim(chosen.i, chosen.acts);
   if (act) {
-    let token = G.token;
-    scheduleTask(() => { if (G.token === token && !G.over) executeClaim(chosen.i, act); }, CLAIM_DELAY);
+    // 裁决与执行同拍完成，不另起等待
+    executeClaim(chosen.i, act);
   } else {
     G.passed.add(chosen.i);
     resolveClaims();
@@ -921,11 +958,13 @@ function executeClaim(pI, act) {
     p.melds.push({ type: 'peng', ts: [...used, t], claimedId: Tile.tid(t) });
     sortHand(p);
     ui('addLog', p.name + ' 碰 ' + Tile.label(t));
+    showAct(pI, '碰');
   } else if (act.a === 'kong') {
     let used = takeFromHand(p, t, 3);
     p.melds.push({ type: 'kong', ts: [...used, t], claimedId: Tile.tid(t) });
     sortHand(p);
     ui('addLog', p.name + ' 杠 ' + Tile.label(t));
+    showAct(pI, '杠');
     let drawn = drawWall(pI);
     if (!drawn) { endDraw(); return; }
     if (G.ting.has(pI) && Tile.canWin(p.hand, p.melds)) { win(pI, null, true); return; }
@@ -942,17 +981,19 @@ function executeClaim(pI, act) {
     p.melds.push({ type: 'chi', ts: [...used, t], claimedId: Tile.tid(t) });
     sortHand(p);
     ui('addLog', p.name + ' 吃 ' + Tile.label(t));
+    // 吃牌一律先弹「吃」，随后（上听吃）再弹「听」
+    showAct(pI, '吃');
     // 上听吃（吃另外两家）：吃完若能听牌则强制听牌
     let opts = isUpper ? [] : handTingDiscards(p.hand, p.melds);
     if (opts.length) {
+      G.forceTing = true;
+      G.curP = pI;
+      ui('update'); // 先显示副露与「吃」，空一拍再出牌
       if (pI === HUMAN && !SIM_MODE && !G.auto) {
         // 人类玩家：只设标记让用户自己选择打出哪张
-        G.forceTing = true;
-        G.curP = pI;
-        ui('update');
         return;
       }
-      // AI：自动打出最优听牌张
+      // AI：算出最优听牌张，空一拍后打出（出牌瞬间弹「听」）
       let best = opts[0], bestCount = -1, seen = new Set();
       for (let tt of opts) {
         if (seen.has(Tile.tid(tt))) continue;
@@ -961,9 +1002,11 @@ function executeClaim(pI, act) {
         let cnt = Tile.winTiles(rest, p.melds).length;
         if (cnt > bestCount) { bestCount = cnt; best = tt; }
       }
-      G.forceTing = true;
-      G.curP = pI;
-      doDiscard(pI, p.hand.indexOf(best));
+      let token = G.token;
+      scheduleTask(() => {
+        if (G.token !== token || G.over || G.phase !== 'discard' || G.curP !== pI) return;
+        doDiscard(pI, p.hand.indexOf(best));
+      }, TICK);
       return;
     }
   }
@@ -985,6 +1028,7 @@ function selfAct(pIdx, a, d) {
     let used = takeFromHand(p, tile, 4);
     p.melds.push({ type: 'kong', ts: used });
     ui('addLog', p.name + ' 暗杠');
+    showAct(pIdx, '杠');
   } else if (a === 'buKong') {
     let m = p.melds.find(m => m.type === 'peng' && Tile.tid(m.ts[0]) === Tile.tid(d));
     if (!m) return false;
@@ -992,6 +1036,7 @@ function selfAct(pIdx, a, d) {
     m.type = 'kong';
     m.ts.push(used[0]);
     ui('addLog', p.name + ' 补杠 ' + Tile.label(d));
+    showAct(pIdx, '杠');
   } else {
     return false;
   }
@@ -1521,6 +1566,14 @@ function aiTurn(pI) {
     }
     if (doIt && selfAct(pI, act.a, act.d)) {
       if (G.over || G.phase !== 'discard' || G.curP !== pI) return;
+      // 自杠/补杠后空1拍再出牌
+      let token = G.token;
+      scheduleTask(() => {
+        if (G.token !== token || G.over) return;
+        if (G.phase !== 'discard' || G.curP !== pI) return;
+        aiDiscard(pI);
+      }, TICK);
+      return;
     }
   }
   aiDiscard(pI);
@@ -1532,7 +1585,7 @@ function scheduleTask(fn, delay) {
   setTimeout(fn, delay);
 }
 
-function scheduleAIDiscard(pI, delay = AI_DELAY) {
+function scheduleAIDiscard(pI, delay = TICK) {
   G.lock = true;
   let token = G.token;
   scheduleTask(() => {

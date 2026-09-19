@@ -72,6 +72,19 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
   });
 });
 
+const paceRange = document.getElementById('pace-range');
+const paceVal = document.getElementById('pace-val');
+const PACE_LABEL = ['快', '中', '慢'];
+function renderPace() {
+  let i = Game.getPace();
+  paceRange.value = String(i);
+  paceVal.textContent = PACE_LABEL[i];
+}
+paceRange.addEventListener('input', e => {
+  Game.setPace(e.target.value);
+  renderPace();
+});
+
 const backBtn = document.getElementById('btn-s');
 backBtn.addEventListener('click', () => {
   backBtn.blur();
@@ -104,6 +117,8 @@ autoBtn.addEventListener('click', e => {
 // 启动：有存档则大厅显示继续游戏，否则只显示新的游戏
 Game.G.playing = false;
 Game.loadAILevel();
+Game.loadPace();
+renderPace();
 UI.applyOrient();
 if (Game.restore()) {
   UI.update();

@@ -154,6 +154,8 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .tile.claimed::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(232,193,90,.38); pointer-events: none; }
 /* 听牌时打出的牌：整面泛蓝（与吃碰的黄色区分） */
 .disc .tile.ting-discard::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(74,161,255,.42); pointer-events: none; }
+/* 听牌张被吃碰走：黄+蓝叠成绿，无边框 */
+.disc .tile.ting-discard.claimed::before { background: rgba(46,160,90,.45); }
 /* 新摸的牌：红三角标 */
 .tile.new { position: relative; }
 .tile.new::after { content: ''; position: absolute; top: -1px; right: -1px; border: 7px solid transparent; border-top-color: var(--red); border-right-color: var(--red); border-top-right-radius: 5px; }
@@ -305,6 +307,10 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
 .diff-btn:hover { border-color: var(--gold); color: var(--text); }
 .diff-btn.active { background: var(--gold); border-color: var(--gold); color: #1b2b22; font-weight: 800; }
 
+.pace-range { display: block; width: 100%; max-width: 240px; margin: 0 auto; accent-color: var(--gold); cursor: pointer; }
+.pace-ticks { display: flex; justify-content: space-between; max-width: 240px; margin: 2px auto 0; color: var(--muted); font-size: 11px; }
+#pace-val { color: var(--gold); font-weight: 700; }
+
 .sb2b {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 12px 40px;
@@ -450,6 +456,26 @@ body.playing .ab.hu, body.playing .ab.ting { padding: 0; }
   25% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
   70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* 电脑动作提示：对应座位中央浮出汉字（吃/碰/杠/听），位置由 JS 按座位计算 */
+.act-fx { position: absolute; z-index: 30; pointer-events: none; transform: translate(-50%, -50%); }
+.act-fx span {
+  display: block; font-size: 56px; font-weight: 900; line-height: 1;
+  color: #fff;
+  -webkit-text-stroke: 2px rgba(0,0,0,.45);
+  text-shadow: 0 2px 6px rgba(0,0,0,.5), 0 0 18px currentColor;
+  animation: act-pop .8s cubic-bezier(.2, .7, .3, 1) forwards;
+}
+.act-fx.chi span { color: #d64545; }
+.act-fx.peng span { color: #e08a1e; }
+.act-fx.kong span { color: #8e44ad; }
+.act-fx.ting span { color: #e8c15a; }
+@keyframes act-pop {
+  0% { opacity: 0; transform: scale(.3); }
+  30% { opacity: 1; transform: scale(1.15); }
+  65% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.05) translateY(-20px); }
 }
 
 /* ===== 整局结算 ===== */
@@ -754,6 +780,22 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
   body.playing.land .table { min-height: 0; }
   /* 结算卡：伪横屏下 vw/vh 互换，用旋转后的屏宽铺开（压缩样式见 ≤500 矮视口规则） */
   body.playing.land #mo .mdl { width: auto; max-width: 96dvh; max-height: 96dvw; }
+  /* 中央只留弃牌并放大：牌堆剩余移到顶栏（规则按钮前），参考竖屏 */
+  body.playing.land .wall,
+  body.playing.land .wall-wrap,
+  body.playing.land .wall-count { display: none; }
+  body.playing.land .wall-top { display: inline-block; }
+  body.playing.land .center-mid { gap: 10px; }
+  body.playing.land .disc .tile,
+  body.playing.land .disc-col .tile { width: 26px; height: 35px; border-radius: 4px; }
+  body.playing.land .disc-col { width: 210px; max-height: 150px; }
+  body.playing.land .disc-row { min-height: 39px; }
+}
+@media (orientation: portrait) and (pointer: coarse) and (max-width: 360px) {
+  body.playing.land .disc .tile,
+  body.playing.land .disc-col .tile { width: 22px; height: 30px; }
+  body.playing.land .disc-col { width: 168px; max-height: 96px; }
+  body.playing.land .disc-row { min-height: 34px; }
 }
 
 /* ===== 竖屏偏好（触屏竖屏游玩）：西家整行、南北归中行、东家分两区 ===== */
