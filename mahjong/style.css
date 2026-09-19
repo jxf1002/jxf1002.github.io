@@ -823,6 +823,13 @@ body.playing.port h1 { font-size: 14px; letter-spacing: 1px; }
 body.playing.port .gi { gap: 3px; font-size: 9px; min-width: 0; overflow: hidden; }
 body.playing.port .log-btn { padding: 2px 6px; font-size: 9px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 body.playing.port .wall-top { font-size: 9px; }
+/* 宝牌：竖屏移到西家手牌下方（中区顶部）并放大 */
+body.playing.port .dora-banner {
+  position: absolute; top: 2px;
+  padding: 6px 16px 6px 12px; gap: 10px; border-radius: 12px;
+}
+body.playing.port .dora-banner .dora-label { font-size: 15px; letter-spacing: 3px; }
+body.playing.port .dora-banner .dora-tile .face-img { width: 50px; height: 67px; }
 /* 压缩牌面尺寸沿用 ≤500 矮视口规则，这里只调牌桌行列与中央区分配 */
 body.playing.port .table {
   grid-template-columns: 40px minmax(0, 1fr) 40px;
@@ -897,3 +904,16 @@ body.playing.port #mo .m-sep {
 /* 方向切换按钮：仅触屏显示（桌面端转屏无意义） */
 .orient-btn { display: none; }
 @media (pointer: coarse) { .orient-btn { display: inline-block; } }
+
+/* ===== 手机竖屏：战绩表压进一屏宽（与横屏的可横滑宽表分开） ===== */
+@media (max-width: 760px) and (orientation: portrait) {
+  .sum-scores { overflow-x: visible; }
+  .sum-head, .sum-row {
+    min-width: 0; width: 100%;
+    grid-template-columns: 1.2fr repeat(6, .74fr) 1fr;
+    gap: 1px; padding: 6px 2px;
+  }
+  .sum-head { font-size: 9px; letter-spacing: 0; white-space: nowrap; }
+  .sum-row { font-size: 11px; }
+  .sum-name { font-size: 10px; }
+}
