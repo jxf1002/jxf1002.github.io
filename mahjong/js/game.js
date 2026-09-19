@@ -10,9 +10,11 @@ export const DEAD_WALL = 8;   // 死墙张数
 export const FEN_TILES = 4;   // 分章张数
 
 // ===== AI 难度配置 =====
+// 中级出牌名次倾向 discardRankProb：按 [第1名, 第2名, 第3名] 的概率取值（名次不足时顺延到末位）
+// 历史：100% 第一=[1,0,0]、100% 第二=[0,1,0]；现回到 50% 第二 / 50% 第三
 export const AI_LEVELS = {
   easy: { randomness: 0.5, claimPengRate: 0.6, claimChiRate: 0.35, kongRate: 1, defenseWeight: 0, ukeireWeight: 0, scoreWeight: 0, useTingInfo: false, useOpponentModel: false },
-  normal: { randomness: 0.1, claimPengRate: 0.7, claimChiRate: 0.4, kongRate: 1, defenseWeight: 0, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false },
+  normal: { randomness: 0.1, claimPengRate: 0.7, claimChiRate: 0.4, kongRate: 1, defenseWeight: 0, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false, discardRankProb: [0, 0.5, 0.5] },
   hard: { randomness: 0, claimPengRate: 1, claimChiRate: 1, kongRate: 1, defenseWeight: 1, ukeireWeight: 3, scoreWeight: 1, useTingInfo: true, useOpponentModel: true }
 };
 const AI_LEVEL_KEY = 'mahjong_aiLevel';
@@ -1459,11 +1461,16 @@ function opponentThreat(pI) {
 }
 
 
-// 实验：50% 取排名二选、50% 取三选（不足时顺延取末位）
-function pickRank(ranked) {
-  if (ranked.length < 2) return ranked[0];
-  if (Math.random() < 0.5 || ranked.length < 3) return ranked[1];
-  return ranked[2];
+// 按配置的名次概率取一张（prob=[第1,第2,第3]名概率；名次不足顺延到末位）
+function pickRank(ranked, prob) {
+  if (ranked.length < 2 || !prob || !prob.length) return ranked[0];
+  let r = Math.random(), acc = 0, idx = 0;
+  for (let i = 0; i < prob.length; i++) {
+    acc += prob[i];
+    if (r < acc) { idx = i; break; }
+    idx = i;
+  }
+  return ranked[Math.min(idx, ranked.length - 1)];
 }
 
 // 中级：先保听牌，再比有效进张，保留搭子，轻度避炮
@@ -1479,7 +1486,7 @@ function normalDiscardIndex(pI) {
       scored.push({ t, wins });
     });
     scored.sort((a, b) => b.wins - a.wins);
-    let pick = pickRank(scored); // 实验：50%二选/50%三选
+    let pick = pickRank(scored, cfg.discardRankProb); // 配置：出牌名次倾向
     return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(pick.t));
   }
   let threat = opponentThreat(pI);
@@ -1500,7 +1507,7 @@ function normalDiscardIndex(pI) {
     ranked.push({ t, score });
   }
   ranked.sort((a, b) => b.score - a.score);
-  let pick = pickRank(ranked); // 实验：50%二选/50%三选
+  let pick = pickRank(ranked, cfg.discardRankProb); // 配置：出牌名次倾向
   return p.hand.indexOf(pick.t);
 }
 
