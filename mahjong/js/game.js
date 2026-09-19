@@ -5,6 +5,10 @@ import * as Score from './score.js';
 // 全局节拍（毫秒）：所有动作间隔统一走它，随时可调；轮到玩家时自然阻塞不等
 export let TICK = 1000;
 
+// 牌墙预留（参数可改）：牌尾死墙只给杠补牌/宝牌；死墙之前的 FEN_TILES 张为分章
+export const DEAD_WALL = 8;   // 死墙张数
+export const FEN_TILES = 4;   // 分章张数
+
 // ===== AI 难度配置 =====
 export const AI_LEVELS = {
   easy: { randomness: 0.5, claimPengRate: 0.6, claimChiRate: 0.35, kongRate: 1, defenseWeight: 0, ukeireWeight: 0, scoreWeight: 0, useTingInfo: false, useOpponentModel: false },
@@ -20,7 +24,7 @@ let simFirstTing = null;
 let simTingSeen = {};
 
 export let G = {
-  deck: [], players: [], curP: 0, dealer: 0,
+  deck: [], dead: [], fen: [], fenN: 0, fenStart: 0, players: [], curP: 0, dealer: 0,
   discard: [], wall: 0,
   baopi: null, bpR: false,
   ting: new Set(), over: false, winner: null,
@@ -77,7 +81,8 @@ export function saveState() {
       return;
     }
     localStorage.setItem(SAVE_KEY, JSON.stringify({
-      deck: G.deck, players: G.players, curP: G.curP, dealer: G.dealer,
+      deck: G.deck, dead: G.dead, fen: G.fen, fenN: G.fenN, fenStart: G.fenStart,
+      players: G.players, curP: G.curP, dealer: G.dealer,
       discard: G.discard, wall: G.wall, baopi: G.baopi, bpR: G.bpR,
       ting: [...G.ting], winner: G.winner, lastD: G.lastD, lastDB: G.lastDB,
       lastDraw: G.lastDraw, lastFrom: G.lastFrom, phase: G.phase,
@@ -177,7 +182,8 @@ export function restore() {
       }
       G.stats = d.stats ? { hands: d.stats.hands || 0, rotations: d.stats.rotations || 0, draw: d.stats.draw || 0, per: (d.stats.per || []).map(normPer) } : freshStats();
       while (G.stats.per.length < 4) G.stats.per.push(normPer({}));
-      G.deck = []; G.discard = []; G.wall = 0; G.baopi = null; G.bpR = false;
+      G.deck = []; G.dead = []; G.fen = []; G.fenN = 0; G.fenStart = 0;
+      G.discard = []; G.wall = 0; G.baopi = null; G.bpR = false;
       visSig = ''; visMap = null;
       G.ting = new Set(); G.winner = null; G.lastD = null; G.lastDB = -1;
       G.lastDraw = null; G.lastFrom = ''; G.phase = 'discard'; G.pending = []; G.passed = new Set();
@@ -187,7 +193,8 @@ export function restore() {
       return true;
     }
     if (!d.players || !d.players.length) return false;
-    G.deck = d.deck; G.players = d.players; G.curP = d.curP; G.dealer = d.dealer;
+    G.deck = d.deck; G.dead = d.dead || []; G.fen = d.fen || []; G.fenN = d.fenN || 0; G.fenStart = d.fenStart || 0;
+    G.players = d.players; G.curP = d.curP; G.dealer = d.dealer;
     G.discard = d.discard; G.wall = d.wall; G.baopi = d.baopi; G.bpR = d.bpR;
     visSig = ''; visMap = null; // 恢复存档时重置已见牌缓存
     G.ting = new Set(d.ting); G.winner = d.winner; G.lastD = d.lastD; G.lastDB = d.lastDB;
@@ -229,7 +236,9 @@ export function resumeGame() {
 function resume() {
   if (G.over) return;
   if (G.selfHu) { if (G.auto) autoResume(); return; } // 等待玩家确认自摸
-  if (G.phase === 'claim') {
+  if (G.phase === 'fen') {
+    scheduleFenStep();
+  } else if (G.phase === 'claim') {
     if (G.pending.includes(HUMAN)) { if (G.auto) autoResume(); return; }
     let token = G.token;
     scheduleTask(() => { if (G.token === token && !G.over) resolveClaims(); }, TICK);
@@ -280,6 +289,7 @@ export function startDemo() {
       disc: [T('tiao', 5), lastD] },
   ];
   G.deck = []; G.discard = G.players.flatMap(p => p.disc);
+  G.dead = []; G.fen = []; G.fenN = 0;
   G.curP = 3; G.dealer = 0; G.wall = 38;
   G.baopi = null; G.bpR = false; G.ting = new Set();
   G.over = false; G.winner = null;
@@ -401,6 +411,11 @@ function startRound(resetScores) {
     for (let p = 0; p < PLAYER_COUNT; p++) G.players[p].hand.push(G.deck.pop());
   }
   G.players[G.dealer].hand.push(G.deck.pop());
+  // 预留牌尾：死墙（杠补/宝牌用）与分章，正常摸牌只用到活牌墙
+  G.dead = G.deck.splice(0, DEAD_WALL);
+  G.fen = G.deck.splice(0, FEN_TILES);
+  G.fenN = 0;
+  G.fenStart = 0;
   G.wall = G.deck.length;
   G.players.forEach(sortHand);
 
@@ -442,31 +457,32 @@ function visibleCount(t) {
     exposed.filter(x => Tile.tid(x) === Tile.tid(t)).length;
 }
 
-function revealBP() {
-  if (G.bpR) return;
-  for (let i = G.deck.length - 1; i >= 0; i--) {
-    if (visibleCount(G.deck[i]) < 3) {
-      G.baopi = G.deck[i];
-      G.bpR = true;
-      ui('addLog', '宝牌翻开：' + Tile.label(G.baopi));
-      ui('update');
-      return;
-    }
-  }
+// 宝牌：从牌尾取一张并取走（死墙优先，空则回退活牌墙）；取走的物理张不再可摸
+function takeBaopi() {
+  if (G.dead.length) return G.dead.pop();
+  if (G.deck.length) { G.wall--; return G.deck.pop(); }
+  return null;
 }
 
-// 宝牌若已见三张则换宝
+function revealBP() {
+  if (G.bpR) return;
+  let t = takeBaopi();
+  if (!t) return;
+  G.baopi = t;
+  G.bpR = true;
+  ui('addLog', '宝牌翻开：' + Tile.label(G.baopi));
+  ui('update');
+}
+
+// 宝牌若已见三张则换宝（同样从牌尾取一张并取走）
 function ensureBaopi() {
   if (!G.bpR || !G.baopi) return;
   if (visibleCount(G.baopi) < 3) return;
-  for (let i = G.deck.length - 1; i >= 0; i--) {
-    if (visibleCount(G.deck[i]) < 3) {
-      G.baopi = G.deck[i];
-      ui('addLog', '宝牌已见三张，换宝为 ' + Tile.label(G.baopi));
-      ui('update');
-      return;
-    }
-  }
+  let t = takeBaopi();
+  if (!t) return;
+  G.baopi = t;
+  ui('addLog', '宝牌已见三张，换宝为 ' + Tile.label(G.baopi));
+  ui('update');
 }
 
 function drawWall(pI) {
@@ -479,13 +495,81 @@ function drawWall(pI) {
   return t;
 }
 
+// 杠补牌：从死墙取，死墙空则回退活牌墙；均空返回 null
+function drawDead(pI) {
+  let t;
+  if (G.dead.length) t = G.dead.pop();
+  else if (G.deck.length) { t = G.deck.pop(); G.wall--; }
+  else return null;
+  G.players[pI].hand.push(t);
+  G.lastDraw = t;
+  G.lastFrom = 'wall';
+  return t;
+}
+
+// ===== 分章：活牌墙摸完后，四家依次各摸一张、不打出，能和则和，否则流局 =====
+function startFen() {
+  if (G.over) return;
+  G.phase = 'fen';
+  G.fenStart = G.curP % PLAYER_COUNT;
+  G.fenN = 0;
+  G.selfHu = false;
+  G.pending = [];
+  G.lock = false;
+  G.tingIntent = false;
+  G.forceTing = false;
+  ui('addLog', '活牌墙摸完，进入分章');
+  ui('update');
+  scheduleFenStep();
+}
+
+function scheduleFenStep() {
+  let token = G.token;
+  scheduleTask(() => { if (G.token === token && !G.over && G.phase === 'fen') fenStep(); }, TICK);
+}
+
+function fenStep() {
+  if (G.over || G.phase !== 'fen') return;
+  if (G.fenN >= FEN_TILES || (!G.fen.length && !G.deck.length)) { endDraw(); return; }
+  let pI = (G.fenStart + G.fenN) % PLAYER_COUNT;
+  G.curP = pI;
+  let t;
+  if (G.fen.length) t = G.fen.pop();
+  else { t = G.deck.pop(); G.wall--; } // 兜底：分章不足时用活墙
+  G.players[pI].hand.push(t);
+  G.lastDraw = t;
+  G.lastFrom = 'fen';
+  G.fenN++;
+
+  // 分章只摸不打，须已听牌才能和（与正常自摸一致）
+  let canSelfHu = false;
+  if (G.ting.has(pI)) {
+    if (G.bpR && G.baopi && Tile.tid(t) === Tile.tid(G.baopi)) canSelfHu = true;
+    else if (Tile.canWin(G.players[pI].hand, G.players[pI].melds)) canSelfHu = true;
+  }
+  ui('update');
+
+  if (canSelfHu) {
+    if (pI === HUMAN) {
+      if (SIM_MODE || G.auto) { win(pI, null, true); return; }
+      G.selfHu = true; // 只弹「和」，等玩家点
+      ui('update');
+      return;
+    }
+    let token = G.token;
+    scheduleTask(() => { if (G.token === token && !G.over) win(pI, null, true); }, TICK);
+    return;
+  }
+  scheduleFenStep();
+}
+
 function advanceTurn() {
   if (G.over) return;
   G.lock = false; // 新回合解锁；轮到自己时可直接操作
   G.curP = (G.curP + 1) % PLAYER_COUNT;
   let pI = G.curP;
   let drawn = drawWall(pI);
-  if (!drawn) { endDraw(); return; }
+  if (!drawn) { startFen(); return; }
 
   G.selfHu = false;
   // 听牌后自摸到宝牌：视为可胡；是否胡由玩家决定
@@ -1002,7 +1086,7 @@ function executeClaim(pI, act) {
     sortHand(p);
     ui('addLog', p.name + ' 杠 ' + Tile.label(t));
     showAct(pI, '杠');
-    let drawn = drawWall(pI);
+    let drawn = drawDead(pI);
     if (!drawn) { endDraw(); return; }
     if (G.ting.has(pI) && Tile.canWin(p.hand, p.melds)) { win(pI, null, true); return; }
   } else if (act.a === 'chi') {
@@ -1079,7 +1163,7 @@ function selfAct(pIdx, a, d) {
   }
   sortHand(p);
   G.ting.delete(pIdx);
-  let drawn = drawWall(pIdx);
+  let drawn = drawDead(pIdx);
   if (!drawn) { endDraw(); return true; }
   if (G.ting.has(pIdx) && Tile.canWin(p.hand, p.melds)) { win(pIdx, null, true); return true; }
   ui('update');
@@ -1747,7 +1831,7 @@ export function handleAB(pIdx, a, d) {
   // 自摸确认：胡 或 过（过则打出刚摸的牌）
   if (G.selfHu && pIdx === HUMAN) {
     if (a === 'hu') { G.selfHu = false; win(HUMAN, null, true); return; }
-    if (a === 'pass') { G.selfHu = false; humanAutoDiscard(); return; }
+    if (a === 'pass') { G.selfHu = false; if (G.phase === 'fen') scheduleFenStep(); else humanAutoDiscard(); return; }
     return;
   }
   if (a === 'ting') { startTing(pIdx); return; }
@@ -1833,10 +1917,11 @@ function win(pI, discarder, isZimo) {
 }
 
 function endDraw() {
+  let fromFen = G.phase === 'fen';
   G.over = true;
   if (G.stats) G.stats.draw++;
-  ui('addLog', '流局，无人和牌');
+  ui('addLog', fromFen ? '分章结束，无人和牌' : '流局，无人和牌');
   ui('update');
   let breakdown = G.players.map((pl, i) => ({ name: pl.name, me: i === HUMAN, isD: pl.isD, delta: 0, total: pl.score, fan: '—' }));
-  ui('showModal', '流局', '牌墙摸完，无人和牌', '本局不扣分', '', '继续', (pendingNext = () => startRound(false)), breakdown);
+  ui('showModal', '流局', fromFen ? '分章结束，无人和牌' : '牌墙摸完，无人和牌', '本局不扣分', '', '继续', (pendingNext = () => startRound(false)), breakdown);
 }

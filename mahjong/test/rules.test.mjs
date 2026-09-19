@@ -856,5 +856,62 @@ ok('刷新恢复为结束态（无手牌可打）', Game.restore() === true && G
 Game.resumeGame();
 ok('恢复后继续即开新一局', G.over === false && G.playing === true && G.players.length === 4);
 
+// ============ 死墙 / 分章 ============
+section('牌墙：死墙 8 张 / 分章 4 张');
+G = newGame();
+ok('活牌墙 47 张', G.deck.length === 47 && G.wall === 47);
+ok('死墙 8 张', G.dead.length === 8);
+ok('分章 4 张', G.fen.length === 4);
+
+section('杠补牌从死墙取');
+G = newGame();
+Game.setPace(0);
+G.playing = true; G.over = false; G.auto = false; G.selfHu = false;
+G.players.forEach(p => { p.hand = []; p.melds = []; p.disc = []; });
+G.players[HUMAN].hand = [T('wan',5), T('wan',5), T('wan',5), T('wan',1)];
+G.players[HUMAN].melds = [];
+G.dead = [T('tong',1), T('tong',2), T('tong',3)];
+G.deck = [T('tiao',9)]; G.wall = 1;
+G.lastD = T('wan',5); G.lastDB = 1;
+G.phase = 'claim'; G.pending = [HUMAN]; G.ting = new Set();
+Game.handleAB(HUMAN, 'kong');
+ok('杠补从死墙取走一张', G.dead.length === 2);
+ok('补到的正是死墙末张（3筒）', G.players[HUMAN].hand.some(t => t.id === '3tong'));
+
+section('分章：四家各摸一张无人和则流局');
+G = newGame();
+G.playing = true; G.over = false; G.auto = false;
+G.players.forEach(p => { p.hand = []; p.melds = []; p.disc = []; });
+G.players[HUMAN].hand = [Z];
+G.ting = new Set();
+G.deck = []; G.wall = 0;
+G.fen = [T('wan',1), T('wan',2), T('wan',3), T('wan',4)];
+G.dead = [T('tong',1), T('tong',2)];
+G.lastD = null; G.lastDraw = null; G.lastDB = -1;
+G.phase = 'discard'; G.curP = HUMAN; G.lock = false;
+G.stats.draw = 0;
+Game.handleDiscard(0);
+await new Promise(r => setTimeout(r, Game.TICK + 50));
+ok('活牌墙摸完进入分章', G.phase === 'fen');
+await new Promise(r => setTimeout(r, Game.TICK * 7));
+ok('四家各摸完无人和即流局', G.over === true && G.stats.draw === 1 && G.fenN >= 4 && G.fen.length === 0);
+
+section('分章：听牌者摸到和牌张自摸和');
+G = newGame();
+G.playing = true; G.over = false; G.auto = false;
+G.players.forEach(p => { p.hand = []; p.melds = []; p.disc = []; });
+G.players[HUMAN].hand = [Z];
+G.players[1].melds = [{ type: 'peng', ts: [T('tiao',9), T('tiao',9), T('tiao',9)], claimedId: '9tiao' }];
+G.players[1].hand = [T('wan',1), T('wan',2), T('wan',3), T('wan',4), T('wan',5), T('wan',6), T('tong',7), T('tong',8), T('tong',9), T('tong',5)];
+G.ting = new Set([1]);
+G.deck = []; G.wall = 0;
+G.fen = [T('wan',7), T('wan',8), T('wan',6), T('tong',5)]; // 末尾先 pop = 5筒
+G.dead = [];
+G.lastD = null; G.lastDraw = null; G.lastDB = -1;
+G.phase = 'discard'; G.curP = HUMAN; G.lock = false;
+Game.handleDiscard(0);
+await new Promise(r => setTimeout(r, Game.TICK * 4));
+ok('分章听牌者摸到 5筒 自摸和', G.over === true && G.winner === 1);
+
 console.log(`\n结果: ${pass} 通过, ${fail} 失败`);
 process.exit(fail ? 1 : 0);

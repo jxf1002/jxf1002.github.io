@@ -145,7 +145,7 @@ function renderHands() {
     }
     // 新摸的牌：仅自己抓牌时标右下角，手牌最右同 id 的一张，红三角标
     let newIdx = -1;
-    if (i === HUMAN && G.lastDraw && G.lastFrom === 'wall' && G.curP === HUMAN) {
+    if (i === HUMAN && G.lastDraw && (G.lastFrom === 'wall' || G.lastFrom === 'fen') && G.curP === HUMAN) {
       for (let k = p.hand.length - 1; k >= 0; k--) {
         if (Tile.tid(p.hand[k]) === Tile.tid(G.lastDraw)) { newIdx = k; break; }
       }
@@ -584,15 +584,24 @@ function renderActions() {
 function updateWallCount() {
   let w = EL('wc');
   if (w) w.textContent = G.wall;
-  let txt = '剩余 ' + G.wall;
+  let fen = G.playing && !G.over && G.phase === 'fen';
+  let txt = fen ? '分章 ' + Math.min(G.fenN, Game.FEN_TILES) + '/' + Game.FEN_TILES : '剩余 ' + G.wall;
   let c = EL('wall-count');
   if (c) c.textContent = txt;
   let t = EL('wall-count-top');
   if (t) t.textContent = txt;
 }
 
+// 中区“分章中”提示：仅分章阶段显示
+function renderFen() {
+  let el = EL('fen-label');
+  if (!el) return;
+  el.classList.toggle('show', !!(G.playing && !G.over && G.phase === 'fen'));
+}
+
 export function update() {
   clearTingSel(); // 重渲染会移除原牌节点，先清掉过期的预览/选中态
+  renderFen();
   if (!G.playing) {
     renderLobbyTable();
     renderActions();
