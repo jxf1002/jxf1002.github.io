@@ -52,6 +52,11 @@ When AI strategy changes: default to a 10-thread × 10-table smoke run
 (`AI_TABLES=10 AI_THREADS=10 node test/ai-sim.mjs`); only run the full
 100 tables after the user confirms.
 
+Each `ai-sim` run appends one row to `mahjong/test/ai-sim-log.csv` for trend
+tracking. After every run, fill in the `note` column in this format:
+`<YYYY-MM-DD HH:mm> <plain-language change> (<exact params>)`.
+Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分差加权领先1.5x落后0.75x)`.
+
 ## Code style
 
 - ESLint extends `@antfu`; Prettier `semi: false`
