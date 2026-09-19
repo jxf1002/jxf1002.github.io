@@ -39,6 +39,15 @@ node test/rules.test.mjs
 npm test  # from mahjong/ or mir2/
 ```
 
+mahjong has three test files: `rules` (fast, always run), `ai` (fast unit tests,
+run when AI logic changed) and `ai-sim` (slow full-table sim, manual only):
+
+```bash
+node test/rules.test.mjs
+node test/ai.test.mjs      # from mahjong/, AI changes only
+node test/ai-sim.mjs       # from mahjong/, slow, manual only (AI_TABLES/AI_THREADS/AI_CIRCLES tunable)
+```
+
 ## Code style
 
 - ESLint extends `@antfu`; Prettier `semi: false`

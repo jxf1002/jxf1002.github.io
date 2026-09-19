@@ -17,6 +17,7 @@ const AI_LEVEL_KEY = 'mahjong_aiLevel';
 let SIM_MODE = false;
 let simQueue = [];
 let simFirstTing = null;
+let simTingSeen = {};
 
 export let G = {
   deck: [], players: [], curP: 0, dealer: 0,
@@ -362,6 +363,8 @@ function addTing(i) {
   if (m < 1 || m >= 4) return; // 门前清不能听牌；手把一(4副露)不能听牌
   G.ting.add(i);
   if (SIM_MODE && simFirstTing === null) simFirstTing = G.discard.length;
+  // 仅测试用：记下每家每把首次上听的巡数（SIM_MODE 生产环境恒为 false，走不到这里）
+  if (SIM_MODE && !(i in simTingSeen)) simTingSeen[i] = G.discard.length;
   ui('addLog', G.players[i].name + ' 听牌');
   revealBP();
 }
@@ -1580,6 +1583,69 @@ export function simulateRound(level) {
     simQueue = [];
     G.aiLevel = prevLevel;
     G.aiLevels = prevLevels;
+  }
+}
+
+// ===== 整桌模拟（仅测试用）：首把随机庄家清零开打，带分连打到 rotations>=circles =====
+// levels 为长度 4 的数组（按座位指定难度）；转庄/连庄/流局规则与 continueGame/endDraw 一致，改了那边要同步改这里
+// 返回单桌 {rank, wins, hands, score, hard, dealIn, tingSum, tingN}（rank=1+严格更高分人数，并列取最好名次）
+export function simulateTable(levels, circles) {
+  circles = Math.max(1, circles || 4);
+  let hard = levels.indexOf('hard');
+  if (hard < 0) hard = 0;
+  let prevLevel = G.aiLevel;
+  let prevLevels = G.aiLevels;
+  SIM_MODE = true;
+  simQueue = [];
+  try {
+    G.aiLevels = levels.slice(0, PLAYER_COUNT);
+    G.dealer = Math.floor(Math.random() * PLAYER_COUNT);
+    G.playing = true;
+    G.stats = freshStats();
+    let wins = 0;
+    let tingSum = [0, 0, 0, 0], tingN = [0, 0, 0, 0];
+    let handGuard = 0;
+    let maxHands = circles * 24 + 50; // 连庄拖局安全帽
+    startRound(true);
+    while (G.stats.rotations < circles && handGuard++ < maxHands) {
+      simFirstTing = null;
+      simTingSeen = {};
+      driveHand();
+      if (G.winner === hard) wins++;
+      for (let i = 0; i < PLAYER_COUNT; i++) {
+        if (simTingSeen[i] !== undefined) { tingSum[i] += simTingSeen[i]; tingN[i]++; }
+      }
+      if (G.stats.rotations >= circles) break;
+      // 把间转庄（同 continueGame）：非庄和牌才转庄，回到 0 位记一圈；庄和/流局不转
+      if (G.winner !== null && G.winner !== undefined && G.winner !== G.dealer) {
+        G.dealer = (G.dealer + 1) % PLAYER_COUNT;
+        if (G.dealer === 0) G.stats.rotations++;
+      }
+      startRound(false);
+    }
+    let scores = G.players.map(p => p.score);
+    let rank = 1 + scores.filter(s => s > scores[hard]).length;
+    let dealIn = G.stats.per.map(p => (p.dianhei || 0)); // 点炮率只计点黑炮，听牌点炮（dianpao）不计
+    return { rank, wins, hands: G.stats.hands, score: scores[hard], hard, dealIn, tingSum, tingN };
+  } finally {
+    SIM_MODE = false;
+    simQueue = [];
+    G.aiLevel = prevLevel;
+    G.aiLevels = prevLevels;
+  }
+}
+
+function driveHand() {
+  let guard = 0;
+  while (!G.over && guard++ < 50000) {
+    if (!simQueue.length) {
+      if (!G.lock && G.phase === 'discard' && G.players.length) aiTurn(G.curP);
+      else break;
+    }
+    if (simQueue.length) {
+      let task = simQueue.shift();
+      try { task(); } catch (e) { /* 单步异常不阻塞模拟 */ }
+    }
   }
 }
 
