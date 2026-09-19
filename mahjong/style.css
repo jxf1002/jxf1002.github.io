@@ -194,10 +194,10 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 }
 .center-mid { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .disc { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; align-content: flex-start; }
-.disc-row { min-height: 56px; }
+.disc-row { min-height: 62px; }
 .disc-col { width: 204px; max-height: 272px; overflow: hidden; }
-.disc .tile { width: 40px; height: 54px; border-radius: 5px; }
-.disc-col .tile { width: 34px; height: 46px; }
+.disc .tile { width: 44px; height: 59px; border-radius: 5px; }
+.disc-col .tile { width: 38px; height: 51px; }
 .disc .tile.claimed { opacity: .55; }
 .wall-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .wall-count { font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
