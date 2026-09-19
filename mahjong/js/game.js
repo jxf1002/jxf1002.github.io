@@ -30,7 +30,8 @@ export let G = {
   aiLevel: 'normal',
   aiLevels: null,
   auto: false,
-  stats: null
+  stats: null,
+  demo: false
 };
 
 function freshStats() {
@@ -56,7 +57,7 @@ const SAVE_KEY = 'mahjong_save_v2';
 
 export function saveState() {
   try {
-    if (G.over || !G.players.length) return;
+    if (G.demo || G.over || !G.players.length) return;
     localStorage.setItem(SAVE_KEY, JSON.stringify({
       deck: G.deck, players: G.players, curP: G.curP, dealer: G.dealer,
       discard: G.discard, wall: G.wall, baopi: G.baopi, bpR: G.bpR,
@@ -187,6 +188,59 @@ function resume() {
       scheduleAIDiscard(G.curP);
     }
   }
+}
+
+// ===== 新手指引演示局：固定牌面专供讲解，不写存档，退出时凭存档恢复真牌局 =====
+export function startDemo() {
+  G.token = (G.token || 0) + 1;
+  let T = (type, num) => type === 'zhong'
+    ? { type, num: 0, suit: '红中', id: '红中' }
+    : { type, num, suit: Tile.SN[type], id: num + type };
+  let lastD = T('wan', 3);
+  G.players = [
+    { index: 0, name: PN[0], isD: true, score: 120,
+      hand: [T('wan', 6), T('wan', 7), T('wan', 8), T('tiao', 2), T('tiao', 5), T('tiao', 7), T('tong', 3), T('tong', 6), T('tong', 8), T('wan', 3), T('wan', 3), T('zhong'), T('zhong')],
+      melds: [{ type: 'peng', ts: [T('tiao', 9), T('tiao', 9), T('tiao', 9)], claimedId: '9tiao' }],
+      disc: [T('tiao', 1), T('wan', 9)] },
+    { index: 1, name: PN[1], isD: false, score: -30,
+      hand: [T('wan', 1), T('wan', 2), T('wan', 4), T('tiao', 3), T('tiao', 6), T('tiao', 8), T('tong', 2), T('tong', 5), T('tong', 7), T('tong', 9), T('wan', 5), T('tiao', 9), T('zhong')],
+      melds: [{ type: 'chi', ts: [T('tiao', 4), T('tiao', 5), T('tiao', 6)], claimedId: '5tiao' }],
+      disc: [T('tiao', 1), T('wan', 9)] },
+    { index: 2, name: PN[2], isD: false, score: -40,
+      hand: [T('wan', 2), T('wan', 5), T('wan', 7), T('tiao', 1), T('tiao', 4), T('tiao', 8), T('tong', 1), T('tong', 4), T('tong', 6), T('tong', 9), T('wan', 8), T('tiao', 2), T('tiao', 7)],
+      melds: [],
+      disc: [T('tong', 2)] },
+    { index: 3, name: PN[3], isD: false, score: -50,
+      hand: [T('wan', 1), T('wan', 4), T('wan', 6), T('tiao', 3), T('tiao', 6), T('tiao', 9), T('tong', 1), T('tong', 5), T('tong', 7), T('wan', 2), T('wan', 7), T('tiao', 8), T('tong', 4)],
+      melds: [],
+      disc: [T('tiao', 5), lastD] },
+  ];
+  G.deck = []; G.discard = G.players.flatMap(p => p.disc);
+  G.curP = 3; G.dealer = 0; G.wall = 38;
+  G.baopi = null; G.bpR = false; G.ting = new Set();
+  G.over = false; G.winner = null;
+  G.lastD = lastD; G.lastDB = 3; G.lastDraw = null; G.lastFrom = '';
+  G.phase = 'claim'; G.pending = [HUMAN]; G.passed = new Set();
+  G.lock = true; G.tingIntent = false; G.selfHu = false; G.forceTing = false;
+  G.playing = true; G.auto = false; G.demo = true;
+  G.stats = freshStats();
+  addTing(1);
+  ui('update');
+}
+
+// 退出演示：凭存档恢复真牌局；无存档则回空大厅
+export function endDemo() {
+  G.demo = false;
+  G.token = (G.token || 0) + 1;
+  G.lock = false;
+  G.pending = [];
+  if (restore()) return true;
+  G.players = []; G.discard = [];
+  G.playing = false; G.over = false;
+  G.ting = new Set();
+  G.lastD = null; G.lastDB = -1;
+  G.stats = freshStats();
+  return false;
 }
 
 function mkPlayer(i) {

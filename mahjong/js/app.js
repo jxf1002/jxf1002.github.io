@@ -1,5 +1,6 @@
 import * as Game from './game.js';
 import * as UI from './ui.js';
+import * as Tour from './tour.js';
 
 Game.setUI(UI);
 
@@ -58,6 +59,11 @@ document.getElementById('m-stats').addEventListener('click', e => {
   Game.showStats();
 });
 
+document.getElementById('btn-guide').addEventListener('click', e => {
+  e.target.blur();
+  Tour.startTour();
+});
+
 document.querySelectorAll('.diff-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     btn.blur();
@@ -105,3 +111,11 @@ if (Game.restore()) {
   Game.G.players = [];
   UI.update();
 }
+
+// 新手指引：第一次进游戏自动跑一次，之后只手动点
+try {
+  if (!localStorage.getItem('mahjong_guide_seen')) {
+    localStorage.setItem('mahjong_guide_seen', '1');
+    Tour.startTour();
+  }
+} catch (e) {}
