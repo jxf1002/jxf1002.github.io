@@ -8,7 +8,7 @@ const CLAIM_DELAY = 500;
 // ===== AI 难度配置 =====
 export const AI_LEVELS = {
   easy: { randomness: 0.5, claimPengRate: 0.6, claimChiRate: 0.35, kongRate: 1, defenseWeight: 0, ukeireWeight: 0, scoreWeight: 0, useTingInfo: false, useOpponentModel: false },
-  normal: { randomness: 0.1, claimPengRate: 0.7, claimChiRate: 0.4, kongRate: 1, defenseWeight: 0.3, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false },
+  normal: { randomness: 0.1, claimPengRate: 1, claimChiRate: 1, kongRate: 1, defenseWeight: 0, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false },
   hard: { randomness: 0, claimPengRate: 1, claimChiRate: 1, kongRate: 1, defenseWeight: 1, ukeireWeight: 3, scoreWeight: 1, useTingInfo: true, useOpponentModel: true }
 };
 const AI_LEVEL_KEY = 'mahjong_aiLevel';
@@ -1293,23 +1293,32 @@ function opponentThreat(pI) {
 }
 
 
+// 实验：50% 取排名二选、50% 取三选（不足时顺延取末位）
+function pickRank(ranked) {
+  if (ranked.length < 2) return ranked[0];
+  if (Math.random() < 0.5 || ranked.length < 3) return ranked[1];
+  return ranked[2];
+}
+
 // 中级：先保听牌，再比有效进张，保留搭子，轻度避炮
 function normalDiscardIndex(pI) {
   let p = G.players[pI];
   let cfg = AI_LEVELS.normal;
   let tingTiles = handTingDiscards(p.hand, p.melds);
   if (tingTiles.length) {
-    let best = tingTiles[0], bestWins = -1;
+    let scored = [];
     tingTiles.forEach(t => {
       let i = p.hand.findIndex(x => Tile.tid(x) === Tile.tid(t));
       let wins = Tile.winTiles(p.hand.filter((_, j) => j !== i), p.melds).length;
-      if (wins > bestWins) { bestWins = wins; best = t; }
+      scored.push({ t, wins });
     });
-    return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(best));
+    scored.sort((a, b) => b.wins - a.wins);
+    let pick = pickRank(scored); // 实验：50%二选/50%三选
+    return p.hand.findIndex(x => Tile.tid(x) === Tile.tid(pick.t));
   }
   let threat = opponentThreat(pI);
   let safeW = cfg.defenseWeight * (threat >= 2 ? 2 : 1);
-  let seen = new Set(), best = p.hand[0], bestScore = -Infinity;
+  let seen = new Set(), ranked = [];
   for (let i = 0; i < p.hand.length; i++) {
     let t = p.hand[i], id = Tile.tid(t);
     if (seen.has(id)) continue;
@@ -1322,9 +1331,11 @@ function normalDiscardIndex(pI) {
       + tileSafety(pI, t) * safeW * 20
       - zhong * 3
       + (Math.random() - 0.5) * cfg.randomness * 20;
-    if (score > bestScore) { bestScore = score; best = t; }
+    ranked.push({ t, score });
   }
-  return p.hand.indexOf(best);
+  ranked.sort((a, b) => b.score - a.score);
+  let pick = pickRank(ranked); // 实验：50%二选/50%三选
+  return p.hand.indexOf(pick.t);
 }
 
 // 初级：现行一步贪心（听口优先 + 连通度）加随机扰动
@@ -1578,7 +1589,8 @@ export function simulateRound(level) {
 // 返回单桌 {rank, wins, hands, score, hard, dealIn, tingSum, tingN}（rank=1+严格更高分人数，并列取最好名次）
 export function simulateTable(levels, circles) {
   circles = Math.max(1, circles || 4);
-  let hard = levels.indexOf('hard');
+  // 焦点座位：4 座中难度唯一不同的那家（如 1 hard vs 3 normal 取 hard 座）；全相同时取 0
+  let hard = levels.findIndex(l => levels.filter(x => x === l).length === 1);
   if (hard < 0) hard = 0;
   let prevLevel = G.aiLevel;
   let prevLevels = G.aiLevels;

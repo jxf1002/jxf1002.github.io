@@ -1,5 +1,6 @@
-// 整桌模拟：困难随机座 vs 3 normal，打满 4 圈；慢，手动跑：node test/ai-sim.mjs
-// 可调：AI_TABLES（默认10） AI_THREADS（默认10） AI_CIRCLES（默认4）
+// 整桌模拟：1 focus 随机座 vs 3 base，打满指定圈数；慢，手动跑：node test/ai-sim.mjs
+// 可调：AI_FOCUS（默认hard） AI_BASE（默认normal） AI_TABLES（默认10） AI_THREADS（默认10） AI_CIRCLES（默认4）
+// 例：AI_FOCUS=normal AI_BASE=easy AI_TABLES=100 AI_THREADS=10 node test/ai-sim.mjs
 import os from 'node:os';
 import fs from 'node:fs';
 import { Worker } from 'node:worker_threads';
@@ -31,10 +32,18 @@ function printTable(head, rows) {
   }
 }
 
-// 桌数按线程数均分，每桌困难座位随机、圈数相同
+// 桌数按线程数均分，每桌焦点座位随机、圈数相同
 const TABLES = Math.max(1, Number(process.env.AI_TABLES || 10));
 const THREADS = Math.max(1, Number(process.env.AI_THREADS || Math.min(os.cpus().length || 4, 10)));
 const CIRCLES = Math.max(1, Number(process.env.AI_CIRCLES || 4));
+const FOCUS = process.env.AI_FOCUS || 'hard';
+const BASE = process.env.AI_BASE || 'normal';
+const LEVEL_CN = { hard: '困难', normal: '中等', easy: '简单' };
+if (!LEVEL_CN[FOCUS] || !LEVEL_CN[BASE]) {
+  console.error(`非法 matchup：AI_FOCUS=${FOCUS} AI_BASE=${BASE}（仅支持 hard/normal/easy）`);
+  process.exit(1);
+}
+const FOCUS_CN = LEVEL_CN[FOCUS], BASE_CN = LEVEL_CN[BASE];
 
 function runJob(job) {
   return new Promise((resolve, reject) => {
@@ -64,11 +73,11 @@ const jobs = [];
   const rem = TABLES % THREADS;
   for (let t = 0; t < THREADS; t++) {
     const n = base + (t < rem ? 1 : 0);
-    if (n > 0) jobs.push({ tables: n, circles: CIRCLES });
+    if (n > 0) jobs.push({ tables: n, circles: CIRCLES, focus: FOCUS, base: BASE });
   }
 }
 
-console.log(`\n== 整桌模拟：共 ${TABLES} 桌 / ${jobs.length} 线程 / ${CIRCLES} 圈（困难随机座 vs 3 normal）==`);
+console.log(`\n== 整桌模拟：共 ${TABLES} 桌 / ${jobs.length} 线程 / ${CIRCLES} 圈（${FOCUS_CN}随机座 vs 3 ${BASE_CN}）==`);
 const simT0 = Date.now();
 const results = await runPool(jobs, THREADS);
 console.log(`  模拟耗时 ${((Date.now() - simT0) / 1000).toFixed(1)}s`);
@@ -113,7 +122,7 @@ const avgTingN = tingNormN ? tingNormSum / tingNormN : Infinity;
 const tingCounted = n - tingSkip;
 
 section(`汇总（${n} 桌，平均 ${(handSum / n).toFixed(1)} 把/桌）`);
-printTable(['指标', '困难', '基准'], [
+printTable(['指标', FOCUS_CN, BASE_CN], [
   { cells: ['平均排名（越小越好）', avgRank.toFixed(3), '2.5'], good: avgRank < 2.5 },
   { cells: ['和牌胜率（含流局）', winRate.toFixed(3), '0.25'], good: winRate > 0.25 },
   { cells: ['每局均分', avgScore.toFixed(3), '0'], good: avgScore > 0 },
