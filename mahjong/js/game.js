@@ -32,7 +32,7 @@ export let G = {
   ting: new Set(), over: false, winner: null,
   lastD: null, lastDB: -1, lastDraw: null, lastFrom: '',
   phase: 'discard', pending: [], passed: new Set(),
-  lock: false, token: 0, tingIntent: false, selfHu: false, forceTing: false, revealDraw: -1,
+  lock: false, token: 0, tingIntent: false, selfHu: false, forceTing: false,
   playing: false,
   aiLevel: 'normal',
   aiLevels: null,
@@ -190,7 +190,6 @@ export function restore() {
       G.ting = new Set(); G.winner = null; G.lastD = null; G.lastDB = -1;
       G.lastDraw = null; G.lastFrom = ''; G.phase = 'discard'; G.pending = []; G.passed = new Set();
       G.tingIntent = false; G.selfHu = false; G.forceTing = false; G.lock = false; G.token = (d.token || 0) + 1;
-      G.revealDraw = -1;
       G.playing = false; G.over = true;
       pendingNext = () => startRound(false);
       return true;
@@ -204,7 +203,6 @@ export function restore() {
     G.lastDraw = d.lastDraw; G.lastFrom = d.lastFrom; G.phase = d.phase;
     G.pending = d.pending || []; G.passed = new Set(d.passed || []);
     G.tingIntent = !!d.tingIntent; G.selfHu = !!d.selfHu; G.forceTing = !!d.forceTing; G.token = (d.token || 0) + 1;
-    G.revealDraw = -1;
     G.aiLevel = AI_LEVELS[d.aiLevel] ? d.aiLevel : 'normal';
     G.lock = false; G.over = false;
     G.playing = false;
@@ -219,7 +217,6 @@ export function toLobby() {
   if (!G.players.length) { G.playing = false; ui('update'); return; }
   G.playing = false;
   G.lock = true;
-  G.revealDraw = -1;
   G.token = (G.token || 0) + 1; // 作废所有待执行的定时器
   saveState(); // 已结算则落盘「本局结束」快照，刷新后开新一局
   ui('update');}
@@ -301,7 +298,6 @@ export function startDemo() {
   G.lastD = lastD; G.lastDB = 3; G.lastDraw = null; G.lastFrom = '';
   G.phase = 'claim'; G.pending = [HUMAN]; G.passed = new Set();
   G.lock = true; G.tingIntent = false; G.selfHu = false; G.forceTing = false;
-  G.revealDraw = -1;
   G.playing = true; G.auto = false; G.demo = true;
   G.stats = freshStats();
   addTing(1);
@@ -320,7 +316,6 @@ export function endDemo() {
   G.playing = false; G.over = false;
   G.ting = new Set();
   G.lastD = null; G.lastDB = -1;
-  G.revealDraw = -1;
   G.stats = freshStats();
   return false;
 }
@@ -412,7 +407,6 @@ function startRound(resetScores) {
   G.over = false; G.winner = null; G.lastD = null; G.lastDB = -1;
   G.lastDraw = null; G.lastFrom = ''; G.phase = 'discard'; G.pending = [];
   G.passed = new Set(); G.lock = false; G.tingIntent = false; G.selfHu = false; G.forceTing = false;
-  G.revealDraw = -1;
   G.token = (G.token || 0) + 1;
 
   for (let r = 0; r < 13; r++) {
@@ -597,16 +591,11 @@ function advanceTurn() {
       ui('update');
       return;
     }
-    // 电脑自摸：先亮出刚摸到的和牌张，空1拍再结算，避免“出牌即胡”没有节奏
+    // 电脑自摸：空1拍再结算，避免“一出牌下家就胡”没有节奏
     G.lock = true;
-    G.revealDraw = pI;
     ui('update');
     let token = G.token;
-    scheduleTask(() => {
-      if (G.token !== token || G.over) return;
-      G.revealDraw = -1;
-      win(pI, null, true);
-    }, TICK);
+    scheduleTask(() => { if (G.token === token && !G.over) win(pI, null, true); }, TICK);
     return;
   }
 

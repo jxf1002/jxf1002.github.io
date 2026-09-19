@@ -601,7 +601,7 @@ G.ting = new Set([1]);
 G.deck[G.deck.length - 1] = T('tong',6);
 G.curP = 0; G.phase = 'discard'; G.lock = false; G.over = false;
 Game.handleDiscard(G.players[0].hand.findIndex(t => t.id === '红中'));
-await new Promise(r => setTimeout(r, Game.TICK * 2 + 50)); // 出牌经 TICK 到下家摸牌，再空 TICK 亮出和牌张后结算
+await new Promise(r => setTimeout(r, Game.TICK * 2 + 50)); // 出牌经 TICK 到下家摸牌，再空 TICK 结算
 ok('南自摸 记入南 zimo=1', G.stats.per[1].zimo === 1);
 ok('其他玩家无胡牌记录', G.stats.per[0].zimo === 0 && G.stats.per[0].ron === 0 && G.stats.per[2].zimo === 0);
 
