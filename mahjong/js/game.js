@@ -8,7 +8,7 @@ const CLAIM_DELAY = 500;
 // ===== AI 难度配置 =====
 export const AI_LEVELS = {
   easy: { randomness: 0.5, claimPengRate: 0.6, claimChiRate: 0.35, kongRate: 1, defenseWeight: 0, ukeireWeight: 0, scoreWeight: 0, useTingInfo: false, useOpponentModel: false },
-  normal: { randomness: 0.1, claimPengRate: 1, claimChiRate: 1, kongRate: 1, defenseWeight: 0, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false },
+  normal: { randomness: 0.1, claimPengRate: 0.7, claimChiRate: 0.4, kongRate: 1, defenseWeight: 0, ukeireWeight: 1, scoreWeight: 0.2, useTingInfo: true, useOpponentModel: false },
   hard: { randomness: 0, claimPengRate: 1, claimChiRate: 1, kongRate: 1, defenseWeight: 1, ukeireWeight: 3, scoreWeight: 1, useTingInfo: true, useOpponentModel: true }
 };
 const AI_LEVEL_KEY = 'mahjong_aiLevel';
@@ -1611,8 +1611,15 @@ export function simulateTable(levels, circles) {
       simTingSeen = {};
       driveHand();
       if (G.winner === hard) wins++;
+      // 上听轮数：每方每把只计首听（焦点座取自己，基准方取3座最早），未听不计入
+      if (simTingSeen[hard] !== undefined) { tingSum[hard] += simTingSeen[hard]; tingN[hard]++; }
+      let baseMin = Infinity;
       for (let i = 0; i < PLAYER_COUNT; i++) {
-        if (simTingSeen[i] !== undefined) { tingSum[i] += simTingSeen[i]; tingN[i]++; }
+        if (i !== hard && simTingSeen[i] !== undefined) baseMin = Math.min(baseMin, simTingSeen[i]);
+      }
+      if (baseMin !== Infinity) {
+        let seat = [0, 1, 2, 3].find(i => i !== hard && simTingSeen[i] === baseMin);
+        tingSum[seat] += baseMin; tingN[seat]++;
       }
       if (G.stats.rotations >= circles) break;
       // 把间转庄（同 continueGame）：非庄和牌才转庄，回到 0 位记一圈；庄和/流局不转

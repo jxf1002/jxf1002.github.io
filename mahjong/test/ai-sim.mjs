@@ -131,19 +131,19 @@ printTable(['指标', FOCUS_CN, BASE_CN], [
   { cells: ['平均把数/桌（仅观察）', (handSum / n).toFixed(1), '—'], good: null }
 ]);
 
-section('分桌计数（试水线：好桌超过计入桌数 30%）');
+section('分桌计数（试水线：好桌超过计入桌数 50%）');
 printTable(['指标', '好桌', '结论'], [
-  { cells: ['排名好桌（<2.5）', `${rankG}/${n}`, rankG > n * 0.3 ? '✓' : '✗'], good: rankG > n * 0.3 },
-  { cells: ['胜率好桌（>0.25）', `${winG}/${n}`, winG > n * 0.3 ? '✓' : '✗'], good: winG > n * 0.3 },
-  { cells: ['均分好桌（>0）', `${scoreG}/${n}`, scoreG > n * 0.3 ? '✓' : '✗'], good: scoreG > n * 0.3 },
-  { cells: ['黑炮好桌（低于同桌均值）', `${dealG}/${n}`, dealG > n * 0.3 ? '✓' : '✗'], good: dealG > n * 0.3 },
-  { cells: ['上听好桌（早于同桌均值）', `${tingG}/${tingCounted}${tingSkip ? `（${tingSkip}桌无数据）` : ''}`, tingG > tingCounted * 0.3 ? '✓' : '✗'], good: tingG > tingCounted * 0.3 }
+  { cells: ['排名好桌（<2.5）', `${rankG}/${n}`, rankG > n * 0.5 ? '✓' : '✗'], good: rankG > n * 0.5 },
+  { cells: ['胜率好桌（>0.25）', `${winG}/${n}`, winG > n * 0.5 ? '✓' : '✗'], good: winG > n * 0.5 },
+  { cells: ['均分好桌（>0）', `${scoreG}/${n}`, scoreG > n * 0.5 ? '✓' : '✗'], good: scoreG > n * 0.5 },
+  { cells: ['黑炮好桌（低于同桌均值）', `${dealG}/${n}`, dealG > n * 0.5 ? '✓' : '✗'], good: dealG > n * 0.5 },
+  { cells: ['上听好桌（早于同桌均值）', `${tingG}/${tingCounted}${tingSkip ? `（${tingSkip}桌无数据）` : ''}`, tingG > tingCounted * 0.5 ? '✓' : '✗'], good: tingG > tingCounted * 0.5 }
 ]);
-ok('排名好桌超 30%', rankG > n * 0.3, `${rankG}/${n}`);
-ok('胜率好桌超 30%', winG > n * 0.3, `${winG}/${n}`);
-ok('均分好桌超 30%', scoreG > n * 0.3, `${scoreG}/${n}`);
-ok('黑炮好桌超 30%', dealG > n * 0.3, `${dealG}/${n}`);
-ok('上听好桌超 30%', tingG > tingCounted * 0.3, `${tingG}/${tingCounted}`);
+ok('排名好桌超 50%', rankG > n * 0.5, `${rankG}/${n}`);
+ok('胜率好桌超 50%', winG > n * 0.5, `${winG}/${n}`);
+ok('均分好桌超 50%', scoreG > n * 0.5, `${scoreG}/${n}`);
+ok('黑炮好桌超 50%', dealG > n * 0.5, `${dealG}/${n}`);
+ok('上听好桌超 50%', tingG > tingCounted * 0.5, `${tingG}/${tingCounted}`);
 
 // 趋势记录：每次跑完追加一行（过没过都记）
 {
