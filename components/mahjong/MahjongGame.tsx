@@ -646,7 +646,8 @@ export default function MahjongGame() {
     ))
   }
 
-  const lobbyHas = G.players.length > 0 || Game.hasSave()
+  // 渲染期不能读 localStorage（服务端渲染没有、有水印就会 hydration 不匹配）；restore() 之后 players 即代表有存档
+  const lobbyHas = G.players.length > 0
 
   return (
     <>
@@ -795,6 +796,7 @@ export default function MahjongGame() {
                 <span className="diff-label">
                   游戏节奏 <b id="pace-val">{PACE_LABEL[pace]}</b>
                 </span>
+                {/* 档位 0 是快；滑杆反过来放，右边才是快 */}
                 <input
                   type="range"
                   className="pace-range"
@@ -802,17 +804,17 @@ export default function MahjongGame() {
                   min={0}
                   max={2}
                   step={1}
-                  value={pace}
+                  value={2 - pace}
                   aria-label="游戏节奏"
                   onChange={(e) => {
-                    Game.setPace(Number(e.target.value))
+                    Game.setPace(2 - Number(e.target.value))
                     setPace(Game.getPace())
                   }}
                 />
                 <div className="pace-ticks">
-                  <span>快</span>
-                  <span>中</span>
                   <span>慢</span>
+                  <span>中</span>
+                  <span>快</span>
                 </div>
               </div>
               <div className="lobby-btns">
