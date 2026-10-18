@@ -1,0 +1,269 @@
+import { TT, SN } from './constants.ts';
+import type { Group, Meld, Tile } from './types.ts';
+export { TT, SN };
+
+export function tid(t: Tile) { return t.id; }
+export function css(t: Tile) { return t.type === 'zhong' ? 'mj-zhong' : 'mj-' + t.type; }
+export function label(t: Tile) { return t.type === 'zhong' ? '红中' : t.num + t.suit; }
+export function isYao(t: Tile) { return t.type === 'zhong' || t.num === 1 || t.num === 9; }
+
+export function mkDeck(): Tile[] {
+  let d: Tile[] = [];
+  TT.forEach(t => {
+    for (let i = 1; i <= 9; i++) for (let n = 0; n < 4; n++) {
+      d.push({ type: t, num: i, suit: SN[t], id: i + t });
+    }
+  });
+  for (let n = 0; n < 4; n++) d.push({ type: 'zhong', num: 0, suit: '红中', id: '红中' });
+  return d;
+}
+
+export function shuffle(d: Tile[]): Tile[] {
+  for (let i = d.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [d[i], d[j]] = [d[j], d[i]];
+  }
+  return d;
+}
+
+function sortTiles(tiles: Tile[]): Tile[] {
+  return [...tiles].sort((a, b) => {
+    let d = TT.indexOf(a.type) - TT.indexOf(b.type);
+    if (d !== 0) return d;
+    return a.num - b.num;
+  });
+}
+
+function countOf(tiles: Tile[], tile: Tile) {
+  return tiles.filter(t => tid(t) === tid(tile)).length;
+}
+
+function removeTiles(tiles: Tile[], tile: Tile, n: number): Tile[] {
+  let res: Tile[] = [], removed = 0;
+  for (let t of tiles) {
+    if (tid(t) === tid(tile) && removed < n) removed++;
+    else res.push(t);
+  }
+  return res;
+}
+
+function decomposeAll(tiles: Tile[]): Group[][] {
+  if (tiles.length === 0) return [[]];
+  if (tiles.length % 3 !== 0) return [];
+  let sorted = sortTiles(tiles);
+  let first = sorted[0];
+  let results: Group[][] = [];
+
+  if (countOf(sorted, first) >= 3) {
+    let rest = removeTiles(sorted, first, 3);
+    for (let d of decomposeAll(rest)) {
+      results.push([{ kind: 'tri', type: first.type, num: first.num }, ...d]);
+    }
+  }
+
+  if (first.type !== 'zhong' && first.num <= 7) {
+    let t2 = sorted.find(t => t.type === first.type && t.num === first.num + 1);
+    let t3 = sorted.find(t => t.type === first.type && t.num === first.num + 2);
+    if (t2 && t3) {
+      let rest = removeTiles(removeTiles(removeTiles(sorted, first, 1), t2, 1), t3, 1);
+      for (let d of decomposeAll(rest)) {
+        results.push([{ kind: 'seq', type: first.type, num: first.num }, ...d]);
+      }
+    }
+  }
+  return results;
+}
+
+function allTilesOf(hand: Tile[], melds: Meld[]): Tile[] {
+  let all = [...hand];
+  melds.forEach(m => all.push(...m.ts));
+  return all;
+}
+
+function winInfo(hand: Tile[], melds: Meld[]): { pair: Tile; groups: Group[] } | null {
+  melds = melds || [];
+  let need = 4 - melds.length;
+  if (need < 0) return null;
+  if (hand.length !== need * 3 + 2) return null;
+
+  // 禁止清一色：万/条/筒至少要有两种，红中不算一种颜色
+  let suits = new Set<string>();
+  allTilesOf(hand, melds).forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+  if (suits.size < 2) return null;
+
+  let sorted = sortTiles(hand);
+  let seen = new Set<string>();
+  for (let t of sorted) {
+    if (seen.has(tid(t))) continue;
+    seen.add(tid(t));
+    if (countOf(sorted, t) < 2) continue;
+
+    let rest = removeTiles(sorted, t, 2);
+    let meldGroups: Group[] = melds.map(m => ({ kind: m.type === 'chi' ? 'seq' : 'tri' }));
+    let hasYao = allTilesOf(hand, melds).some(isYao);
+
+    for (let groups of decomposeAll(rest)) {
+      let all = [...meldGroups, ...groups];
+      let hasSeq = all.some(g => g.kind === 'seq');
+      let hasTri = all.some(g => g.kind === 'tri');
+      if (!hasYao) break;
+      if (t.type === 'zhong') {
+        if (hasSeq) return { pair: t, groups: all };
+      } else if (hasSeq && hasTri) {
+        return { pair: t, groups: all };
+      }
+    }
+  }
+  return null;
+}
+
+export function canWin(hand: Tile[], melds: Meld[]) {
+  return winInfo(hand, melds) !== null;
+}
+
+export function winTiles(hand: Tile[], melds: Meld[]): Tile[] {
+  melds = melds || [];
+  let need = 4 - melds.length;
+  if (need < 0) return [];
+  if (hand.length !== need * 3 + 1) return [];
+
+  let all = allTilesOf(hand, melds);
+  // 断幺九不能听牌：幺九必须已在手牌（含副露）中，胡到的幺九不算
+  if (!all.some(isYao)) return [];
+  let res: Tile[] = [];
+  TT.forEach(type => {
+    for (let n = 1; n <= 9; n++) {
+      let tile = { type, num: n, suit: SN[type], id: n + type };
+      if (countOf(all, tile) >= 4) continue;
+      if (canWin([...hand, tile], melds)) res.push(tile);
+    }
+  });
+  let zt = { type: 'zhong', num: 0, suit: '红中', id: '红中' };
+  if (countOf(all, zt) < 4 && canWin([...hand, zt], melds)) res.push(zt);
+  return res;
+}
+
+export function isTing(hand: Tile[], melds: Meld[]) {
+  return winTiles(hand, melds).length > 0;
+}
+
+function tileIdx(t: Tile) {
+  if (t.type === 'zhong') return 27;
+  return TT.indexOf(t.type) * 9 + (t.num - 1);
+}
+
+// 向听数：0 表示听牌，-1 表示已和牌
+export function shanten(hand: Tile[], melds: Meld[]) {
+  melds = melds || [];
+  let c = new Array(34).fill(0);
+  hand.forEach(t => { c[tileIdx(t)]++; });
+  let best = 8;
+
+  function dfs(i: number, sets: number, partials: number, head: boolean) {
+    while (i < 34 && c[i] === 0) i++;
+    if (i >= 34) {
+      if (sets + partials > 4) return;
+      let s = 8 - 2 * sets - partials - (head ? 1 : 0);
+      if (s < best) best = s;
+      return;
+    }
+    if (c[i] >= 3) { c[i] -= 3; dfs(i, sets + 1, partials, head); c[i] += 3; }
+    if (i < 27 && i % 9 <= 6 && c[i + 1] > 0 && c[i + 2] > 0) {
+      c[i]--; c[i + 1]--; c[i + 2]--;
+      dfs(i, sets + 1, partials, head);
+      c[i]++; c[i + 1]++; c[i + 2]++;
+    }
+    if (!head && c[i] >= 2) { c[i] -= 2; dfs(i, sets, partials, true); c[i] += 2; }
+    if (c[i] >= 2) { c[i] -= 2; dfs(i, sets, partials + 1, head); c[i] += 2; }
+    if (i < 27 && i % 9 <= 7 && c[i + 1] > 0) {
+      c[i]--; c[i + 1]--; dfs(i, sets, partials + 1, head); c[i]++; c[i + 1]++;
+    }
+    if (i < 27 && i % 9 <= 6 && c[i + 2] > 0) {
+      c[i]--; c[i + 2]--; dfs(i, sets, partials + 1, head); c[i]++; c[i + 2]++;
+    }
+    c[i]--; dfs(i, sets, partials, head); c[i]++;
+  }
+
+  dfs(0, melds.length, 0, false);
+  return best;
+}
+
+// 非标向听：在标准向听基础上计入本变体约束（须有刻子、须有顺子、须有幺九、至少两花色）。
+// 与 winInfo 的口径一致；缺刻子时会区分“有对子可升刻”与“没有”，从而体现“无碰时保两对”。
+// remainFn(tile) 返回该牌的实际剩余枚数；返回 0 的搭子视为死搭（如别人碰了八万，留七九万没意义），
+// 不再计入搭子数。不传时默认全部存活，行为与标准口径一致。
+export function effectiveShanten(hand: Tile[], melds: Meld[], remainFn?: (t: Tile) => number) {
+  melds = melds || [];
+  remainFn = remainFn || (() => 4);
+  let c = new Array(34).fill(0);
+  hand.forEach(t => { c[tileIdx(t)]++; });
+  let mTri = melds.filter(m => m.type !== 'chi').length;
+  let mSeq = melds.filter(m => m.type === 'chi').length;
+  let all = [...hand];
+  melds.forEach(m => all.push(...m.ts));
+  let yaoPen = all.some(isYao) ? 0 : 1;
+  let suits = new Set<string>();
+  all.forEach(t => { if (t.type !== 'zhong') suits.add(t.type); });
+  let suitPen = suits.size >= 2 ? 0 : 1;
+  let best = 8;
+
+  // 预算 28 个牌位的剩余枚数，DFS 中 O(1) 读取，避免每次都造牌对象
+  let rc: number[] = new Array(28);
+  for (let k = 0; k < 28; k++) {
+    if (k < 27) {
+      let type = TT[Math.floor(k / 9)];
+      let num = (k % 9) + 1;
+      rc[k] = remainFn({ type, num, suit: SN[type], id: num + type });
+    } else {
+      rc[k] = remainFn({ type: 'zhong', num: 0, suit: '红中', id: '红中' });
+    }
+  }
+  function remainAt(idx: number) { return (idx >= 0 && idx < 28) ? rc[idx] : 0; }
+
+  function dfs(i: number, sets: number, partials: number, head: boolean, headZhong: boolean, triSets: number, seqSets: number, pairPartials: number, runPartials: number) {
+    while (i < 34 && c[i] === 0) i++;
+    if (i >= 34) {
+      if (sets + partials > 4) return;
+      let fresh = 4 - sets - partials;
+      let triOk = mTri > 0 || triSets > 0;
+      let seqOk = mSeq > 0 || seqSets > 0;
+      // 未成刻子时，一对要留给雀头，另一对才能升刻；没有对子搭子就得多摸一手
+      let freePairs = Math.max(0, pairPartials - (head ? 0 : 1));
+      let triPen = (triOk || headZhong || freePairs >= 1 || fresh >= 1) ? 0 : 1;
+      let seqPen = (seqOk || runPartials >= 1 || fresh >= 1) ? 0 : 1;
+      let s = 8 - 2 * sets - partials - (head ? 1 : 0) + triPen + seqPen + yaoPen + suitPen;
+      if (s < best) best = s;
+      return;
+    }
+    c[i]--; dfs(i, sets, partials, head, headZhong, triSets, seqSets, pairPartials, runPartials); c[i]++;
+    if (c[i] >= 3) { c[i] -= 3; dfs(i, sets + 1, partials, head, headZhong, triSets + 1, seqSets, pairPartials, runPartials); c[i] += 3; }
+    if (i < 27 && i % 9 <= 6 && c[i + 1] > 0 && c[i + 2] > 0) {
+      c[i]--; c[i + 1]--; c[i + 2]--;
+      dfs(i, sets + 1, partials, head, headZhong, triSets, seqSets + 1, pairPartials, runPartials);
+      c[i]++; c[i + 1]++; c[i + 2]++;
+    }
+    if (!head && c[i] >= 2) { c[i] -= 2; dfs(i, sets, partials, true, i === 27, triSets, seqSets, pairPartials, runPartials); c[i] += 2; }
+    // 对子搭子：仅当还能摸到第三张升刻才算搭子；否则只能当雀头（上面已处理）
+    if (c[i] >= 2 && sets + partials < 4 && remainAt(i) > 0) {
+      c[i] -= 2; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials + 1, runPartials); c[i] += 2;
+    }
+    // 两面/边张搭子：缺的那两张至少还有一张活着才算搭子
+    if (i < 27 && i % 9 <= 7 && c[i + 1] > 0 && sets + partials < 4) {
+      let n = i % 9, outs = 0;
+      if (n >= 1) outs += remainAt(i - 1);
+      if (n <= 6) outs += remainAt(i + 2);
+      if (outs > 0) {
+        c[i]--; c[i + 1]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 1]++;
+      }
+    }
+    // 坎张搭子：中间那张还活着才算搭子
+    if (i < 27 && i % 9 <= 6 && c[i + 2] > 0 && sets + partials < 4) {
+      if (remainAt(i + 1) > 0) {
+        c[i]--; c[i + 2]--; dfs(i, sets, partials + 1, head, headZhong, triSets, seqSets, pairPartials, runPartials + 1); c[i]++; c[i + 2]++;
+      }
+    }
+  }
+
+  dfs(0, melds.length, 0, false, false, 0, 0, 0, 0);
+  return best;
+}

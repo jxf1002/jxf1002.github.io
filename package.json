@@ -3,7 +3,25 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 3000",
-    "preview": "python3 -m http.server 4173"
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "python3 -m http.server 4173 -d out",
+    "test": "node --import tsx --test \"test/**/*.test.ts\" \"test/**/*.test.tsx\"",
+    "verify": "next build && node scripts/check-build.ts"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "echarts": "^4.9.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^30.1.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   }
 }

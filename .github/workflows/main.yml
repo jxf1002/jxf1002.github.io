@@ -13,16 +13,24 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  upload:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          path: ./
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: node scripts/check-build.ts
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./out
 
   deploy:
-    needs: upload
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -32,4 +40,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

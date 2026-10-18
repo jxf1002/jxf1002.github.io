@@ -1,8 +1,0 @@
-{
-  "name": "mahjong",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "test": "node test/rules.test.mjs && node test/ai.test.mjs"
-  }
-}

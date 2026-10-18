@@ -5,6 +5,12 @@
 .cache
 dist
 
+# Next.js static export
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
 # Node dependencies
 node_modules
 

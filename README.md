@@ -1,14 +1,29 @@
 # 贾师傅的小站
 
-这是一个无需构建的原生静态 HTML 项目，页面使用 CSS 和浏览器原生 JavaScript 实现。
+Next.js App Router 静态站点，用 `output: 'export'` 导出纯静态 HTML，部署在 GitHub Pages。
+每个路由一个独立 HTML，SEO 元信息集中在 `lib/site.ts`。源码为 TypeScript（strict）。
 
-## 本地预览
+## 本地开发
 
 ```bash
-python3 -m http.server 3000
+./start.sh       # 等价于 npm install + npm run dev，http://localhost:3000/
 ```
 
-然后访问 `http://localhost:3000/`。旅游景区和大学排行榜会从 `assets/data/` 加载 JSON 数据。
+或手动：
+
+```bash
+npm install
+npm run dev
+```
+
+构建与预览：
+
+```bash
+npm run build    # 产物在 out/
+npm run preview  # 用静态服务器预览 out/
+npm test         # 单测 + 游戏 UI 冒烟测试
+npm run verify   # 构建 + 产物自检
+```
 
 ## 页面
 
@@ -16,7 +31,7 @@ python3 -m http.server 3000
 
 数据
 
-- `/college/`：大学排行榜
+- `/college/`：大学排行榜（`?year=2023..2026`）
 - `/tourism/`：5A 级旅游景区
 - `/comfort/`：全国体感温度，地级市天气与 24 小时温度范围地图
 
@@ -27,9 +42,11 @@ python3 -m http.server 3000
 
 游戏
 
-- `/mahjong/`：麻将小游戏
-- `/mir2/`：传奇挂机小游戏
+- `/mahjong/`：麻将小游戏（引擎 `lib/mahjong/`，界面 `components/mahjong/`）
+- `/mir2/`：传奇挂机小游戏（引擎 `lib/mir2/`，界面 `components/mir2/`）
 - `/sport/`：赛博运动，生成跑步报告
+
+数据 JSON 与站点样式在 `public/assets/` 下，页面运行时按需加载。
 
 ## 反馈
 
