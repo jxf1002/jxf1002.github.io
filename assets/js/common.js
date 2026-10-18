@@ -12,17 +12,34 @@
   }
 
   var root = document.documentElement
-  var stored = localStorage.getItem("theme")
-  if (
-    stored === "dark" ||
-    (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    root.classList.add("dark")
+  var media = window.matchMedia("(prefers-color-scheme: dark)")
+  var MODES = ["auto", "light", "dark"]
+  var ICONS = { auto: "◐", light: "☀", dark: "☾" }
+  var LABELS = { auto: "跟随系统", light: "白天", dark: "黑夜" }
+
+  function mode() {
+    var stored = localStorage.getItem("theme")
+    return stored === "light" || stored === "dark" ? stored : "auto"
   }
 
+  function apply() {
+    var current = mode()
+    root.classList.toggle(
+      "dark",
+      current === "dark" || (current === "auto" && media.matches),
+    )
+  }
+
+  apply()
+
+  // auto 不落盘（没有 theme 键即跟随系统）
   window.toggleTheme = function () {
-    var dark = root.classList.toggle("dark")
-    localStorage.setItem("theme", dark ? "dark" : "light")
+    var next = MODES[(MODES.indexOf(mode()) + 1) % MODES.length]
+    localStorage.removeItem("theme")
+    if (next !== "auto") {
+      localStorage.setItem("theme", next)
+    }
+    apply()
     updateThemeButton()
     window.dispatchEvent(new Event("themechange"))
   }
@@ -30,14 +47,18 @@
   function updateThemeButton() {
     var button = document.querySelector("[data-theme-toggle]")
     if (button) {
-      var dark = root.classList.contains("dark")
-      button.textContent = dark ? "☀" : "☾"
-      button.setAttribute(
-        "aria-label",
-        dark ? "切换到浅色模式" : "切换到深色模式",
-      )
+      var label = "主题：" + LABELS[mode()] + "，点击切换"
+      button.textContent = ICONS[mode()]
+      button.setAttribute("aria-label", label)
+      button.setAttribute("title", label)
     }
   }
+
+  media.addEventListener("change", function () {
+    if (mode() !== "auto") return
+    apply()
+    window.dispatchEvent(new Event("themechange"))
+  })
 
   document.addEventListener("DOMContentLoaded", function () {
     updateThemeButton()
