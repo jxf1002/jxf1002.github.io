@@ -1,30 +1,28 @@
 "use client"
 
+import type { CSSProperties } from "react"
 import { useEffect, useRef, useState } from "react"
-import type { SportReport } from "../../lib/sport"
+import type { SportId, SportReport } from "../../lib/sport"
 import {
-  MAX_SPEED,
-  MIN_SPEED,
+  SPORT_IDS,
   buildReport,
+  cycleFor,
   formatTime,
-  runnerDuration,
-  speedProgress,
+  progressFor,
+  sportDef,
 } from "../../lib/sport"
+import SportFigure from "./Figures"
 
 export default function Runner() {
   const startedAt = useRef(0)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [speed, setSpeed] = useState(8)
+  const [sport, setSport] = useState<SportId>("run")
+  const [speed, setSpeed] = useState(sportDef("run").defaultSpeed)
   const [running, setRunning] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [report, setReport] = useState<SportReport | null>(null)
 
-  useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--runner-duration",
-      runnerDuration(speed),
-    )
-  }, [speed])
+  const def = sportDef(sport)
 
   useEffect(
     () => () => {
@@ -32,6 +30,11 @@ export default function Runner() {
     },
     [],
   )
+
+  function stop() {
+    if (interval.current) clearInterval(interval.current)
+    interval.current = null
+  }
 
   function start() {
     startedAt.current = Date.now()
@@ -44,150 +47,138 @@ export default function Runner() {
   }
 
   function finish() {
-    if (interval.current) clearInterval(interval.current)
-    interval.current = null
-    const next = buildReport(speed, (Date.now() - startedAt.current) / 1000)
+    stop()
+    const next = buildReport(sport, speed, (Date.now() - startedAt.current) / 1000)
     setElapsed(next.elapsedSeconds)
     setRunning(false)
     setReport(next)
   }
 
-  const progress = speedProgress(speed)
-  const rangeBackground =
-    "linear-gradient(90deg, var(--blue) 0 " +
-    progress +
-    "%, #dbe6e7 " +
-    progress +
-    "% 100%)"
+  function pick(id: SportId) {
+    stop()
+    setSport(id)
+    setSpeed(sportDef(id).defaultSpeed)
+    setRunning(false)
+    setElapsed(0)
+    setReport(null)
+  }
+
+  const progress = progressFor(sport, speed)
 
   return (
-    <div className="tool-page">
-      <main className="page">
-        <section
-          className={running ? "app" : "app is-paused"}
-          aria-label="跑步速度控制器"
-        >
-          <header className="topbar">
-            <div>
-              <p className="eyebrow">RUN CLUB / 01</p>
-              <h1>今天也要跑起来</h1>
-            </div>
-            <div className="pace-badge">
-              <strong>{speed}</strong>公里 / 小时
-            </div>
-          </header>
-
-          <section className="scene" aria-label="卡通学生跑步动画">
-            <div className="cloud one"></div>
-            <div className="cloud two"></div>
-            <div className="tree-line"></div>
-            <div className="runner">
-              <div className="runner-shadow"></div>
-              <div className="head">
-                <div className="hair"></div>
-                <i className="eye left"></i>
-                <i className="eye right"></i>
-                <i className="smile"></i>
-              </div>
-              <div className="neck"></div>
-              <div className="arm back">
-                <div className="hand"></div>
-              </div>
-              <div className="shirt"></div>
-              <div className="shorts"></div>
-              <div className="arm front">
-                <div className="hand"></div>
-              </div>
-              <div className="leg back">
-                <div className="shoe"></div>
-              </div>
-              <div className="leg front">
-                <div className="shoe"></div>
-              </div>
-            </div>
-            <div className="track"></div>
-          </section>
-
-          <section className="controls">
-            <div className="control-head">
-              <h2>跑步速度</h2>
-              <span className="speed-value">
-                <span>{speed}</span> km/h
-              </span>
-            </div>
-            <input
-              type="range"
-              min={MIN_SPEED}
-              max={MAX_SPEED}
-              value={speed}
-              step="1"
-              aria-label="调整跑步速度"
-              style={{ background: rangeBackground }}
-              onChange={(event) => setSpeed(Number(event.target.value))}
-            />
-            <div className="range-labels">
-              <span>慢跑</span>
-              <span>冲刺</span>
-            </div>
-            <div className="action-row">
-              <button type="button" disabled={running} onClick={start}>
-                开始运动
-              </button>
-              <button
-                className="secondary"
-                type="button"
-                disabled={!running}
-                onClick={finish}
-              >
-                结束运动
-              </button>
-            </div>
-            <p className="timer">
-              运动时间{" "}
-              <strong>
-                <span>{formatTime(elapsed)}</span>
-              </strong>
-            </p>
-            <section
-              className={report ? "report visible" : "report"}
-              aria-live="polite"
+    <main
+      className="sport"
+      style={{ "--cycle": cycleFor(sport, speed) } as CSSProperties}
+    >
+      <header className="sport-bar">
+        <div>
+          <p className="eyebrow">CYBER SPORT / 04</p>
+          <h1>今天动起来</h1>
+        </div>
+        <div className="sport-tabs" role="tablist" aria-label="选择运动项目">
+          {SPORT_IDS.map((id) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={id === sport}
+              className={id === sport ? "on" : ""}
+              onClick={() => pick(id)}
             >
-              <h2>CYBER RUN REPORT // 训练完成</h2>
-              <div className="report-grid">
-                <div className="report-item">
-                  <span>运动时长</span>
-                  <strong>{report ? report.time : "0 分钟"}</strong>
+              {sportDef(id).name}
+            </button>
+          ))}
+        </div>
+      </header>
+
+      <section
+        className={running ? "stage" : "stage is-paused"}
+        data-sport={sport}
+        aria-label={def.name + "动画"}
+      >
+        <div className="backdrop" aria-hidden="true">
+          <i className="sky" />
+          <i className="clouds" />
+          <i className="far" />
+          <i className="near" />
+        </div>
+        <div className="figure-wrap">
+          <SportFigure sport={sport} />
+        </div>
+      </section>
+
+      <section className="panel">
+        <div className="panel-head">
+          <h2>{def.name}强度</h2>
+          <span className="speed-read">
+            <strong>{speed}</strong>
+            {def.unit}
+          </span>
+        </div>
+        <input
+          type="range"
+          min={def.min}
+          max={def.max}
+          step={def.step}
+          value={speed}
+          aria-label={"调整" + def.name + "强度"}
+          style={{
+            background:
+              "linear-gradient(90deg, var(--accent) 0 " +
+              progress +
+              "%, var(--track) " +
+              progress +
+              "% 100%)",
+          }}
+          onChange={(event) => setSpeed(Number(event.target.value))}
+        />
+        <div className="range-labels">
+          <span>{def.labels[0]}</span>
+          <span>{def.labels[1]}</span>
+        </div>
+        <div className="action-row">
+          <button type="button" disabled={running} onClick={start}>
+            开始运动
+          </button>
+          <button
+            className="secondary"
+            type="button"
+            disabled={!running}
+            onClick={finish}
+          >
+            结束运动
+          </button>
+          <p className="timer">
+            <span>计时</span>
+            <strong>{formatTime(elapsed)}</strong>
+          </p>
+        </div>
+      </section>
+
+      {report && (
+        <div className="report-overlay">
+          <section
+            className="report"
+            role="dialog"
+            aria-modal="true"
+            aria-label="运动报告"
+          >
+            <h2>SPORT REPORT // 训练完成</h2>
+            <div className="report-grid">
+              {report.metrics.map((metric) => (
+                <div className="report-item" key={metric.label}>
+                  <span>{metric.label}</span>
+                  <strong>{metric.value}</strong>
                 </div>
-                <div className="report-item">
-                  <span>平均速度</span>
-                  <strong>{report ? report.speed : "0 km/h"}</strong>
-                </div>
-                <div className="report-item">
-                  <span>估算距离</span>
-                  <strong>{report ? report.distance : "0 km"}</strong>
-                </div>
-                <div className="report-item">
-                  <span>卡路里消耗</span>
-                  <strong>{report ? report.calories : "0 kcal"}</strong>
-                </div>
-                <div className="report-item">
-                  <span>平均心率</span>
-                  <strong>{report ? report.heartRate : "0 bpm"}</strong>
-                </div>
-                <div className="report-item">
-                  <span>平均配速</span>
-                  <strong>{report ? report.pace : "0:00 /km"}</strong>
-                </div>
-              </div>
-              <p className="report-note">
-                {report
-                  ? report.note
-                  : "等待下一次任务上传。数据为运动模型估算。"}
-              </p>
-            </section>
+              ))}
+            </div>
+            <p className="report-note">{report.note}</p>
+            <button type="button" onClick={() => setReport(null)}>
+              继续运动
+            </button>
           </section>
-        </section>
-      </main>
-    </div>
+        </div>
+      )}
+    </main>
   )
 }

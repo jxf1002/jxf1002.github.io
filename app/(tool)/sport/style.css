@@ -1,634 +1,637 @@
-:root {
-  --ink: #17324d;
-  --muted: #6b8194;
-  --sky: #dff5f5;
-  --mint: #bfe8d2;
-  --track: #f3c987;
-  --track-line: #fff4d6;
-  --orange: #f07842;
-  --blue: #3678c8;
-  --yellow: #ffd36b;
-  --runner-duration: 0.52s;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-  overflow-x: hidden;
-  background: var(--sky);
-  color: var(--ink);
-  font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
-}
-
-.page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 28px 20px;
-  background:
-    radial-gradient(
-      circle at 18% 18%,
-      rgba(255, 255, 255, 0.9) 0 7%,
-      transparent 7.3%
-    ),
-    radial-gradient(
-      circle at 82% 12%,
-      rgba(255, 255, 255, 0.72) 0 5%,
-      transparent 5.3%
-    ),
-    linear-gradient(180deg, #dff5f5 0 57%, #bfe8d2 57% 100%);
-}
-
-.app {
-  width: min(940px, 100%);
-  overflow: hidden;
-  border: 3px solid var(--ink);
-  border-radius: 28px;
-  background: #fffdf5;
-  box-shadow: 10px 12px 0 rgba(23, 50, 77, 0.16);
-}
-
-.topbar {
+/* 运动页：头 + 舞台 + 面板 刚好一屏；舞台背景与人物动作周期都由 --cycle 驱动 */
+body.tool-page {
+  --accent: #2f7fe0;
+  --accent-soft: #e8f1fd;
+  --track: #dfeaf4;
+  --line: var(--border);
+  --surface-alt: var(--surface-muted);
+  --scene-dim: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 22px 28px 18px;
-  border-bottom: 3px solid var(--ink);
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
-.eyebrow {
-  margin: 0 0 4px;
-  color: var(--orange);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.18em;
+:root.dark body.tool-page {
+  --accent: #5aa4f0;
+  --accent-soft: #1d3a55;
+  --track: #26404e;
+  --scene-dim: 0.58;
+}
+
+/* 压缩共享头尾，把高度让给舞台 */
+body.tool-page > .site-header { min-height: 54px; padding: 0 16px; }
+body.tool-page > .site-header .site-brand { font-size: 19px; }
+body.tool-page .site-footer { margin-top: 0; padding: 10px 16px 12px; font-size: 0.76rem; }
+body.tool-page .site-footer p { margin: 2px 0; }
+
+body.tool-page > main.sport {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  width: min(1100px, 100%);
+  min-height: 0;
+  margin: 0 auto;
+  padding: 10px 16px 12px;
+}
+
+/* 头部：标题 + 运动切换 */
+.sport-bar {
+  display: flex;
+  flex: none;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sport-bar .eyebrow {
+  margin: 0 0 3px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-
-h1 {
-  margin: 0;
-  font-size: clamp(26px, 5vw, 42px);
-  line-height: 1;
+.sport-bar h1 { margin: 0; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.15; }
+.sport-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.sport-tabs button {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.sport-tabs button:hover { color: var(--accent); }
+.sport-tabs button.on {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 14px rgb(47 127 224 / 30%);
 }
 
-.pace-badge {
-  min-width: 116px;
-  padding: 10px 14px;
-  border: 2px solid var(--ink);
-  border-radius: 14px;
-  background: var(--yellow);
-  text-align: center;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.pace-badge strong {
-  display: block;
-  font-size: 25px;
-  line-height: 1;
-}
-
-.scene {
+/* 舞台 */
+.stage {
   position: relative;
-  height: 470px;
+  flex: 1 1 auto;
+  min-height: 230px;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  filter: brightness(var(--scene-dim));
+}
+.backdrop i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation-name: pan;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.figure-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.figure { height: min(94%, 470px); width: auto; aspect-ratio: 1; overflow: visible; }
+
+/* 云：跑步/骑行场景的远景层，慢慢飘 */
+.stage[data-sport="run"] .clouds,
+.stage[data-sport="bike"] .clouds {
+  inset: 0 0 40% 0;
+  --pan: 320px;
+  background-image: radial-gradient(
+      circle at 42px 46%,
+      rgb(255 255 255 / 88%) 0 20px,
+      transparent 21px
+    ),
+    radial-gradient(circle at 76px 52%, rgb(255 255 255 / 88%) 0 15px, transparent 16px);
+  background-size: 320px 150px;
+  background-repeat: repeat-x;
+  animation-duration: calc(var(--cycle) * 16);
+}
+
+/* 跑道：云一样的远景树 + 滚动地面线 */
+.stage[data-sport="run"] .sky {
+  background: linear-gradient(180deg, #cfe7ff 0%, #e6f5f0 62%, #f6efe2 100%);
+}
+.stage[data-sport="run"] .far {
+  inset: auto 0 24% 0;
+  height: 26%;
+  --pan: 58px;
+  background-image: radial-gradient(circle at 29px 100%, #b5dcc3 0 19px, transparent 20px);
+  background-size: 58px 36px;
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  animation-duration: calc(var(--cycle) * 7);
+}
+.stage[data-sport="run"] .near {
+  inset: auto 0 0 0;
+  height: 24%;
+  border-top: 2px solid #ddc9a6;
+  background-color: #eee1ca;
+  background-image: linear-gradient(90deg, #fffaf0 0 34px, transparent 34px 76px);
+  background-size: 76px 7px;
+  background-repeat: repeat-x;
+  background-position: 0 34%;
+  --pan: 76px;
+  animation-duration: calc(var(--cycle) * 2.2);
+}
+
+/* 公路：远山 + 沥青路面中线 */
+.stage[data-sport="bike"] .sky {
+  background: linear-gradient(180deg, #cbe6ff 0%, #eaf4fd 66%, #f3f6f9 100%);
+}
+.stage[data-sport="bike"] .far {
+  inset: auto 0 30% 0;
+  height: 30%;
+  --pan: 150px;
+  background-image: radial-gradient(circle at 70px 100%, #c9dcef 0 46px, transparent 47px);
+  background-size: 150px 74px;
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  animation-duration: calc(var(--cycle) * 6);
+}
+.stage[data-sport="bike"] .near {
+  inset: auto 0 0 0;
+  height: 30%;
+  border-top: 3px solid #a9b3bc;
+  background-color: #b3bcc4;
+  background-image: linear-gradient(90deg, #fdfefe 0 44px, transparent 44px 120px);
+  background-size: 120px 7px;
+  background-repeat: repeat-x;
+  background-position: 0 44%;
+  --pan: 120px;
+  animation-duration: calc(var(--cycle) * 1.1);
+}
+
+/* 泳池：整屏水色 + 水面波纹 + 水底光斑 */
+.stage[data-sport="swim"] .sky {
   background: linear-gradient(
     180deg,
-    #bceeee 0%,
-    #eaf9e9 68%,
-    #d5efcf 100%
+    #c6ecff 0%,
+    #93d3f2 56%,
+    #2f8fc9 63%,
+    #0f4f7a 100%
   );
 }
-
-.cloud {
-  position: absolute;
-  width: 92px;
-  height: 24px;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.82);
-}
-.cloud::before,
-.cloud::after {
-  position: absolute;
-  content: "";
-  border-radius: 50%;
-  background: inherit;
-}
-.cloud::before {
-  width: 38px;
-  height: 38px;
-  left: 18px;
-  bottom: 7px;
-}
-.cloud::after {
-  width: 30px;
-  height: 30px;
-  right: 15px;
-  bottom: 5px;
-}
-.cloud.one {
-  top: 62px;
-  left: 9%;
-}
-.cloud.two {
-  top: 116px;
-  right: 8%;
-  transform: scale(0.72);
-}
-
-.tree-line {
-  position: absolute;
-  right: 0;
-  bottom: 126px;
-  left: 0;
-  height: 112px;
-  background: repeating-linear-gradient(
-    110deg,
-    transparent 0 45px,
-    #73be88 45px 52px,
-    transparent 52px 96px
+.stage[data-sport="swim"] .far {
+  inset: 62% 0 auto 0;
+  height: 10px;
+  --pan: 90px;
+  background-image: radial-gradient(
+    ellipse 18px 5px at 22px 50%,
+    rgb(255 255 255 / 85%) 0 100%,
+    transparent 100%
   );
-  opacity: 0.48;
+  background-size: 90px 10px;
+  background-repeat: repeat-x;
+  animation-duration: calc(var(--cycle) * 2);
+}
+.stage[data-sport="swim"] .near {
+  inset: 64% 0 0 0;
+  --pan: 60px;
+  background-image: repeating-linear-gradient(
+      4deg,
+      rgb(255 255 255 / 9%) 0 3px,
+      transparent 3px 46px
+    ),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 7%) 0 2px, transparent 2px 64px),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 6%) 0 2px, transparent 2px 64px);
+  animation-name: pan-y;
+  animation-duration: calc(var(--cycle) * 3.4);
 }
 
-.track {
-  position: absolute;
-  right: -5%;
-  bottom: -18px;
-  left: -5%;
-  height: 170px;
-  transform: perspective(300px) rotateX(10deg);
-  background: var(--track);
-  border-top: 5px solid var(--ink);
+/* 体育馆：墙面 + 木地板 */
+.stage[data-sport="rope"] .sky {
+  background: linear-gradient(180deg, #f2f6fa 0%, #e4ecf3 62%, #dbe4ec 100%);
 }
-
-.track::before,
-.track::after {
-  position: absolute;
-  content: "";
-  right: -10%;
-  left: -10%;
-  height: 7px;
-  background: repeating-linear-gradient(
+.stage[data-sport="rope"] .far {
+  inset: auto 0 26% 0;
+  height: 5px;
+  --pan: 170px;
+  background-image: linear-gradient(90deg, #c3d0dc 0 74px, transparent 74px 170px);
+  background-size: 170px 5px;
+  background-repeat: repeat-x;
+  animation-duration: calc(var(--cycle) * 5);
+}
+.stage[data-sport="rope"] .near {
+  inset: auto 0 0 0;
+  height: 26%;
+  border-top: 2px solid #cfa877;
+  background-color: #e6c69b;
+  background-image: repeating-linear-gradient(
     90deg,
-    var(--track-line) 0 42px,
-    transparent 42px 82px
+    rgb(255 255 255 / 45%) 0 2px,
+    transparent 2px 46px
   );
-  animation: road var(--runner-duration) linear infinite;
-}
-.track::before {
-  top: 45px;
-}
-.track::after {
-  top: 104px;
-  animation-direction: reverse;
+  --pan: 46px;
+  animation-duration: calc(var(--cycle) * 4);
 }
 
-.runner {
-  position: absolute;
-  z-index: 2;
-  bottom: 96px;
-  left: 50%;
-  width: 136px;
-  height: 270px;
-  transform: translateX(-50%);
+.stage.is-paused .backdrop i,
+.stage.is-paused .figure * { animation-play-state: paused; }
+
+@keyframes pan {
+  to { background-position-x: calc(var(--pan) * -1); }
+}
+@keyframes pan-y {
+  to { background-position-y: calc(var(--pan) * -1); }
 }
 
-.runner-shadow {
-  position: absolute;
-  right: 5px;
-  bottom: -3px;
-  left: 7px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(23, 50, 77, 0.2);
-  animation: shadow var(--runner-duration) ease-in-out infinite;
+/* ===== 人物：关节旋转（transform-origin 由 JSX 内联） ===== */
+.figure * { transform-box: view-box; }
+.figure .limb {
+  fill: none;
+  stroke: #f2c09b;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.figure .limb.far { stroke: #d8a37c; }
+.figure .limb.arm { stroke-width: 8; }
+.figure .skin { fill: #f6c9a4; }
+.figure .shirt { fill: #3b82f6; }
+.figure .shorts { fill: #24405f; }
+.figure .hair { fill: #2f3a4d; }
+.figure .eye { fill: #22303f; }
+.figure .mouth {
+  fill: none;
+  stroke: #22303f;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.figure .shadow { fill: #1b3a5a; opacity: 0.16; }
+.figure .neck { fill: #f2c09b; }
+.figure .shoe { fill: #f8fafc; }
+.figure .shoe.far { fill: #dae3ec; }
+.figure .hand { fill: #f6c9a4; }
+
+/* 跑步 */
+.figure.run .body { animation: run-bob calc(var(--cycle) * 0.5) ease-in-out infinite; }
+.figure.run .thigh { animation: run-thigh var(--cycle) ease-in-out infinite; }
+.figure.run .arm-swing { animation: run-arm var(--cycle) ease-in-out infinite; }
+.figure.run .shin,
+.figure.run .fore {
+  animation-duration: var(--cycle);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-delay: inherit;
+}
+.figure.run .shin { animation-name: run-knee; }
+.figure.run .fore { animation-name: run-elbow; }
+/* 脚踝另外反向补偿一点，脚掌不会跟着小腿整圈甩 */
+.figure.run .shoe {
+  animation-name: run-foot;
+  animation-duration: var(--cycle);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-delay: inherit;
+  transform-origin: 102px 194px;
 }
 
-.head {
-  position: absolute;
-  z-index: 4;
-  top: 4px;
-  left: 39px;
-  width: 76px;
-  height: 78px;
-  border: 3px solid var(--ink);
-  border-radius: 46% 48% 45% 48%;
-  background: #f4b27d;
-  transform-origin: 50% 100%;
-  animation: bob var(--runner-duration) ease-in-out infinite;
+@keyframes run-foot {
+  0% { transform: rotate(-22deg); }
+  18% { transform: rotate(-1deg); }
+  36% { transform: rotate(-4deg); }
+  52% { transform: rotate(8deg); }
+  70% { transform: rotate(-22deg); }
+  86% { transform: rotate(-30deg); }
+  100% { transform: rotate(-22deg); }
 }
 
-.hair {
-  position: absolute;
-  top: -12px;
-  left: -2px;
-  width: 73px;
-  height: 34px;
-  border: 3px solid var(--ink);
-  border-bottom: 0;
-  border-radius: 48% 55% 20% 20%;
-  background: #273c53;
-  transform: rotate(-5deg);
+@keyframes run-thigh {
+  0% { transform: rotate(-30deg); }
+  18% { transform: rotate(-6deg); }
+  36% { transform: rotate(18deg); }
+  52% { transform: rotate(32deg); }
+  70% { transform: rotate(4deg); }
+  86% { transform: rotate(-26deg); }
+  100% { transform: rotate(-30deg); }
 }
-.hair::after {
-  position: absolute;
-  top: 17px;
-  left: 3px;
-  width: 20px;
-  height: 18px;
-  border-radius: 50%;
-  background: #273c53;
-  content: "";
+@keyframes run-knee {
+  0% { transform: rotate(62deg); }
+  18% { transform: rotate(12deg); }
+  36% { transform: rotate(6deg); }
+  52% { transform: rotate(16deg); }
+  70% { transform: rotate(88deg); }
+  86% { transform: rotate(95deg); }
+  100% { transform: rotate(62deg); }
 }
-.eye {
-  position: absolute;
-  top: 36px;
-  width: 7px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--ink);
+@keyframes run-arm {
+  0% { transform: rotate(34deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(-40deg); }
+  75% { transform: rotate(-8deg); }
+  100% { transform: rotate(34deg); }
 }
-.eye.left {
-  left: 20px;
+@keyframes run-elbow {
+  0% { transform: rotate(-70deg); }
+  50% { transform: rotate(-100deg); }
+  100% { transform: rotate(-70deg); }
 }
-.eye.right {
-  right: 18px;
-}
-.smile {
-  position: absolute;
-  right: 17px;
-  bottom: 16px;
-  width: 19px;
-  height: 9px;
-  border-bottom: 3px solid var(--ink);
-  border-radius: 50%;
+@keyframes run-bob {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-5px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-5px); }
 }
 
-.neck {
-  position: absolute;
-  z-index: 3;
-  top: 72px;
-  left: 60px;
-  width: 29px;
-  height: 26px;
-  border: 3px solid var(--ink);
-  border-top: 0;
-  background: #efa876;
+/* 骑行：曲柄匀速转，双腿按曲柄角度反推的角度线性跟随 */
+.figure.bike .wheel circle {
+  fill: none;
+  stroke: #26333f;
+  stroke-width: 4;
 }
-.shirt {
-  position: absolute;
-  z-index: 2;
-  top: 82px;
-  left: 28px;
-  width: 92px;
-  height: 108px;
-  border: 3px solid var(--ink);
-  border-radius: 28px 28px 20px 20px;
-  background: var(--blue);
-  transform: rotate(3deg);
+.figure.bike .wheel .rim { stroke: #cdd7e0; stroke-width: 2; }
+.figure.bike .wheel .hub { fill: #26333f; stroke: none; }
+.figure.bike .frame path {
+  fill: none;
+  stroke: #ef6f4f;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.shirt::after {
-  position: absolute;
-  top: 13px;
-  left: 39px;
-  width: 16px;
-  height: 70px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.18);
-  content: "";
+.figure.bike .frame .saddle { fill: #26333f; stroke-width: 2; }
+.figure.bike .crank path {
+  fill: none;
+  stroke: #4b5763;
+  stroke-width: 4;
+  stroke-linecap: round;
 }
-.shorts {
-  position: absolute;
-  z-index: 3;
-  top: 174px;
-  left: 29px;
-  width: 88px;
-  height: 48px;
-  border: 3px solid var(--ink);
-  border-radius: 8px 8px 18px 18px;
-  background: #263f68;
+.figure.bike .crank rect { fill: #26333f; }
+.figure.bike .helmet { fill: #f97316; }
+.figure.bike .crank {
+  animation: spin var(--cycle) linear infinite;
+  transform-origin: 102px 164px;
+}
+.figure.bike .thigh { animation: bike-thigh var(--cycle) linear infinite; }
+.figure.bike .shin {
+  animation: bike-knee var(--cycle) linear infinite;
+  animation-delay: inherit;
 }
 
-.arm,
-.leg {
-  position: absolute;
-  z-index: 1;
-  transform-origin: 50% 12px;
+@keyframes bike-thigh {
+  0% { transform: rotate(-58.6deg); }
+  12.5% { transform: rotate(-43deg); }
+  25% { transform: rotate(-38.9deg); }
+  37.5% { transform: rotate(-46.1deg); }
+  50% { transform: rotate(-56.8deg); }
+  62.5% { transform: rotate(-68.6deg); }
+  75% { transform: rotate(-75.5deg); }
+  87.5% { transform: rotate(-71.7deg); }
+  100% { transform: rotate(-58.6deg); }
 }
-.arm {
-  top: 94px;
-  left: 22px;
+@keyframes bike-knee {
+  0% { transform: rotate(47.1deg); }
+  12.5% { transform: rotate(26deg); }
+  25% { transform: rotate(29.6deg); }
+  37.5% { transform: rotate(52.4deg); }
+  50% { transform: rotate(74.2deg); }
+  62.5% { transform: rotate(86.9deg); }
+  75% { transform: rotate(85.3deg); }
+  87.5% { transform: rotate(70deg); }
+  100% { transform: rotate(47.1deg); }
+}
+
+/* 游泳：风车划水 + 打腿 */
+.figure.swim .trunks { fill: #1f4f8f; }
+.figure.swim .cap { fill: #22b8cf; }
+.figure.swim .goggle { fill: #22303f; }
+.figure.swim .neck-line {
+  fill: none;
+  stroke: #f2c09b;
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+.figure.swim .water-glass { fill: #1a72b4; opacity: 0.55; }
+.figure.swim .arm-swing { animation: spin var(--cycle) linear infinite; }
+.figure.swim .sw-leg {
+  animation: flutter calc(var(--cycle) / 2) ease-in-out infinite;
+}
+.figure.swim .head { animation: breathe var(--cycle) ease-in-out infinite; }
+
+@keyframes flutter {
+  0%, 100% { transform: rotate(-9deg); }
+  50% { transform: rotate(9deg); }
+}
+@keyframes breathe {
+  0%, 100% { transform: translateY(1px); }
+  50% { transform: translateY(-3px); }
+}
+
+/* 跳绳：整体起跳 + 绳子整圈 */
+.figure.rope .rope-arc {
+  animation: spin var(--cycle) linear infinite;
+  transform-origin: 110px 122px;
+}
+.figure.rope .rope-arc path {
+  fill: none;
+  stroke: #36618d;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+.figure.rope .handle {
+  fill: none;
+  stroke: #37506b;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.figure.rope .body { animation: jump var(--cycle) ease-in-out infinite; }
+.figure.rope .shadow {
+  transform-origin: 110px 202px;
+  animation: jump-shadow var(--cycle) ease-in-out infinite;
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(-12px); }
+  30% { transform: translateY(0); }
+  70% { transform: translateY(0); }
+}
+@keyframes jump-shadow {
+  0%, 100% { opacity: 0.1; transform: scale(0.8); }
+  30%, 70% { opacity: 0.18; transform: scale(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== 控制面板 ===== */
+.panel {
+  flex: none;
+  padding: 14px 18px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(20 50 80 / 6%);
+}
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.panel-head h2 { margin: 0; font-size: 15px; font-weight: 800; }
+.speed-read { color: var(--muted); font-size: 12px; }
+.speed-read strong {
+  margin-right: 4px;
+  color: var(--accent);
+  font-size: 24px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.panel input[type="range"] {
+  width: 100%;
+  height: 10px;
+  margin: 0;
+  appearance: none;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+.panel input[type="range"]::-webkit-slider-thumb {
   width: 22px;
-  height: 108px;
-  border: 3px solid var(--ink);
-  border-radius: 15px;
-  background: #f1ad79;
-}
-.arm.back {
-  z-index: 0;
-  left: 93px;
-  height: 100px;
-  animation: arm-back var(--runner-duration) ease-in-out infinite;
-}
-.arm.front {
-  animation: arm-front var(--runner-duration) ease-in-out infinite;
-}
-.hand {
-  position: absolute;
-  bottom: -14px;
-  left: -3px;
-  width: 24px;
-  height: 25px;
-  border: 3px solid var(--ink);
+  height: 22px;
+  appearance: none;
+  border: 3px solid var(--accent);
   border-radius: 50%;
-  background: #f1ad79;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(47 127 224 / 40%);
 }
-.leg {
-  top: 208px;
-  left: 44px;
-  width: 25px;
-  height: 94px;
-  border: 3px solid var(--ink);
-  border-radius: 16px;
-  background: #f1ad79;
+.panel input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  background: #fff;
 }
-.leg.back {
-  left: 75px;
-  animation: leg-back var(--runner-duration) ease-in-out infinite;
-}
-.leg.front {
-  animation: leg-front var(--runner-duration) ease-in-out infinite;
-}
-.shoe {
-  position: absolute;
-  bottom: -12px;
-  left: -14px;
-  width: 58px;
-  height: 24px;
-  border: 3px solid var(--ink);
-  border-radius: 22px 24px 12px 8px;
-  background: #f5f0e5;
-}
-.shoe::after {
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-  width: 52px;
-  height: 6px;
-  border-radius: 5px;
-  background: var(--orange);
-  content: "";
-}
-
-.controls {
-  padding: 22px 28px 26px;
-  background: #fffdf5;
+.panel input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .action-row {
   display: flex;
+  align-items: center;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 .action-row button {
-  flex: 1;
-  padding: 12px 16px;
-  border: 3px solid var(--ink);
+  padding: 11px 22px;
+  border: 0;
   border-radius: 12px;
-  background: var(--blue);
+  background: var(--accent);
   color: #fff;
   font: inherit;
-  font-weight: 900;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.15s, opacity 0.15s;
 }
-.action-row button:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-.action-row button:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--ink);
-}
-.action-row button.secondary {
-  background: var(--orange);
-}
-.action-row button:disabled {
-  cursor: not-allowed;
-  opacity: 0.42;
-}
+.action-row button.secondary { background: var(--accent-soft); color: var(--accent); }
+.action-row button:hover:not(:disabled) { transform: translateY(-1px); }
+.action-row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.action-row button:disabled { cursor: not-allowed; opacity: 0.45; }
 .timer {
-  margin: 16px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 0 auto;
   color: var(--muted);
-  text-align: center;
-  font-size: 13px;
+  font-size: 12px;
 }
 .timer strong {
-  color: var(--ink);
-  font-size: 18px;
+  color: var(--text);
+  font-size: 19px;
   font-variant-numeric: tabular-nums;
 }
-.report {
-  display: none;
-  margin-top: 20px;
-  padding: 18px;
-  border: 3px solid var(--ink);
-  border-radius: 16px;
-  background: #162f49;
-  color: #eafffa;
-  box-shadow: 5px 5px 0 var(--orange);
+
+/* ===== 报告：覆盖层，不顶开一屏布局 ===== */
+.report-overlay {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(8 28 48 / 55%);
+  backdrop-filter: blur(4px);
+  animation: fade-in 0.2s ease-out;
 }
-.report.visible {
-  display: block;
-  animation: report-in 0.35s ease-out both;
+.report {
+  width: min(560px, 100%);
+  padding: 20px 22px 22px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgb(6 24 44 / 35%);
+  animation: pop-in 0.24s ease-out;
 }
 .report h2 {
-  margin: 0 0 12px;
-  color: var(--yellow);
-  font-size: 18px;
-  letter-spacing: 0.08em;
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.1em;
 }
 .report-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-.report-item {
-  padding: 10px;
-  border: 1px solid rgba(234, 255, 250, 0.3);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
-}
-.report-item span {
-  display: block;
-  color: #9dc3c5;
-  font-size: 12px;
-}
-.report-item strong {
-  display: block;
-  margin-top: 3px;
-  color: #fff;
-  font-size: 21px;
-}
-.report-note {
-  margin: 14px 0 0;
-  color: #b8dbd4;
-  font-size: 13px;
-}
-.is-paused .runner *,
-.is-paused .track::before,
-.is-paused .track::after {
-  animation-play-state: paused;
-}
-@keyframes report-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.control-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 10px;
-}
-.control-head h2 {
-  margin: 0;
-  font-size: 18px;
-}
-.control-head span {
-  color: var(--muted);
-  font-size: 13px;
-}
-.speed-value {
-  color: var(--orange) !important;
-  font-size: 20px !important;
-  font-weight: 900;
-}
-input[type="range"] {
+.report-item { padding: 10px 12px; border-radius: 12px; background: var(--surface-alt); }
+.report-item span { display: block; color: var(--muted); font-size: 12px; }
+.report-item strong { display: block; margin-top: 2px; font-size: 19px; }
+.report-note { margin: 14px 0 16px; color: var(--muted); font-size: 13px; }
+.report button {
   width: 100%;
-  height: 12px;
-  margin: 0;
-  appearance: none;
-  border-radius: 10px;
-  outline: none;
-  background: linear-gradient(90deg, var(--blue) 0 42%, #dbe6e7 42% 100%);
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
   cursor: pointer;
 }
-input[type="range"]::-webkit-slider-thumb {
-  width: 28px;
-  height: 28px;
-  appearance: none;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--yellow);
-  box-shadow: 2px 2px 0 var(--ink);
+.report button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@keyframes fade-in {
+  from { opacity: 0; }
 }
-input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--yellow);
-  box-shadow: 2px 2px 0 var(--ink);
-}
-.range-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 12px;
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
 }
 
-@keyframes road {
-  to {
-    transform: translateX(-82px);
-  }
-}
-@keyframes shadow {
-  50% {
-    transform: scaleX(0.78);
-    opacity: 0.55;
-  }
-}
-@keyframes bob {
-  50% {
-    transform: translateY(-7px) rotate(3deg);
-  }
-}
-@keyframes arm-front {
-  0%,
-  100% {
-    transform: rotate(38deg);
-  }
-  50% {
-    transform: rotate(-42deg);
-  }
-}
-@keyframes arm-back {
-  0%,
-  100% {
-    transform: rotate(-42deg);
-  }
-  50% {
-    transform: rotate(38deg);
-  }
-}
-@keyframes leg-front {
-  0%,
-  100% {
-    transform: rotate(35deg);
-  }
-  50% {
-    transform: rotate(-43deg);
-  }
-}
-@keyframes leg-back {
-  0%,
-  100% {
-    transform: rotate(-43deg);
-  }
-  50% {
-    transform: rotate(35deg);
-  }
+@media (max-width: 720px) {
+  .sport-bar { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .sport-tabs { align-self: stretch; justify-content: space-between; }
+  .sport-tabs button { flex: 1; padding: 7px 8px; }
+  .stage { min-height: 200px; }
+  .report-grid { grid-template-columns: repeat(2, 1fr); }
+  .action-row { flex-wrap: wrap; }
+  .timer { width: 100%; margin: 4px 0 0; justify-content: flex-end; }
 }
 
-@media (max-width: 560px) {
-  .page {
-    padding: 0;
-  }
-  .app {
-    min-height: 100vh;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  .topbar,
-  .controls {
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-  .scene {
-    height: 430px;
-  }
-  .runner {
-    transform: translateX(-50%) scale(0.88);
-    transform-origin: bottom center;
-  }
-  .report-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .report-item strong {
-    font-size: 17px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  /* 暂停而不是取消：0% 帧就是各运动的正确姿态 */
+  .backdrop i,
+  .figure * { animation-play-state: paused; }
 }

@@ -57,7 +57,7 @@ const ROUTES: Array<[string, string, string, boolean]> = [
   ],
   [
     "sport/index.html",
-    "奔跑练习｜在线跑步速度工具",
+    "运动练习｜跑步·骑行·游泳·跳绳",
     "https://www.justful.cn/sport/",
     true,
   ],

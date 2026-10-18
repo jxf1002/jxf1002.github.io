@@ -137,16 +137,20 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   sport: {
     path: "/sport/",
-    title: "奔跑练习｜在线跑步速度工具",
-    description: "调整跑步速度并生成赛博风格跑步报告的在线运动小工具。",
-    ogTitle: "奔跑练习｜在线跑步速度工具",
-    ogDescription: "调整跑步速度并生成赛博风格跑步报告的在线运动小工具。",
+    title: "运动练习｜跑步·骑行·游泳·跳绳",
+    description:
+      "调整跑步、骑行、游泳、跳绳的运动强度，实时估算距离、配速、卡路里和心率的在线小工具。",
+    keywords: "运动,跑步,骑行,游泳,跳绳,卡路里计算,配速",
+    ogTitle: "运动练习｜跑步·骑行·游泳·跳绳",
+    ogDescription:
+      "四种运动的强度调节与实时动画，运动结束生成距离、配速、卡路里、心率报告。",
     twitterCard: "summary",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "奔跑练习",
-      description: "调整跑步速度并生成跑步报告的在线运动小工具。",
+      name: "运动练习",
+      description:
+        "跑步、骑行、游泳、跳绳四种运动的强度调节与运动报告在线小工具。",
       url: "https://www.justful.cn/sport/",
       applicationCategory: "健康与健身应用",
       operatingSystem: "Web Browser",
