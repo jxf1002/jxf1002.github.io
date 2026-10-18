@@ -604,14 +604,3 @@ export function FxLayer({ type, seed }: { type: string; seed: number }) {
   )
 }
 
-export function RotateTip() {
-  return (
-    <div className="rotate-tip" id="rotate-tip" aria-hidden="true">
-      <div className="rotate-card">
-        <div className="rotate-icon">🔄</div>
-        <p>请横屏游玩</p>
-        <span>将手机横过来，获得完整牌桌视野</span>
-      </div>
-    </div>
-  )
-}

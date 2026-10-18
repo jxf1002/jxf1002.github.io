@@ -207,6 +207,10 @@ h1 { font-size: 22px; letter-spacing: 6px; color: var(--gold); font-weight: 700;
 .wall-top { display: none; color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
 .wall { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; max-width: 220px; min-height: 34px; }
 .wt { width: 16px; height: 22px; border-radius: 3px; background: var(--tile-back); border: 1px solid #123524; }
+/* 风盘：只有横屏牌桌里显示（见 body.playing.land） */
+.compass { display: none; }
+/* 顶栏图标：图标只在横屏牌桌里顶替文字 */
+.log-btn .ic { display: none; }
 
 /* 可响应时的中央放大提示 */
 .claim-reminder {
@@ -638,132 +642,184 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
   body.tool-page.playing .site-header { display: none; }
 }
 
-/* ===== 移动端游玩态竖屏强制横屏（备用，伪横屏启用后不再使用，仅保留元素隐藏） ===== */
-.rotate-tip { display: none; }
 
-/* ===== 移动端横屏游玩一屏放下：横屏 + 矮视口 + 游玩态，大厅/正常桌面窗口不动 ===== */
-/* 不限定 pointer:coarse：桌面端把窗口压到 ≤500px 高同样需要缩小，否则桌面大尺寸双向溢出 */
-/* 伪横屏（竖屏+触屏）旋转后可用高度 = 竖屏宽度，故用 max-width 镜像同一套压缩规则 */
-@media (orientation: landscape) and (max-height: 500px),
-       (orientation: portrait) and (pointer: coarse) and (max-width: 500px) {
-  body.playing { padding: 3px 6px 0; }
-  body.playing .topbar { margin-bottom: 2px; gap: 6px; }
-  body.playing h1 { font-size: 14px; letter-spacing: 2px; }
-  body.playing .gi { font-size: 10px; gap: 6px; }
-  body.playing .log-btn { padding: 2px 8px; font-size: 10px; }
-  body.playing .table {
-    grid-template-columns: 56px minmax(0, 1fr) 56px;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    gap: 3px; padding: 5px; border-width: 3px; border-radius: 12px;
-    min-height: 0;
-  }
-  body.playing .seat { padding: 3px; border-radius: 6px; }
-  body.playing .seat-head { margin-bottom: 2px; gap: 3px; }
-  body.playing .pn { font-size: 10px; }
-  body.playing .head-score { font-size: 11px; }
-  body.playing .pr { font-size: 8px; min-height: 8px; }
-  body.playing .dealer-die { font-size: 11px; }
-  body.playing .ti { font-size: 8px; padding: 0 4px; }
-  body.playing .seat-left .seat-body, body.playing .seat-right .seat-body { gap: 4px; }
-  body.playing .seat-left .pm, body.playing .seat-right .pm { gap: 4px; }
+/* ================= 横屏牌桌（仅游玩态） ================= */
+/* 版式只认 body.playing.land：JS 按用户选择或矮横屏视口加，整页旋转只加 .rot，
+   所以真横屏和 iOS 伪横屏共用这一份，不再用 @media (orientation:…) 镜像两遍。
+   尺寸三档：默认 md（画布高 ≤500）、.land-sm（≤360）、.land-lg（>500，平板）。 */
+body.playing.land { padding: 0; }
+body.playing.land .gc { padding: 0; max-width: none; }
 
-  body.playing .seat-bottom .tile { width: 30px; height: 42px; font-size: 13px; border-radius: 4px; }
-  body.playing .seat-bottom .seat-body { gap: 6px; row-gap: 3px; }
-  body.playing .seat-top .ph .tile { width: 20px; height: 27px; }
-  body.playing .seat-top .pm .tile { width: 18px; height: 25px; font-size: 8px; }
-  body.playing .seat-left .tile, body.playing .seat-right .tile { width: 17px; height: 23px; margin: -5px 0; }
-  body.playing .seat-left .pm .tile, body.playing .seat-right .pm .tile { width: 16px; height: 22px; font-size: 8px; }
-
-  body.playing .ext { min-height: 22px; }
-  body.playing .hints { min-height: 16px; }
-  body.playing .hint { font-size: 9px; padding: 1px 6px; }
-
-  body.playing .center { min-height: 0; padding: 2px; gap: 2px; }
-  body.playing .center-mid { gap: 4px; }
-  body.playing .disc-row { min-height: 22px; }
-  body.playing .disc { gap: 2px; }
-  body.playing .disc .tile, body.playing .disc-col .tile { width: 19px; height: 26px; border-radius: 3px; }
-  body.playing .disc-col { width: 126px; max-height: 82px; }
-  body.playing .wall-count { font-size: 10px; }
-  body.playing .wall { max-width: 120px; min-height: 18px; gap: 1px; }
-  body.playing .wt { width: 11px; height: 15px; }
-
-  body.playing .ab { min-width: 56px; padding: 6px 10px; }
-  body.playing .ab-main { font-size: 16px; }
-  body.playing .ab-sub .tile { width: 16px; height: 22px; }
-  body.playing .ab.hu { width: 72px; height: 72px; min-width: 72px; }
-  body.playing .ab.hu .ab-main { font-size: 26px; }
-  body.playing .ab.ting { width: 60px; height: 60px; min-width: 60px; }
-
-  body.playing .dora-banner { top: 8px; padding: 4px 10px 4px 8px; gap: 6px; }
-  body.playing .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
-  body.playing .dora-banner .dora-tile .face-img { width: 28px; height: 38px; }
-  /* 待响应大牌上移：错开下方吃碰杠按钮区，避免盖住按钮 */
-  body.playing .claim-reminder { top: 17%; }
-
-  /* 结算卡压缩到一屏 */
-  #mo .mdl { padding: 12px 20px; }
-  #mo .mdl h2 { font-size: 16px; margin-bottom: 6px; }
-  #mo .mdl h2 .tile { width: 18px; height: 24px; }
-  #mo .mdl button { padding: 8px 26px; font-size: 14px; }
-  .m-hand { margin: 2px 0 8px; }
-  .m-hand .tile { width: 28px; height: 38px; }
-  .m-hand .tile.wb-win { margin-left: 10px; }
-  .m-sep { min-height: 38px; margin: 0 4px; }
-  .m-breakdown { margin-bottom: 12px; }
-  .m-breakdown .bd-head, .m-breakdown .bd-row { padding: 4px 8px; font-size: 12px; }
+/* 顶栏收成右上角一排图标，不再占一整行 */
+body.playing.land .topbar {
+  position: absolute; top: 2px; right: 4px; z-index: 20;
+  margin: 0; gap: 4px; align-items: center;
+}
+body.playing.land .topbar-left h1 { display: none; }
+body.playing.land .gi { gap: 4px; font-size: 11px; overflow: visible; }
+body.playing.land .log-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 3px 7px; font-size: 15px; line-height: 1.2;
+}
+body.playing.land .log-btn .ic { display: inline; }
+body.playing.land .log-btn .lbl { display: none; }
+body.playing.land .wall-top {
+  font-size: 11px; padding: 3px 9px;
+  background: rgba(6,20,14,.55); border-radius: 999px;
 }
 
-/* ===== 超矮视口（浏览器顶栏占用后约 320~360px）：再缩一档，游玩态才生效 ===== */
-@media (orientation: landscape) and (max-height: 360px),
-       (orientation: portrait) and (pointer: coarse) and (max-width: 360px) {
-  body.playing { padding: 2px 4px 0; }
-  body.playing .topbar { margin-bottom: 1px; }
-  body.playing h1 { font-size: 12px; }
-  body.playing .table {
-    grid-template-columns: 48px minmax(0, 1fr) 48px;
-    gap: 2px; padding: 4px; border-width: 3px; border-radius: 10px;
-  }
-  body.playing .seat-bottom .tile { width: 26px; height: 36px; font-size: 12px; }
-  body.playing .seat-top .ph .tile { width: 18px; height: 24px; }
-  body.playing .seat-top .pm .tile { width: 16px; height: 22px; }
-  body.playing .seat-left .tile, body.playing .seat-right .tile { width: 15px; height: 21px; margin: -6px 0; }
-  body.playing .seat-left .pm .tile, body.playing .seat-right .pm .tile { width: 14px; height: 20px; }
-  body.playing .ext { min-height: 18px; }
-  body.playing .hints { min-height: 14px; }
-  body.playing .disc-row { min-height: 20px; }
-  body.playing .disc .tile, body.playing .disc-col .tile { width: 17px; height: 23px; }
-  body.playing .disc-col { width: 132px; max-height: 78px; }
-  body.playing .wall { max-width: 100px; }
-  body.playing .wt { width: 10px; height: 13px; }
-  body.playing .ab { min-width: 50px; padding: 5px 8px; }
-  body.playing .ab-main { font-size: 14px; }
-  body.playing .ab-sub .tile { width: 14px; height: 19px; }
-  body.playing .ab.hu { width: 64px; height: 64px; min-width: 64px; }
-  body.playing .ab.hu .ab-main { font-size: 24px; }
-  body.playing .ab.ting { width: 54px; height: 54px; min-width: 54px; }
-  /* 待响应大牌上移：错开下方吃碰杠按钮区，避免盖住按钮 */
-  body.playing .claim-reminder { top: 13%; }
+/* 桌布铺满，四家不再是有底色的卡片 */
+body.playing.land .table {
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 3px; padding: 3px; min-height: 0;
+  border: none; border-radius: 0;
+  background: radial-gradient(120% 110% at 50% 45%, #1a8a5d 0%, var(--felt) 45%, #0b2016 100%);
 }
+body.playing.land .seat { padding: 0; border: none; border-radius: 0; background: none; }
+body.playing.land .seat.active, body.playing.land .seat.ting { outline: none; }
+body.playing.land .seat-head {
+  width: max-content; max-width: 100%; margin: 0 auto 1px; padding: 0 8px;
+  gap: 4px; background: rgba(6,20,14,.55); border-radius: 999px;
+}
+body.playing.land .seat.active .seat-head { box-shadow: 0 0 0 1px var(--gold); }
+body.playing.land .seat.ting .seat-head { box-shadow: 0 0 0 1px #ff5a5a; }
+body.playing.land .pn { font-size: 10px; }
+body.playing.land .head-score { font-size: 11px; }
+body.playing.land .dealer-die { font-size: 11px; }
+body.playing.land .pr { min-height: 0; font-size: 9px; }
+body.playing.land .ti { font-size: 8px; padding: 0 4px; }
+body.playing.land .seat-left .seat-head,
+body.playing.land .seat-right .seat-head { flex-direction: column; gap: 0; line-height: 1.15; }
 
-/* ===== 移动端横屏：中央只留弃牌并放大，剩余量移到顶部 ===== */
-@media (orientation: landscape) and (max-height: 500px) {
-  body.playing .wall-top { display: inline-block; }
-  body.playing .wall,
-  body.playing .wall-wrap,
-  body.playing .wall-count { display: none; }
-  body.playing .center-mid { gap: 10px; }
-  body.playing .disc .tile,
-  body.playing .disc-col .tile { width: 26px; height: 35px; border-radius: 4px; }
-  body.playing .disc-col { width: 210px; max-height: 150px; }
-  body.playing .disc-row { min-height: 39px; }
+/* 三家贴边：一排牌背（左右家转 90° 叠放），副露同排 */
+body.playing.land .seat-top .seat-body { gap: 8px; }
+body.playing.land .seat-top .ph .tile { width: 22px; height: 30px; border-radius: 4px; }
+body.playing.land .seat-top .pm .tile { width: 18px; height: 25px; font-size: 9px; }
+body.playing.land .seat-left .seat-body,
+body.playing.land .seat-right .seat-body { gap: 6px; }
+body.playing.land .seat-left .pm, body.playing.land .seat-right .pm { gap: 6px; }
+body.playing.land .seat-left .tile, body.playing.land .seat-right .tile {
+  width: 20px; height: 28px; margin: -7px 0; border-radius: 4px;
 }
-@media (orientation: landscape) and (max-height: 360px) {
-  body.playing .disc .tile,
-  body.playing .disc-col .tile { width: 22px; height: 30px; }
-  body.playing .disc-col { width: 168px; max-height: 96px; }
-  body.playing .disc-row { min-height: 34px; }
+body.playing.land .seat-left .pm .tile,
+body.playing.land .seat-right .pm .tile { width: 18px; height: 25px; font-size: 9px; }
+
+/* 自家：手牌贴底，副露挪到右手边，摸牌位留空 */
+body.playing.land .seat-bottom .seat-body {
+  flex-direction: row-reverse; flex-wrap: wrap; justify-content: center; gap: 6px; row-gap: 3px;
 }
+body.playing.land .seat-bottom .tile { width: 44px; height: 59px; font-size: 17px; border-radius: 6px; }
+body.playing.land .seat-bottom .pm .tile { width: 30px; height: 40px; font-size: 12px; }
+body.playing.land .seat-bottom .pm:not(:empty) {
+  padding-left: 8px; border-left: 1px solid rgba(232,193,90,.35);
+}
+body.playing.land .tile.hand-spacer { display: inline-flex; visibility: hidden; pointer-events: none; }
+
+/* 中央：四方牌河 + 风盘 */
+body.playing.land .center { min-height: 0; padding: 0; gap: 3px; }
+body.playing.land .center-mid { gap: 8px; }
+body.playing.land .wall,
+body.playing.land .wall-wrap,
+body.playing.land .wall-count { display: none; }
+body.playing.land .wall-top { display: inline-block; }
+body.playing.land .disc { gap: 2px; }
+body.playing.land .disc .tile, body.playing.land .disc-col .tile { width: 24px; height: 32px; border-radius: 4px; }
+body.playing.land .disc-row { min-height: 34px; }
+body.playing.land .disc-col { width: 116px; max-height: 140px; }
+body.playing.land .claim-reminder { top: 26%; }
+body.playing.land .claim-reminder .tile.big { width: 64px; height: 86px; }
+/* 可响应的大牌压在中央，先把风盘让开 */
+body.playing.land .center:has(.claim-reminder.show) .compass { opacity: 0; }
+body.playing.land .fen-label { top: 26%; font-size: 18px; letter-spacing: 4px; }
+
+/* 宝牌横幅挪到左上角，不占中央 */
+body.playing.land .dora-banner {
+  position: fixed; top: 2px; left: 4px; transform: none;
+  padding: 3px 8px 3px 6px; gap: 8px;
+}
+body.playing.land .dora-banner .dora-label { font-size: 11px; letter-spacing: 1px; }
+body.playing.land .dora-banner .dora-tile .face-img { width: 26px; height: 35px; }
+
+/* 操作按钮：手牌上方居中（吃碰杠胡与过），提示同列 */
+body.playing.land .ext {
+  left: 50%; right: auto; bottom: calc(100% + 3px); transform: translateX(-50%);
+  align-items: center; max-width: 96%; gap: 4px;
+}
+body.playing.land .ext .pa { justify-content: center; gap: 6px; min-height: 0; }
+body.playing.land .hints { align-items: center; min-height: 14px; }
+body.playing.land .hint { font-size: 9px; padding: 1px 6px; }
+body.playing.land .ab { min-width: 52px; }
+body.playing.land .ab-sub .tile { width: 18px; height: 24px; }
+body.playing.land .ab.hu { width: 66px; height: 66px; min-width: 66px; }
+body.playing.land .ab.ting { width: 56px; height: 56px; min-width: 56px; }
+
+/* 风盘：四风对应屏幕四边（上=西 右=南 下=东 左=北），当前出牌者高亮、庄家加圈 */
+body.playing.land .compass {
+  display: grid; flex: none;
+  grid-template-columns: repeat(3, 26px); grid-template-rows: repeat(3, 26px);
+  grid-template-areas: ". n ." "w c e" ". s .";
+  gap: 2px; padding: 4px;
+  background: rgba(6,20,14,.55); border: 1px solid var(--panel-border); border-radius: 12px;
+}
+body.playing.land .compass span {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: var(--mj-muted); border-radius: 6px;
+}
+body.playing.land .cw-top { grid-area: n; }
+body.playing.land .cw-right { grid-area: e; }
+body.playing.land .cw-bottom { grid-area: s; }
+body.playing.land .cw-left { grid-area: w; }
+body.playing.land .compass .on { background: var(--gold); color: #1b2b22; }
+body.playing.land .compass .d { box-shadow: inset 0 0 0 1px var(--gold); }
+
+/* 结算卡压到一屏 */
+body.playing.land .mo .mdl { padding: 10px 16px; width: min(720px, 88%); }
+body.playing.land #mo .mdl h2 { font-size: 16px; margin-bottom: 4px; }
+body.playing.land #mo .mdl h2 .tile { width: 18px; height: 24px; }
+body.playing.land .m-hand { margin: 2px 0 6px; }
+body.playing.land .m-hand .tile { width: 26px; height: 35px; }
+body.playing.land .m-sep { min-height: 35px; margin: 0 4px; }
+body.playing.land .sum-card { padding: 12px 16px; }
+body.playing.land .sum-actions button { padding: 8px 24px; font-size: 14px; }
+
+/* 超矮横屏（画布高 ≤360）：再缩一档 */
+body.playing.land.land-sm .table { grid-template-columns: 42px minmax(0, 1fr) 42px; padding: 2px; }
+body.playing.land.land-sm .seat-head { padding: 0 6px; }
+body.playing.land.land-sm .pn { font-size: 9px; }
+body.playing.land.land-sm .seat-top .ph .tile { width: 19px; height: 26px; }
+body.playing.land.land-sm .seat-top .pm .tile { width: 16px; height: 22px; }
+body.playing.land.land-sm .seat-left .tile,
+body.playing.land.land-sm .seat-right .tile { width: 18px; height: 25px; margin: -7px 0; }
+body.playing.land.land-sm .seat-left .pm .tile,
+body.playing.land.land-sm .seat-right .pm .tile { width: 16px; height: 22px; }
+body.playing.land.land-sm .seat-bottom .tile { width: 36px; height: 48px; font-size: 14px; }
+body.playing.land.land-sm .seat-bottom .pm .tile { width: 26px; height: 34px; font-size: 10px; }
+body.playing.land.land-sm .disc .tile,
+body.playing.land.land-sm .disc-col .tile { width: 20px; height: 27px; }
+body.playing.land.land-sm .disc-row { min-height: 29px; }
+body.playing.land.land-sm .disc-col { width: 96px; max-height: 116px; }
+body.playing.land.land-sm .compass { grid-template-columns: repeat(3, 22px); grid-template-rows: repeat(3, 22px); }
+body.playing.land.land-sm .compass span { font-size: 11px; }
+body.playing.land.land-sm .ab { min-width: 44px; }
+body.playing.land.land-sm .ab.hu { width: 58px; height: 58px; min-width: 58px; }
+body.playing.land.land-sm .ab.ting { width: 50px; height: 50px; min-width: 50px; }
+body.playing.land.land-sm .claim-reminder .tile.big { width: 54px; height: 72px; }
+body.playing.land.land-sm .dora-banner .dora-tile .face-img { width: 22px; height: 28px; }
+
+/* 平板等画布高 >500：放大一档 */
+body.playing.land.land-lg .seat-bottom .tile { width: 52px; height: 70px; font-size: 20px; }
+body.playing.land.land-lg .seat-bottom .pm .tile { width: 34px; height: 46px; font-size: 13px; }
+body.playing.land.land-lg .seat-top .ph .tile { width: 26px; height: 35px; }
+body.playing.land.land-lg .seat-top .pm .tile { width: 22px; height: 30px; font-size: 10px; }
+body.playing.land.land-lg .seat-left .tile,
+body.playing.land.land-lg .seat-right .tile { width: 24px; height: 34px; margin: -8px 0; }
+body.playing.land.land-lg .seat-left .pm .tile,
+body.playing.land.land-lg .seat-right .pm .tile { width: 22px; height: 30px; font-size: 10px; }
+body.playing.land.land-lg .disc .tile, body.playing.land.land-lg .disc-col .tile { width: 30px; height: 40px; }
+body.playing.land.land-lg .disc-row { min-height: 42px; }
+body.playing.land.land-lg .disc-col { width: 140px; max-height: 172px; }
+body.playing.land.land-lg .compass { grid-template-columns: repeat(3, 30px); grid-template-rows: repeat(3, 30px); }
 
 /* ===== 结算卡合并布局（桌面 + 移动统一）：标题 / 手牌+宝牌 / 得分 / 战绩表 / 按钮 ===== */
 #mo .mdl { max-width: 94vw; max-height: 94dvh; overflow-y: auto; }
@@ -782,40 +838,22 @@ body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
 .m-sep { width: 2px; align-self: stretch; min-height: 43px; border-radius: 2px; background: rgba(255,255,255,.25); margin: 0 5px; }
 .m-dora-label { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; }
 
-/* ===== 伪横屏：iOS 无转屏 API，触屏 + 横屏偏好时把整页旋转 90° 假装横屏 ===== */
-/* 仅 body.playing.land 生效（JS 按偏好与视口方向添加）；竖屏偏好/桌面端不受影响 */
-@media (orientation: portrait) and (pointer: coarse) {
-  body.playing.land {
-    position: fixed; left: 0; top: 0;
-    width: 100vh; height: 100vw;
-    width: 100dvh; height: 100dvw;
-    min-height: 0;
-    overflow: hidden;
-    transform: translateX(100vw) rotate(90deg);
-    transform: translateX(100dvw) rotate(90deg);
-    transform-origin: top left;
-  }
-  /* 竖屏视口 vh 会撑破旋转后的高度，按住不让 table 顶出去 */
-  body.playing.land .table { min-height: 0; }
-  /* 结算卡：伪横屏下 vw/vh 互换，用旋转后的屏宽铺开（压缩样式见 ≤500 矮视口规则） */
-  body.playing.land #mo .mdl { width: auto; max-width: 96dvh; max-height: 96dvw; }
-  /* 中央只留弃牌并放大：牌堆剩余移到顶栏（规则按钮前），参考竖屏 */
-  body.playing.land .wall,
-  body.playing.land .wall-wrap,
-  body.playing.land .wall-count { display: none; }
-  body.playing.land .wall-top { display: inline-block; }
-  body.playing.land .center-mid { gap: 10px; }
-  body.playing.land .disc .tile,
-  body.playing.land .disc-col .tile { width: 26px; height: 35px; border-radius: 4px; }
-  body.playing.land .disc-col { width: 210px; max-height: 150px; }
-  body.playing.land .disc-row { min-height: 39px; }
+/* ===== 伪横屏：iOS 无转屏锁，触屏竖视口 + 横屏偏好时整页旋转 90° ===== */
+/* 这里只负责几何（旋转 + 宽高互换），牌桌版式统一在 body.playing.land 里 */
+body.playing.land.rot {
+  position: fixed; left: 0; top: 0;
+  width: 100vh; height: 100vw;
+  width: 100dvh; height: 100dvw;
+  min-height: 0;
+  overflow: hidden;
+  transform: translateX(100vw) rotate(90deg);
+  transform: translateX(100dvw) rotate(90deg);
+  transform-origin: top left;
 }
-@media (orientation: portrait) and (pointer: coarse) and (max-width: 360px) {
-  body.playing.land .disc .tile,
-  body.playing.land .disc-col .tile { width: 22px; height: 30px; }
-  body.playing.land .disc-col { width: 168px; max-height: 96px; }
-  body.playing.land .disc-row { min-height: 34px; }
-}
+/* 竖屏视口 vh 会撑破旋转后的高度，按住不让 table 顶出去 */
+body.playing.land.rot .table { min-height: 0; }
+/* 结算卡：伪横屏下 vw/vh 互换，高度按旋转后的屏高算 */
+body.playing.land.rot .mo .mdl { max-height: 96dvw; }
 
 /* ===== 竖屏偏好（触屏竖屏游玩）：西家整行、南北归中行、东家分两区 ===== */
 /* 顶栏：竖屏也要一行显示，缩放 + 溢出省略，文本不折行 */

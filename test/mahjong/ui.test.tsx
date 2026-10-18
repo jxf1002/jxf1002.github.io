@@ -153,3 +153,66 @@ test("听牌待打：候选牌标亮 + 悬停弹窗 + 失焦关闭", async () =>
   await act(async () => Game.toLobby())
   assert.ok(!G.playing, "收尾回大厅")
 })
+
+test("横屏牌桌：点横屏进 .land（竖视口配 .rot），牌河只留最新 N 张", async () => {
+  Game.clearSave()
+  G.players = []
+  // 触屏设备 + 竖屏手机视口
+  globalThis.matchMedia = ((q: string) => ({
+    matches: q.includes("coarse"),
+    media: q,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof globalThis.matchMedia
+  const setView = (width: number, height: number) => {
+    Object.defineProperty(w, "innerWidth", { value: width, configurable: true, writable: true })
+    Object.defineProperty(w, "innerHeight", { value: height, configurable: true, writable: true })
+  }
+  const bodyCls = w.document.body.classList
+  setView(390, 844)
+  // 视口尺寸是挂载时取一次 + 每次 resize 刷新（组件在第一个用例里就挂载了）
+  await act(async () => w.dispatchEvent(new w.Event("resize")))
+
+  await render()
+  await click($("#btn-new"))
+  assert.ok(G.playing, "开局")
+  assert.ok(!bodyCls.contains("land"), "竖屏偏好不进横屏版式")
+  assert.ok(bodyCls.contains("port"), "竖屏偏好 → body.port")
+  assert.equal($$("#compass .on").length, 1, "风盘高亮当前出牌者")
+
+  // 点横屏按钮 → 横屏版式；视口仍是竖的，所以加 .rot 整页旋转
+  await click($("#orient-btn"))
+  assert.ok(bodyCls.contains("land"), "点横屏 → body.land")
+  assert.ok(bodyCls.contains("rot"), "竖视口 → body.rot")
+  assert.ok(!bodyCls.contains("port"), "横屏不再叠竖屏版式")
+
+  // 真横过来（视口变宽）= 撤旋转、留版式
+  setView(844, 390)
+  await act(async () => w.dispatchEvent(new w.Event("resize")))
+  assert.ok(bodyCls.contains("land"), "真横屏仍是 .land")
+  assert.ok(!bodyCls.contains("rot"), "真横屏不旋转")
+  assert.ok(!bodyCls.contains("land-sm"), "390 高走 md 档")
+
+  // 牌河超量只留最新 12 张（从最早的裁起，最新一张带 .latest）
+  G.players[HUMAN].disc = Array.from({ length: 20 }, (_, i) => T("tiao", (i % 9) + 1))
+  G.lastDB = HUMAN
+  G.lastDraw = null
+  await render()
+  const pond = $$("#dcb .tile")
+  assert.equal(pond.length, 12, "横屏牌河裁到 12 张")
+  assert.ok(pond[pond.length - 1].classList.contains("latest"), "留下的最后一张是最新弃牌")
+
+  // 更矮的画布再降一档，裁得更狠
+  setView(844, 360)
+  await act(async () => w.dispatchEvent(new w.Event("resize")))
+  assert.ok(bodyCls.contains("land-sm"), "360 高走 sm 档")
+  await render()
+  assert.equal($$("#dcb .tile").length, 8, "sm 档牌河裁到 8 张")
+
+  await act(async () => Game.toLobby())
+  assert.ok(!G.playing, "收尾回大厅")
+})

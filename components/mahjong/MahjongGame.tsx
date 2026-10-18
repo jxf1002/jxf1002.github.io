@@ -12,7 +12,6 @@ import {
   FxLayer,
   LogModal,
   ResultModal,
-  RotateTip,
   RulesModal,
   SummaryModal,
   posColor,
@@ -80,6 +79,8 @@ export default function MahjongGame() {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [pace, setPace] = useState(1)
   const [orient, setOrient] = useState<"portrait" | "landscape">("portrait")
+  // 视口尺寸：SSR/首屏为 null，横屏版式与弃牌裁剪都由它推导，避免首屏水印不一致
+  const [viewport, setViewport] = useState<{ w: number; h: number } | null>(null)
   const [tingSel, setTingSel] = useState(-1)
   const [tingPreview, setTingPreview] = useState<{ idx: number; wins: Tile[] } | null>(null)
   const [tingPop, setTingPop] = useState<{ wins: Tile[]; rect: DOMRect } | null>(null)
@@ -92,6 +93,29 @@ export default function MahjongGame() {
   const fxTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const fxSeed = useRef(0)
   const actKey = useRef(0)
+
+  // ===== 版式：横屏牌桌 / 竖屏 / 整页旋转 =====
+  // 横屏由用户选择（触屏）或矮横屏视口触发，不看设备朝向：旋转只在视口是竖屏时加，
+  // 所以真横屏与伪横屏共用同一套版式规则
+  const coarse = isCoarse()
+  const landMode =
+    !!viewport &&
+    !!G.playing &&
+    ((viewport.w > viewport.h && viewport.h <= 500) || (coarse && orient === "landscape"))
+  const rotMode = !!viewport && landMode && viewport.w <= viewport.h
+  // 旋转后画布高 = 竖屏视口宽
+  const canvasH = viewport && landMode ? (rotMode ? viewport.w : viewport.h) : 0
+  const landSm = landMode && canvasH > 0 && canvasH <= 360
+  const landLg = landMode && canvasH > 500
+  const portMode =
+    !!viewport &&
+    !!G.playing &&
+    !landMode &&
+    coarse &&
+    orient === "portrait" &&
+    viewport.w <= viewport.h
+  // 横屏牌河每方只渲染最新 N 张（旧牌裁掉，最新一张一定在）
+  const discCap = landSm ? 8 : landLg ? 16 : 12
 
   useEffect(() => {
     modalRef.current = modal
@@ -175,6 +199,7 @@ export default function MahjongGame() {
     Game.loadPace()
     setPace(Game.getPace())
     setOrient(readOrient())
+    setViewport({ w: window.innerWidth, h: window.innerHeight })
     if (Game.restore()) force()
     else {
       Game.G.players = []
@@ -196,7 +221,10 @@ export default function MahjongGame() {
       ;(window as unknown as { __mj?: typeof Game }).__mj = Game
     }
 
-    const onResize = () => force()
+    const onResize = () => {
+      setViewport({ w: window.innerWidth, h: window.innerHeight })
+      force()
+    }
     window.addEventListener("resize", onResize)
     window.addEventListener("orientationchange", onResize)
     return () => {
@@ -206,15 +234,15 @@ export default function MahjongGame() {
     }
   }, [])
 
-  // 每次渲染后同步 body 态与伪横屏（等价于原 applyOrient + updateStartButton）
+  // 每次渲染后同步 body 态与横屏版式（等价于原 applyOrient + updateStartButton）
   useEffect(() => {
     const playing = !!G.playing
-    const portraitView =
-      typeof matchMedia === "function" && matchMedia("(orientation: portrait)").matches
-    const on = !!(playing && isCoarse() && portraitView)
     document.body.classList.toggle("playing", playing)
-    document.body.classList.toggle("land", on && orientRef.current === "landscape")
-    document.body.classList.toggle("port", on && orientRef.current === "portrait")
+    document.body.classList.toggle("land", landMode)
+    document.body.classList.toggle("rot", rotMode)
+    document.body.classList.toggle("land-sm", landSm)
+    document.body.classList.toggle("land-lg", landLg)
+    document.body.classList.toggle("port", portMode)
     // 退出游玩态即解横屏锁定 + 退全屏（桌面端/不支持的浏览器无操作）
     if (!playing) {
       if (screen.orientation?.unlock) {
@@ -271,9 +299,10 @@ export default function MahjongGame() {
   }, [tingSel])
 
   // 移动端横屏偏好：尝试锁定方向（不请求全屏）；不支持的浏览器静默失败，靠 CSS 伪横屏旋转
-  const tryLandscape = useCallback(() => {
+  // 横屏锁：用户进了横屏才锁（iOS 没有 lock，靠 CSS 旋转兜底）
+  const tryLandscape = useCallback((want: boolean) => {
     try {
-      if (orientRef.current !== "landscape") return
+      if (!want) return
       if (!isCoarse()) return
       if (screen.orientation?.lock) screen.orientation.lock("landscape").catch(() => {})
     } catch {
@@ -282,7 +311,7 @@ export default function MahjongGame() {
   }, [])
 
   const startNewGame = useCallback(() => {
-    tryLandscape()
+    tryLandscape(orientRef.current === "landscape")
     Game.init()
   }, [tryLandscape])
 
@@ -291,8 +320,9 @@ export default function MahjongGame() {
     else startNewGame()
   }
 
+  // 横竖屏切换：进横屏顺手申请锁方向，回竖屏解掉（防转来转去）
   const onCycleOrient = () => {
-    const next = readOrient() === "landscape" ? "portrait" : "landscape"
+    const next = orient === "landscape" ? "portrait" : "landscape"
     try {
       localStorage.setItem(ORIENT_KEY, next)
     } catch {
@@ -304,6 +334,8 @@ export default function MahjongGame() {
       } catch {
         /* 忽略 */
       }
+    } else {
+      tryLandscape(next === "landscape")
     }
     setOrient(next)
   }
@@ -629,7 +661,9 @@ export default function MahjongGame() {
   }
 
   function discRow(i: number) {
-    const disc = playing && G.players.length ? G.players[i].disc : []
+    const all = playing && G.players.length ? G.players[i].disc : []
+    // 横屏位置有限：只留最新 N 张，最新一张永远在最后
+    const disc = landMode ? all.slice(-discCap) : all
     const lastIdx = disc.length && i === G.lastDB && !G.lastDraw ? disc.length - 1 : -1
     return disc.map((t, idx) => (
       <TableTile
@@ -649,6 +683,13 @@ export default function MahjongGame() {
   // 渲染期不能读 localStorage（服务端渲染没有、有水印就会 hydration 不匹配）；restore() 之后 players 即代表有存档
   const lobbyHas = G.players.length > 0
 
+  // 风盘：四方位写各家的门风，当前出牌者高亮、庄家加圈（牌桌中心）
+  function windCell(pos: string, i: number) {
+    const on = playing && i === G.curP ? " on" : ""
+    const isD = G.players[i]?.isD ? " d" : ""
+    return "cw-" + pos + on + isD
+  }
+
   return (
     <>
       <div className="gc">
@@ -659,36 +700,61 @@ export default function MahjongGame() {
               type="button"
               className={"log-btn" + (playing ? "" : " hide") + (G.auto ? " active" : "")}
               id="auto-btn"
+              aria-label={G.auto ? "托管中" : "托管"}
+              title={G.auto ? "托管中" : "托管"}
               onClick={() => Game.setAuto(!Game.getAuto())}
             >
-              {G.auto ? "托管中" : "托管"}
+              <span className="ic" aria-hidden="true">🤖</span>
+              <span className="lbl">{G.auto ? "托管中" : "托管"}</span>
             </button>
           </div>
           <div className="gi">
             <span className="wall-top" id="wall-count-top">
               {playing ? wallText : "剩余 0"}
             </span>
-            <button type="button" className="log-btn" id="rules-btn" onClick={() => setRulesOpen(true)}>
-              📖 规则
+            <button
+              type="button"
+              className="log-btn"
+              id="rules-btn"
+              aria-label="规则"
+              title="规则"
+              onClick={() => setRulesOpen(true)}
+            >
+              <span className="ic" aria-hidden="true">📖</span>
+              <span className="lbl">📖 规则</span>
             </button>
-            <button type="button" className="log-btn" id="log-btn" onClick={() => setLogOpen(true)}>
-              📜 日志
+            <button
+              type="button"
+              className="log-btn"
+              id="log-btn"
+              aria-label="日志"
+              title="日志"
+              onClick={() => setLogOpen(true)}
+            >
+              <span className="ic" aria-hidden="true">📜</span>
+              <span className="lbl">📜 日志</span>
             </button>
             <button
               type="button"
               className="log-btn orient-btn"
               id="orient-btn"
+              aria-label={orient === "landscape" ? "切换竖屏" : "切换横屏"}
+              title={orient === "landscape" ? "切换竖屏" : "切换横屏"}
               onClick={onCycleOrient}
             >
-              {orient === "landscape" ? "切换竖屏" : "切换横屏"}
+              <span className="ic" aria-hidden="true">🔄</span>
+              <span className="lbl">{orient === "landscape" ? "切换竖屏" : "切换横屏"}</span>
             </button>
             <button
               type="button"
               className={"log-btn" + (playing ? "" : " hide")}
               id="btn-s"
+              aria-label="回主页面"
+              title="回主页面"
               onClick={() => Game.toLobby()}
             >
-              回主页面
+              <span className="ic" aria-hidden="true">🏠</span>
+              <span className="lbl">回主页面</span>
             </button>
           </div>
         </div>
@@ -722,6 +788,12 @@ export default function MahjongGame() {
             <div className="center-mid">
               <div className="disc disc-col" id="dcl">
                 {discRow(3)}
+              </div>
+              <div className="compass" id="compass" aria-hidden="true">
+                <span className={windCell("top", 2)}>{SEAT_NAME[2]}</span>
+                <span className={windCell("right", 1)}>{SEAT_NAME[1]}</span>
+                <span className={windCell("bottom", 0)}>{SEAT_NAME[0]}</span>
+                <span className={windCell("left", 3)}>{SEAT_NAME[3]}</span>
               </div>
               <div className="wall-wrap">
                 <div className="wall-count" id="wall-count">
@@ -823,7 +895,7 @@ export default function MahjongGame() {
                   className={"sb2b sb2b-continue" + (lobbyHas ? "" : " hide")}
                   id="btn-continue"
                   onClick={() => {
-                    tryLandscape()
+                    tryLandscape(orientRef.current === "landscape")
                     Game.resumeGame()
                   }}
                 >
@@ -846,7 +918,6 @@ export default function MahjongGame() {
               </button>
             </div>
           </div>
-          <RotateTip />
           {acts.map((a) => (
             <div
               className={"act-fx " + a.cls}
