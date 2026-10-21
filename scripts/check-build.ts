@@ -73,6 +73,12 @@ const ROUTES: Array<[string, string, string, boolean]> = [
     "https://www.justful.cn/mir2/",
     false,
   ],
+  [
+    "guess/index.html",
+    "猜数字小游戏｜贾师傅的小站",
+    "https://www.justful.cn/guess/",
+    true,
+  ],
 ]
 
 console.log("== 静态导出的页面 ==")

@@ -68,6 +68,12 @@ const GROUPS = [
         description: "调整跑步速度，生成赛博跑步报告。",
         type: "跑步",
       },
+      {
+        href: "/guess/",
+        title: "猜数字小游戏",
+        description: "10 次机会猜出 4 位不重复数字，带最佳提示与本地战绩。",
+        type: "推理",
+      },
     ],
   },
 ]

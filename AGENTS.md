@@ -24,7 +24,7 @@ npm run verify   # next build + scripts/check-build.ts
 | `app/(<group>)/<route>/page.tsx` | One directory per route. The page only exports metadata and renders the route component |
 | `app/(<group>)/<route>/style.css` | Route-private stylesheet, imported by that route's `page.tsx` |
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
-| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `photo/`, `mahjong/`, `mir2/` |
+| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `photo/`, `mahjong/`, `mir2/` |
 | `types/` | Ambient declarations (echarts and jsdom ship no types) |
 | `public/` | Published as-is: `assets/` (site CSS + data JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
 | `public/mahjong/`, `public/mir2/` | Static assets for the two games (`style.css`, `svg/`, `data/`, `vendor/driver.js`); their logic lives in `lib/` and their UI in `components/` |
@@ -32,7 +32,7 @@ npm run verify   # next build + scripts/check-build.ts
 | `test/` | Unit tests for `lib/`, plus the two games' logic and jsdom UI smoke tests |
 
 - Routes: `/` `/college/` `/tourism/` `/comfort/` `/photo/` (group `(site)`),
-  `/dcf/` `/sport/` `/mahjong/` `/mir2/` (group `(tool)`).
+  `/dcf/` `/sport/` `/mahjong/` `/mir2/` `/guess/` (group `(tool)`).
 - `trailingSlash: true` keeps old URLs (`/college/` → `out/college/index.html`).
 - User site served from the root, so `basePath` stays empty.
 

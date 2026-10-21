@@ -17,6 +17,7 @@ export type PageKey =
   | "sport"
   | "mahjong"
   | "mir2"
+  | "guess"
 
 export type JsonLdData = Record<string, unknown>
 
@@ -173,6 +174,26 @@ export const PAGES: Record<PageKey, PageMeta> = {
     ogTitle: "传奇挂机小游戏｜贾师傅的小站",
     ogDescription:
       "纯前端传奇挂机小游戏：战法道三职业自动打怪、捡装、升级，组队挑战首领。",
+  },
+  guess: {
+    path: "/guess/",
+    title: "猜数字小游戏｜贾师傅的小站",
+    description:
+      "10 次机会猜出 4 位不重复数字的在线小游戏，带最佳提示、猜测记录和本地战绩。",
+    keywords: "猜数字,1A2B,Bulls and Cows,推理小游戏",
+    ogTitle: "猜数字小游戏｜贾师傅的小站",
+    ogDescription: "10 次机会猜出 4 位不重复数字，带最佳提示与本地战绩。",
+    twitterCard: "summary",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "猜数字小游戏",
+      description: "10 次机会猜出 4 位不重复数字的在线推理小游戏。",
+      url: "https://www.justful.cn/guess/",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web Browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },
+    },
   },
 }
 
