@@ -79,6 +79,12 @@ const ROUTES: Array<[string, string, string, boolean]> = [
     "https://www.justful.cn/guess/",
     true,
   ],
+  [
+    "five-cards/index.html",
+    "五张牌魔术小游戏｜贾师傅的小站",
+    "https://www.justful.cn/five-cards/",
+    true,
+  ],
 ]
 
 console.log("== 静态导出的页面 ==")
@@ -121,6 +127,14 @@ for (const file of [
 ]) {
   check(`${file} 存在`, has(file))
 }
+
+for (const suit of ["s", "h", "d", "c"]) {
+  for (let rank = 1; rank <= 13; rank += 1) {
+    const file = `cards/${suit}${rank}.svg`
+    check(`${file} 存在`, has(file))
+  }
+}
+check("cards/back.svg 存在", has("cards/back.svg"))
 
 // 两个游戏页的样式都手写在页面里：必须排在 site.css 之后，浅色主题下牌桌的 :root 变量才能压过站点变量
 function styleOrder(file: string, urls: string[]): boolean {
@@ -171,6 +185,7 @@ const FULLSCREEN = [
   "mahjong/index.html",
   "mir2/index.html",
   "guess/index.html",
+  "five-cards/index.html",
 ]
 for (const [file] of ROUTES) {
   check(

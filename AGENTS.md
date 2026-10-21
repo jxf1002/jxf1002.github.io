@@ -24,15 +24,16 @@ npm run verify   # next build + scripts/check-build.ts
 | `app/(<group>)/<route>/page.tsx` | One directory per route. The page only exports metadata and renders the route component |
 | `app/(<group>)/<route>/style.css` | Route-private stylesheet, imported by that route's `page.tsx` |
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
-| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `photo/`, `mahjong/`, `mir2/` |
+| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `photo/`, `mahjong/`, `mir2/` |
 | `types/` | Ambient declarations (echarts and jsdom ship no types) |
 | `public/` | Published as-is: `assets/` (site CSS + data JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
 | `public/mahjong/`, `public/mir2/` | Static assets for the two games (`style.css`, `svg/`, `data/`, `vendor/driver.js`); their logic lives in `lib/` and their UI in `components/` |
+| `public/cards/` | 52 playing-card faces + back for the five-card trick; sources and licenses in `README.md` |
 | `scripts/check-build.ts` | Build-output self-check (routes, SEO tags, analytics, static assets, game CSS order) |
 | `test/` | Unit tests for `lib/`, plus the two games' logic and jsdom UI smoke tests |
 
 - Routes: `/` `/college/` `/tourism/` `/comfort/` `/photo/` (group `(site)`),
-  `/dcf/` `/sport/` `/mahjong/` `/mir2/` `/guess/` (group `(tool)`).
+  `/dcf/` `/sport/` `/mahjong/` `/mir2/` `/guess/` `/five-cards/` (group `(tool)`).
 - `trailingSlash: true` keeps old URLs (`/college/` → `out/college/index.html`).
 - User site served from the root, so `basePath` stays empty.
 
@@ -103,7 +104,7 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   path
 - Footer: one markup (`SiteFooter` via `RootShell`), exactly two sizes — the
   base in `site.css`, plus a compact one for pages whose root has
-  `data-fullscreen` (sport / mahjong / mir2 / guess). Don't add `.site-footer`
+  `data-fullscreen` (sport / mahjong / mir2 / guess / five-cards). Don't add `.site-footer`
   padding/size rules to route CSS; `check-build` asserts every page's footer
   markup is identical
 - The two games are the exception: their stylesheets are hand-written

@@ -46,6 +46,7 @@ npm run verify   # 构建 + 产物自检
 - `/mir2/`：传奇挂机小游戏（引擎 `lib/mir2/`，界面 `components/mir2/`）
 - `/sport/`：赛博运动，生成跑步报告
 - `/guess/`：猜数字小游戏，10 次机会 + 提示 + 本地战绩（逻辑 `lib/guess.ts`，界面 `components/guess/`）
+- `/five-cards/`：五张牌魔术，读懂四张明牌的排列猜扣牌，刷新保留本局（逻辑 `lib/five-cards.ts`，界面 `components/five-cards/`）
 
 数据 JSON 与站点样式在 `public/assets/` 下，页面运行时按需加载。
 

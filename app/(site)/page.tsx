@@ -74,6 +74,12 @@ const GROUPS = [
         description: "10 次机会猜出 4 位不重复数字，带最佳提示与本地战绩。",
         type: "推理",
       },
+      {
+        href: "/five-cards/",
+        title: "五张牌魔术",
+        description: "读懂四张明牌的排列，猜出扣住的第五张牌。",
+        type: "魔术",
+      },
     ],
   },
 ]

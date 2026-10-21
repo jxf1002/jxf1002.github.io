@@ -18,6 +18,7 @@ export type PageKey =
   | "mahjong"
   | "mir2"
   | "guess"
+  | "fiveCards"
 
 export type JsonLdData = Record<string, unknown>
 
@@ -190,6 +191,26 @@ export const PAGES: Record<PageKey, PageMeta> = {
       name: "猜数字小游戏",
       description: "10 次机会猜出 4 位不重复数字的在线推理小游戏。",
       url: "https://www.justful.cn/guess/",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web Browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },
+    },
+  },
+  fiveCards: {
+    path: "/five-cards/",
+    title: "五张牌魔术小游戏｜贾师傅的小站",
+    description:
+      "五张牌读心魔术：一张扣牌、四张明牌，根据花色和后三张的排列算出扣牌是哪一张。",
+    keywords: "五张牌魔术,读心魔术,扑克牌,推理小游戏",
+    ogTitle: "五张牌魔术小游戏｜贾师傅的小站",
+    ogDescription: "读懂四张明牌的排列，猜出扣住的第五张牌。",
+    twitterCard: "summary",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "五张牌魔术",
+      description: "一张扣牌、四张明牌的五张牌读心魔术小游戏。",
+      url: "https://www.justful.cn/five-cards/",
       applicationCategory: "GameApplication",
       operatingSystem: "Web Browser",
       offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },
