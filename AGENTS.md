@@ -95,6 +95,12 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   before paint
 - Styles: `public/assets/css/site.css` is linked from the layout with a `?v=N`
   cache-bust; route-private CSS is imported in `app/(<group>)/<route>/page.tsx`
+- Tailwind v4 (`@tailwindcss/postcss`, `app/globals.css`, imported by the two
+  root layouts) — no preflight (site and games rely on browser defaults),
+  `dark:` follows `html.dark`, site.css vars mapped to `bg-surface` /
+  `text-fg-muted` / `border-line`. site.css is still static and unlayered, so
+  its rules beat utilities on its own class names; `@layer base` is the upgrade
+  path
 - The two games are the exception: their stylesheets are hand-written
   `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER
   `site.css` in the output (imported route CSS would be emitted before it and

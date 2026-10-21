@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import "../globals.css"
 import RootShell from "../../components/RootShell"
 import { ROOT_METADATA } from "../../lib/site"
 

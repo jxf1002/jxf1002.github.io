@@ -1,0 +1,21 @@
+/* 只引 theme + utilities，不要 preflight：站点和两个游戏的样式都依赖浏览器默认样式 */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* 站点的暗色约定是 html.dark（见 lib/theme.ts），不是系统偏好 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 映射 site.css 里的 CSS 变量：bg-surface、text-fg-muted、border-line… 明暗自动切换 */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-fg: var(--text);
+  --color-fg-muted: var(--muted);
+  --color-line: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --shadow-card: var(--shadow);
+}
