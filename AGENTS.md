@@ -101,6 +101,11 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   `text-fg-muted` / `border-line`. site.css is still static and unlayered, so
   its rules beat utilities on its own class names; `@layer base` is the upgrade
   path
+- Footer: one markup (`SiteFooter` via `RootShell`), exactly two sizes — the
+  base in `site.css`, plus a compact one for pages whose root has
+  `data-fullscreen` (sport / mahjong / mir2 / guess). Don't add `.site-footer`
+  padding/size rules to route CSS; `check-build` asserts every page's footer
+  markup is identical
 - The two games are the exception: their stylesheets are hand-written
   `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER
   `site.css` in the output (imported route CSS would be emitted before it and

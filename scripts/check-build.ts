@@ -147,6 +147,38 @@ for (const file of ["mahjong/index.html", "mir2/index.html"]) {
   )
 }
 
+// footer 只有两种尺寸（site.css 的基准 + data-fullscreen 页面用的紧凑版），
+// 这里锁住「markup 全站唯一、内容逐字一致、标记不漏」
+console.log("== footer 归一化 ==")
+const FOOTER = /<footer class="site-footer">[\s\S]*?<\/footer>/
+const footers = ROUTES.map(([file]) => {
+  const source = html(file)
+  const match = source.match(FOOTER)
+  const count = source.match(/<footer class="site-footer">/g)?.length ?? 0
+  check(`${file} 有且只有一个 footer`, count === 1 && !!match)
+  return match?.[0] ?? ""
+})
+check("各页 footer 内容完全一致", new Set(footers).size === 1)
+for (const text of [
+  "京ICP备18007833号-1",
+  "www.justful.cn",
+  "github.com/jxf1002/jxf1002.github.io",
+]) {
+  check(`footer 含 ${text}`, footers[0].includes(text))
+}
+const FULLSCREEN = [
+  "sport/index.html",
+  "mahjong/index.html",
+  "mir2/index.html",
+  "guess/index.html",
+]
+for (const [file] of ROUTES) {
+  check(
+    `${file} data-fullscreen 标记`,
+    html(file).includes("data-fullscreen") === FULLSCREEN.includes(file),
+  )
+}
+
 if (failed) {
   console.log(`\n失败 ${failed} 项`)
   process.exit(1)

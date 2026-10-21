@@ -629,12 +629,10 @@ body { -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
   .win-banner .wb-sep { height: 29px; margin: 0 3px; }
 }
 
-/* 本页 footer 收紧贴底（站点头尾样式不动，只收本页） */
 /* site.css 里 .tool-page{display:block;padding:0!important} 会覆盖上面的 body{display:flex}，
    导致非游玩态 body 退化为 block，.gc 的 flex:1 失效，内容不足一屏时 footer 后面留一截 body 底色。
    这里用更高特异度把 flex 布局抢回来，游玩态 body.playing 本身特异度已够所以不受影响。 */
 body.tool-page { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
-body.tool-page .site-footer { margin-top: 12px; padding: 14px 20px; }
 
 /* ===== 麻将页 header 不常驻（移动端，覆盖站点的 sticky，仅本页） ===== */
 @media (max-width: 900px) {

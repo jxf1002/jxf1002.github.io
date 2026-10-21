@@ -68,6 +68,7 @@ export default function Runner() {
   return (
     <main
       className="sport"
+      data-fullscreen
       style={{ "--cycle": cycleFor(sport, speed) } as CSSProperties}
     >
       <header className="sport-bar">

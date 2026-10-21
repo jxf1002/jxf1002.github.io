@@ -692,7 +692,7 @@ export default function MahjongGame() {
 
   return (
     <>
-      <div className="gc">
+      <div className="gc" data-fullscreen>
         <div className="topbar">
           <div className="topbar-left">
             <h1>麻将</h1>

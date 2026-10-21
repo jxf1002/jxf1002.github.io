@@ -18,11 +18,9 @@ body.tool-page {
   --scene-dim: 0.58;
 }
 
-/* 压缩共享头尾，把高度让给舞台 */
+/* 压缩共享头部，把高度让给舞台（footer 用 site.css 里的紧凑变体） */
 body.tool-page > .site-header { min-height: 54px; padding: 0 16px; }
 body.tool-page > .site-header .site-brand { font-size: 19px; }
-body.tool-page .site-footer { margin-top: 0; padding: 10px 16px 12px; font-size: 0.76rem; }
-body.tool-page .site-footer p { margin: 2px 0; }
 
 body.tool-page > main.sport {
   display: flex;

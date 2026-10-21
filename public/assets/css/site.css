@@ -64,7 +64,6 @@ main { min-height: calc(100vh - 145px); }
 .tool-page .app-container, .tool-page .app { max-width: none; width: 100%; margin: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
 .tool-page .app { padding: 32px 36px 40px; }
 .tool-page .page { min-height: auto; display: block; padding: 28px 20px 0; background: transparent; }
-.tool-page .site-footer { margin-top: 28px; }
 .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--surface) 72%, var(--primary-soft) 100%); }
 .hero-inner { display: grid; grid-template-columns: 1fr 380px; gap: 48px; max-width: 1200px; align-items: center; margin: 0 auto; padding: 58px 20px 48px; }
 .hero-kicker { margin: 0 0 14px; color: var(--primary); font-size: .78rem; font-weight: 700; letter-spacing: .12em; }
@@ -163,6 +162,10 @@ td { white-space: normal; }
 .site-footer { margin-top: 30px; padding: 28px 20px 32px; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); text-align: center; font-size: .875rem; }
 .site-footer p { margin: 6px 0; }
 .site-footer a:hover { color: var(--primary); }
+/* 一屏游戏（sport / mahjong / mir2 / guess）的紧凑 footer；其余页面用上面的基准样式。
+   页面根节点加 data-fullscreen 即可，尺寸只在这里调，路由 CSS 不要再写 .site-footer */
+body:has([data-fullscreen]) .site-footer { flex: none; margin-top: 0; padding: 8px 16px; font-size: .8rem; }
+body:has([data-fullscreen]) .site-footer p { margin: 0; }
 @media (max-width: 600px) {
   .site-footer { display: flex; flex-direction: column; gap: 6px; align-items: center; }
   .site-footer p { margin: 0; }

@@ -173,14 +173,14 @@ export default function GuessGame() {
 
   if (!game) {
     return (
-      <main className="mx-auto w-full max-w-6xl px-4 py-10">
+      <main className="guess-page mx-auto w-full max-w-6xl px-4 py-10" data-fullscreen>
         <p className="text-sm text-fg-muted">加载中…</p>
       </main>
     )
   }
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-6">
+    <main className="guess-page mx-auto w-full max-w-6xl px-4 py-6" data-fullscreen>
       <header className="mb-5">
         <h1 className="text-2xl font-bold sm:text-3xl">猜数字</h1>
         <p className="mt-1 text-sm text-fg-muted">
@@ -188,9 +188,10 @@ export default function GuessGame() {
         </p>
       </header>
 
-      {/* 手机上按 玩 → 猜测记录 → 战绩 排列，桌面摆成 记录 / 玩 / 战绩 三栏；高度按一屏估算，右栏记录内部滚动 */}
-      <div className="grid gap-4 lg:h-[calc(100dvh-23rem)] lg:min-h-[26rem] lg:max-h-[40rem] lg:grid-cols-[20rem_minmax(0,1fr)_18rem]">
-        <section className="order-2 flex flex-col rounded-2xl border border-solid border-line bg-surface p-4 shadow-card lg:order-1">
+      {/* 手机上按 玩 → 猜测记录 → 战绩 排列，桌面摆成 记录 / 玩 / 战绩 三栏；
+          桌面端高度由 guess/style.css 锁成一屏，卡片内部各自滚动 */}
+      <div className="guess-grid grid gap-4 lg:grid-cols-[20rem_minmax(0,1fr)_18rem]">
+        <section className="order-2 flex flex-col rounded-2xl border border-solid border-line bg-surface p-4 shadow-card lg:order-1 lg:min-h-0 lg:overflow-y-auto">
           <div className="flex flex-wrap items-baseline justify-between gap-1">
             <h2 className="text-sm font-semibold">猜测记录</h2>
             <span className="text-xs text-fg-muted">最新在上</span>
@@ -224,13 +225,13 @@ export default function GuessGame() {
           </p>
         </section>
 
-        <section className="order-1 flex flex-col justify-center rounded-2xl border border-solid border-line bg-surface p-4 shadow-card sm:p-6 lg:order-2">
+        <section className="order-1 flex flex-col justify-center rounded-2xl border border-solid border-line bg-surface p-4 shadow-card sm:p-5 lg:order-2 lg:min-h-0 lg:overflow-y-auto lg:[justify-content:safe_center]">
           {/* 答案位：未结束时只露问号，结束后揭晓 */}
           <div className="flex justify-center gap-2 sm:gap-3">
             {Array.from(game.answer).map((digit, i) => (
               <span
                 key={i}
-                className={`flex h-16 w-12 items-center justify-center rounded-xl border-2 border-solid text-3xl font-bold transition-colors sm:h-20 sm:w-16 sm:text-4xl ${
+                className={`flex h-[clamp(3.25rem,11dvh,5rem)] w-[clamp(2.5rem,8.5dvh,4rem)] items-center justify-center rounded-xl border-2 border-solid text-[clamp(1.75rem,5dvh,2.5rem)] font-bold transition-colors ${
                   ended
                     ? "border-primary bg-primary-soft text-primary"
                     : "border-dashed border-line bg-surface-muted text-fg-muted"
@@ -272,7 +273,7 @@ export default function GuessGame() {
             : (
                 <>
                   <div
-                    className="mt-5 flex justify-center gap-2 sm:gap-3"
+                    className="mt-4 flex justify-center gap-2 sm:gap-3"
                     onPaste={onPaste}
                   >
                     {digits.map((digit, i) => (
@@ -288,12 +289,12 @@ export default function GuessGame() {
                         inputMode="numeric"
                         autoComplete="off"
                         aria-label={`第 ${i + 1} 位数字`}
-                        className="h-16 w-12 appearance-none rounded-xl border-2 border-solid border-line bg-surface p-0 text-center text-2xl! font-bold! text-fg outline-none transition-colors focus:border-primary sm:h-20 sm:w-16 sm:text-3xl!"
+                        className="h-[clamp(3.25rem,11dvh,5rem)] w-[clamp(2.5rem,8.5dvh,4rem)] appearance-none rounded-xl border-2 border-solid border-line bg-surface p-0 text-center text-[clamp(1.5rem,4.5dvh,2.25rem)]! font-bold! text-fg outline-none transition-colors focus:border-primary"
                       />
                     ))}
                   </div>
 
-                  <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
                     <button
                       type="button"
                       onClick={submit}
@@ -324,7 +325,7 @@ export default function GuessGame() {
               )}
         </section>
 
-        <aside className="order-3 flex flex-col rounded-2xl border border-solid border-line bg-surface p-4 shadow-card">
+        <aside className="order-3 flex flex-col rounded-2xl border border-solid border-line bg-surface p-4 shadow-card lg:min-h-0">
           <div className="flex items-baseline justify-between">
             <h2 className="text-sm font-semibold">战绩</h2>
             <span className="text-xs text-fg-muted">{records.length} 局</span>

@@ -487,7 +487,7 @@ export default function Mir2Game() {
 
   return (
     <>
-      <div className="mir2-wrap" onMouseOver={onTip} onMouseMove={onTip} onMouseLeave={() => setTip(null)}>
+      <div className="mir2-wrap" data-fullscreen onMouseOver={onTip} onMouseMove={onTip} onMouseLeave={() => setTip(null)}>
         <div className="mir2-title-row">
           <h1>传奇挂机小游戏</h1>
           <button type="button" className="linklike" id="btn-help" onClick={() => setModal({ kind: "help" })}>玩法说明</button>
