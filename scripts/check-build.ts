@@ -38,6 +38,12 @@ const ROUTES: Array<[string, string, string, boolean]> = [
     true,
   ],
   [
+    "cars/index.html",
+    "汽车品牌销量-数据-贾师傅的小站",
+    "https://www.justful.cn/cars/",
+    true,
+  ],
+  [
     "comfort/index.html",
     "全国体感温度-数据-贾师傅的小站",
     "https://www.justful.cn/comfort/",
@@ -85,6 +91,12 @@ const ROUTES: Array<[string, string, string, boolean]> = [
     "https://www.justful.cn/five-cards/",
     true,
   ],
+  [
+    "calendar/index.html",
+    "日历拼图小游戏｜贾师傅的小站",
+    "https://www.justful.cn/calendar/",
+    true,
+  ],
 ]
 
 console.log("== 静态导出的页面 ==")
@@ -117,8 +129,10 @@ for (const file of [
   "robots.txt",
   "favicon.svg",
   "assets/css/site.css",
-  "assets/data/colleges2026.json",
-  "assets/data/tourism.json",
+  "data/college/colleges2026.json",
+  "data/tourism/tourism.json",
+  "data/car-sales/index.json",
+  "data/car-sales/2026-09.json",
   "images/banner.svg",
   "mahjong/style.css",
   "mahjong/svg/1m.svg",
@@ -126,6 +140,26 @@ for (const file of [
   "mir2/data/levels.json",
 ]) {
   check(`${file} 存在`, has(file))
+}
+
+console.log("== 品牌销量数据 ==")
+const salesDir = new URL("../out/data/car-sales/", import.meta.url)
+const salesIndex: { months: string[] } = JSON.parse(
+  readFileSync(new URL("index.json", salesDir), "utf8"),
+)
+check(
+  "car-sales 月份升序",
+  salesIndex.months.every((m, i) => i === 0 || m > salesIndex.months[i - 1]),
+)
+for (const month of salesIndex.months) {
+  const data = JSON.parse(
+    readFileSync(new URL(`${month}.json`, salesDir), "utf8"),
+  )
+  const sum = data.rows.reduce(
+    (n: number, row: { sales: number }) => n + row.sales,
+    0,
+  )
+  check(`${month} 品牌销量合计`, data.month === month && sum === data.total)
 }
 
 for (const suit of ["s", "h", "d", "c"]) {
@@ -186,6 +220,7 @@ const FULLSCREEN = [
   "mir2/index.html",
   "guess/index.html",
   "five-cards/index.html",
+  "calendar/index.html",
 ]
 for (const [file] of ROUTES) {
   check(

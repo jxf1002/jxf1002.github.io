@@ -21,6 +21,12 @@ const GROUPS = [
         type: "数据浏览",
       },
       {
+        href: "/cars/",
+        title: "汽车品牌销量",
+        description: "2025 年至今各汽车品牌月销量，按年度排行并对比同比。",
+        type: "数据浏览",
+      },
+      {
         href: "/comfort/",
         title: "全国体感温度",
         description: "地级市天气、体感温度与24小时温度范围地图。",
@@ -79,6 +85,12 @@ const GROUPS = [
         title: "五张牌魔术",
         description: "读懂四张明牌的排列，猜出扣住的第五张牌。",
         type: "魔术",
+      },
+      {
+        href: "/calendar/",
+        title: "日历拼图",
+        description: "铺满日历，只留下今天的月份、日期和星期。",
+        type: "拼图",
       },
     ],
   },

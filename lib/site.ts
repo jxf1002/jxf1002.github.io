@@ -11,6 +11,7 @@ export type PageKey =
   | "home"
   | "college"
   | "tourism"
+  | "cars"
   | "comfort"
   | "dcf"
   | "photo"
@@ -19,6 +20,7 @@ export type PageKey =
   | "mir2"
   | "guess"
   | "fiveCards"
+  | "calendar"
 
 export type JsonLdData = Record<string, unknown>
 
@@ -86,6 +88,26 @@ export const PAGES: Record<PageKey, PageMeta> = {
       description: "基于2023年数据整理的全国5A级旅游景区及所属地区。",
       url: "https://www.justful.cn/tourism/",
       inLanguage: "zh-CN",
+      creator: { "@type": "Organization", name: "贾师傅的小站" },
+    },
+  },
+  cars: {
+    path: "/cars/",
+    title: "汽车品牌销量-数据-贾师傅的小站",
+    description:
+      "按月采集的汽车品牌销量数据，按年度汇总排行，并对比上年同期同比变化。",
+    keywords: "贾师傅,汽车销量,汽车品牌销量排行榜,汽车销量数据",
+    ogTitle: "汽车品牌销量｜贾师傅的小站",
+    ogDescription: "各汽车品牌月销量按年度汇总排行，对比上年同期变化。",
+    twitterCard: "summary",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "中国汽车品牌销量数据",
+      description: "按月汇总的汽车品牌销量，含年度排行与同比变化。",
+      url: "https://www.justful.cn/cars/",
+      inLanguage: "zh-CN",
+      temporalCoverage: "2025-01/2026-09",
       creator: { "@type": "Organization", name: "贾师傅的小站" },
     },
   },
@@ -211,6 +233,26 @@ export const PAGES: Record<PageKey, PageMeta> = {
       name: "五张牌魔术",
       description: "一张扣牌、四张明牌的五张牌读心魔术小游戏。",
       url: "https://www.justful.cn/five-cards/",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web Browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },
+    },
+  },
+  calendar: {
+    path: "/calendar/",
+    title: "日历拼图小游戏｜贾师傅的小站",
+    description:
+      "经典日历拼图在线版：把拼块铺满日历，只留下当天的月份和日期；高级模式还要留下星期。支持电脑和手机。",
+    keywords: "日历拼图,拼图游戏,多边形拼图,每日一题",
+    ogTitle: "日历拼图小游戏｜贾师傅的小站",
+    ogDescription: "铺满日历，只留今天的月、日、星期。",
+    twitterCard: "summary",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "日历拼图",
+      description: "把拼块铺满日历、只留下目标月份/日期/星期的在线拼图游戏。",
+      url: "https://www.justful.cn/calendar/",
       applicationCategory: "GameApplication",
       operatingSystem: "Web Browser",
       offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },

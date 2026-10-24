@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.justful.cn/cars/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.justful.cn/comfort/</loc>
     <lastmod>2026-09-15</lastmod>
     <priority>0.8</priority>
@@ -53,6 +58,11 @@
   <url>
     <loc>https://www.justful.cn/five-cards/</loc>
     <lastmod>2026-10-21</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.justful.cn/calendar/</loc>
+    <lastmod>2026-10-24</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>
