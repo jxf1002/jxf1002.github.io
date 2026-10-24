@@ -63,7 +63,7 @@ body.tool-page > main.sport {
 .stage {
   position: relative;
   flex: 1 1 auto;
-  min-height: 230px;
+  min-height: clamp(420px, 52vh, 560px);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 22px;
@@ -88,7 +88,7 @@ body.tool-page > main.sport {
   align-items: flex-end;
   justify-content: center;
 }
-.figure { height: min(94%, 470px); width: auto; aspect-ratio: 1; overflow: visible; }
+.figure { height: min(94%, 540px); width: auto; aspect-ratio: 1; overflow: visible; }
 
 /* 云：跑步/骑行场景的远景层，慢慢飘 */
 .stage[data-sport="run"] .clouds,
@@ -258,9 +258,12 @@ body.tool-page > main.sport {
 }
 .figure .shadow { fill: #1b3a5a; opacity: 0.16; }
 .figure .neck { fill: #f2c09b; }
-.figure .shoe { fill: #f8fafc; }
-.figure .shoe.far { fill: #dae3ec; }
+.figure .shoe { fill: #e2e8f0; }
+.figure .shoe.far { fill: #cbd5e1; }
 .figure .hand { fill: #f6c9a4; }
+.figure .hand.far { fill: #d8a37c; }
+.figure .nose { fill: none; stroke: #d99a72; stroke-width: 1.5; stroke-linecap: round; }
+.figure .sole { fill: #94a3b8; }
 
 /* 跑步 */
 .figure.run .body { animation: run-bob calc(var(--cycle) * 0.5) ease-in-out infinite; }
@@ -282,17 +285,16 @@ body.tool-page > main.sport {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-delay: inherit;
-  transform-origin: 102px 194px;
 }
 
 @keyframes run-foot {
-  0% { transform: rotate(-22deg); }
-  18% { transform: rotate(-1deg); }
-  36% { transform: rotate(-4deg); }
-  52% { transform: rotate(8deg); }
-  70% { transform: rotate(-22deg); }
-  86% { transform: rotate(-30deg); }
-  100% { transform: rotate(-22deg); }
+  0% { transform: rotate(-8deg); }
+  18% { transform: rotate(0deg); }
+  36% { transform: rotate(-2deg); }
+  52% { transform: rotate(7deg); }
+  70% { transform: rotate(-10deg); }
+  86% { transform: rotate(-16deg); }
+  100% { transform: rotate(-8deg); }
 }
 
 @keyframes run-thigh {
@@ -340,6 +342,7 @@ body.tool-page > main.sport {
 }
 .figure.bike .wheel .rim { stroke: #cdd7e0; stroke-width: 2; }
 .figure.bike .wheel .hub { fill: #26333f; stroke: none; }
+.figure.bike .spokes path { stroke: #cdd7e0; stroke-width: 1.5; stroke-linecap: round; }
 .figure.bike .frame path {
   fill: none;
   stroke: #ef6f4f;
@@ -356,37 +359,53 @@ body.tool-page > main.sport {
 }
 .figure.bike .crank rect { fill: #26333f; }
 .figure.bike .helmet { fill: #f97316; }
+.figure.bike .wheel { animation: spin calc(var(--cycle) / 2.6) linear infinite; }
 .figure.bike .crank {
   animation: spin var(--cycle) linear infinite;
-  transform-origin: 102px 164px;
+  transform-origin: 100px 162px;
 }
 .figure.bike .thigh { animation: bike-thigh var(--cycle) linear infinite; }
 .figure.bike .shin {
   animation: bike-knee var(--cycle) linear infinite;
   animation-delay: inherit;
 }
+.figure.bike .shoe {
+  animation: bike-foot var(--cycle) linear infinite;
+  animation-delay: inherit;
+}
 
 @keyframes bike-thigh {
-  0% { transform: rotate(-58.6deg); }
-  12.5% { transform: rotate(-43deg); }
-  25% { transform: rotate(-38.9deg); }
-  37.5% { transform: rotate(-46.1deg); }
-  50% { transform: rotate(-56.8deg); }
-  62.5% { transform: rotate(-68.6deg); }
-  75% { transform: rotate(-75.5deg); }
-  87.5% { transform: rotate(-71.7deg); }
-  100% { transform: rotate(-58.6deg); }
+  0% { transform: rotate(-18.4deg); }
+  12.5% { transform: rotate(-29.2deg); }
+  25% { transform: rotate(-46.5deg); }
+  37.5% { transform: rotate(-57.2deg); }
+  50% { transform: rotate(-56.9deg); }
+  62.5% { transform: rotate(-47.4deg); }
+  75% { transform: rotate(-35.6deg); }
+  87.5% { transform: rotate(-25.4deg); }
+  100% { transform: rotate(-18.4deg); }
 }
 @keyframes bike-knee {
-  0% { transform: rotate(47.1deg); }
-  12.5% { transform: rotate(26deg); }
-  25% { transform: rotate(29.6deg); }
-  37.5% { transform: rotate(52.4deg); }
-  50% { transform: rotate(74.2deg); }
-  62.5% { transform: rotate(86.9deg); }
-  75% { transform: rotate(85.3deg); }
-  87.5% { transform: rotate(70deg); }
-  100% { transform: rotate(47.1deg); }
+  0% { transform: rotate(15.2deg); }
+  12.5% { transform: rotate(25.2deg); }
+  25% { transform: rotate(52.1deg); }
+  37.5% { transform: rotate(74.7deg); }
+  50% { transform: rotate(86.6deg); }
+  62.5% { transform: rotate(83.2deg); }
+  75% { transform: rotate(65.8deg); }
+  87.5% { transform: rotate(40.6deg); }
+  100% { transform: rotate(15.2deg); }
+}
+@keyframes bike-foot {
+  0% { transform: rotate(3.2deg); }
+  12.5% { transform: rotate(4deg); }
+  25% { transform: rotate(-5.7deg); }
+  37.5% { transform: rotate(-17.6deg); }
+  50% { transform: rotate(-29.7deg); }
+  62.5% { transform: rotate(-35.8deg); }
+  75% { transform: rotate(-30.2deg); }
+  87.5% { transform: rotate(-15.1deg); }
+  100% { transform: rotate(3.2deg); }
 }
 
 /* 游泳：风车划水 + 打腿 */
@@ -415,17 +434,20 @@ body.tool-page > main.sport {
   50% { transform: translateY(-3px); }
 }
 
-/* 跳绳：整体起跳 + 绳子整圈 */
-.figure.rope .rope-arc {
-  animation: spin var(--cycle) linear infinite;
-  transform-origin: 110px 122px;
-}
-.figure.rope .rope-arc path {
+/* 跳绳：整体起跳 + 静态绳圈里流动的绳段 */
+.figure.rope .rope-loop {
   fill: none;
   stroke: #36618d;
-  stroke-width: 3.2;
+  stroke-width: 3;
+  opacity: 0.35;
+}
+.figure.rope .rope-run {
+  fill: none;
+  stroke: #36618d;
+  stroke-width: 3.4;
   stroke-linecap: round;
-  opacity: 0.9;
+  stroke-dasharray: 60 340;
+  animation: rope-travel var(--cycle) linear infinite;
 }
 .figure.rope .handle {
   fill: none;
@@ -439,6 +461,9 @@ body.tool-page > main.sport {
   animation: jump-shadow var(--cycle) ease-in-out infinite;
 }
 
+@keyframes rope-travel {
+  to { stroke-dashoffset: -400; }
+}
 @keyframes jump {
   0%, 100% { transform: translateY(-12px); }
   30% { transform: translateY(0); }
@@ -602,7 +627,7 @@ body.tool-page > main.sport {
 @media (max-width: 720px) {
   .sport-tabs { align-self: stretch; justify-content: space-between; }
   .sport-tabs button { flex: 1; padding: 7px 8px; }
-  .stage { min-height: 200px; }
+  .stage { min-height: 300px; }
   .report-grid { grid-template-columns: repeat(2, 1fr); }
   .action-row { flex-wrap: wrap; }
   .timer { width: 100%; margin: 4px 0 0; justify-content: flex-end; }
