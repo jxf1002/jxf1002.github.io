@@ -24,6 +24,7 @@ npm run verify   # next build + scripts/check-build.ts
 | `app/(<group>)/<route>/page.tsx` | One directory per route. The page only exports metadata and renders the route component |
 | `app/(<group>)/<route>/style.css` | Route-private stylesheet, imported by that route's `page.tsx` |
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
+| `components/ui/` | shadcn components (source copied into the repo, not a runtime dependency). `Card` / `Badge` are server components and ship no JS |
 | `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/`, `mir2/` |
 | `types/` | Ambient declarations (echarts and jsdom ship no types) |
 | `public/` | Published as-is: `assets/` (site CSS), `data/` (`college/`, `tourism/`, `car-sales/` JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
@@ -104,7 +105,21 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   `dark:` follows `html.dark`, site.css vars mapped to `bg-surface` /
   `text-fg-muted` / `border-line`. site.css is still static and unlayered, so
   its rules beat utilities on its own class names; `@layer base` is the upgrade
-  path
+  path. Never put a class on an element that site.css already defines unless you
+  want its rules — this bit the homepage cards, where `.block` (site.css section)
+  beat Tailwind's `block`; the section is now `.home-block`
+- UI components first: check `components/ui/`; if missing, run
+  `npx shadcn@latest add <name>`; only write it yourself when shadcn has no such
+  component, and say why in the reply. Prefer presentational components
+  (`Card` / `Badge` / `Separator`); Radix-based ones (`Dialog` / `Select` /
+  `DropdownMenu` / `Tabs`) bring client JS, so justify them per page
+- shadcn rules: `components.json` + `@/` alias (`tsconfig.json` `paths`; Next 16
+  rejects `baseUrl`). Never run `shadcn init` and never `@import "tailwindcss"`
+  — it adds preflight. Every token lives in `app/globals.css` and maps to the
+  `site.css` variables; `[data-slot] { border-color }` in `@layer base` is the
+  only preflight substitute. After `add`, check the generated imports: the CLI
+  is known to write `from "cn"` instead of `@/lib/utils` and to install the
+  `cn` / `radix-ui` packages as a side effect
 - Footer: one markup (`SiteFooter` via `RootShell`), exactly two sizes — the
   base in `site.css`, plus a compact one for pages whose root has
   `data-fullscreen` (sport / mahjong / mir2 / guess / five-cards / calendar). Don't add `.site-footer`

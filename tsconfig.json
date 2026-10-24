@@ -16,6 +16,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true,
+    // shadcn 生成的组件用 @/ 别名，其它代码仍用相对路径
+    "paths": {
+      "@/*": ["./*"]
+    },
     // lib/ 与 test/ 由 node 直接跑（类型擦除），所以相对导入必须带真实后缀
     "allowImportingTsExtensions": true,
     // 保证只写 node 能直接擦除的语法（不用 enum / namespace / 参数属性）
