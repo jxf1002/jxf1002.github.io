@@ -87,7 +87,7 @@ main { min-height: calc(100vh - 145px); }
 .data-panel { overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
 .year-links { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 12px; }
 .badge { display: inline-block; padding: 4px 12px; border: 0; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-size: 13px; font-weight: 600; white-space: nowrap; }
-.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); height: auto; cursor: pointer; white-space: nowrap; }
 .button[aria-current="page"] { border-color: var(--primary); background: var(--primary); color: #fff; cursor: default; }
 .filters { display: flex; align-items: center; gap: 16px; padding: 16px; }
 .control { width: 100%; max-width: 280px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); outline-color: var(--primary); }
@@ -102,10 +102,10 @@ table { width: 100%; border-collapse: collapse; }
 th, td { padding: 13px 12px; text-align: center; border-top: 1px solid var(--border); }
 th { background: var(--surface-muted); color: var(--muted); font-size: .9rem; font-weight: 600; }
 td { white-space: normal; }
-.sort-button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.sort-button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; height: auto; cursor: pointer; }
 .sort-button:hover { color: var(--primary); }
 .pagination { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 18px; }
-.pagination button { min-width: 34px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer; }
+.pagination button { min-width: 34px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); height: auto; cursor: pointer; }
 .pagination button:disabled { cursor: not-allowed; opacity: .45; }
 .pagination span { color: var(--muted); font-size: .9rem; }
 .empty { padding: 32px; color: var(--muted); text-align: center; }

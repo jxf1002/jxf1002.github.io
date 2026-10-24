@@ -1,5 +1,6 @@
 /* 计算器内部的自有样式；重置只作用于 .dcf-app，避免污染站点 header/footer */
-.dcf-app * {
+/* :where() 保持零特异度，否则会压掉 table th / td 这类元素选择器的 padding */
+:where(.dcf-app) * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

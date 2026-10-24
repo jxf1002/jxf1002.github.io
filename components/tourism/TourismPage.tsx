@@ -4,6 +4,14 @@ import { useEffect, useState } from "react"
 import Pagination from "../Pagination"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table"
 import { paginate } from "../../lib/list"
 
 const ALL = "全部"
@@ -73,42 +81,42 @@ export default function TourismPage() {
             ))}
           </select>
         </div>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>景区名称</th>
-                <th>地区</th>
-                <th className="desktop-only">级别</th>
-                <th className="desktop-only">评定年份</th>
-              </tr>
-            </thead>
-            <tbody data-table-body>
-              {failed ? (
-                <tr>
-                  <td className="empty" colSpan={4}>
-                    数据加载失败
-                  </td>
-                </tr>
-              ) : result.items.length ? (
-                result.items.map((row, index) => (
-                  <tr key={row.name + index}>
-                    <td>{row.name}</td>
-                    <td>{row.provinceName}</td>
-                    <td className="desktop-only">{row.gradesName}</td>
-                    <td className="desktop-only">{row.year}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="empty" colSpan={4}>
-                    {rows.length ? "没有匹配的数据" : "正在加载..."}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <Table containerClassName="table-wrap">
+          <TableHeader>
+            <TableRow>
+              <TableHead>景区名称</TableHead>
+              <TableHead>地区</TableHead>
+              <TableHead className="desktop-only">级别</TableHead>
+              <TableHead className="desktop-only">评定年份</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody data-table-body>
+            {failed ? (
+              <TableRow>
+                <TableCell className="empty" colSpan={4}>
+                  数据加载失败
+                </TableCell>
+              </TableRow>
+            ) : result.items.length ? (
+              result.items.map((row, index) => (
+                <TableRow key={row.name + index}>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.provinceName}</TableCell>
+                  <TableCell className="desktop-only">
+                    {row.gradesName}
+                  </TableCell>
+                  <TableCell className="desktop-only">{row.year}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell className="empty" colSpan={4}>
+                  {rows.length ? "没有匹配的数据" : "正在加载..."}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
         <Pagination
           page={result.page}
           totalPages={result.totalPages}

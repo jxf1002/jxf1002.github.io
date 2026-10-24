@@ -128,7 +128,6 @@ for (const file of [
   "sitemap.xml",
   "robots.txt",
   "favicon.svg",
-  "assets/css/site.css",
   "data/college/colleges2026.json",
   "data/tourism/tourism.json",
   "data/car-sales/index.json",
@@ -170,23 +169,46 @@ for (const suit of ["s", "h", "d", "c"]) {
 }
 check("cards/back.svg 存在", has("cards/back.svg"))
 
-// 两个游戏页的样式都手写在页面里：必须排在 site.css 之后，浅色主题下牌桌的 :root 变量才能压过站点变量
-function styleOrder(file: string, urls: string[]): boolean {
-  const source = html(file)
-  const at = urls.map((u) => source.indexOf(u))
-  return at.every((v, i) => v >= 0 && (i === 0 || v > at[i - 1]))
+// site.css 由两个 root layout 引入，已经打进 Next 的 CSS chunk；两个游戏的样式仍手写 <link>，
+// 必须排在所有 Next CSS 之后，浅色主题下牌桌的 :root 变量才能压过站点变量
+function cssHrefs(file: string): string[] {
+  return [...html(file).matchAll(/<link[^>]*>/g)]
+    .map((m) => m[0])
+    .filter((tag) => tag.includes('rel="stylesheet"'))
+    .map((tag) => /href="([^"]+)"/.exec(tag)?.[1] ?? "")
 }
+
+// site.css 没有独立 URL，按内容里的 .site-page 找到它所在的 chunk
+function siteCssIndex(hrefs: string[]): number {
+  return hrefs.findIndex((href) => {
+    if (!href.startsWith("/_next/")) return false
+    return readFileSync(new URL("../out" + href, import.meta.url), "utf8").includes(
+      ".site-page",
+    )
+  })
+}
+
+function styleOrder(file: string, afterSite: string[]): boolean {
+  const hrefs = cssHrefs(file)
+  const site = siteCssIndex(hrefs)
+  if (site < 0) return false
+  // 游戏 link 带 ?v=N，按前缀匹配
+  const rest = afterSite.map((url) =>
+    hrefs.findIndex((href) => href === url || href.startsWith(url + "?")),
+  )
+  return rest.every((at, i) => at > site && (i === 0 || at > rest[i - 1]))
+}
+check("首页加载 site.css", siteCssIndex(cssHrefs("index.html")) >= 0)
 check(
   "麻将页样式顺序 site.css → driver.css → style.css",
   styleOrder("mahjong/index.html", [
-    "/assets/css/site.css",
     "/mahjong/vendor/driver.css",
     "/mahjong/style.css",
   ]),
 )
 check(
   "mir2 页样式顺序 site.css → style.css",
-  styleOrder("mir2/index.html", ["/assets/css/site.css", "/mir2/style.css"]),
+  styleOrder("mir2/index.html", ["/mir2/style.css"]),
 )
 for (const file of ["mahjong/index.html", "mir2/index.html"]) {
   check(

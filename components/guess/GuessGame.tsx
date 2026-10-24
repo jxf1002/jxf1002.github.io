@@ -333,7 +333,7 @@ export default function GuessGame() {
           {records.length === 0
             ? <p className="mt-3 text-sm text-fg-muted">还没有记录，玩一局就会出现在这里。</p>
             : (
-                <ul className="mt-2 max-h-[22rem] min-h-0 flex-1 divide-y divide-line overflow-y-auto lg:max-h-none">
+                <ul className="mt-2 max-h-[22rem] min-h-0 flex-1 divide-y divide-line overflow-y-auto overscroll-contain">
                   {records.map((record, i) => (
                     <li
                       key={`${record.at}-${i}`}

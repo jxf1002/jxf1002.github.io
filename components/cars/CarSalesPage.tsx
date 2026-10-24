@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table"
 import type { CarSalesYear, MonthSales } from "../../lib/car-sales"
 import {
   DEFAULT_YEAR,
@@ -88,54 +96,52 @@ export default function CarSalesPage() {
         }
       />
       <section className="data-panel">
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>排名</th>
-                <th>品牌</th>
-                <th className="desktop-only">国别</th>
-                <th>销量</th>
-                <th>同比</th>
-              </tr>
-            </thead>
-            <tbody>
-              {failed ? (
-                <tr>
-                  <td className="empty" colSpan={5}>
-                    数据加载失败
-                  </td>
-                </tr>
-              ) : rows.length ? (
-                rows.map((row, index) => (
-                  <tr key={row.name}>
-                    <td>{index + 1}</td>
-                    <td>{row.name}</td>
-                    <td className="desktop-only">{row.country}</td>
-                    <td>{row.sales.toLocaleString("zh-CN")}</td>
-                    <td
-                      className={
-                        row.yoy == null
-                          ? "empty"
-                          : row.yoy >= 0
-                            ? "up"
-                            : "down"
-                      }
-                    >
-                      {formatYoy(row.yoy)}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="empty" colSpan={5}>
-                    正在加载...
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <Table containerClassName="table-wrap">
+          <TableHeader>
+            <TableRow>
+              <TableHead>排名</TableHead>
+              <TableHead>品牌</TableHead>
+              <TableHead className="desktop-only">国别</TableHead>
+              <TableHead>销量</TableHead>
+              <TableHead>同比</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {failed ? (
+              <TableRow>
+                <TableCell className="empty" colSpan={5}>
+                  数据加载失败
+                </TableCell>
+              </TableRow>
+            ) : rows.length ? (
+              rows.map((row, index) => (
+                <TableRow key={row.name}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell className="desktop-only">{row.country}</TableCell>
+                  <TableCell>{row.sales.toLocaleString("zh-CN")}</TableCell>
+                  <TableCell
+                    className={
+                      row.yoy == null
+                        ? "empty"
+                        : row.yoy >= 0
+                          ? "up"
+                          : "down"
+                    }
+                  >
+                    {formatYoy(row.yoy)}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell className="empty" colSpan={5}>
+                  正在加载...
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </section>
     </Page>
   )

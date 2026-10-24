@@ -4,6 +4,15 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import Pagination from "../Pagination"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
+import { Button } from "../ui/button"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table"
 import type { CollegeRow, CollegeYear } from "../../lib/college"
 import {
   AVAILABLE_YEARS,
@@ -237,7 +246,7 @@ export default function CollegePage() {
                 ×
               </button>
             </span>
-            <button
+            <Button
               className="button"
               type="button"
               data-province-stats
@@ -245,7 +254,7 @@ export default function CollegePage() {
               onClick={() => dialog.current?.showModal()}
             >
               省级统计
-            </button>
+            </Button>
             <label className="page-size-control">
               每页显示
               <select
@@ -268,91 +277,93 @@ export default function CollegePage() {
               条
             </label>
           </div>
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <button
-                      className="sort-button"
-                      type="button"
-                      data-sort="default"
-                      onClick={() => sortBy("default")}
-                    >
-                      排名 ↕
-                    </button>
-                  </th>
-                  <th>省内排名</th>
-                  <th>学校名称</th>
-                  <th className="desktop-only">
-                    <button
-                      className="sort-button"
-                      data-sort="chinaxy"
-                      onClick={() => sortBy("chinaxy")}
-                    >
-                      校友会 ↕
-                    </button>
-                  </th>
-                  <th className="desktop-only">
-                    <button
-                      className="sort-button"
-                      data-sort="ranking"
-                      onClick={() => sortBy("ranking")}
-                    >
-                      软科 ↕
-                    </button>
-                  </th>
-                  <th className="desktop-only">
-                    <button
-                      className="sort-button"
-                      data-sort="wurank"
-                      onClick={() => sortBy("wurank")}
-                    >
-                      武书连 ↕
-                    </button>
-                  </th>
-                  <th>排名平均值</th>
-                </tr>
-              </thead>
-              <tbody data-table-body>
-                {failed ? (
-                  <tr>
-                    <td className="empty" colSpan={7}>
-                      数据加载失败
-                    </td>
-                  </tr>
-                ) : result.items.length ? (
-                  result.items.map((row) => (
-                    <tr key={row.id}>
-                      <td>{averageRanks[row.avg]}</td>
-                      <td>
-                        {row.province_abbr
-                          ? row.province_abbr + " " + (ranks[row.id] || 1)
-                          : "-"}
-                      </td>
-                      <td>{row.name}</td>
-                      <td className="desktop-only">
-                        {row.chinaxy == null ? "-" : row.chinaxy}
-                      </td>
-                      <td className="desktop-only">
-                        {row.ranking == null ? "-" : row.ranking}
-                      </td>
-                      <td className="desktop-only">
-                        {row.wurank == null ? "-" : row.wurank}
-                      </td>
-                      <td>{row.avg}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td className="empty" colSpan={7}>
-                      {loading ? "正在加载..." : "没有匹配的数据"}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table containerClassName="table-wrap">
+            <TableHeader>
+              <TableRow>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    className="sort-button"
+                    type="button"
+                    data-sort="default"
+                    onClick={() => sortBy("default")}
+                  >
+                    排名 ↕
+                  </Button>
+                </TableHead>
+                <TableHead>省内排名</TableHead>
+                <TableHead>学校名称</TableHead>
+                <TableHead className="desktop-only">
+                  <Button
+                    variant="ghost"
+                    className="sort-button"
+                    data-sort="chinaxy"
+                    onClick={() => sortBy("chinaxy")}
+                  >
+                    校友会 ↕
+                  </Button>
+                </TableHead>
+                <TableHead className="desktop-only">
+                  <Button
+                    variant="ghost"
+                    className="sort-button"
+                    data-sort="ranking"
+                    onClick={() => sortBy("ranking")}
+                  >
+                    软科 ↕
+                  </Button>
+                </TableHead>
+                <TableHead className="desktop-only">
+                  <Button
+                    variant="ghost"
+                    className="sort-button"
+                    data-sort="wurank"
+                    onClick={() => sortBy("wurank")}
+                  >
+                    武书连 ↕
+                  </Button>
+                </TableHead>
+                <TableHead>排名平均值</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody data-table-body>
+              {failed ? (
+                <TableRow>
+                  <TableCell className="empty" colSpan={7}>
+                    数据加载失败
+                  </TableCell>
+                </TableRow>
+              ) : result.items.length ? (
+                result.items.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell>{averageRanks[row.avg]}</TableCell>
+                    <TableCell>
+                      {row.province_abbr
+                        ? row.province_abbr + " " + (ranks[row.id] || 1)
+                        : "-"}
+                    </TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell className="desktop-only">
+                      {row.chinaxy == null ? "-" : row.chinaxy}
+                    </TableCell>
+                    <TableCell className="desktop-only">
+                      {row.ranking == null ? "-" : row.ranking}
+                    </TableCell>
+                    <TableCell className="desktop-only">
+                      {row.wurank == null ? "-" : row.wurank}
+                    </TableCell>
+                    <TableCell>{row.avg}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell className="empty" colSpan={7}>
+                    {loading ? "正在加载..." : "没有匹配的数据"}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
           <Pagination
             page={result.page}
             totalPages={result.totalPages}
@@ -380,78 +391,78 @@ export default function CollegePage() {
             ×
           </button>
         </div>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  <button
-                    className="sort-button"
-                    type="button"
-                    data-province-default-sort
-                    onClick={() =>
-                      setState((prev) => ({ ...prev, statsSortKey: "" }))
-                    }
-                  >
-                    排名 ↕
-                  </button>
-                </th>
-                <th>省份</th>
-                <th>
-                  <button
-                    className="sort-button"
-                    type="button"
-                    data-province-sort
-                    onClick={() =>
-                      setState((prev) => ({
-                        ...prev,
-                        statsSortKey: "count",
-                        statsDirection:
-                          prev.statsDirection === "asc" ? "desc" : "asc",
-                      }))
-                    }
-                  >
-                    大学数量 ↕
-                  </button>
-                </th>
-                <th>排名平均值</th>
-              </tr>
-            </thead>
-            <tbody data-province-stats-body>
-              {stats.length ? (
-                stats.map((item) => (
-                  <tr
-                    className="province-stat-row"
-                    data-province-stat={item.province}
-                    tabIndex={0}
-                    key={item.province}
-                    onClick={() => {
-                      changeProvince(item.province)
-                      dialog.current?.close()
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key !== "Enter" && event.key !== " ") return
-                      event.preventDefault()
-                      changeProvince(item.province)
-                      dialog.current?.close()
-                    }}
-                  >
-                    <td>{item.rank}</td>
-                    <td>{provinceLabel(item.province)}</td>
-                    <td>{item.count}</td>
-                    <td>{item.average.toFixed(2)}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="empty" colSpan={4}>
-                    {rows.length ? "暂无省份数据" : "正在加载..."}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <Table containerClassName="table-wrap">
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Button
+                  variant="ghost"
+                  className="sort-button"
+                  type="button"
+                  data-province-default-sort
+                  onClick={() =>
+                    setState((prev) => ({ ...prev, statsSortKey: "" }))
+                  }
+                >
+                  排名 ↕
+                </Button>
+              </TableHead>
+              <TableHead>省份</TableHead>
+              <TableHead>
+                <Button
+                  variant="ghost"
+                  className="sort-button"
+                  type="button"
+                  data-province-sort
+                  onClick={() =>
+                    setState((prev) => ({
+                      ...prev,
+                      statsSortKey: "count",
+                      statsDirection:
+                        prev.statsDirection === "asc" ? "desc" : "asc",
+                    }))
+                  }
+                >
+                  大学数量 ↕
+                </Button>
+              </TableHead>
+              <TableHead>排名平均值</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody data-province-stats-body>
+            {stats.length ? (
+              stats.map((item) => (
+                <TableRow
+                  className="province-stat-row"
+                  data-province-stat={item.province}
+                  tabIndex={0}
+                  key={item.province}
+                  onClick={() => {
+                    changeProvince(item.province)
+                    dialog.current?.close()
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key !== "Enter" && event.key !== " ") return
+                    event.preventDefault()
+                    changeProvince(item.province)
+                    dialog.current?.close()
+                  }}
+                >
+                  <TableCell>{item.rank}</TableCell>
+                  <TableCell>{provinceLabel(item.province)}</TableCell>
+                  <TableCell>{item.count}</TableCell>
+                  <TableCell>{item.average.toFixed(2)}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell className="empty" colSpan={4}>
+                  {rows.length ? "暂无省份数据" : "正在加载..."}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </dialog>
     </>
   )

@@ -4,6 +4,15 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import Pagination from "../Pagination"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
+import { Button } from "../ui/button"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table"
 import { paginate } from "../../lib/list"
 import type { City, WeatherStore } from "../../lib/weather"
 import {
@@ -385,7 +394,7 @@ export default function ComfortPage() {
       </PageHeader>
       <section className="data-panel">
         <div className="view-switch" role="group" aria-label="视图切换">
-          <button
+          <Button
             className="button"
             type="button"
             aria-pressed={view === "map"}
@@ -395,15 +404,15 @@ export default function ComfortPage() {
             }}
           >
             地图
-          </button>
-          <button
+          </Button>
+          <Button
             className="button"
             type="button"
             aria-pressed={view === "list"}
             onClick={() => setView("list")}
           >
             列表
-          </button>
+          </Button>
         </div>
         <div hidden={view !== "map"}>
           <div className="feels-map-wrap">
@@ -449,69 +458,69 @@ export default function ComfortPage() {
                 </option>
               ))}
             </select>
-            <button className="button" type="button" onClick={refresh}>
+            <Button className="button" type="button" onClick={refresh}>
               刷新天气
-            </button>
+            </Button>
           </div>
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>地级市</th>
-                  <th>天气</th>
-                  <th className="desktop-only">气温</th>
-                  <th>体感</th>
-                  <th className="desktop-only">24小时范围</th>
-                  <th>舒适度</th>
-                </tr>
-              </thead>
-              <tbody data-table-body>
-                {failed ? (
-                  <tr>
-                    <td className="empty" colSpan={6}>
-                      数据加载失败
-                    </td>
-                  </tr>
-                ) : result.items.length ? (
-                  result.items.map((city) => {
-                    const data = store[city.name] || {}
-                    const levelInfo =
-                      data.level >= 0 ? LEVELS[data.level] : null
-                    return (
-                      <tr key={city.name}>
-                        <td>{city.name}</td>
-                        <td>{weatherText(data.code)}</td>
-                        <td className="desktop-only">{fmt(data.temp)}</td>
-                        <td>{fmt(data.feels)}</td>
-                        <td className="desktop-only">
-                          {fmt(data.min)} ~ {fmt(data.max)}
-                        </td>
-                        <td>
-                          {levelInfo ? (
-                            <>
-                              <span
-                                className="feels-dot"
-                                style={{ background: levelInfo.color }}
-                              ></span>
-                              {levelInfo.name}
-                            </>
-                          ) : (
-                            "—"
-                          )}
-                        </td>
-                      </tr>
-                    )
-                  })
-                ) : (
-                  <tr>
-                    <td className="empty" colSpan={6}>
-                      {cities.length ? "没有匹配的城市" : "正在加载..."}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table containerClassName="table-wrap">
+            <TableHeader>
+              <TableRow>
+                <TableHead>地级市</TableHead>
+                <TableHead>天气</TableHead>
+                <TableHead className="desktop-only">气温</TableHead>
+                <TableHead>体感</TableHead>
+                <TableHead className="desktop-only">24小时范围</TableHead>
+                <TableHead>舒适度</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody data-table-body>
+              {failed ? (
+                <TableRow>
+                  <TableCell className="empty" colSpan={6}>
+                    数据加载失败
+                  </TableCell>
+                </TableRow>
+              ) : result.items.length ? (
+                result.items.map((city) => {
+                  const data = store[city.name] || {}
+                  const levelInfo =
+                    data.level >= 0 ? LEVELS[data.level] : null
+                  return (
+                    <TableRow key={city.name}>
+                      <TableCell>{city.name}</TableCell>
+                      <TableCell>{weatherText(data.code)}</TableCell>
+                      <TableCell className="desktop-only">
+                        {fmt(data.temp)}
+                      </TableCell>
+                      <TableCell>{fmt(data.feels)}</TableCell>
+                      <TableCell className="desktop-only">
+                        {fmt(data.min)} ~ {fmt(data.max)}
+                      </TableCell>
+                      <TableCell>
+                        {levelInfo ? (
+                          <>
+                            <span
+                              className="feels-dot"
+                              style={{ background: levelInfo.color }}
+                            ></span>
+                            {levelInfo.name}
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  )
+                })
+              ) : (
+                <TableRow>
+                  <TableCell className="empty" colSpan={6}>
+                    {cities.length ? "没有匹配的城市" : "正在加载..."}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
           <Pagination
             page={result.page}
             totalPages={result.totalPages}

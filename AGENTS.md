@@ -28,7 +28,7 @@ npm run verify   # next build + scripts/check-build.ts
 | `components/ui/` | shadcn components (source copied into the repo, not a runtime dependency). `Card` / `Badge` are server components and ship no JS |
 | `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/`, `mir2/` |
 | `types/` | Ambient declarations (echarts and jsdom ship no types) |
-| `public/` | Published as-is: `assets/` (site CSS), `data/` (`college/`, `tourism/`, `car-sales/` JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
+| `public/` | Published as-is: `data/` (`college/`, `tourism/`, `car-sales/` JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
 | `public/mahjong/`, `public/mir2/` | Static assets for the two games (`style.css`, `svg/`, `data/`, `vendor/driver.js`); their logic lives in `lib/` and their UI in `components/` |
 | `public/cards/` | 52 playing-card faces + back for the five-card trick; sources and licenses in `README.md` |
 | `scripts/check-build.ts` | Build-output self-check (routes, SEO tags, analytics, static assets, game CSS order) |
@@ -93,22 +93,28 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
 - SEO copy lives in `lib/site.ts`; every route exports
   `export const metadata = metadataFor('<route>')`
 - `components/RootShell.tsx` renders the SEO-independent chrome: header, footer,
-  theme first-paint script, Baidu analytics, `site.css`; the two root layouts
-  (`app/(site)/layout.tsx`, `app/(tool)/layout.tsx`) only differ by body class
+  theme first-paint script, Baidu analytics; the two root layouts
+  (`app/(site)/layout.tsx`, `app/(tool)/layout.tsx`) import `globals.css` +
+  `site.css` and only differ by body class. Third-party scripts must be rendered
+  by React (`<script async src>`) — never inject nodes into `<head>` from an
+  inline script, or hydration breaks
 - Theme contract: `localStorage['theme']`, `html.dark` class, and the
   `themechange` event. `lib/theme.ts` is the single implementation;
   `components/RootShell.tsx` inlines the first-paint script that applies it
   before paint
-- Styles: `public/assets/css/site.css` is linked from the layout with a `?v=N`
-  cache-bust; route-private CSS is imported in `app/(<group>)/<route>/page.tsx`
-- Tailwind v4 (`@tailwindcss/postcss`, `app/globals.css`, imported by the two
-  root layouts) — no preflight (site and games rely on browser defaults),
-  `dark:` follows `html.dark`, site.css vars mapped to `bg-surface` /
-  `text-fg-muted` / `border-line`. site.css is still static and unlayered, so
-  its rules beat utilities on its own class names; `@layer base` is the upgrade
-  path. Never put a class on an element that site.css already defines unless you
-  want its rules — this bit the homepage cards, where `.block` (site.css section)
-  beat Tailwind's `block`; the section is now `.home-block`
+- Styles: `app/site.css` is imported by both root layouts after
+  `app/globals.css`; Next hashes the chunk, so there is no `?v=N` cache-bust any
+  more. Route-private CSS is still imported in
+  `app/(<group>)/<route>/page.tsx` and is emitted after `globals.css` + `site.css`
+- Tailwind v4 (`@tailwindcss/postcss`, `app/globals.css`) — no preflight (site
+  and games rely on browser defaults), `dark:` follows `html.dark`, site.css vars
+  mapped to `bg-surface` / `text-fg-muted` / `border-line`. site.css is
+  unlayered, so its rules beat utilities on its own class names; `@layer base`
+  is the upgrade path. Never put a class on an element that site.css already
+  defines unless you want its rules — this bit the homepage cards, where
+  `.block` (site.css section) beat Tailwind's `block`; the section is now
+  `.home-block`. Because route CSS now comes after site.css, keep route
+  selectors scoped (no bare `table` / `body` / `th` rules)
 - UI components first: check `components/ui/`; if missing, run
   `npx shadcn@latest add <name>`; only write it yourself when shadcn has no such
   component, and say why in the reply. Prefer presentational components
@@ -120,7 +126,10 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   `site.css` variables; `[data-slot] { border-color }` in `@layer base` is the
   only preflight substitute. After `add`, check the generated imports: the CLI
   is known to write `from "cn"` instead of `@/lib/utils` and to install the
-  `cn` / `radix-ui` packages as a side effect
+  `cn` / `radix-ui` packages as a side effect. Local tweaks to generated files
+  are deliberate: `ui/table.tsx` drops shadcn's `text-sm` / `h-10` / `border-b`
+  and accepts `containerClassName`, so `.data-page` keeps owning the data-table
+  look; `ui/button.tsx` has no `asChild` (links use `<a class="button">`)
 - Layout: every page except the homepage renders `<Page>` from
   `components/layout/Page` as its only `<main>`, and starts with `<PageHeader
   title=… description=…>` (actions go in the `actions` slot). Width, padding and
@@ -133,9 +142,10 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   a game is running. `check-build` asserts every page's footer markup is
   identical and that no page brings `data-fullscreen` back
 - The two games are the exception: their stylesheets are hand-written
-  `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER
-  `site.css` in the output (imported route CSS would be emitted before it and
-  flip which `:root`/`body` rule wins). `scripts/check-build.ts` asserts the
+  `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER every
+  bundled Next CSS chunk in the output (site.css now lives in that chunk, and
+  route CSS would flip which `:root`/`body` rule wins).
+  `scripts/check-build.ts` finds the site.css chunk by content and asserts the
   order — don't "tidy" those links into imports
 - The games keep the engine imperative and the UI in React; the engine notifies
   the UI through a `setUI({...})` hook object. Element ids/classes in the game

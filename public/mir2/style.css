@@ -98,7 +98,7 @@ button.btn:disabled { opacity: .5; cursor: default; }
 .boss-name { color: var(--mir2-warrior); }
 .mir2-fight { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 7px; }
 .mob { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mir2-log { flex: 1; min-height: 40px; overflow-y: auto; font-size: 12px; line-height: 1.7; color: var(--text); }
+.mir2-log { flex: 1; min-height: 40px; max-height: 280px; overflow-y: auto; overscroll-behavior: contain; font-size: 12px; line-height: 1.7; color: var(--text); }
 .mir2-bag { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--surface); }
 .mir2-bag h3 { margin: 0 0 4px; font-size: 15px; display: flex; align-items: center; gap: 6px; }
 .mir2-bag h3 #btn-sell { margin-left: auto; }
@@ -114,7 +114,7 @@ button.btn:disabled { opacity: .5; cursor: default; }
 .bag-filter button { cursor: pointer; font-family: inherit; font-size: 12px; line-height: 1.7; padding: 0 9px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface-muted); }
 .bag-filter button.active { border-color: currentColor; background: var(--primary-soft); font-weight: 700; }
 .mir2-bag-list { border-top: 1px dashed var(--border); padding-top: 4px; }
-.mir2-bag-list { flex: 1; min-height: 0; overflow-y: auto; font-size: 13px; line-height: 1.75; }
+.mir2-bag-list { flex: 1; min-height: 0; max-height: 320px; overflow-y: auto; overscroll-behavior: contain; font-size: 13px; line-height: 1.75; }
 .bag-row { display: flex; justify-content: space-between; gap: 8px; padding: 0 4px; border-radius: 4px; font-variant-numeric: tabular-nums; cursor: pointer; }
 .bag-row:hover { background: var(--primary-soft); }
 .bag-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -199,7 +199,6 @@ button.btn:disabled { opacity: .5; cursor: default; }
   .mir2-main { grid-template-columns: 1fr; }
   .mir2-chars { grid-template-columns: 1fr; }
   .mir2-log { height: 160px; flex: none; }
-  .mir2-bag-list { max-height: 320px; }
   [data-tip] { text-decoration: underline dotted; text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
   .mir2-controls { gap: 5px; }
   .mir2-controls .ctl-right { display: contents; }
