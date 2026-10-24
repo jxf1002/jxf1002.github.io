@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import {
   MODES,
   MODE_META,
@@ -184,24 +186,18 @@ export default function CalendarGame() {
 
   if (!date) {
     return (
-      <main
-        className="calendar-page mx-auto w-full max-w-6xl px-4 py-10"
-        data-fullscreen
-      >
+      <Page className="calendar-page">
         <p className="text-sm text-fg-muted">加载中…</p>
-      </main>
+      </Page>
     )
   }
 
   const parts = parseIsoDate(date)
   if (!parts) {
     return (
-      <main
-        className="calendar-page mx-auto w-full max-w-6xl px-4 py-10"
-        data-fullscreen
-      >
+      <Page className="calendar-page">
         <p className="text-sm text-fg-muted">日期无效，请重新选择。</p>
-      </main>
+      </Page>
     )
   }
 
@@ -553,16 +549,11 @@ export default function CalendarGame() {
   }
 
   return (
-    <main
-      className="calendar-page mx-auto w-full max-w-6xl px-4 py-6"
-      data-fullscreen
-    >
-      <header className="calendar-header">
-        <h1>日历拼图</h1>
-        <p className="calendar-subtitle">
-          拖动拼块完成拼图，空格旋转，Tab 键翻转。
-        </p>
-      </header>
+    <Page className="calendar-page">
+      <PageHeader
+        title="日历拼图"
+        description="拖动拼块完成拼图，空格旋转，Tab 键翻转。"
+      />
 
       <section className="calendar-toolbar" aria-label="难度和日期">
         <div className="calendar-modes" role="group" aria-label="难度">
@@ -807,6 +798,6 @@ export default function CalendarGame() {
           />
         </div>
       )}
-    </main>
+    </Page>
   )
 }

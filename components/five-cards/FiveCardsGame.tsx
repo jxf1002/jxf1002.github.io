@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import {
   DECK,
   cardId,
@@ -57,12 +59,9 @@ export default function FiveCardsGame() {
 
   if (!game) {
     return (
-      <main
-        className="five-cards-page mx-auto w-full max-w-6xl px-4 py-10"
-        data-fullscreen
-      >
+      <Page className="five-cards-page">
         <p className="text-sm text-fg-muted">加载中…</p>
-      </main>
+      </Page>
     )
   }
 
@@ -85,16 +84,11 @@ export default function FiveCardsGame() {
   }
 
   return (
-    <main
-      className="five-cards-page mx-auto w-full max-w-6xl px-4 py-6"
-      data-fullscreen
-    >
-      <header className="mb-4">
-        <h1 className="text-2xl font-bold sm:text-3xl">五张牌魔术</h1>
-        <p className="mt-1 text-sm text-fg-muted">
-          一张扣牌、四张明牌。读懂后三张的排列，就能算出扣住的那张。
-        </p>
-      </header>
+    <Page className="five-cards-page">
+      <PageHeader
+        title="五张牌魔术"
+        description="一张扣牌、四张明牌。读懂后三张的排列，就能算出扣住的那张。"
+      />
 
       <details className="mb-4 rounded-xl border border-solid border-line bg-surface-muted px-4 py-3 text-sm">
         <summary className="cursor-pointer font-semibold">怎么看牌</summary>
@@ -193,6 +187,6 @@ export default function FiveCardsGame() {
           </div>
         </div>
       </section>
-    </main>
+    </Page>
   )
 }

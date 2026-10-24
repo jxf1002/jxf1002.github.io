@@ -24,6 +24,7 @@ npm run verify   # next build + scripts/check-build.ts
 | `app/(<group>)/<route>/page.tsx` | One directory per route. The page only exports metadata and renders the route component |
 | `app/(<group>)/<route>/style.css` | Route-private stylesheet, imported by that route's `page.tsx` |
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
+| `components/layout/` | Route layout primitives: `Page` (the only page container) and `PageHeader` (title + one-line description + actions) |
 | `components/ui/` | shadcn components (source copied into the repo, not a runtime dependency). `Card` / `Badge` are server components and ship no JS |
 | `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/`, `mir2/` |
 | `types/` | Ambient declarations (echarts and jsdom ship no types) |
@@ -120,11 +121,17 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   only preflight substitute. After `add`, check the generated imports: the CLI
   is known to write `from "cn"` instead of `@/lib/utils` and to install the
   `cn` / `radix-ui` packages as a side effect
-- Footer: one markup (`SiteFooter` via `RootShell`), exactly two sizes — the
-  base in `site.css`, plus a compact one for pages whose root has
-  `data-fullscreen` (sport / mahjong / mir2 / guess / five-cards / calendar). Don't add `.site-footer`
-  padding/size rules to route CSS; `check-build` asserts every page's footer
-  markup is identical
+- Layout: every page except the homepage renders `<Page>` from
+  `components/layout/Page` as its only `<main>`, and starts with `<PageHeader
+  title=… description=…>` (actions go in the `actions` slot). Width, padding and
+  breakpoints live in `.site-page` / `.page-header` in `site.css` and are written
+  in `px` — don't re-declare `max-w-*` or page padding per route. Mahjong is the
+  only exception: its game chrome (`body.playing`) owns the fullscreen layout
+- Footer: one markup (`SiteFooter` via `RootShell`) and one size. There is no
+  compact/fullscreen variant and no `data-fullscreen` attribute. Don't add
+  `.site-footer` padding/size rules to route CSS; mahjong may only hide it while
+  a game is running. `check-build` asserts every page's footer markup is
+  identical and that no page brings `data-fullscreen` back
 - The two games are the exception: their stylesheets are hand-written
   `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER
   `site.css` in the output (imported route CSS would be emitted before it and

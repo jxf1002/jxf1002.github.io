@@ -195,8 +195,7 @@ for (const file of ["mahjong/index.html", "mir2/index.html"]) {
   )
 }
 
-// footer 只有两种尺寸（site.css 的基准 + data-fullscreen 页面用的紧凑版），
-// 这里锁住「markup 全站唯一、内容逐字一致、标记不漏」
+// footer 只有一种尺寸；markup 全站唯一、内容逐字一致
 console.log("== footer 归一化 ==")
 const FOOTER = /<footer class="site-footer">[\s\S]*?<\/footer>/
 const footers = ROUTES.map(([file]) => {
@@ -214,19 +213,8 @@ for (const text of [
 ]) {
   check(`footer 含 ${text}`, footers[0].includes(text))
 }
-const FULLSCREEN = [
-  "sport/index.html",
-  "mahjong/index.html",
-  "mir2/index.html",
-  "guess/index.html",
-  "five-cards/index.html",
-  "calendar/index.html",
-]
 for (const [file] of ROUTES) {
-  check(
-    `${file} data-fullscreen 标记`,
-    html(file).includes("data-fullscreen") === FULLSCREEN.includes(file),
-  )
+  check(`${file} 不再使用 data-fullscreen`, !html(file).includes("data-fullscreen"))
 }
 
 if (failed) {

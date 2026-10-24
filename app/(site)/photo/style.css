@@ -1,47 +1,4 @@
 /* ===== 图片转换工具专用样式（复用站点变量） ===== */
-.converter .app-header {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 14px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-.converter .header-icon {
-  flex: 0 0 46px;
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  font-size: 22px;
-  line-height: 1;
-}
-.converter .header-text {
-  min-width: 0;
-}
-.converter .app-header h1 {
-  margin: 0;
-  font-size: 1.45rem;
-  letter-spacing: -0.01em;
-}
-.converter .app-header .sub {
-  margin: 4px 0 0;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-.converter .app-header .badge {
-  margin-left: auto;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
 
 /* 拖拽上传区 */
 .drop-zone {
@@ -324,9 +281,6 @@
 }
 
 @media (max-width: 800px) {
-  .tool-main {
-    padding: 16px 12px 0;
-  }
   .converter {
     padding: 20px 16px 24px !important;
   }
@@ -335,9 +289,6 @@
   }
   .toolbar .hint {
     display: none;
-  }
-  .converter .app-header .badge {
-    margin-left: 0;
   }
   .file-name {
     max-width: 150px;

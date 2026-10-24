@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import Pagination from "../Pagination"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import { paginate } from "../../lib/list"
 import type { City, WeatherStore } from "../../lib/weather"
 import {
@@ -358,31 +360,30 @@ export default function ComfortPage() {
   }
 
   return (
-    <main className="data-page feels-page">
+    <Page className="data-page feels-page">
+      <PageHeader
+        title="全国体感温度"
+        description={`按地级市划分 · 更新时间 ${updated}`}
+      >
+        <div className="feels-legend" aria-label="体感温度图例">
+          <span>
+            <i style={{ background: "#313695" }}></i>寒冷 &lt;0°C
+          </span>
+          <span>
+            <i style={{ background: "#74ADD1" }}></i>凉爽 0–15°C
+          </span>
+          <span>
+            <i style={{ background: "#1A9850" }}></i>舒适 15–27°C
+          </span>
+          <span>
+            <i style={{ background: "#FDAE61" }}></i>偏热 27–32°C
+          </span>
+          <span>
+            <i style={{ background: "#D73027" }}></i>炎热 &gt;32°C
+          </span>
+        </div>
+      </PageHeader>
       <section className="data-panel">
-        <header className="data-header">
-          <h1>全国体感温度</h1>
-          <p>
-            按地级市划分 · <span>{updated}</span>
-          </p>
-          <div className="feels-legend" aria-label="体感温度图例">
-            <span>
-              <i style={{ background: "#313695" }}></i>寒冷 &lt;0°C
-            </span>
-            <span>
-              <i style={{ background: "#74ADD1" }}></i>凉爽 0–15°C
-            </span>
-            <span>
-              <i style={{ background: "#1A9850" }}></i>舒适 15–27°C
-            </span>
-            <span>
-              <i style={{ background: "#FDAE61" }}></i>偏热 27–32°C
-            </span>
-            <span>
-              <i style={{ background: "#D73027" }}></i>炎热 &gt;32°C
-            </span>
-          </div>
-        </header>
         <div className="view-switch" role="group" aria-label="视图切换">
           <button
             className="button"
@@ -525,6 +526,6 @@ export default function ComfortPage() {
           秒自动补全，直到全部获取。坐标取自地图中心点。
         </p>
       </section>
-    </main>
+    </Page>
   )
 }

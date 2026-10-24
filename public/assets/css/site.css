@@ -59,8 +59,14 @@ button, input, select { font: inherit; }
 .theme-toggle:hover { background: var(--surface-muted); }
 
 main { min-height: calc(100vh - 145px); }
+/* 全站统一页面容器：固定 1200px 宽，尺寸用 px，不走 rem/vw */
+.site-page { width: 100%; max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-header-text { flex: 1 1 420px; min-width: 0; }
+.page-header h1 { margin: 0; font-size: 40px; line-height: 1.15; letter-spacing: -.02em; }
+.page-header p { margin: 8px 0 0; max-width: 60ch; color: var(--muted); font-size: 14px; }
+.page-header-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .tool-page { display: block; padding: 0 !important; background: var(--bg); }
-.tool-main { width: min(1240px, 100%); margin: 0 auto; padding: 28px 20px 0; }
 .tool-page .app-container, .tool-page .app { max-width: none; width: 100%; margin: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
 .tool-page .app { padding: 32px 36px 40px; }
 .tool-page .page { min-height: auto; display: block; padding: 28px 20px 0; background: transparent; }
@@ -78,13 +84,10 @@ main { min-height: calc(100vh - 145px); }
 .card-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .theme-toggle:focus-visible, .button:focus-visible, .control:focus-visible, .pagination button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
-.data-page { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
 .data-panel { overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
-.data-header { padding: 28px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-.data-header h1 { margin: 0; font-size: clamp(2rem, 5vw, 2.5rem); }
-.data-header p { margin: 8px 0 14px; color: var(--muted); font-size: .9rem; }
-.year-links { display: flex; justify-content: center; gap: 12px; }
-.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); cursor: pointer; }
+.year-links { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 12px; }
+.badge { display: inline-block; padding: 4px 12px; border: 0; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.button { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); color: var(--muted); cursor: pointer; white-space: nowrap; }
 .button[aria-current="page"] { border-color: var(--primary); background: var(--primary); color: #fff; cursor: default; }
 .filters { display: flex; align-items: center; gap: 16px; padding: 16px; }
 .control { width: 100%; max-width: 280px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); outline-color: var(--primary); }
@@ -155,11 +158,8 @@ td { white-space: normal; }
 .site-footer { margin-top: 30px; padding: 28px 20px 32px; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); text-align: center; font-size: .875rem; }
 .site-footer p { margin: 6px 0; }
 .site-footer a:hover { color: var(--primary); }
-/* 一屏游戏（sport / mahjong / mir2 / guess）的紧凑 footer；其余页面用上面的基准样式。
-   页面根节点加 data-fullscreen 即可，尺寸只在这里调，路由 CSS 不要再写 .site-footer */
-body:has([data-fullscreen]) .site-footer { flex: none; margin-top: 0; padding: 8px 16px; font-size: .8rem; }
-body:has([data-fullscreen]) .site-footer p { margin: 0; }
 @media (max-width: 600px) {
+  .year-links .button { padding: 8px 12px; }
   .site-footer { display: flex; flex-direction: column; gap: 6px; align-items: center; }
   .site-footer p { margin: 0; }
   .site-footer .copyright-line { display: flex; flex-direction: column; gap: 6px; align-items: center; }
@@ -324,7 +324,7 @@ body:has([data-fullscreen]) .site-footer p { margin: 0; }
 :root.dark .tool-page .strategy-content .block { background: #25483f !important; border-left-color: var(--primary) !important; box-shadow: 0 6px 20px rgb(0 0 0 / 22%) !important; }
 :root.dark .tool-page .strategy-content .swot-item { background: #2c5147 !important; border-color: #4b7468 !important; color: var(--text) !important; box-shadow: 0 3px 12px rgb(0 0 0 / 20%) !important; }
 
-.feels-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; margin-top: 14px; color: var(--muted); font-size: .82rem; }
+.feels-legend { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 16px; margin-top: 14px; color: var(--muted); font-size: .82rem; }
 .feels-legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 3px; vertical-align: baseline; }
 .feels-map-wrap { position: relative; padding: 8px 16px 0; }
 .feels-map { width: 100%; height: 560px; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
@@ -342,15 +342,13 @@ body:has([data-fullscreen]) .site-footer p { margin: 0; }
   .hero-inner { grid-template-columns: 1fr; gap: 24px; padding-top: 44px; }
   .hero-image { width: min(78%, 320px); justify-self: center; }
   .card-grid { grid-template-columns: 1fr; }
-  .filters { flex-direction: column; }
+  .filters { flex-direction: column; align-items: stretch; }
   .control { max-width: none; }
   .province-filter { max-width: none; }
   .desktop-only { display: none; }
-  .data-page { padding: 0; }
-  .data-panel { border-right: 0; border-left: 0; border-radius: 0; }
-  .data-page .table-wrap { border-right: 0; border-left: 0; border-radius: 0; }
+  .site-page { padding: 20px 16px; }
+  .page-header h1 { font-size: 30px; }
   .data-page th, .data-page td { padding: 13px 14px; }
-  .data-header h1 { font-size: 2rem; }
   .feels-map { height: 380px; }
   .feels-page table { min-width: 0; }
   .feels-page th, .feels-page td { padding: 12px 8px; }

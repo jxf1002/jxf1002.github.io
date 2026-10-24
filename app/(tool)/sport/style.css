@@ -27,30 +27,11 @@ body.tool-page > main.sport {
   flex: 1 0 auto;
   flex-direction: column;
   gap: 10px;
-  width: min(1100px, 100%);
   min-height: 0;
-  margin: 0 auto;
-  padding: 10px 16px 12px;
 }
+.sport .page-header { margin-bottom: 0; }
 
-/* 头部：标题 + 运动切换 */
-.sport-bar {
-  display: flex;
-  flex: none;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.sport-bar .eyebrow {
-  margin: 0 0 3px;
-  color: var(--accent);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.sport-bar h1 { margin: 0; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.15; }
+/* 头部：运动切换（标题由 PageHeader 提供） */
 .sport-tabs {
   display: flex;
   gap: 4px;
@@ -619,7 +600,6 @@ body.tool-page > main.sport {
 }
 
 @media (max-width: 720px) {
-  .sport-bar { align-items: flex-start; flex-direction: column; gap: 8px; }
   .sport-tabs { align-self: stretch; justify-content: space-between; }
   .sport-tabs button { flex: 1; padding: 7px 8px; }
   .stage { min-height: 200px; }

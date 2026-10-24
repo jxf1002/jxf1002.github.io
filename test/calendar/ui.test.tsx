@@ -207,7 +207,7 @@ test("日期和模式：目标格、按钮文案、没有留空字样", async ()
     assert.equal(modeButton("basic").textContent?.trim(), "初级")
     assert.equal(modeButton("advanced").textContent?.trim(), "高级")
     assert.match(
-      container.querySelector(".calendar-subtitle")?.textContent ?? "",
+      container.querySelector(".page-header p")?.textContent ?? "",
       /拖动拼块完成拼图，空格旋转，Tab 键翻转。/,
     )
     assert.equal(

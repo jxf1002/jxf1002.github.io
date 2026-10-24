@@ -2,6 +2,8 @@
 
 import type { MouseEvent, ReactNode } from "react"
 import { useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import * as Game from "../../lib/mir2/game"
 import { BOOST_TIERS, DB, S } from "../../lib/mir2/game"
 import { fmtCdShort, fmtDropTime, fmtGold, fmtNum } from "../../lib/mir2/format"
@@ -487,12 +489,15 @@ export default function Mir2Game() {
 
   return (
     <>
-      <div className="mir2-wrap" data-fullscreen onMouseOver={onTip} onMouseMove={onTip} onMouseLeave={() => setTip(null)}>
-        <div className="mir2-title-row">
-          <h1>传奇挂机小游戏</h1>
-          <button type="button" className="linklike" id="btn-help" onClick={() => setModal({ kind: "help" })}>玩法说明</button>
-          <span className="sub">战法道三人小队全自动打怪升级，也可组队挑战首领</span>
-        </div>
+      <Page className="mir2-page">
+        <PageHeader
+          title="传奇挂机小游戏"
+          description="战法道三人小队全自动打怪升级，也可组队挑战首领。"
+          actions={
+            <button type="button" className="linklike" id="btn-help" onClick={() => setModal({ kind: "help" })}>玩法说明</button>
+          }
+        />
+        <div className="mir2-wrap" onMouseOver={onTip} onMouseMove={onTip} onMouseLeave={() => setTip(null)}>
         <div className="mir2-controls">
           <button type="button" className="btn" id="btn-boss" onClick={openBoss}>⚔ 挑战首领</button>
           <span className="ctl-right">
@@ -594,6 +599,7 @@ export default function Mir2Game() {
           </div>
         </div>
       </div>
+      </Page>
 
       <div
         className={"mir2-modal" + (modal ? " open" : "")}

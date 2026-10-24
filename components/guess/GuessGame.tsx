@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 import type { ClipboardEvent, KeyboardEvent } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import {
   LENGTH,
   MAX_TRIES,
@@ -173,20 +175,18 @@ export default function GuessGame() {
 
   if (!game) {
     return (
-      <main className="guess-page mx-auto w-full max-w-6xl px-4 py-10" data-fullscreen>
+      <Page className="guess-page">
         <p className="text-sm text-fg-muted">加载中…</p>
-      </main>
+      </Page>
     )
   }
 
   return (
-    <main className="guess-page mx-auto w-full max-w-6xl px-4 py-6" data-fullscreen>
-      <header className="mb-5">
-        <h1 className="text-2xl font-bold sm:text-3xl">猜数字</h1>
-        <p className="mt-1 text-sm text-fg-muted">
-          0-9 里选 4 个不重复的数字，{MAX_TRIES} 次机会猜中；数字对但位置错会单独统计。
-        </p>
-      </header>
+    <Page className="guess-page">
+      <PageHeader
+        title="猜数字"
+        description={`0-9 里选 4 个不重复的数字，${MAX_TRIES} 次机会猜中；数字对但位置错会单独统计。`}
+      />
 
       {/* 手机上按 玩 → 猜测记录 → 战绩 排列，桌面摆成 记录 / 玩 / 战绩 三栏；
           桌面端高度由 guess/style.css 锁成一屏，卡片内部各自滚动 */}
@@ -352,6 +352,6 @@ export default function GuessGame() {
               )}
         </aside>
       </div>
-    </main>
+    </Page>
   )
 }

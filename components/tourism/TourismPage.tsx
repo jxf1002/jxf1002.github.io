@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import Pagination from "../Pagination"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import { paginate } from "../../lib/list"
 
 const ALL = "全部"
@@ -43,12 +45,9 @@ export default function TourismPage() {
   }
 
   return (
-    <main className="data-page tourism-page">
+    <Page className="data-page tourism-page">
+      <PageHeader title="5A级旅游景区" description="基于 2023 年数据制作" />
       <section className="data-panel">
-        <header className="data-header">
-          <h1>5A级旅游景区</h1>
-          <p>（基于2023年数据制作）</p>
-        </header>
         <div className="filters">
           <input
             className="control"
@@ -117,6 +116,6 @@ export default function TourismPage() {
           onChange={setPage}
         />
       </section>
-    </main>
+    </Page>
   )
 }

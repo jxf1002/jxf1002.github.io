@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import Pagination from "../Pagination"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import type { CollegeRow, CollegeYear } from "../../lib/college"
 import {
   AVAILABLE_YEARS,
@@ -170,11 +172,11 @@ export default function CollegePage() {
 
   return (
     <>
-      <main className="data-page ranking-page">
-        <section className="data-panel">
-          <header className="data-header">
-            <h1>大学排行榜</h1>
-            <p>（基于{state.year}年数据制作，使用3个排行榜平均值排名）</p>
+      <Page className="data-page ranking-page">
+        <PageHeader
+          title="大学排行榜"
+          description={`基于 ${state.year} 年数据制作，使用 3 个排行榜平均值排名`}
+          actions={
             <div className="year-links">
               {AVAILABLE_YEARS.slice()
                 .reverse()
@@ -189,7 +191,9 @@ export default function CollegePage() {
                   </a>
                 ))}
             </div>
-          </header>
+          }
+        />
+        <section className="data-panel">
           <div className="filters">
             <input
               className="control"
@@ -356,7 +360,7 @@ export default function CollegePage() {
             onChange={(page) => setState((prev) => ({ ...prev, page }))}
           />
         </section>
-      </main>
+      </Page>
       <dialog
         className="province-dialog"
         ref={dialog}

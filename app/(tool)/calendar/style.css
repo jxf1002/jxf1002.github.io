@@ -26,20 +26,6 @@ html.dark .calendar-page {
   --calendar-pc-9: #8fa3ad;
 }
 
-.calendar-header {
-  margin-bottom: 1rem;
-}
-.calendar-header h1 {
-  margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.2;
-}
-.calendar-header p {
-  margin: 0.25rem 0 0;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 .calendar-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -483,10 +469,6 @@ html.dark .calendar-drag-ghost {
 }
 
 @media (max-width: 560px) {
-  .calendar-page {
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
-  }
   .calendar-toolbar {
     align-items: stretch;
   }

@@ -3,6 +3,8 @@
 import Chart from "chart.js/auto"
 import type { ChartConfiguration } from "chart.js"
 import { useEffect, useMemo, useRef, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import type { DcfInputs, DcfResult } from "../../lib/dcf"
 import { computeDcf } from "../../lib/dcf"
 
@@ -268,14 +270,13 @@ export default function DcfCalculator() {
   }
 
   return (
-    <div className="tool-page">
-      <main className="tool-main">
-        <div className="app-container">
-          <header className="app-header">
-            <span className="icon">📊</span>
-            <h1>DCF 企业估值计算器</h1>
-            <span className="badge">现金流折现法</span>
-          </header>
+    <Page>
+      <PageHeader
+        title="DCF 企业估值计算器"
+        description="用现金流折现模型估算企业内在价值，所有参数都在浏览器本地计算。"
+        actions={<span className="badge">现金流折现法</span>}
+      />
+      <div className="app-container dcf-app">
 
           <div className="main-grid">
             <section className="input-panel">
@@ -420,7 +421,6 @@ export default function DcfCalculator() {
             </div>
           </section>
         </div>
-      </main>
-    </div>
+    </Page>
   )
 }

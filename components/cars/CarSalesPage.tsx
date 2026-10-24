@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import type { CarSalesYear, MonthSales } from "../../lib/car-sales"
 import {
   DEFAULT_YEAR,
@@ -60,18 +62,17 @@ export default function CarSalesPage() {
     : []
 
   return (
-    <main className="data-page cars-page">
-      <section className="data-panel">
-        <header className="data-header">
-          <h1>汽车品牌销量</h1>
-          <p>
-            {through
-              ? through === 12
-                ? `${year} 年全年累计`
-                : `${year} 年 1-${through} 月累计`
-              : `${year} 年`}
-            ，数据来源：车主之家，不含进口车型
-          </p>
+    <Page className="data-page cars-page">
+      <PageHeader
+        title="汽车品牌销量"
+        description={`${
+          through
+            ? through === 12
+              ? `${year} 年全年累计`
+              : `${year} 年 1-${through} 月累计`
+            : `${year} 年`
+        }，数据来源：车主之家，不含进口车型`}
+        actions={
           <div className="year-links">
             {YEARS.map((item) => (
               <a
@@ -84,7 +85,9 @@ export default function CarSalesPage() {
               </a>
             ))}
           </div>
-        </header>
+        }
+      />
+      <section className="data-panel">
         <div className="table-wrap">
           <table>
             <thead>
@@ -134,6 +137,6 @@ export default function CarSalesPage() {
           </table>
         </div>
       </section>
-    </main>
+    </Page>
   )
 }

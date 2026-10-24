@@ -2,6 +2,8 @@
 
 import type { CSSProperties } from "react"
 import { useEffect, useRef, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import type { SportId, SportReport } from "../../lib/sport"
 import {
   SPORT_IDS,
@@ -66,31 +68,30 @@ export default function Runner() {
   const progress = progressFor(sport, speed)
 
   return (
-    <main
+    <Page
       className="sport"
-      data-fullscreen
       style={{ "--cycle": cycleFor(sport, speed) } as CSSProperties}
     >
-      <header className="sport-bar">
-        <div>
-          <p className="eyebrow">CYBER SPORT / 04</p>
-          <h1>今天动起来</h1>
-        </div>
-        <div className="sport-tabs" role="tablist" aria-label="选择运动项目">
-          {SPORT_IDS.map((id) => (
-            <button
-              key={id}
-              type="button"
-              role="tab"
-              aria-selected={id === sport}
-              className={id === sport ? "on" : ""}
-              onClick={() => pick(id)}
-            >
-              {sportDef(id).name}
-            </button>
-          ))}
-        </div>
-      </header>
+      <PageHeader
+        title="赛博运动"
+        description="跑步、骑行、游泳、跳绳，调整强度后生成训练报告。"
+        actions={
+          <div className="sport-tabs" role="tablist" aria-label="选择运动项目">
+            {SPORT_IDS.map((id) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={id === sport}
+                className={id === sport ? "on" : ""}
+                onClick={() => pick(id)}
+              >
+                {sportDef(id).name}
+              </button>
+            ))}
+          </div>
+        }
+      />
 
       <section
         className={running ? "stage" : "stage is-paused"}
@@ -180,6 +181,6 @@ export default function Runner() {
           </section>
         </div>
       )}
-    </main>
+    </Page>
   )
 }

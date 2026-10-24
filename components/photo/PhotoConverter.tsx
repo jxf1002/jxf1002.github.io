@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Page from "../layout/Page"
+import PageHeader from "../layout/PageHeader"
 import { convertImage, createZip } from "../../lib/photo/convert"
 import type { ZipEntry } from "../../lib/photo/convert"
 import type { PhotoFormat } from "../../lib/photo/naming"
@@ -191,23 +193,14 @@ export default function PhotoConverter() {
 
   return (
     <>
-      <main>
-        <div className="tool-page">
-          <div className="tool-main">
-            <div className="app converter">
-              <header className="app-header">
-                <span className="header-icon" aria-hidden="true">
-                  🖼️
-                </span>
-                <div className="header-text">
-                  <h1>图片格式转换</h1>
-                  <p className="sub">
-                    批量把图片转成 JPG / PNG / WebP，可打包成 ZIP
-                    下载。全程在浏览器本地处理，图片不会上传。
-                  </p>
-                </div>
-                <span className="badge">纯前端 · 最多 20 张</span>
-              </header>
+      <div className="tool-page">
+        <Page>
+          <PageHeader
+            title="图片格式转换"
+            description="批量把图片转成 JPG / PNG / WebP，可打包成 ZIP 下载。全程在浏览器本地处理，图片不会上传。"
+            actions={<span className="badge">纯前端 · 最多 20 张</span>}
+          />
+          <div className="app converter">
 
               <section
                 className={dragover ? "drop-zone is-dragover" : "drop-zone"}
@@ -434,9 +427,8 @@ export default function PhotoConverter() {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-      </main>
+        </Page>
+      </div>
       <div
         className={toast ? "toast show" : "toast"}
         role="status"

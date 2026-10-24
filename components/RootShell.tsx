@@ -24,7 +24,7 @@ export default function RootShell({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="/assets/css/site.css?v=11" />
+        <link rel="stylesheet" href="/assets/css/site.css?v=12" />
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: ANALYTICS_SCRIPT }} />
       </head>
