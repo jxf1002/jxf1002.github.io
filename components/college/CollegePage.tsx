@@ -75,7 +75,7 @@ export default function CollegePage() {
   useEffect(() => {
     let cancelled = false
     setLoading(true)
-    fetch("/assets/data/colleges" + state.year + ".json")
+    fetch("/data/college/colleges" + state.year + ".json")
       .then((response) => {
         if (!response.ok) throw new Error("数据加载失败")
         return response.json()

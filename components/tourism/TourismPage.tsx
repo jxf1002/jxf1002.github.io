@@ -21,7 +21,7 @@ export default function TourismPage() {
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {
-    fetch("/assets/data/tourism.json")
+    fetch("/data/tourism/tourism.json")
       .then((response) => response.json())
       .then(setRows)
       .catch(() => setFailed(true))

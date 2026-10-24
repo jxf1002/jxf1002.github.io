@@ -1,0 +1,880 @@
+{
+  "month": "2025-11",
+  "total": 2231138,
+  "source": "车主之家 xl.16888.com/brand-0-202511-202511",
+  "fetchedAt": "2026-10-24",
+  "rows": [
+    {
+      "rank": 1,
+      "id": 57328,
+      "name": "比亚迪",
+      "country": "中国",
+      "sales": 258892,
+      "share": 11.6
+    },
+    {
+      "rank": 2,
+      "id": 57411,
+      "name": "大众",
+      "country": "德国",
+      "sales": 158007,
+      "share": 7.08
+    },
+    {
+      "rank": 3,
+      "id": 57500,
+      "name": "丰田",
+      "country": "日本",
+      "sales": 136016,
+      "share": 6.1
+    },
+    {
+      "rank": 4,
+      "id": 129817,
+      "name": "吉利银河",
+      "country": "中国",
+      "sales": 123047,
+      "share": 5.51
+    },
+    {
+      "rank": 5,
+      "id": 125976,
+      "name": "五菱汽车",
+      "country": "中国",
+      "sales": 111235,
+      "share": 4.99
+    },
+    {
+      "rank": 6,
+      "id": 57604,
+      "name": "吉利汽车",
+      "country": "中国",
+      "sales": 87780,
+      "share": 3.93
+    },
+    {
+      "rank": 7,
+      "id": 129405,
+      "name": "鸿蒙智行",
+      "country": "中国",
+      "sales": 81864,
+      "share": 3.67
+    },
+    {
+      "rank": 8,
+      "id": 126359,
+      "name": "特斯拉",
+      "country": "美国",
+      "sales": 73145,
+      "share": 3.28
+    },
+    {
+      "rank": 9,
+      "id": 57864,
+      "name": "日产",
+      "country": "日本",
+      "sales": 62300,
+      "share": 2.79
+    },
+    {
+      "rank": 10,
+      "id": 128161,
+      "name": "零跑汽车",
+      "country": "中国",
+      "sales": 60979,
+      "share": 2.73
+    },
+    {
+      "rank": 11,
+      "id": 57229,
+      "name": "奥迪",
+      "country": "德国",
+      "sales": 54200,
+      "share": 2.43
+    },
+    {
+      "rank": 12,
+      "id": 57305,
+      "name": "本田",
+      "country": "日本",
+      "sales": 49849,
+      "share": 2.23
+    },
+    {
+      "rank": 13,
+      "id": 57378,
+      "name": "长安",
+      "country": "中国",
+      "sales": 46366,
+      "share": 2.08
+    },
+    {
+      "rank": 14,
+      "id": 129795,
+      "name": "小米汽车",
+      "country": "中国",
+      "sales": 46249,
+      "share": 2.07
+    },
+    {
+      "rank": 15,
+      "id": 57823,
+      "name": "奇瑞",
+      "country": "中国",
+      "sales": 45028,
+      "share": 2.02
+    },
+    {
+      "rank": 16,
+      "id": 57248,
+      "name": "宝马",
+      "country": "德国",
+      "sales": 45009,
+      "share": 2.02
+    },
+    {
+      "rank": 17,
+      "id": 57584,
+      "name": "红旗",
+      "country": "中国",
+      "sales": 40056,
+      "share": 1.8
+    },
+    {
+      "rank": 18,
+      "id": 57279,
+      "name": "奔驰",
+      "country": "德国",
+      "sales": 38569,
+      "share": 1.73
+    },
+    {
+      "rank": 19,
+      "id": 129959,
+      "name": "方程豹",
+      "country": "中国",
+      "sales": 35289,
+      "share": 1.58
+    },
+    {
+      "rank": 20,
+      "id": 128434,
+      "name": "理想",
+      "country": "中国",
+      "sales": 33181,
+      "share": 1.49
+    },
+    {
+      "rank": 21,
+      "id": 126026,
+      "name": "哈弗",
+      "country": "中国",
+      "sales": 33136,
+      "share": 1.49
+    },
+    {
+      "rank": 22,
+      "id": 127597,
+      "name": "领克",
+      "country": "中国",
+      "sales": 31793,
+      "share": 1.42
+    },
+    {
+      "rank": 23,
+      "id": 127959,
+      "name": "小鹏汽车",
+      "country": "中国",
+      "sales": 31671,
+      "share": 1.42
+    },
+    {
+      "rank": 24,
+      "id": 57354,
+      "name": "别克",
+      "country": "美国",
+      "sales": 31268,
+      "share": 1.4
+    },
+    {
+      "rank": 25,
+      "id": 129928,
+      "name": "长安启源",
+      "country": "中国",
+      "sales": 26595,
+      "share": 1.19
+    },
+    {
+      "rank": 26,
+      "id": 129128,
+      "name": "极氪",
+      "country": "中国",
+      "sales": 25452,
+      "share": 1.14
+    },
+    {
+      "rank": 27,
+      "id": 128128,
+      "name": "ARCFOX极狐",
+      "country": "中国",
+      "sales": 25394,
+      "share": 1.14
+    },
+    {
+      "rank": 28,
+      "id": 127954,
+      "name": "捷途",
+      "country": "中国",
+      "sales": 25130,
+      "share": 1.13
+    },
+    {
+      "rank": 29,
+      "id": 128138,
+      "name": "埃安",
+      "country": "中国",
+      "sales": 22568,
+      "share": 1.01
+    },
+    {
+      "rank": 30,
+      "id": 129599,
+      "name": "深蓝汽车",
+      "country": "中国",
+      "sales": 20062,
+      "share": 0.9
+    },
+    {
+      "rank": 31,
+      "id": 129115,
+      "name": "岚图汽车",
+      "country": "中国",
+      "sales": 20005,
+      "share": 0.9
+    },
+    {
+      "rank": 32,
+      "id": 130858,
+      "name": "奇瑞风云",
+      "country": "中国",
+      "sales": 19004,
+      "share": 0.85
+    },
+    {
+      "rank": 33,
+      "id": 126372,
+      "name": "蔚来",
+      "country": "中国",
+      "sales": 18186,
+      "share": 0.82
+    },
+    {
+      "rank": 34,
+      "id": 57765,
+      "name": "名爵",
+      "country": "中国",
+      "sales": 18000,
+      "share": 0.81
+    },
+    {
+      "rank": 35,
+      "id": 57563,
+      "name": "广汽传祺",
+      "country": "中国",
+      "sales": 17592,
+      "share": 0.79
+    },
+    {
+      "rank": 36,
+      "id": 129278,
+      "name": "坦克",
+      "country": "中国",
+      "sales": 17323,
+      "share": 0.78
+    },
+    {
+      "rank": 37,
+      "id": 57301,
+      "name": "奔腾",
+      "country": "中国",
+      "sales": 17207,
+      "share": 0.77
+    },
+    {
+      "rank": 38,
+      "id": 57891,
+      "name": "荣威",
+      "country": "中国",
+      "sales": 16842,
+      "share": 0.75
+    },
+    {
+      "rank": 39,
+      "id": 57979,
+      "name": "沃尔沃",
+      "country": "瑞典",
+      "sales": 13331,
+      "share": 0.6
+    },
+    {
+      "rank": 40,
+      "id": 58001,
+      "name": "现代",
+      "country": "韩国",
+      "sales": 12216,
+      "share": 0.55
+    },
+    {
+      "rank": 41,
+      "id": 127628,
+      "name": "魏牌",
+      "country": "中国",
+      "sales": 12173,
+      "share": 0.55
+    },
+    {
+      "rank": 42,
+      "id": 130237,
+      "name": "乐道",
+      "country": "中国",
+      "sales": 11721,
+      "share": 0.53
+    },
+    {
+      "rank": 43,
+      "id": 126360,
+      "name": "腾势",
+      "country": "中国",
+      "sales": 11689,
+      "share": 0.52
+    },
+    {
+      "rank": 44,
+      "id": 57272,
+      "name": "北京越野",
+      "country": "中国",
+      "sales": 10859,
+      "share": 0.49
+    },
+    {
+      "rank": 45,
+      "id": 129624,
+      "name": "阿维塔",
+      "country": "中国",
+      "sales": 10649,
+      "share": 0.48
+    },
+    {
+      "rank": 46,
+      "id": 129158,
+      "name": "智己汽车",
+      "country": "中国",
+      "sales": 10525,
+      "share": 0.47
+    },
+    {
+      "rank": 47,
+      "id": 57772,
+      "name": "马自达",
+      "country": "日本",
+      "sales": 10002,
+      "share": 0.45
+    },
+    {
+      "rank": 48,
+      "id": 128465,
+      "name": "捷达",
+      "country": "德国",
+      "sales": 9500,
+      "share": 0.43
+    },
+    {
+      "rank": 49,
+      "id": 57651,
+      "name": "凯迪拉克",
+      "country": "美国",
+      "sales": 8961,
+      "share": 0.4
+    },
+    {
+      "rank": 50,
+      "id": 57534,
+      "name": "福特",
+      "country": "美国",
+      "sales": 8368,
+      "share": 0.38
+    },
+    {
+      "rank": 51,
+      "id": 57838,
+      "name": "起亚",
+      "country": "韩国",
+      "sales": 6307,
+      "share": 0.28
+    },
+    {
+      "rank": 52,
+      "id": 129897,
+      "name": "iCar",
+      "country": "中国",
+      "sales": 6138,
+      "share": 0.28
+    },
+    {
+      "rank": 53,
+      "id": 130819,
+      "name": "萤火虫",
+      "country": "中国",
+      "sales": 5949,
+      "share": 0.27
+    },
+    {
+      "rank": 54,
+      "id": 57474,
+      "name": "东风风神",
+      "country": "中国",
+      "sales": 5574,
+      "share": 0.25
+    },
+    {
+      "rank": 55,
+      "id": 125808,
+      "name": "宝骏",
+      "country": "中国",
+      "sales": 5300,
+      "share": 0.24
+    },
+    {
+      "rank": 56,
+      "id": 128414,
+      "name": "星途",
+      "country": "中国",
+      "sales": 4564,
+      "share": 0.2
+    },
+    {
+      "rank": 57,
+      "id": 129431,
+      "name": "东风纳米",
+      "country": "中国",
+      "sales": 3910,
+      "share": 0.18
+    },
+    {
+      "rank": 58,
+      "id": 128306,
+      "name": "欧拉",
+      "country": "中国",
+      "sales": 3695,
+      "share": 0.17
+    },
+    {
+      "rank": 59,
+      "id": 130093,
+      "name": "东风奕派",
+      "country": "中国",
+      "sales": 3397,
+      "share": 0.15
+    },
+    {
+      "rank": 60,
+      "id": 128342,
+      "name": "江铃集团新能源",
+      "country": "中国",
+      "sales": 3300,
+      "share": 0.15
+    },
+    {
+      "rank": 61,
+      "id": 126388,
+      "name": "东风风行",
+      "country": "中国",
+      "sales": 3073,
+      "share": 0.14
+    },
+    {
+      "rank": 62,
+      "id": 57725,
+      "name": "林肯",
+      "country": "美国",
+      "sales": 2923,
+      "share": 0.13
+    },
+    {
+      "rank": 63,
+      "id": 126778,
+      "name": "凯翼",
+      "country": "中国",
+      "sales": 2756,
+      "share": 0.12
+    },
+    {
+      "rank": 64,
+      "id": 57639,
+      "name": "smart",
+      "country": "德国",
+      "sales": 2461,
+      "share": 0.11
+    },
+    {
+      "rank": 65,
+      "id": 57645,
+      "name": "开瑞",
+      "country": "中国",
+      "sales": 2261,
+      "share": 0.1
+    },
+    {
+      "rank": 66,
+      "id": 130952,
+      "name": "纵横",
+      "country": "中国",
+      "sales": 2150,
+      "share": 0.1
+    },
+    {
+      "rank": 67,
+      "id": 129763,
+      "name": "猛士",
+      "country": "中国",
+      "sales": 2007,
+      "share": 0.09
+    },
+    {
+      "rank": 68,
+      "id": 130912,
+      "name": "奥迪AUDI",
+      "country": "德国",
+      "sales": 1800,
+      "share": 0.08
+    },
+    {
+      "rank": 69,
+      "id": 126073,
+      "name": "启辰",
+      "country": "中国",
+      "sales": 1778,
+      "share": 0.08
+    },
+    {
+      "rank": 70,
+      "id": 130668,
+      "name": "212",
+      "country": "中国",
+      "sales": 1609,
+      "share": 0.07
+    },
+    {
+      "rank": 71,
+      "id": 58044,
+      "name": "雪铁龙",
+      "country": "法国",
+      "sales": 1498,
+      "share": 0.07
+    },
+    {
+      "rank": 72,
+      "id": 130023,
+      "name": "昊铂",
+      "country": "中国",
+      "sales": 1493,
+      "share": 0.07
+    },
+    {
+      "rank": 73,
+      "id": 126283,
+      "name": "北汽制造",
+      "country": "中国",
+      "sales": 1481,
+      "share": 0.07
+    },
+    {
+      "rank": 74,
+      "id": 129997,
+      "name": "极石",
+      "country": "中国",
+      "sales": 1452,
+      "share": 0.07
+    },
+    {
+      "rank": 75,
+      "id": 57954,
+      "name": "斯柯达",
+      "country": "捷克",
+      "sales": 1350,
+      "share": 0.06
+    },
+    {
+      "rank": 76,
+      "id": 57631,
+      "name": "捷豹",
+      "country": "英国",
+      "sales": 1329,
+      "share": 0.06
+    },
+    {
+      "rank": 77,
+      "id": 126162,
+      "name": "上汽大通MAXUS",
+      "country": "中国",
+      "sales": 1316,
+      "share": 0.06
+    },
+    {
+      "rank": 78,
+      "id": 129848,
+      "name": "蓝电",
+      "country": "中国",
+      "sales": 1189,
+      "share": 0.05
+    },
+    {
+      "rank": 79,
+      "id": 128772,
+      "name": "SRM鑫源",
+      "country": "中国",
+      "sales": 1182,
+      "share": 0.05
+    },
+    {
+      "rank": 80,
+      "id": 128931,
+      "name": "睿蓝汽车",
+      "country": "中国",
+      "sales": 1018,
+      "share": 0.05
+    },
+    {
+      "rank": 81,
+      "id": 126292,
+      "name": "长安欧尚",
+      "country": "中国",
+      "sales": 1006,
+      "share": 0.05
+    },
+    {
+      "rank": 82,
+      "id": 57756,
+      "name": "路虎",
+      "country": "英国",
+      "sales": 971,
+      "share": 0.04
+    },
+    {
+      "rank": 83,
+      "id": 126169,
+      "name": "北京汽车",
+      "country": "中国",
+      "sales": 970,
+      "share": 0.04
+    },
+    {
+      "rank": 84,
+      "id": 130180,
+      "name": "灵悉",
+      "country": "中国",
+      "sales": 957,
+      "share": 0.04
+    },
+    {
+      "rank": 85,
+      "id": 129579,
+      "name": "瑞风汽车",
+      "country": "中国",
+      "sales": 793,
+      "share": 0.04
+    },
+    {
+      "rank": 86,
+      "id": 128098,
+      "name": "瑞驰新能源",
+      "country": "中国",
+      "sales": 787,
+      "share": 0.04
+    },
+    {
+      "rank": 87,
+      "id": 129864,
+      "name": "曹操汽车",
+      "country": "中国",
+      "sales": 779,
+      "share": 0.03
+    },
+    {
+      "rank": 88,
+      "id": 130849,
+      "name": "示界",
+      "country": "中国",
+      "sales": 732,
+      "share": 0.03
+    },
+    {
+      "rank": 89,
+      "id": 57338,
+      "name": "标致",
+      "country": "法国",
+      "sales": 723,
+      "share": 0.03
+    },
+    {
+      "rank": 90,
+      "id": 128310,
+      "name": "长安凯程",
+      "country": "中国",
+      "sales": 714,
+      "share": 0.03
+    },
+    {
+      "rank": 91,
+      "id": 129775,
+      "name": "仰望",
+      "country": "中国",
+      "sales": 691,
+      "share": 0.03
+    },
+    {
+      "rank": 92,
+      "id": 127041,
+      "name": "知豆",
+      "country": "中国",
+      "sales": 622,
+      "share": 0.03
+    },
+    {
+      "rank": 93,
+      "id": 128893,
+      "name": "凌宝汽车",
+      "country": "中国",
+      "sales": 536,
+      "share": 0.02
+    },
+    {
+      "rank": 94,
+      "id": 57571,
+      "name": "海马",
+      "country": "中国",
+      "sales": 480,
+      "share": 0.02
+    },
+    {
+      "rank": 95,
+      "id": 128260,
+      "name": "东风富康",
+      "country": "中国",
+      "sales": 301,
+      "share": 0.01
+    },
+    {
+      "rank": 96,
+      "id": 129884,
+      "name": "江淮钇为",
+      "country": "中国",
+      "sales": 296,
+      "share": 0.01
+    },
+    {
+      "rank": 97,
+      "id": 128463,
+      "name": "吉利几何",
+      "country": "中国",
+      "sales": 285,
+      "share": 0.01
+    },
+    {
+      "rank": 98,
+      "id": 58024,
+      "name": "雪佛兰",
+      "country": "美国",
+      "sales": 230,
+      "share": 0.01
+    },
+    {
+      "rank": 99,
+      "id": 58067,
+      "name": "英菲尼迪",
+      "country": "日本",
+      "sales": 165,
+      "share": 0.01
+    },
+    {
+      "rank": 100,
+      "id": 129035,
+      "name": "飞凡汽车",
+      "country": "中国",
+      "sales": 158,
+      "share": 0.01
+    },
+    {
+      "rank": 101,
+      "id": 128947,
+      "name": "创维汽车",
+      "country": "中国",
+      "sales": 154,
+      "share": 0.01
+    },
+    {
+      "rank": 102,
+      "id": 127364,
+      "name": "东风风光",
+      "country": "中国",
+      "sales": 101,
+      "share": null
+    },
+    {
+      "rank": 103,
+      "id": 127717,
+      "name": "SWM斯威汽车",
+      "country": "中国",
+      "sales": 41,
+      "share": null
+    },
+    {
+      "rank": 104,
+      "id": 127980,
+      "name": "Polestar极星",
+      "country": "瑞典",
+      "sales": 40,
+      "share": null
+    },
+    {
+      "rank": 105,
+      "id": 126500,
+      "name": "东风风度",
+      "country": "中国",
+      "sales": 32,
+      "share": null
+    },
+    {
+      "rank": 106,
+      "id": 128651,
+      "name": "思皓",
+      "country": "中国",
+      "sales": 14,
+      "share": null
+    },
+    {
+      "rank": 107,
+      "id": 128793,
+      "name": "合创汽车",
+      "country": "中国",
+      "sales": 6,
+      "share": null
+    },
+    {
+      "rank": 108,
+      "id": 130028,
+      "name": "江淮汽车",
+      "country": "中国",
+      "sales": 6,
+      "share": null
+    },
+    {
+      "rank": 109,
+      "id": 126518,
+      "name": "中国重汽VGV",
+      "country": "中国",
+      "sales": 5,
+      "share": null
+    }
+  ]
+}

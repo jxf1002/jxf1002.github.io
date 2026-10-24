@@ -1,0 +1,12 @@
+.cars-page .up,
+.cars-page .down {
+  font-variant-numeric: tabular-nums;
+}
+
+.cars-page .up {
+  color: #2e9e5b;
+}
+
+.cars-page .down {
+  color: #d64545;
+}
