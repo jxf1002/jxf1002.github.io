@@ -21,47 +21,13 @@ import {
   rankBrands,
 } from "../../lib/car-sales"
 
-export default function CarSalesPage() {
+export default function CarSalesPage({ months }: { months: MonthSales[] }) {
   const [year, setYear] = useState<CarSalesYear>(DEFAULT_YEAR)
-  const [months, setMonths] = useState<MonthSales[]>([])
-  const [failed, setFailed] = useState(false)
 
   // 查询参数在挂载后读取，避免静态 HTML 与首屏渲染不一致
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("year")
     if (isCarSalesYear(requested)) setYear(requested)
-  }, [])
-
-  useEffect(() => {
-    let cancelled = false
-    fetch("/data/car-sales/index.json")
-      .then((response) => {
-        if (!response.ok) throw new Error("数据加载失败")
-        return response.json()
-      })
-      .then((index: { months: string[] }) =>
-        Promise.all(
-          index.months.map((month) =>
-            fetch(`/data/car-sales/${month}.json`).then((response) => {
-              if (!response.ok) throw new Error("数据加载失败")
-              return response.json() as Promise<MonthSales>
-            }),
-          ),
-        ),
-      )
-      .then((data) => {
-        if (cancelled) return
-        setMonths(data)
-        setFailed(false)
-      })
-      .catch(() => {
-        if (cancelled) return
-        setMonths([])
-        setFailed(true)
-      })
-    return () => {
-      cancelled = true
-    }
   }, [])
 
   const through = lastMonth(months, year)
@@ -107,13 +73,7 @@ export default function CarSalesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {failed ? (
-              <TableRow>
-                <TableCell className="empty" colSpan={5}>
-                  数据加载失败
-                </TableCell>
-              </TableRow>
-            ) : rows.length ? (
+            {rows.length ? (
               rows.map((row, index) => (
                 <TableRow key={row.name}>
                   <TableCell>{index + 1}</TableCell>
@@ -136,7 +96,7 @@ export default function CarSalesPage() {
             ) : (
               <TableRow>
                 <TableCell className="empty" colSpan={5}>
-                  正在加载...
+                  暂无数据
                 </TableCell>
               </TableRow>
             )}

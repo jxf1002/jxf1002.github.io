@@ -1,5 +1,8 @@
 // 构建产物自检：node scripts/check-build.ts（先跑 npm run build）
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync } from "node:fs"
+import type { MonthSales } from "../lib/car-sales.ts"
+import { AVAILABLE_YEARS } from "../lib/college.ts"
+import { PAGES, SITE } from "../lib/site.ts"
 
 let failed = 0
 
@@ -17,90 +20,20 @@ function has(path: string): boolean {
   return existsSync(new URL("../out/" + path, import.meta.url))
 }
 
-// 每个路由的 title / canonical / 统计脚本
-const ROUTES: Array<[string, string, string, boolean]> = [
-  [
-    "index.html",
-    "贾师傅的小站｜实用数据与工具",
-    "https://www.justful.cn/",
-    true,
-  ],
-  [
-    "college/index.html",
-    "大学排行榜-数据-贾师傅的小站",
-    "https://www.justful.cn/college/",
-    true,
-  ],
-  [
-    "tourism/index.html",
-    "5A级旅游景区-数据-贾师傅的小站",
-    "https://www.justful.cn/tourism/",
-    true,
-  ],
-  [
-    "cars/index.html",
-    "汽车品牌销量-数据-贾师傅的小站",
-    "https://www.justful.cn/cars/",
-    true,
-  ],
-  [
-    "comfort/index.html",
-    "全国体感温度-数据-贾师傅的小站",
-    "https://www.justful.cn/comfort/",
-    true,
-  ],
-  [
-    "dcf/index.html",
-    "DCF 企业估值计算器｜贾师傅的小站",
-    "https://www.justful.cn/dcf/",
-    true,
-  ],
-  [
-    "photo/index.html",
-    "图片格式转换｜贾师傅的小站",
-    "https://www.justful.cn/photo/",
-    false,
-  ],
-  [
-    "sport/index.html",
-    "运动练习｜跑步·骑行·游泳·跳绳",
-    "https://www.justful.cn/sport/",
-    true,
-  ],
-  [
-    "mahjong/index.html",
-    "麻将小游戏｜贾师傅的小站",
-    "https://www.justful.cn/mahjong/",
-    false,
-  ],
-  [
-    "mir2/index.html",
-    "传奇挂机小游戏｜贾师傅的小站",
-    "https://www.justful.cn/mir2/",
-    false,
-  ],
-  [
-    "guess/index.html",
-    "猜数字小游戏｜贾师傅的小站",
-    "https://www.justful.cn/guess/",
-    true,
-  ],
-  [
-    "five-cards/index.html",
-    "五张牌魔术小游戏｜贾师傅的小站",
-    "https://www.justful.cn/five-cards/",
-    true,
-  ],
-  [
-    "calendar/index.html",
-    "日历拼图小游戏｜贾师傅的小站",
-    "https://www.justful.cn/calendar/",
-    true,
-  ],
-]
+function json<T>(path: string): T {
+  return JSON.parse(html(path)) as T
+}
+
+// 路由事实只认 lib/site.ts，标题/canonical 不再手抄一份
+const ROUTES = Object.values(PAGES).map((page) => ({
+  file: page.path === "/" ? "index.html" : page.path.slice(1) + "index.html",
+  title: page.title,
+  canonical: SITE.url + page.path,
+  jsonLd: !!page.jsonLd,
+}))
 
 console.log("== 静态导出的页面 ==")
-for (const [file, title, canonical, hasJsonLd] of ROUTES) {
+for (const { file, title, canonical, jsonLd } of ROUTES) {
   check(`${file} 存在`, has(file))
   if (!has(file)) continue
   const source = html(file)
@@ -118,21 +51,52 @@ for (const [file, title, canonical, hasJsonLd] of ROUTES) {
     source.includes("hm.baidu.com/hm.js?682c23240d8faa05b0298eb23862358e"),
   )
   check(`${file} viewport`, source.includes('name="viewport"'))
-  if (hasJsonLd) {
+  if (jsonLd) {
     check(`${file} ld+json`, source.includes('type="application/ld+json"'))
   }
 }
 
+console.log("== sitemap ==")
+const locs = [...html("sitemap.xml").matchAll(/<loc>([^<]*)<\/loc>/g)].map(
+  (match) => match[1],
+)
+const canonicals = ROUTES.map((route) => route.canonical)
+check(
+  "sitemap 覆盖全部路由",
+  canonicals.every((url) => locs.includes(url)),
+)
+check(
+  "sitemap 没有多余路由",
+  locs.every((url) => canonicals.includes(url)),
+)
+check("sitemap 无重复", new Set(locs).size === locs.length)
+
+console.log("== 首页导航 ==")
+// 卡片文案取自 lib/site.ts；这里只保证每个路由在首页都有入口
+const home = html("index.html")
+for (const page of Object.values(PAGES)) {
+  if (page.path === "/") continue
+  check(`首页链接 ${page.path}`, home.includes(`href="${page.path}"`))
+}
+
+console.log("== 数据页内联 ==")// 数据页首屏必须是构建期渲染出来的，不能退回客户端 fetch（否则爬虫只看到“正在加载”）
+for (const [file, text] of [
+  ["college/index.html", "清华大学"],
+  ["tourism/index.html", "故宫博物院"],
+  ["cars/index.html", "比亚迪"],
+]) {
+  check(`${file} 首屏含数据（${text}）`, html(file).includes(text))
+}
+
 console.log("== 静态资源与游戏页 ==")
 for (const file of [
-  "sitemap.xml",
   "robots.txt",
   "favicon.svg",
-  "data/college/colleges2026.json",
-  "data/tourism/tourism.json",
-  "data/car-sales/index.json",
-  "data/car-sales/2026-09.json",
   "images/banner.svg",
+  "data/china-cities.json",
+  "cards/README.md",
+  "cards/LICENSE-faces.txt",
+  "cards/LICENSE-back.txt",
   "mahjong/style.css",
   "mahjong/svg/1m.svg",
   "mir2/style.css",
@@ -141,33 +105,117 @@ for (const file of [
   check(`${file} 存在`, has(file))
 }
 
+console.log("== 数据文件 ==")
+const collegeDir = new URL("../out/data/college/", import.meta.url)
+const collegeFiles = readdirSync(collegeDir)
+  .filter((file) => file.endsWith(".json"))
+  .sort()
+check(
+  "college 年份文件与 AVAILABLE_YEARS 一致",
+  collegeFiles.join() ===
+    AVAILABLE_YEARS.map((year) => `colleges${year}.json`)
+      .sort()
+      .join(),
+)
+for (const year of AVAILABLE_YEARS) {
+  if (!has(`data/college/colleges${year}.json`)) continue
+  const rows = json<Array<{ id?: number; name?: string; avg?: number }>>(
+    `data/college/colleges${year}.json`,
+  )
+  check(`college ${year} 非空`, rows.length > 0)
+  check(
+    `college ${year} 字段完整`,
+    rows.every(
+      (row) =>
+        typeof row.id === "number" &&
+        typeof row.name === "string" &&
+        row.name.length > 0 &&
+        Number.isFinite(row.avg),
+    ),
+  )
+}
+
+const tourism = json<
+  Array<{
+    name?: string
+    provinceName?: string
+    gradesName?: string
+    year?: string
+  }>
+>("data/tourism/tourism.json")
+check("tourism 非空", tourism.length > 0)
+check(
+  "tourism 字段完整",
+  tourism.every(
+    (row) => !!row.name && !!row.provinceName && !!row.gradesName && !!row.year,
+  ),
+)
+
 console.log("== 品牌销量数据 ==")
 const salesDir = new URL("../out/data/car-sales/", import.meta.url)
-const salesIndex: { months: string[] } = JSON.parse(
-  readFileSync(new URL("index.json", salesDir), "utf8"),
-)
+const salesIndex = json<{ months: string[] }>("data/car-sales/index.json")
 check(
   "car-sales 月份升序",
   salesIndex.months.every((m, i) => i === 0 || m > salesIndex.months[i - 1]),
 )
+const salesFiles = readdirSync(salesDir)
+  .filter((file) => /^\d{4}-\d{2}\.json$/.test(file))
+  .map((file) => file.slice(0, -5))
+  .sort()
+check(
+  "car-sales 月文件与 index 一致",
+  salesFiles.join() === [...salesIndex.months].sort().join(),
+)
+
+const monthly = new Map<string, MonthSales>()
 for (const month of salesIndex.months) {
-  const data = JSON.parse(
-    readFileSync(new URL(`${month}.json`, salesDir), "utf8"),
+  const data = json<MonthSales>(`data/car-sales/${month}.json`)
+  monthly.set(month, data)
+  const sum = data.rows.reduce((n, row) => n + row.sales, 0)
+  check(
+    `${month} 品牌销量合计`,
+    data.month === month && data.rows.length > 0 && sum === data.total,
   )
-  const sum = data.rows.reduce(
-    (n: number, row: { sales: number }) => n + row.sales,
-    0,
+  check(
+    `${month} 行字段完整`,
+    data.rows.every(
+      (row) =>
+        typeof row.name === "string" &&
+        row.name.length > 0 &&
+        Number.isFinite(row.rank) &&
+        Number.isFinite(row.sales),
+    ),
   )
-  check(`${month} 品牌销量合计`, data.month === month && sum === data.total)
+}
+
+// 年文件由 npm run data:cars 生成；忘了重跑就会在这里失败，避免线上数据停在旧月份
+const years = [...new Set(salesIndex.months.map((m) => m.slice(0, 4)))].sort()
+const yearFiles = readdirSync(salesDir)
+  .filter((file) => /^\d{4}\.json$/.test(file))
+  .map((file) => file.slice(0, -5))
+  .sort()
+check("car-sales 年文件与 index 一致", yearFiles.join() === years.join())
+for (const year of years) {
+  if (!has(`data/car-sales/${year}.json`)) continue
+  const data = json<{ year: string; months: MonthSales[] }>(
+    `data/car-sales/${year}.json`,
+  )
+  const expected = salesIndex.months
+    .filter((month) => month.startsWith(year + "-"))
+    .map((month) => monthly.get(month))
+  check(
+    `${year} 年文件与月文件同步（跑 npm run data:cars）`,
+    data.year === year && JSON.stringify(data.months) === JSON.stringify(expected),
+  )
 }
 
 for (const suit of ["s", "h", "d", "c"]) {
   for (let rank = 1; rank <= 13; rank += 1) {
-    const file = `cards/${suit}${rank}.svg`
+    const file = `cards/webp/${suit}${rank}.webp`
     check(`${file} 存在`, has(file))
   }
 }
-check("cards/back.svg 存在", has("cards/back.svg"))
+check("cards/webp/back.webp 存在", has("cards/webp/back.webp"))
 
 // site.css 由两个 root layout 引入，已经打进 Next 的 CSS chunk；两个游戏的样式仍手写 <link>，
 // 必须排在所有 Next CSS 之后，浅色主题下牌桌的 :root 变量才能压过站点变量
@@ -210,17 +258,11 @@ check(
   "mir2 页样式顺序 site.css → style.css",
   styleOrder("mir2/index.html", ["/mir2/style.css"]),
 )
-for (const file of ["mahjong/index.html", "mir2/index.html"]) {
-  check(
-    `${file} 保留百度统计`,
-    html(file).includes("hm.baidu.com/hm.js?682c23240d8faa05b0298eb23862358e"),
-  )
-}
 
 // footer 只有一种尺寸；markup 全站唯一、内容逐字一致
 console.log("== footer 归一化 ==")
 const FOOTER = /<footer class="site-footer">[\s\S]*?<\/footer>/
-const footers = ROUTES.map(([file]) => {
+const footers = ROUTES.map(({ file }) => {
   const source = html(file)
   const match = source.match(FOOTER)
   const count = source.match(/<footer class="site-footer">/g)?.length ?? 0
@@ -235,7 +277,7 @@ for (const text of [
 ]) {
   check(`footer 含 ${text}`, footers[0].includes(text))
 }
-for (const [file] of ROUTES) {
+for (const { file } of ROUTES) {
   check(`${file} 不再使用 data-fullscreen`, !html(file).includes("data-fullscreen"))
 }
 

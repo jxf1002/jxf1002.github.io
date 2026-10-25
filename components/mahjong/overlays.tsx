@@ -2,29 +2,22 @@
 
 import type { CSSProperties } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
-import type { Meld, Tile } from "../../lib/mahjong/types"
+import type {
+  BreakdownRow,
+  SummaryData,
+  Tile,
+  WinData,
+} from "../../lib/mahjong/types"
 import { statOf } from "../../lib/mahjong/stats"
 import * as Game from "../../lib/mahjong/game"
 import { MeldGroup, TableTile } from "./tiles"
 
-export type BreakdownRow = {
-  name: string
-  me: boolean
-  isD: boolean
-  delta: number
-  total: number
-  fan: number | string
-}
-
-export type WinData = {
-  name: string
-  title: string
-  isZimo: boolean
-  isBaopi: boolean
-  hand: Tile[]
-  melds: Meld[]
-  winTile: Tile | null
-}
+export type {
+  BreakdownRow,
+  SummaryData,
+  SummaryStat,
+  WinData,
+} from "../../lib/mahjong/types"
 
 export type ModalData = {
   title: string
@@ -38,29 +31,6 @@ export type ModalData = {
   dealer: boolean
   baopi: Tile | null
   auto: boolean
-}
-
-export type SummaryStat = {
-  zimo?: number
-  ron?: number
-  heipao?: number
-  baopi?: number
-  dianpao?: number
-  dianhei?: number
-}
-
-export type SummaryData = {
-  hands: number
-  rotations: number
-  draw: number
-  hu: number
-  scores: Array<{
-    name: string
-    me: boolean
-    isD: boolean
-    score: number
-    stat: SummaryStat
-  }>
 }
 
 export type LogEntry = { t: string; m: string }

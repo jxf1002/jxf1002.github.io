@@ -6,14 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "preview": "python3 -m http.server 4173 -d out",
+    "data:cars": "node scripts/build-car-sales.ts",
     "test": "node --import tsx --test \"test/**/*.test.ts\" \"test/**/*.test.tsx\"",
-    "verify": "next build && node scripts/check-build.ts"
+    "verify": "npm run build && node scripts/check-build.ts",
+    "prebuild": "find public -name .DS_Store -delete"
   },
   "dependencies": {
     "chart.js": "^4.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "echarts": "^4.9.0",
+    "echarts": "^6.1.0",
     "next": "^16.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

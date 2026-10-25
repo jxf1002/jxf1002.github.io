@@ -38,10 +38,8 @@ export const WMO: Record<number, string> = {
   99: "雷阵雨伴冰雹",
 }
 
-export const MAP_URLS = [
-  "https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/json/china-cities.json",
-  "https://unpkg.com/echarts@4.9.0/map/json/china-cities.json",
-]
+// 地图数据本地托管：不依赖第三方 CDN，和其余数据文件一致
+export const MAP_URL = "/data/china-cities.json"
 
 export const CACHE_KEY = "comfort-weather-v1"
 export const CACHE_TTL = 3600e3 // 天气每小时刷新一次
@@ -141,19 +139,13 @@ export function writeCache(store: WeatherStore): void {
 }
 
 export function loadMapJson(): Promise<ChinaGeoJson> {
-  return MAP_URLS.reduce<Promise<ChinaGeoJson>>(
-    (promise, url) =>
-      promise.catch(() =>
-        fetch(url).then((response) => {
-          if (!response.ok) throw new Error("map load failed")
-          return response.json() as Promise<ChinaGeoJson>
-        }),
-      ),
-    Promise.reject(new Error("no url")),
-  )
+  return fetch(MAP_URL).then((response) => {
+    if (!response.ok) throw new Error("map load failed")
+    return response.json() as Promise<ChinaGeoJson>
+  })
 }
 
-function parseCities(cities: City[], data: OpenMeteoEntry[]): WeatherStore {
+export function parseCities(cities: City[], data: OpenMeteoEntry[]): WeatherStore {
   const entries: WeatherStore = {}
   cities.forEach((city, index) => {
     const weather = data[index] || {}

@@ -111,8 +111,8 @@ export default function FiveCardsGame() {
             <img
               src={
                 revealed
-                  ? `/cards/${cardId(puzzle.hidden)}.svg`
-                  : "/cards/back.svg"
+                  ? `/cards/webp/${cardId(puzzle.hidden)}.webp`
+                  : "/cards/webp/back.webp"
               }
               alt={revealed ? cardName(puzzle.hidden) : "扣牌（背面）"}
             />
@@ -121,7 +121,7 @@ export default function FiveCardsGame() {
           {[puzzle.key, ...puzzle.order].map((card, i) => (
             <figure key={cardId(card)}>
               <img
-                src={`/cards/${cardId(card)}.svg`}
+                src={`/cards/webp/${cardId(card)}.webp`}
                 alt={cardName(card)}
               />
               <figcaption>{SLOT_LABELS[i + 1]}</figcaption>
@@ -180,7 +180,13 @@ export default function FiveCardsGame() {
                     used ? "is-used" : answer ? "is-answer" : wrong ? "is-wrong" : ""
                   }
                 >
-                  <img src={`/cards/${id}.svg`} alt="" draggable={false} />
+                  <img
+                    src={`/cards/webp/${id}.webp`}
+                    alt=""
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </button>
               )
             })}

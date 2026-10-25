@@ -13,6 +13,7 @@ npm run dev      # next dev on http://localhost:3000/
 npm run build    # static export to out/
 npm run preview  # python3 -m http.server 4173 -d out
 npm test         # unit + UI smoke tests (node --test via tsx)
+npm run data:cars # 月度销量更新后，把月文件合并成按年文件
 npm run verify   # next build + scripts/check-build.ts
 ```
 
@@ -26,12 +27,13 @@ npm run verify   # next build + scripts/check-build.ts
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
 | `components/layout/` | Route layout primitives: `Page` (the only page container) and `PageHeader` (title + one-line description + actions) |
 | `components/ui/` | shadcn components (source copied into the repo, not a runtime dependency). `Card` / `Badge` are server components and ship no JS |
-| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/`, `mir2/` |
-| `types/` | Ambient declarations (echarts and jsdom ship no types) |
-| `public/` | Published as-is: `data/` (`college/`, `tourism/`, `car-sales/` JSON), `images/`, `favicon.svg`, `robots.txt`, `sitemap.xml` |
+| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/` (`game.ts` flow, `ai.ts` decisions, `state.ts` shared `G`, `tile.ts` hand/tile math), `mir2/` |
+| `types/` | Ambient declarations (jsdom ships no types; echarts has its own) |
+| `public/` | Published as-is: `data/` (`college/`, `tourism/`, `car-sales/` JSON, `china-cities.json`), `images/`, `favicon.svg`, `robots.txt` |
 | `public/mahjong/`, `public/mir2/` | Static assets for the two games (`style.css`, `svg/`, `data/`, `vendor/driver.js`); their logic lives in `lib/` and their UI in `components/` |
-| `public/cards/` | 52 playing-card faces + back for the five-card trick; sources and licenses in `README.md` |
-| `scripts/check-build.ts` | Build-output self-check (routes, SEO tags, analytics, static assets, game CSS order) |
+| `assets/cards/`, `public/cards/webp/` | Card SVG sources + licenses (not deployed) and the generated WebP thumbnails the five-card page actually loads |
+| `app/sitemap.ts` | Sitemap generated from `PAGES` (`lastMod` / `priority` live in `lib/site.ts`) |
+| `scripts/check-build.ts` | Build-output self-check (routes + sitemap, SEO tags, analytics, data shape, static assets, game CSS order) |
 | `test/` | Unit tests for `lib/`, plus the two games' logic and jsdom UI smoke tests |
 
 - Routes: `/` `/college/` `/tourism/` `/cars/` `/comfort/` `/photo/` (group `(site)`),
@@ -45,7 +47,7 @@ Site logic, game logic, UI smoke tests and build output:
 
 ```bash
 npm test          # node --test via tsx: lib/, mahjong rules + AI, jsdom UI tests
-npm run verify    # build then assert titles, canonical, analytics, assets, CSS order
+npm run verify    # build then assert titles, canonical, sitemap, data, assets, CSS order
 ```
 
 Node runs `.ts` tests directly (type stripping), so relative imports to `lib/`
@@ -80,7 +82,8 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
 
 ## Code style
 
-- ESLint extends `@antfu`; Prettier `semi: false`
+- No lint toolchain in the repo: formatting is by hand / the editor's Prettier
+  extension (`.prettierrc`, `semi: false`)
 - No semicolons in JS
 - `console` allowed (no-console off)
 - TypeScript, `strict: true`; only erasable syntax (`enum`/`namespace` are off,
@@ -90,8 +93,17 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
 
 ## Conventions
 
+- Data pages (college / tourism / cars) inline their data at build time: the
+  route's `page.tsx` imports the JSON and passes it as props, so the first paint
+  has rows and crawlers see them. Only college's non-default years fetch.
 - SEO copy lives in `lib/site.ts`; every route exports
-  `export const metadata = metadataFor('<route>')`
+  `export const metadata = metadataFor('<route>')`. `scripts/check-build.ts`
+  derives its route assertions from `PAGES`, so titles/canonical are never
+  copied into the script
+- Car sales data: `index.json` + one file per month are the source of truth;
+  `npm run data:cars` merges them into `<year>.json`, which is what the page
+  fetches (2 requests instead of 23). `check-build` fails if the year files are
+  out of sync with the monthly files
 - `components/RootShell.tsx` renders the SEO-independent chrome: header, footer,
   theme first-paint script, Baidu analytics; the two root layouts
   (`app/(site)/layout.tsx`, `app/(tool)/layout.tsx`) import `globals.css` +

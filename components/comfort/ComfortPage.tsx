@@ -27,7 +27,7 @@ import {
   weatherText,
   writeCache,
 } from "../../lib/weather"
-import type { EChartsInstance } from "echarts"
+import type { EChartsType } from "echarts/core"
 
 const PAGE_SIZE = 20
 
@@ -35,8 +35,8 @@ const isDark = () => document.documentElement.classList.contains("dark")
 
 export default function ComfortPage() {
   const mapEl = useRef<HTMLDivElement | null>(null)
-  const chart = useRef<EChartsInstance | null>(null)
-  const echartsRef = useRef<typeof import("echarts") | null>(null)
+  const chart = useRef<EChartsType | null>(null)
+  const echartsRef = useRef<typeof import("echarts/core") | null>(null)
   const storeRef = useRef<WeatherStore>({})
   const citiesRef = useRef<City[]>([])
   const mapZoom = useRef(1.25)
@@ -66,30 +66,18 @@ export default function ComfortPage() {
     return {
       tooltip: {
         trigger: "item",
+        // richText 不解析 HTML：城市名来自地图数据，避免拼字符串进 tooltip 的注入面
+        renderMode: "richText",
         formatter: (params: { name: string }) => {
           const data = storeRef.current[params.name]
-          if (!data || data.feels == null) return params.name + "<br/>暂无数据"
+          if (!data || data.feels == null) return params.name + "\n暂无数据"
           const levelInfo = LEVELS[data.level]
-          return (
-            params.name +
-            " " +
-            weatherText(data.code) +
-            "<br/>" +
-            "气温 " +
-            fmt(data.temp) +
-            " · 体感 " +
-            fmt(data.feels) +
-            "<br/>" +
-            "24小时 " +
-            fmt(data.min) +
-            " ~ " +
-            fmt(data.max) +
-            "<br/>" +
-            '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' +
-            levelInfo.color +
-            ';margin-right:6px"></span>' +
-            levelInfo.name
-          )
+          return [
+            params.name + " " + weatherText(data.code),
+            "气温 " + fmt(data.temp) + " · 体感 " + fmt(data.feels),
+            "24小时 " + fmt(data.min) + " ~ " + fmt(data.max),
+            levelInfo.name,
+          ].join("\n")
         },
       },
       visualMap: {
@@ -164,7 +152,11 @@ export default function ComfortPage() {
   function snapshotView() {
     if (!chart.current) return
     try {
-      const series = chart.current.getOption().series[0]
+      const series = (
+        chart.current.getOption() as {
+          series?: Array<{ zoom?: number; center?: number[] }>
+        }
+      ).series?.[0]
       if (series) {
         if (typeof series.zoom === "number") mapZoom.current = series.zoom
         if (series.center) mapCenter.current = series.center
@@ -255,13 +247,27 @@ export default function ComfortPage() {
     try {
       let cityList = citiesRef.current
       if (!cityList.length) {
-        // echarts 4 在模块求值时就访问 document，只能在浏览器里动态加载
-        const mod = await import("echarts")
-        // CJS 包，按打包器互操作可能落在 default 上
-        const echarts = "init" in mod ? mod : (mod as { default: typeof mod }).default
+        // 只引地图需要的模块，避免整包 echarts 进页面
+        const [echarts, charts, components, renderers] = await Promise.all([
+          import("echarts/core"),
+          import("echarts/charts"),
+          import("echarts/components"),
+          import("echarts/renderers"),
+        ])
+        echarts.use([
+          charts.MapChart,
+          components.TooltipComponent,
+          components.VisualMapComponent,
+          components.GeoComponent,
+          renderers.CanvasRenderer,
+        ])
         echartsRef.current = echarts
         const geo = await loadMapJson()
-        echarts.registerMap("china-cities", geo)
+        // ChinaGeoJson 只声明了页面用到的字段，实际是标准 GeoJSON
+        echarts.registerMap(
+          "china-cities",
+          geo as unknown as Parameters<typeof echarts.registerMap>[1],
+        )
         cityList = geo.features
           .map((feature) => ({
             name: feature.properties.name,

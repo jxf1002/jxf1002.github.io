@@ -26,6 +26,7 @@ import {
 } from "../../lib/college"
 import type { SortDirection } from "../../lib/list"
 import { paginate, sortRows } from "../../lib/list"
+import { titleWithYear } from "../../lib/site"
 
 type SortKey = "" | "chinaxy" | "ranking" | "wurank"
 
@@ -51,7 +52,11 @@ function readParams(): { year: CollegeYear; query: string; province: string } {
   }
 }
 
-export default function CollegePage() {
+export default function CollegePage({
+  initialRows,
+}: {
+  initialRows: CollegeRow[]
+}) {
   const dialog = useRef<HTMLDialogElement | null>(null)
   const [state, setState] = useState<CollegeState>({
     year: DEFAULT_YEAR,
@@ -64,9 +69,9 @@ export default function CollegePage() {
     statsSortKey: "",
     statsDirection: "asc",
   })
-  const [rows, setRows] = useState<CollegeRow[]>([])
+  const [rows, setRows] = useState<CollegeRow[]>(initialRows)
   const [failed, setFailed] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   // 查询参数在挂载后读取，避免静态 HTML 与首屏渲染不一致
   useEffect(() => {
@@ -80,13 +85,22 @@ export default function CollegePage() {
   }, [])
 
   useEffect(() => {
-    document.title = "大学排行榜" + state.year + "-数据-贾师傅的小站"
+    document.title = titleWithYear("college", state.year)
   }, [state.year])
 
   useEffect(() => {
+    // 默认年份已在构建期内联，切回时直接用，不再请求
+    if (state.year === DEFAULT_YEAR) {
+      setRows(initialRows)
+      setFailed(false)
+      setLoading(false)
+      return
+    }
     let cancelled = false
     setLoading(true)
-    fetch("/data/college/colleges" + state.year + ".json")
+    fetch("/data/college/colleges" + state.year + ".json", {
+      cache: "no-cache",
+    })
       .then((response) => {
         if (!response.ok) throw new Error("数据加载失败")
         return response.json()
@@ -106,7 +120,7 @@ export default function CollegePage() {
     return () => {
       cancelled = true
     }
-  }, [state.year])
+  }, [state.year, initialRows])
 
   function patch(next: Partial<CollegeState>, { keepPage = true } = {}) {
     setState((prev) => ({

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Pagination from "../Pagination"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
@@ -16,26 +16,17 @@ import { paginate } from "../../lib/list"
 
 const ALL = "全部"
 
-type TourismRow = {
+export type TourismRow = {
   name: string
   provinceName: string
   gradesName: string
   year: string
 }
 
-export default function TourismPage() {
-  const [rows, setRows] = useState<TourismRow[]>([])
+export default function TourismPage({ rows }: { rows: TourismRow[] }) {
   const [query, setQuery] = useState("")
   const [province, setProvince] = useState(ALL)
   const [page, setPage] = useState(1)
-  const [failed, setFailed] = useState(false)
-
-  useEffect(() => {
-    fetch("/data/tourism/tourism.json")
-      .then((response) => response.json())
-      .then(setRows)
-      .catch(() => setFailed(true))
-  }, [])
 
   const provinces = Array.from(
     new Set(rows.map((row) => row.provinceName)),
@@ -91,13 +82,7 @@ export default function TourismPage() {
             </TableRow>
           </TableHeader>
           <TableBody data-table-body>
-            {failed ? (
-              <TableRow>
-                <TableCell className="empty" colSpan={4}>
-                  数据加载失败
-                </TableCell>
-              </TableRow>
-            ) : result.items.length ? (
+            {result.items.length ? (
               result.items.map((row, index) => (
                 <TableRow key={row.name + index}>
                   <TableCell>{row.name}</TableCell>
@@ -111,7 +96,7 @@ export default function TourismPage() {
             ) : (
               <TableRow>
                 <TableCell className="empty" colSpan={4}>
-                  {rows.length ? "没有匹配的数据" : "正在加载..."}
+                  没有匹配的数据
                 </TableCell>
               </TableRow>
             )}

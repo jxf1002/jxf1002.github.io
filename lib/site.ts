@@ -26,7 +26,10 @@ export type JsonLdData = Record<string, unknown>
 
 export type PageMeta = {
   path: string
+  lastMod: string
+  priority: number
   title: string
+  shortTitle: string
   description: string
   keywords?: string
   ogTitle: string
@@ -39,7 +42,10 @@ export type PageMeta = {
 export const PAGES: Record<PageKey, PageMeta> = {
   home: {
     path: "/",
+    lastMod: "2026-09-14",
+    priority: 1.0,
     title: "贾师傅的小站｜实用数据与工具",
+    shortTitle: "贾师傅的小站",
     description: "用代码创造无限可能，分享个人精心整理的实用工具和数据。",
     keywords: "贾师傅,数据,工具",
     ogTitle: "贾师傅的小站｜实用数据与工具",
@@ -57,7 +63,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   college: {
     path: "/college/",
+    lastMod: "2026-09-14",
+    priority: 0.9,
     title: "大学排行榜-数据-贾师傅的小站",
+    shortTitle: "大学排行榜",
     description: "提供基于校友会、软科、武书连数据的中国大学排行榜。",
     keywords: "贾师傅,大学排行榜,大学排行榜数据",
     ogTitle: "大学排行榜｜贾师傅的小站",
@@ -75,7 +84,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   tourism: {
     path: "/tourism/",
+    lastMod: "2026-09-14",
+    priority: 0.8,
     title: "5A级旅游景区-数据-贾师傅的小站",
+    shortTitle: "5A级旅游景区",
     description: "提供基于2023年数据的5A级旅游景区。",
     keywords: "贾师傅,5A级旅游景区,5A级旅游景区数据",
     ogTitle: "5A级旅游景区数据｜贾师傅的小站",
@@ -93,7 +105,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   cars: {
     path: "/cars/",
+    lastMod: "2026-10-24",
+    priority: 0.8,
     title: "汽车品牌销量-数据-贾师傅的小站",
+    shortTitle: "汽车品牌销量",
     description:
       "按月采集的汽车品牌销量数据，按年度汇总排行，并对比上年同期同比变化。",
     keywords: "贾师傅,汽车销量,汽车品牌销量排行榜,汽车销量数据",
@@ -107,13 +122,15 @@ export const PAGES: Record<PageKey, PageMeta> = {
       description: "按月汇总的汽车品牌销量，含年度排行与同比变化。",
       url: "https://www.justful.cn/cars/",
       inLanguage: "zh-CN",
-      temporalCoverage: "2025-01/2026-09",
       creator: { "@type": "Organization", name: "贾师傅的小站" },
     },
   },
   comfort: {
     path: "/comfort/",
+    lastMod: "2026-09-15",
+    priority: 0.8,
     title: "全国体感温度-数据-贾师傅的小站",
+    shortTitle: "全国体感温度",
     description:
       "全国地级市体感温度地图：查看每个地级市的实时天气、体感温度与24小时温度范围。",
     keywords: "贾师傅,体感温度,全国气温地图,地级市天气",
@@ -133,7 +150,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   dcf: {
     path: "/dcf/",
+    lastMod: "2026-09-14",
+    priority: 0.8,
     title: "DCF 企业估值计算器｜贾师傅的小站",
+    shortTitle: "DCF 计算器",
     description: "使用现金流折现模型估算企业价值的在线 DCF 企业估值计算器。",
     ogTitle: "DCF 企业估值计算器｜贾师傅的小站",
     ogDescription: "使用现金流折现模型估算企业价值的在线 DCF 企业估值工具。",
@@ -151,7 +171,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   photo: {
     path: "/photo/",
+    lastMod: "2026-09-14",
+    priority: 0.8,
     title: "图片格式转换｜贾师傅的小站",
+    shortTitle: "图片格式转换工具",
     description:
       "纯前端批量图片格式转换工具，支持 JPG、PNG、WebP 互转，可打包成 ZIP 下载，图片不会上传到服务器。",
     keywords: "图片格式转换,JPG,PNG,WebP,批量压缩,在线工具",
@@ -161,7 +184,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   sport: {
     path: "/sport/",
+    lastMod: "2026-09-14",
+    priority: 0.6,
     title: "运动练习｜跑步·骑行·游泳·跳绳",
+    shortTitle: "赛博运动",
     description:
       "调整跑步、骑行、游泳、跳绳的运动强度，实时估算距离、配速、卡路里和心率的在线小工具。",
     keywords: "运动,跑步,骑行,游泳,跳绳,卡路里计算,配速",
@@ -183,7 +209,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   mahjong: {
     path: "/mahjong/",
+    lastMod: "2026-09-14",
+    priority: 0.6,
     title: "麻将小游戏｜贾师傅的小站",
+    shortTitle: "麻将小游戏",
     description: "在线四人麻将小游戏，支持智能出牌提示、番型计算和对局日志。",
     ogTitle: "麻将小游戏｜贾师傅的小站",
     ogDescription: "在线四人麻将小游戏，支持智能出牌提示和番型计算。",
@@ -191,7 +220,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   mir2: {
     path: "/mir2/",
+    lastMod: "2026-09-14",
+    priority: 0.6,
     title: "传奇挂机小游戏｜贾师傅的小站",
+    shortTitle: "传奇挂机小游戏",
     description:
       "纯前端传奇挂机小游戏：战法道三职业自动打怪、捡装、升级，还能组队挑战首领。",
     ogTitle: "传奇挂机小游戏｜贾师傅的小站",
@@ -200,7 +232,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   guess: {
     path: "/guess/",
+    lastMod: "2026-10-21",
+    priority: 0.6,
     title: "猜数字小游戏｜贾师傅的小站",
+    shortTitle: "猜数字小游戏",
     description:
       "10 次机会猜出 4 位不重复数字的在线小游戏，带最佳提示、猜测记录和本地战绩。",
     keywords: "猜数字,1A2B,Bulls and Cows,推理小游戏",
@@ -220,7 +255,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   fiveCards: {
     path: "/five-cards/",
+    lastMod: "2026-10-21",
+    priority: 0.6,
     title: "五张牌魔术小游戏｜贾师傅的小站",
+    shortTitle: "五张牌魔术",
     description:
       "五张牌读心魔术：一张扣牌、四张明牌，根据花色和后三张的排列算出扣牌是哪一张。",
     keywords: "五张牌魔术,读心魔术,扑克牌,推理小游戏",
@@ -240,7 +278,10 @@ export const PAGES: Record<PageKey, PageMeta> = {
   },
   calendar: {
     path: "/calendar/",
+    lastMod: "2026-10-24",
+    priority: 0.6,
     title: "日历拼图小游戏｜贾师傅的小站",
+    shortTitle: "日历拼图",
     description:
       "经典日历拼图在线版：把拼块铺满日历，只留下当天的月份和日期；高级模式还要留下星期。支持电脑和手机。",
     keywords: "日历拼图,拼图游戏,多边形拼图,每日一题",
@@ -284,4 +325,11 @@ export function metadataFor(key: PageKey): Metadata {
     },
     ...(page.twitterCard ? { twitter: { card: page.twitterCard } } : {}),
   }
+}
+
+// 标题里插入年份（大学榜按年切换时用）：大学排行榜-数据-… → 大学排行榜2025-数据-…
+export function titleWithYear(key: PageKey, year: string): string {
+  const { title } = PAGES[key]
+  const at = title.indexOf("-数据-")
+  return at < 0 ? title : title.slice(0, at) + year + title.slice(at)
 }
