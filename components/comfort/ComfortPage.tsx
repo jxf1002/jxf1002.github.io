@@ -19,10 +19,14 @@ import {
   LABEL_ZOOM,
   LEVELS,
   MAX_ZOOM,
+  RETRY_BASE,
   fetchWeather,
   fmt,
   loadMapJson,
+  mergeWeather,
+  nextRetryDelay,
   readCache,
+  staleCities,
   stamp,
   weatherText,
   writeCache,
@@ -39,30 +43,27 @@ export default function ComfortPage() {
   const echartsRef = useRef<typeof import("echarts/core") | null>(null)
   const storeRef = useRef<WeatherStore>({})
   const citiesRef = useRef<City[]>([])
-  const mapZoom = useRef(1.25)
+  const mapZoom = useRef(1)
   const mapCenter = useRef<number[] | null>(null)
   const labelsOn = useRef(false)
-  const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const labelTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const retryDelay = useRef(RETRY_BASE)
+  const fetchingRef = useRef(false)
+  const mountedRef = useRef(false)
 
   const [cities, setCities] = useState<City[]>([])
   const [store, setStore] = useState<WeatherStore>({})
   const [status, setStatus] = useState("正在加载地图…")
   const [updated, setUpdated] = useState("正在加载天气…")
   const [view, setView] = useState("map")
-  const [labels, setLabels] = useState(false)
   const [query, setQuery] = useState("")
   const [level, setLevel] = useState("")
   const [page, setPage] = useState(1)
   const [failed, setFailed] = useState(false)
 
-  function isNarrow(): boolean {
-    return mapEl.current ? mapEl.current.clientWidth < 560 : false
-  }
-
   function chartOption() {
     const dark = isDark()
-    const narrow = isNarrow()
     return {
       tooltip: {
         trigger: "item",
@@ -77,36 +78,21 @@ export default function ComfortPage() {
             "气温 " + fmt(data.temp) + " · 体感 " + fmt(data.feels),
             "24小时 " + fmt(data.min) + " ~ " + fmt(data.max),
             levelInfo.name,
+            ...(data.ts ? ["更新 " + stamp(data.ts)] : []),
           ].join("\n")
         },
       },
       visualMap: {
+        // 图例在页头已有，这里只保留颜色映射
         type: "piecewise",
-        orient: "horizontal",
-        bottom: 0,
-        left: "center",
-        itemWidth: narrow ? 10 : 20,
-        itemHeight: narrow ? 8 : 14,
-        itemGap: narrow ? 6 : 10,
-        textStyle: {
-          color: dark ? "#f8fafc" : "#19322b",
-          fontSize: narrow ? 10 : 12,
-        },
-        pieces: narrow
-          ? [
-              { lt: 0, label: "寒冷", color: "#313695" },
-              { gte: 0, lt: 15, label: "凉爽", color: "#74ADD1" },
-              { gte: 15, lt: 27, label: "舒适", color: "#1A9850" },
-              { gte: 27, lt: 32, label: "偏热", color: "#FDAE61" },
-              { gte: 32, label: "炎热", color: "#D73027" },
-            ]
-          : [
-              { lt: 0, label: "寒冷 <0", color: "#313695" },
-              { gte: 0, lt: 15, label: "凉爽 0–15", color: "#74ADD1" },
-              { gte: 15, lt: 27, label: "舒适 15–27", color: "#1A9850" },
-              { gte: 27, lt: 32, label: "偏热 27–32", color: "#FDAE61" },
-              { gte: 32, label: "炎热 >32", color: "#D73027" },
-            ],
+        show: false,
+        pieces: [
+          { lt: 0, label: "寒冷 <0", color: "#313695" },
+          { gte: 0, lt: 15, label: "凉爽 0–15", color: "#74ADD1" },
+          { gte: 15, lt: 27, label: "舒适 15–27", color: "#1A9850" },
+          { gte: 27, lt: 32, label: "偏热 27–32", color: "#FDAE61" },
+          { gte: 32, label: "炎热 >32", color: "#D73027" },
+        ],
       },
       series: [
         {
@@ -171,7 +157,6 @@ export default function ComfortPage() {
     const on = mapZoom.current >= LABEL_ZOOM
     if (on !== labelsOn.current) {
       labelsOn.current = on
-      setLabels(on)
       if (chart.current) {
         chart.current.setOption({ series: [{ label: { show: on } }] })
       }
@@ -197,53 +182,88 @@ export default function ComfortPage() {
     chart.current.setOption(chartOption(), true)
   }
 
-  function mergeStore(entries: WeatherStore) {
-    storeRef.current = { ...storeRef.current, ...entries }
+  function mergeStore(entries: WeatherStore, ts: number) {
+    storeRef.current = mergeWeather(storeRef.current, entries, ts)
     setStore(storeRef.current)
   }
 
-  function missingCities() {
-    return citiesRef.current.filter((city) => {
-      const data = storeRef.current[city.name]
-      return !data || data.feels == null
-    })
-  }
-
-  function paint(ts: number, cityList?: City[]) {
-    const total = cityList || citiesRef.current
-    const ready = Object.keys(storeRef.current).filter(
-      (name) => storeRef.current[name].feels != null,
-    ).length
-    setUpdated(
-      "已更新 " +
-        ready +
-        " / " +
-        total.length +
-        " 个地级市 · " +
-        stamp(ts) +
-        "（北京时间，每小时更新）",
+  function paint() {
+    const ready = Object.values(storeRef.current).filter(
+      (item) => item.feels != null,
     )
-    setStatus("")
+    const latest = ready.reduce((max, item) => Math.max(max, item.ts ?? 0), 0)
+    setUpdated(
+      "已加载 " +
+        ready.length +
+        " / " +
+        citiesRef.current.length +
+        " 个地级市 · 最近更新 " +
+        (latest ? stamp(latest) : "—"),
+    )
     renderMap()
   }
 
-  async function replenish() {
+  function problems() {
+    return staleCities(citiesRef.current, storeRef.current, Date.now())
+  }
+
+  function cancelRetry() {
+    if (retryTimer.current) clearTimeout(retryTimer.current)
     retryTimer.current = null
-    const missing = missingCities()
-    if (!missing.length) return
-    setStatus("正在补全 " + missing.length + " 个地级市数据…")
-    const entries = await fetchWeather(missing)
-    mergeStore(entries)
-    writeCache(storeRef.current)
-    paint(Date.now())
-    if (missingCities().length) {
-      retryTimer.current = setTimeout(replenish, 30000)
+  }
+
+  function scheduleRetry(delay: number) {
+    cancelRetry()
+    if (!mountedRef.current || !problems().length) return
+    retryTimer.current = setTimeout(retryProblems, delay)
+  }
+
+  // 补全轮：只请求有问题的城市；失败或没进展就按 1→2→4→8… 分钟退避
+  async function retryProblems() {
+    retryTimer.current = null
+    if (!mountedRef.current || fetchingRef.current) return
+    const list = problems()
+    if (!list.length) return
+    const before = list.length
+    fetchingRef.current = true
+    setStatus("正在更新 " + list.length + " 个城市…")
+    try {
+      const ts = Date.now()
+      const entries = await fetchWeather(list)
+      mergeStore(entries, ts)
+      writeCache(storeRef.current)
+      setFailed(false)
+      paint()
+      const left = problems().length
+      retryDelay.current = nextRetryDelay(retryDelay.current, left < before)
+      if (left) {
+        setStatus("还有 " + left + " 个城市待更新，稍后自动重试")
+        scheduleRetry(retryDelay.current)
+      } else {
+        setStatus("")
+      }
+    } catch (e) {
+      retryDelay.current = nextRetryDelay(retryDelay.current, false)
+      setStatus("暂时无法更新，稍后自动重试")
+      scheduleRetry(retryDelay.current)
+    } finally {
+      fetchingRef.current = false
     }
   }
 
+  // 先渲染缓存；没有缓存或缓存超过 1 小时，才发一次请求拿全部城市
   async function load(force: boolean) {
-    setStatus(force ? "正在刷新天气…" : "正在加载地图…")
+    if (fetchingRef.current) return
+    cancelRetry()
+    retryDelay.current = RETRY_BASE
+    const cache = readCache()
     setFailed(false)
+    setStatus("正在加载地图…")
+    if (cache) {
+      // 先灌进 state：即使地图加载失败，列表也能显示缓存
+      storeRef.current = cache.data
+      setStore(cache.data)
+    }
     try {
       let cityList = citiesRef.current
       if (!cityList.length) {
@@ -279,32 +299,46 @@ export default function ComfortPage() {
         setCities(cityList)
       }
 
-      if (!force) {
-        const cache = readCache()
-        if (cache) {
-          storeRef.current = cache.data
-          setStore(cache.data)
-          paint(cache.ts, cityList)
-          if (missingCities().length) replenish()
-          return
-        }
+      if (cache) paint()
+
+      const stale = problems()
+      if (!force && cache && stale.length === 0) {
+        setStatus("")
+        return
       }
 
+      setStatus(cache ? "正在更新天气…" : "正在加载天气…")
+      fetchingRef.current = true
+      const ts = Date.now()
       const entries = await fetchWeather(cityList)
-      mergeStore(entries)
+      mergeStore(entries, ts)
       writeCache(storeRef.current)
-      paint(Date.now(), cityList)
-      replenish()
+      paint()
+      const left = problems().length
+      setStatus(left ? "还有 " + left + " 个城市待更新，稍后自动重试" : "")
+      if (left) scheduleRetry(retryDelay.current)
     } catch (e) {
-      setStatus("加载失败，请检查网络后点击“刷新天气”重试")
-      setFailed(true)
+      // 请求失败时保留旧缓存，不覆盖任何已有数据
+      setFailed(!cache || !citiesRef.current.length)
+      setStatus(
+        cache
+          ? "加载失败，显示缓存数据（" + stamp(cache.ts) + "）"
+          : "加载失败，请稍后自动重试",
+      )
+      if (cache) paint()
+      if (problems().length) scheduleRetry(retryDelay.current)
+    } finally {
+      fetchingRef.current = false
     }
   }
 
+
   useEffect(() => {
+    mountedRef.current = true
     load(false)
     return () => {
-      if (retryTimer.current) clearTimeout(retryTimer.current)
+      mountedRef.current = false
+      cancelRetry()
       if (labelTimer.current) clearTimeout(labelTimer.current)
       if (chart.current) {
         chart.current.dispose()
@@ -313,17 +347,21 @@ export default function ComfortPage() {
     }
   }, [])
 
-  // 图表尺寸与配色跟随窗口、主题变化
+  // 从列表切回地图时容器刚从 display:none 恢复，必须等布局完成再 resize
   useEffect(() => {
-    let lastNarrow: boolean | null = null
-    function onResize() {
+    if (view !== "map") return
+    const id = requestAnimationFrame(() => {
       if (!chart.current) return
       chart.current.resize()
-      const narrow = isNarrow()
-      if (narrow !== lastNarrow) {
-        lastNarrow = narrow
-        renderMap()
-      }
+      renderMap()
+    })
+    return () => cancelAnimationFrame(id)
+  }, [view])
+
+  // 图表尺寸与配色跟随窗口、主题变化
+  useEffect(() => {
+    function onResize() {
+      if (chart.current) chart.current.resize()
     }
     function onThemeChange() {
       renderMap()
@@ -369,16 +407,11 @@ export default function ComfortPage() {
 
   const result = paginate(filtered, page, PAGE_SIZE)
 
-  async function refresh() {
-    if (retryTimer.current) clearTimeout(retryTimer.current)
-    await load(true)
-  }
-
   return (
     <Page className="data-page feels-page">
       <PageHeader
         title="全国体感温度"
-        description={`按地级市划分 · 更新时间 ${updated}`}
+        description={`按地级市划分 · ${updated}`}
       >
         <div className="feels-legend" aria-label="体感温度图例">
           <span>
@@ -404,10 +437,7 @@ export default function ComfortPage() {
             className="button"
             type="button"
             aria-pressed={view === "map"}
-            onClick={() => {
-              setView("map")
-              if (chart.current) chart.current.resize()
-            }}
+            onClick={() => setView("map")}
           >
             地图
           </Button>
@@ -430,9 +460,6 @@ export default function ComfortPage() {
             ></div>
             <p className="feels-status">{status}</p>
           </div>
-          <p className="zoom-hint" hidden={labels}>
-            缩放到最大可显示地级市名称
-          </p>
         </div>
         <div hidden={view !== "list"}>
           <div className="filters">
@@ -464,10 +491,8 @@ export default function ComfortPage() {
                 </option>
               ))}
             </select>
-            <Button className="button" type="button" onClick={refresh}>
-              刷新天气
-            </Button>
           </div>
+          <p className="feels-list-status">{status}</p>
           <Table containerClassName="table-wrap">
             <TableHeader>
               <TableRow>
@@ -477,12 +502,13 @@ export default function ComfortPage() {
                 <TableHead>体感</TableHead>
                 <TableHead className="desktop-only">24小时范围</TableHead>
                 <TableHead>舒适度</TableHead>
+                <TableHead>更新时间</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody data-table-body>
               {failed ? (
                 <TableRow>
-                  <TableCell className="empty" colSpan={6}>
+                  <TableCell className="empty" colSpan={7}>
                     数据加载失败
                   </TableCell>
                 </TableRow>
@@ -515,12 +541,15 @@ export default function ComfortPage() {
                           "—"
                         )}
                       </TableCell>
+                      <TableCell className="feels-time">
+                        {data.ts ? stamp(data.ts) : "—"}
+                      </TableCell>
                     </TableRow>
                   )
                 })
               ) : (
                 <TableRow>
-                  <TableCell className="empty" colSpan={6}>
+                  <TableCell className="empty" colSpan={7}>
                     {cities.length ? "没有匹配的城市" : "正在加载..."}
                   </TableCell>
                 </TableRow>
@@ -535,10 +564,11 @@ export default function ComfortPage() {
           />
         </div>
         <p className="feels-note">
-          体感温度按整数取整后着色：寒冷 &lt;0°C · 凉爽 0–15°C · 舒适 15–27°C ·
-          偏热 27–32°C · 炎热 &gt;32°C。天气数据来自 Open-Meteo（无需
-          Key，纯浏览器端请求），每小时更新一次；若存在暂无数据的地级市，每 30
-          秒自动补全，直到全部获取。坐标取自地图中心点。
+          天气数据来自{" "}
+          <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">
+            Open-Meteo
+          </a>
+          ，仅供参考。
         </p>
       </section>
     </Page>

@@ -43,6 +43,8 @@ export const MAP_URL = "/data/china-cities.json"
 
 export const CACHE_KEY = "comfort-weather-v1"
 export const CACHE_TTL = 3600e3 // 天气每小时刷新一次
+export const RETRY_BASE = 60e3 // 补全轮的基础间隔
+export const RETRY_MAX = 30 * 60e3 // 等待时间翻倍的上限
 export const MAX_ZOOM = 6
 export const LABEL_ZOOM = 5.5 // 接近最大倍数时才显示地级市名称
 
@@ -56,6 +58,8 @@ export type CityWeather = {
   min: number | null
   max: number | null
   level: number
+  /** 该城市数据的抓取时间；旧缓存可能没有，读取时会用整体时间回填 */
+  ts?: number
 }
 
 export type WeatherStore = Record<string, CityWeather>
@@ -107,24 +111,58 @@ export function stamp(ts: number): string {
   )
 }
 
-export function chunk<T>(arr: T[], size: number): T[][] {
-  const out: T[][] = []
-  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size))
-  return out
-}
-
 export function readCache(): { ts: number; data: WeatherStore } | null {
   try {
     const raw = localStorage.getItem(CACHE_KEY)
     if (!raw) return null
     const cached = JSON.parse(raw) as { ts: number; data: WeatherStore } | null
-    if (cached && cached.ts && Date.now() - cached.ts < CACHE_TTL && cached.data) {
-      return cached
+    if (!cached || !cached.ts || !cached.data) return null
+    // 旧缓存没有逐城时间：用整体时间回填，免得全部被当成「比 1 小时更旧」
+    for (const item of Object.values(cached.data)) {
+      item.ts = item.ts ?? cached.ts
     }
+    return cached
   } catch (e) {
     // 隐私模式下 localStorage 可能不可用，忽略
   }
   return null
+}
+
+// 每个城市独立记时间：本次没拿到（feels 为 null）的城市保留旧值，避免一次失败把缓存写坏
+export function mergeWeather(
+  prev: WeatherStore,
+  next: WeatherStore,
+  ts: number,
+): WeatherStore {
+  const merged: WeatherStore = {}
+  for (const [name, value] of Object.entries(prev)) {
+    if (value.feels != null) merged[name] = value
+  }
+  for (const [name, value] of Object.entries(next)) {
+    if (value.feels == null) continue
+    merged[name] = { ...value, ts }
+  }
+  return merged
+}
+
+// 超过 1 小时（或从没拿到过）的城市：打开页面时需要重新请求
+export function staleCities(
+  cities: City[],
+  store: WeatherStore,
+  now: number,
+): City[] {
+  return cities.filter((city) => {
+    const item = store[city.name]
+    // 没数据（含缓存里的 feels 为 null）也算问题，必须主动拉一次
+    if (!item || item.feels == null) return true
+    return now - (item.ts ?? 0) >= CACHE_TTL
+  })
+}
+
+// 补全轮之后：有进展就回到 1 分钟，失败或没进展就翻倍，最多 30 分钟
+export function nextRetryDelay(current: number, progress: boolean): number {
+  if (progress) return RETRY_BASE
+  return Math.min(current * 2, RETRY_MAX)
 }
 
 export function writeCache(store: WeatherStore): void {
@@ -176,36 +214,22 @@ export function parseCities(cities: City[], data: OpenMeteoEntry[]): WeatherStor
   return entries
 }
 
-// 每 40 个城市一个请求，单个失败不影响其他分组
+// 一次请求拿全部城市：367 个坐标约 5KB URL，Open-Meteo 支持多坐标
 export function fetchWeather(cities: City[]): Promise<WeatherStore> {
-  const groups = chunk(cities, 40)
-  return Promise.all(
-    groups.map((group) => {
-      const lat = group.map((c) => c.lat.toFixed(2)).join(",")
-      const lon = group.map((c) => c.lon.toFixed(2)).join(",")
-      const url =
-        "https://api.open-meteo.com/v1/forecast?latitude=" +
-        lat +
-        "&longitude=" +
-        lon +
-        "&current=temperature_2m,apparent_temperature,weather_code" +
-        "&hourly=temperature_2m&timezone=Asia%2FShanghai&forecast_days=2"
-      return fetch(url)
-        .then((response) => {
-          if (!response.ok) throw new Error("weather failed")
-          return response.json() as Promise<OpenMeteoEntry[] | OpenMeteoEntry>
-        })
-        .then((data) => ({
-          cities: group,
-          data: Array.isArray(data) ? data : [data],
-        }))
-        .catch(() => ({ cities: group, data: [] as OpenMeteoEntry[] }))
-    }),
-  ).then((results) => {
-    let entries: WeatherStore = {}
-    results.forEach((result) => {
-      entries = { ...entries, ...parseCities(result.cities, result.data) }
+  if (!cities.length) return Promise.resolve({})
+  const lat = cities.map((c) => c.lat.toFixed(2)).join(",")
+  const lon = cities.map((c) => c.lon.toFixed(2)).join(",")
+  const url =
+    "https://api.open-meteo.com/v1/forecast?latitude=" +
+    lat +
+    "&longitude=" +
+    lon +
+    "&current=temperature_2m,apparent_temperature,weather_code" +
+    "&hourly=temperature_2m&timezone=Asia%2FShanghai&forecast_days=2"
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) throw new Error("weather failed")
+      return response.json() as Promise<OpenMeteoEntry[] | OpenMeteoEntry>
     })
-    return entries
-  })
+    .then((data) => parseCities(cities, Array.isArray(data) ? data : [data]))
 }
