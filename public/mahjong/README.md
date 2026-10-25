@@ -99,7 +99,7 @@
 页面是 Next.js 的一个路由（App Router + 静态导出），逻辑与界面分层：
 
 ```
-app/(tool)/mahjong/page.tsx    路由：metadata + 手写 <link> 加载游戏样式
+app/(tool)/mahjong/page.tsx    路由：metadata + import 游戏样式
 components/mahjong/            React 界面层
   MahjongGame.tsx              牌桌、大厅、按钮、听牌交互、引擎事件桥
   tiles.tsx                    牌面与副露渲染
@@ -107,7 +107,7 @@ components/mahjong/            React 界面层
   tour.ts                      新手指引（driver.js 按需加载）
 lib/mahjong/                   纯逻辑层（不碰 DOM）
   constants.ts / tile.ts / score.ts / game.ts / stats.ts / types.ts
-public/mahjong/                静态资源：style.css、svg/、vendor/（driver.js）
+public/mahjong/                静态资源：svg/、vendor/（driver.js）
 test/mahjong/                  测试
   rules.test.ts                规则与计分（175 条断言）
   ai.test.ts                   AI 单元测试

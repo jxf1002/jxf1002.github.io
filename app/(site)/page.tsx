@@ -12,8 +12,14 @@ type HomeItem = {
   description: string
 }
 
-const GROUPS: { title: string; slogan: string; items: HomeItem[] }[] = [
+const GROUPS: {
+  id: string
+  title: string
+  slogan: string
+  items: HomeItem[]
+}[] = [
   {
+    id: "data",
     title: "数据",
     slogan: "整理公开信息，让查找和比较更高效。",
     items: [
@@ -40,6 +46,7 @@ const GROUPS: { title: string; slogan: string; items: HomeItem[] }[] = [
     ],
   },
   {
+    id: "tools",
     title: "工具",
     slogan: "用代码解决实际问题，纯浏览器端运行，数据不上传。",
     items: [
@@ -56,6 +63,7 @@ const GROUPS: { title: string; slogan: string; items: HomeItem[] }[] = [
     ],
   },
   {
+    id: "games",
     title: "游戏",
     slogan: "用于验证 AI 编码能力的实验性项目，交互粗糙，不适合长期游玩。",
     items: [
@@ -115,7 +123,7 @@ export default function HomePage() {
           </div>
         </section>
         {GROUPS.map((group) => (
-          <section className="home-block" key={group.title}>
+          <section className="home-block" id={group.id} key={group.title}>
             <h2 className="block-title">{group.title}</h2>
             {group.slogan ? (
               <p className="block-slogan">{group.slogan}</p>
@@ -125,7 +133,7 @@ export default function HomePage() {
                 const page = PAGES[item.key]
                 return (
                   <a
-                    className="group h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    className="group h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong"
                     href={page.path}
                     key={page.path}
                   >

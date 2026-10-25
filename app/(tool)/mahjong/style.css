@@ -31,6 +31,15 @@ body {
 }
 .gc { max-width: 1112px; width: 100%; min-width: 0; margin: 0 auto; padding: 12px 12px 0; flex: 1; display: flex; flex-direction: column; }
 body > .site-header, body > .site-footer { flex-shrink: 0; }
+/* 站点页头在这页跟牌桌同一个深色底，避免白条接深绿桌面的割裂 */
+body > .site-header { background: var(--bg); border-bottom: 1px solid var(--panel-border); color: var(--mj-text); }
+body > .site-header .theme-toggle { color: var(--mj-text); }
+body > .site-header .theme-toggle:hover { background: var(--panel); }
+body > .site-footer { background: var(--bg); border-top-color: var(--panel-border); color: var(--mj-muted); }
+body > .site-footer a:hover { color: var(--gold); }
+.site-tabbar { background: color-mix(in srgb, var(--panel) 92%, transparent); border-top-color: var(--panel-border); }
+.site-tabbar a { color: var(--mj-muted); }
+.site-tabbar a[aria-current="page"] { color: var(--gold); }
 .table { flex: 1; }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
@@ -954,4 +963,10 @@ body.playing.port #mo .m-sep {
   .sum-head { font-size: 9px; letter-spacing: 0; white-space: nowrap; }
   .sum-row { font-size: 11px; }
   .sum-name { font-size: 10px; }
+}
+
+/* 手机底部导航：牌桌全屏时让位（spacer 一起隐藏） */
+@media (max-width: 800px) {
+  body.playing .site-tabbar,
+  body.playing .site-tabbar-space { display: none; }
 }

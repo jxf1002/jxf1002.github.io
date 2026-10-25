@@ -17,6 +17,7 @@
   --color-primary: var(--primary);
   --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --shadow-card: var(--shadow);
 
   /* shadcn 组件用的 token，同样映射到 site.css，明暗仍只有一份来源 */
@@ -33,6 +34,7 @@
   --color-ring: var(--primary);
   --color-primary-foreground: #fff;
   --radius-xl: 8px;
+  --radius-2xl: 12px;
 }
 
 /* 项目不引 preflight，只给 shadcn 组件根节点补上边框色 */

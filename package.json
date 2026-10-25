@@ -7,12 +7,12 @@
     "build": "next build",
     "preview": "python3 -m http.server 4173 -d out",
     "data:cars": "node scripts/build-car-sales.ts",
+    "data:map": "node scripts/build-china-map.ts",
     "test": "node --import tsx --test \"test/**/*.test.ts\" \"test/**/*.test.tsx\"",
     "verify": "npm run build && node scripts/check-build.ts",
     "prebuild": "find public -name .DS_Store -delete"
   },
   "dependencies": {
-    "chart.js": "^4.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "echarts": "^6.1.0",

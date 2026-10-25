@@ -369,3 +369,8 @@ table .highlight-row td:first-child {
 .gap-1 {
   gap: 6px;
 }
+
+/* 明细表在手机上比容器宽，给一行提示，避免以为数据被截断 */
+@media (max-width: 800px) {
+  .dcf-app .table-header .count::after { content: " · 左右滑动"; }
+}

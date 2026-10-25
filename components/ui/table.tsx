@@ -49,6 +49,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   return (
     <th
+      scope="col"
       data-slot="table-head"
       className={cn("px-2 text-left align-middle whitespace-nowrap", className)}
       {...props}

@@ -38,6 +38,13 @@
   min-width: 29rem;
 }
 
+@media (max-width: 600px) {
+  .five-cards-board {
+    grid-template-columns: repeat(7, minmax(2.5rem, 1fr));
+    min-width: 0;
+  }
+}
+
 .five-cards-board button {
   width: 100%;
   aspect-ratio: 167.087 / 242.667;

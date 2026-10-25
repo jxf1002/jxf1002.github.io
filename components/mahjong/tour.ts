@@ -23,7 +23,7 @@ function loadDriver(): Promise<DriverFactory | null> {
   loading = new Promise((resolve) => {
     const done = () => resolve(window.driver?.js?.driver ?? null)
     const s = document.createElement("script")
-    s.src = "/mahjong/vendor/driver.js.iife.js?v=1"
+    s.src = "/mahjong/vendor/driver.js.iife.js"
     s.onload = done
     s.onerror = done
     document.head.appendChild(s)

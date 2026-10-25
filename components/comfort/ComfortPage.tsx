@@ -55,7 +55,7 @@ export default function ComfortPage() {
   const [cities, setCities] = useState<City[]>([])
   const [store, setStore] = useState<WeatherStore>({})
   const [status, setStatus] = useState("正在加载地图…")
-  const [updated, setUpdated] = useState("正在加载天气…")
+  const [updated, setUpdated] = useState("")
   const [view, setView] = useState("map")
   const [query, setQuery] = useState("")
   const [level, setLevel] = useState("")
@@ -267,20 +267,8 @@ export default function ComfortPage() {
     try {
       let cityList = citiesRef.current
       if (!cityList.length) {
-        // 只引地图需要的模块，避免整包 echarts 进页面
-        const [echarts, charts, components, renderers] = await Promise.all([
-          import("echarts/core"),
-          import("echarts/charts"),
-          import("echarts/components"),
-          import("echarts/renderers"),
-        ])
-        echarts.use([
-          charts.MapChart,
-          components.TooltipComponent,
-          components.VisualMapComponent,
-          components.GeoComponent,
-          renderers.CanvasRenderer,
-        ])
+        // lib/comfort-chart 里静态按需引入，动态 import 只负责延后加载
+        const { echarts } = await import("../../lib/comfort-chart")
         echartsRef.current = echarts
         const geo = await loadMapJson()
         // ChinaGeoJson 只声明了页面用到的字段，实际是标准 GeoJSON
@@ -411,7 +399,7 @@ export default function ComfortPage() {
     <Page className="data-page feels-page">
       <PageHeader
         title="全国体感温度"
-        description={`按地级市划分 · ${updated}`}
+        description="按地级市划分，颜色表示实时体感温度。"
       >
         <div className="feels-legend" aria-label="体感温度图例">
           <span>
@@ -450,6 +438,7 @@ export default function ComfortPage() {
             列表
           </Button>
         </div>
+        <p className="feels-updated">{updated}</p>
         <div hidden={view !== "map"}>
           <div className="feels-map-wrap">
             <div
@@ -458,7 +447,14 @@ export default function ComfortPage() {
               role="img"
               aria-label="全国地级市体感温度地图"
             ></div>
-            <p className="feels-status">{status}</p>
+            <p
+              className={
+                "feels-status" +
+                (status.startsWith("正在") ? " is-loading" : "")
+              }
+            >
+              {status}
+            </p>
           </div>
         </div>
         <div hidden={view !== "list"}>

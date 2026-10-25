@@ -31,6 +31,10 @@ export function sortRows<T extends SortableRow>(
     const bValue = b[key]
     if (aValue == null) return 1
     if (bValue == null) return -1
+    // 字符串列（如省份名）按中文排序；数值列仍用差值，避免 "10" < "9" 这类字典序坑
+    if (typeof aValue === "string" || typeof bValue === "string") {
+      return String(aValue).localeCompare(String(bValue), "zh-Hans-CN") * sign
+    }
     return (Number(aValue) - Number(bValue)) * sign
   })
 }

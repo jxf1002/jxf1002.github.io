@@ -20,7 +20,7 @@ npm run verify  # 构建 + 产物自检
 
 | 文件 | 说明 |
 |---|---|
-| `app/(tool)/mir2/page.tsx` | 路由：metadata + 手写 `<link>` 加载游戏样式 |
+| `app/(tool)/mir2/page.tsx` | 路由：metadata + `import "./style.css"` |
 | `components/mir2/Mir2Game.tsx` | React 界面层：控件、角色卡、背包、弹窗、悬浮提示 |
 | `components/mir2/CharColumn.tsx` | 单个角色卡 |
 | `lib/mir2/game.ts` | 纯逻辑层（无 DOM）：战斗、技能、掉落、换装、升级 |
@@ -28,7 +28,7 @@ npm run verify  # 构建 + 产物自检
 | `lib/mir2/format.ts` / `view.ts` / `world.ts` / `loop.ts` | 数字格式化、派生视图数据、数据装载、主循环定时器 |
 | `test/mir2/game.test.ts` | 单元测试（node:test，无第三方依赖） |
 | `test/mir2/ui.test.tsx` | UI 冒烟测试（jsdom + React） |
-| `public/mir2/style.css` | 样式（由旧 `index.html` 内联样式提取，路由手写 `<link>` 引入） |
+| `app/(tool)/mir2/style.css` | 样式（由旧 `index.html` 内联样式提取，路由 import 引入） |
 | `data/*.json` | 等级经验、物品、技能、怪物数值表，另有 `elites.json`（20 精英）、`bosses.json`（17 BOSS） |
 | `data/drops.json` | 怪物掉落表（名称 → 掉落行数组），页面一次性载入 |
 

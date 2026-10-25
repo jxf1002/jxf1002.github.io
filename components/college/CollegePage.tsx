@@ -63,7 +63,7 @@ export default function CollegePage({
     query: "",
     province: "",
     page: 1,
-    pageSize: 10,
+    pageSize: 20,
     sortKey: "",
     direction: "asc",
     statsSortKey: "",
@@ -193,6 +193,12 @@ export default function CollegePage({
     }))
   }
 
+  // 表头读屏需要 aria-sort；默认顺序不是排序，标 none
+  function ariaSort(key: SortKey): "none" | "ascending" | "descending" {
+    if (state.sortKey !== key) return "none"
+    return state.direction === "asc" ? "ascending" : "descending"
+  }
+
   return (
     <>
       <Page className="data-page ranking-page">
@@ -294,7 +300,7 @@ export default function CollegePage({
           <Table containerClassName="table-wrap">
             <TableHeader>
               <TableRow>
-                <TableHead>
+                <TableHead aria-sort="none">
                   <Button
                     variant="ghost"
                     className="sort-button"
@@ -307,7 +313,10 @@ export default function CollegePage({
                 </TableHead>
                 <TableHead>省内排名</TableHead>
                 <TableHead>学校名称</TableHead>
-                <TableHead className="desktop-only">
+                <TableHead
+                  className="desktop-only"
+                  aria-sort={ariaSort("chinaxy")}
+                >
                   <Button
                     variant="ghost"
                     className="sort-button"
@@ -317,7 +326,10 @@ export default function CollegePage({
                     校友会 ↕
                   </Button>
                 </TableHead>
-                <TableHead className="desktop-only">
+                <TableHead
+                  className="desktop-only"
+                  aria-sort={ariaSort("ranking")}
+                >
                   <Button
                     variant="ghost"
                     className="sort-button"
@@ -327,7 +339,10 @@ export default function CollegePage({
                     软科 ↕
                   </Button>
                 </TableHead>
-                <TableHead className="desktop-only">
+                <TableHead
+                  className="desktop-only"
+                  aria-sort={ariaSort("wurank")}
+                >
                   <Button
                     variant="ghost"
                     className="sort-button"

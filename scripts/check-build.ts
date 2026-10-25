@@ -1,5 +1,5 @@
 // 构建产物自检：node scripts/check-build.ts（先跑 npm run build）
-import { existsSync, readFileSync, readdirSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
 import type { MonthSales } from "../lib/car-sales.ts"
 import { AVAILABLE_YEARS } from "../lib/college.ts"
 import { PAGES, SITE } from "../lib/site.ts"
@@ -97,15 +97,18 @@ for (const file of [
   "cards/README.md",
   "cards/LICENSE-faces.txt",
   "cards/LICENSE-back.txt",
-  "mahjong/style.css",
   "mahjong/svg/1m.svg",
-  "mir2/style.css",
   "mir2/data/levels.json",
 ]) {
   check(`${file} 存在`, has(file))
 }
 
 console.log("== 数据文件 ==")
+const mapSize = has("data/china-cities.json")
+  ? statSync(new URL("../out/data/china-cities.json", import.meta.url)).size
+  : Infinity
+check("china-cities.json 已精简（<300KB）", mapSize < 300 * 1024)
+
 const collegeDir = new URL("../out/data/college/", import.meta.url)
 const collegeFiles = readdirSync(collegeDir)
   .filter((file) => file.endsWith(".json"))
@@ -154,6 +157,17 @@ check(
 console.log("== 品牌销量数据 ==")
 const salesDir = new URL("../out/data/car-sales/", import.meta.url)
 const salesIndex = json<{ months: string[] }>("data/car-sales/index.json")
+const lastMonth = salesIndex.months[salesIndex.months.length - 1]
+check(
+  "sitemap 里 cars 的 lastmod 跟着最新月份",
+  html("sitemap.xml")
+    .split("<url>")
+    .some(
+      (block) =>
+        block.includes(`<loc>${SITE.url}/cars/</loc>`) &&
+        block.includes(`<lastmod>${lastMonth}-01</lastmod>`),
+    ),
+)
 check(
   "car-sales 月份升序",
   salesIndex.months.every((m, i) => i === 0 || m > salesIndex.months[i - 1]),
@@ -217,8 +231,8 @@ for (const suit of ["s", "h", "d", "c"]) {
 }
 check("cards/webp/back.webp 存在", has("cards/webp/back.webp"))
 
-// site.css 由两个 root layout 引入，已经打进 Next 的 CSS chunk；两个游戏的样式仍手写 <link>，
-// 必须排在所有 Next CSS 之后，浅色主题下牌桌的 :root 变量才能压过站点变量
+// site.css 与游戏样式都打包进 Next 的 CSS chunk，文件名带 hash，只能按内容里的选择器定位。
+// 两个游戏的 :root/body 规则必须排在 site.css 之后，浅色主题下牌桌变量才能压过站点变量
 function cssHrefs(file: string): string[] {
   return [...html(file).matchAll(/<link[^>]*>/g)]
     .map((m) => m[0])
@@ -226,37 +240,42 @@ function cssHrefs(file: string): string[] {
     .map((tag) => /href="([^"]+)"/.exec(tag)?.[1] ?? "")
 }
 
-// site.css 没有独立 URL，按内容里的 .site-page 找到它所在的 chunk
-function siteCssIndex(hrefs: string[]): number {
-  return hrefs.findIndex((href) => {
-    if (!href.startsWith("/_next/")) return false
-    return readFileSync(new URL("../out" + href, import.meta.url), "utf8").includes(
-      ".site-page",
-    )
-  })
+function cssAt(hrefs: string[], marker: string): [number, number] | null {
+  for (let i = 0; i < hrefs.length; i += 1) {
+    const href = hrefs[i]
+    if (!href.startsWith("/_next/")) continue
+    const source = readFileSync(new URL("../out" + href, import.meta.url), "utf8")
+    const at = source.indexOf(marker)
+    if (at >= 0) return [i, at]
+  }
+  return null
 }
 
-function styleOrder(file: string, afterSite: string[]): boolean {
+// 不同 chunk 按 <link> 顺序比；同一个 chunk 内按字符位置比
+function styleOrder(file: string, markers: string[]): boolean {
   const hrefs = cssHrefs(file)
-  const site = siteCssIndex(hrefs)
-  if (site < 0) return false
-  // 游戏 link 带 ?v=N，按前缀匹配
-  const rest = afterSite.map((url) =>
-    hrefs.findIndex((href) => href === url || href.startsWith(url + "?")),
+  const found = markers.map((marker) => cssAt(hrefs, marker))
+  if (found.some((item) => item === null)) return false
+  const pos = found as [number, number][]
+  return pos.every(
+    ([href, at], i) =>
+      i === 0 ||
+      href > pos[i - 1][0] ||
+      (href === pos[i - 1][0] && at > pos[i - 1][1]),
   )
-  return rest.every((at, i) => at > site && (i === 0 || at > rest[i - 1]))
 }
-check("首页加载 site.css", siteCssIndex(cssHrefs("index.html")) >= 0)
+check("首页加载 site.css", cssAt(cssHrefs("index.html"), ".site-page") !== null)
 check(
   "麻将页样式顺序 site.css → driver.css → style.css",
   styleOrder("mahjong/index.html", [
-    "/mahjong/vendor/driver.css",
-    "/mahjong/style.css",
+    ".site-page",
+    ".driver-popover",
+    "body.playing",
   ]),
 )
 check(
   "mir2 页样式顺序 site.css → style.css",
-  styleOrder("mir2/index.html", ["/mir2/style.css"]),
+  styleOrder("mir2/index.html", [".site-page", ".mir2-bag"]),
 )
 
 // footer 只有一种尺寸；markup 全站唯一、内容逐字一致
@@ -280,6 +299,19 @@ for (const text of [
 for (const { file } of ROUTES) {
   check(`${file} 不再使用 data-fullscreen`, !html(file).includes("data-fullscreen"))
 }
+
+// 两个 root layout 没有公共 layout，404 由 app/global-not-found.tsx 自己渲染整页
+console.log("== 404 ==")
+const notFound = html("404.html")
+check("404 有中文文案", notFound.includes("页面不存在"))
+check(
+  "404 带站点页头页脚",
+  notFound.includes("site-header") && notFound.includes("site-footer"),
+)
+check(
+  "404 不是 Next 默认英文页",
+  !notFound.includes("This page could not be found"),
+)
 
 if (failed) {
   console.log(`\n失败 ${failed} 项`)

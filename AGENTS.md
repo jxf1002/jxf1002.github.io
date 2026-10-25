@@ -14,6 +14,7 @@ npm run build    # static export to out/
 npm run preview  # python3 -m http.server 4173 -d out
 npm test         # unit + UI smoke tests (node --test via tsx)
 npm run data:cars # 月度销量更新后，把月文件合并成按年文件
+npm run data:map  # 地图原始数据更新后，重新生成精简的 china-cities.json
 npm run verify   # next build + scripts/check-build.ts
 ```
 
@@ -27,12 +28,12 @@ npm run verify   # next build + scripts/check-build.ts
 | `components/` | Shared UI: `SiteHeader`, `SiteFooter`, `ThemeToggle`, `JsonLd`, `Pagination`, plus one folder per interactive page |
 | `components/layout/` | Route layout primitives: `Page` (the only page container) and `PageHeader` (title + one-line description + actions) |
 | `components/ui/` | shadcn components (source copied into the repo, not a runtime dependency). `Card` / `Badge` are server components and ship no JS |
-| `lib/` | Pure logic, no DOM or React: `site.ts` (SEO copy), `theme.ts`, `list.ts`, `college.ts`, `car-sales.ts`, `weather.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `photo/`, `mahjong/` (`game.ts` flow, `ai.ts` decisions, `state.ts` shared `G`, `tile.ts` hand/tile math), `mir2/` |
+| `lib/` | 引擎与算法层，不 import React：`site.ts` (SEO copy), `list.ts`, `college.ts`, `car-sales.ts`, `dcf.ts`, `sport.ts`, `guess.ts`, `five-cards.ts`, `calendar.ts`, `china-map.ts`, `mahjong/` (`game.ts` flow, `ai.ts` decisions, `state.ts` shared `G`, `tile.ts` hand/tile math), `mir2/`, `photo/`. 浏览器适配也在这一层，会直接用 DOM/localStorage/fetch：`theme.ts`、`weather.ts`、`photo/`、`mahjong/game.ts` 的存档、`mir2/` |
 | `types/` | Ambient declarations (jsdom ships no types; echarts has its own) |
 | `public/` | Published as-is: `data/` (`college/`, `tourism/`, `car-sales/` JSON, `china-cities.json`), `images/`, `favicon.svg`, `robots.txt` |
-| `public/mahjong/`, `public/mir2/` | Static assets for the two games (`style.css`, `svg/`, `data/`, `vendor/driver.js`); their logic lives in `lib/` and their UI in `components/` |
+| `public/mahjong/`, `public/mir2/` | Static assets for the two games (`svg/`, `data/`, `vendor/driver.js`); the CSS lives next to each route's `page.tsx`, their logic in `lib/`, their UI in `components/` |
 | `assets/cards/`, `public/cards/webp/` | Card SVG sources + licenses (not deployed) and the generated WebP thumbnails the five-card page actually loads |
-| `app/sitemap.ts` | Sitemap generated from `PAGES` (`lastMod` / `priority` live in `lib/site.ts`) |
+| `app/sitemap.ts` | Sitemap generated from `PAGES` (`lastMod` / `priority` live in `lib/site.ts`; cars' date follows the latest sales month) |
 | `scripts/check-build.ts` | Build-output self-check (routes + sitemap, SEO tags, analytics, data shape, static assets, game CSS order) |
 | `test/` | Unit tests for `lib/`, plus the two games' logic and jsdom UI smoke tests |
 
@@ -104,6 +105,10 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   `npm run data:cars` merges them into `<year>.json`, which is what the page
   fetches (2 requests instead of 23). `check-build` fails if the year files are
   out of sync with the monthly files
+- China map data: `assets/china-cities.source.json` is echarts' UTF8Encoding
+  compressed geometry (not deployed); `npm run data:map` decodes it, simplifies
+  rings (Douglas-Peucker, `eps=0.02°`), re-encodes and writes
+  `public/data/china-cities.json`. `check-build` fails if it grows past 300KB
 - `components/RootShell.tsx` renders the SEO-independent chrome: header, footer,
   theme first-paint script, Baidu analytics; the two root layouts
   (`app/(site)/layout.tsx`, `app/(tool)/layout.tsx`) import `globals.css` +
@@ -153,16 +158,15 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
   `.site-footer` padding/size rules to route CSS; mahjong may only hide it while
   a game is running. `check-build` asserts every page's footer markup is
   identical and that no page brings `data-fullscreen` back
-- The two games are the exception: their stylesheets are hand-written
-  `<link rel="stylesheet">` tags in their `page.tsx`, so they stay AFTER every
-  bundled Next CSS chunk in the output (site.css now lives in that chunk, and
-  route CSS would flip which `:root`/`body` rule wins).
-  `scripts/check-build.ts` finds the site.css chunk by content and asserts the
-  order — don't "tidy" those links into imports
+- The two games import their CSS from `page.tsx` like every other route
+  (`./style.css`, plus `./driver.css` for mahjong). Those files carry
+  `:root`/`body` rules that must win over site.css, so `scripts/check-build.ts`
+  locates the chunks by content (`.site-page`, `body.playing`,
+  `.driver-popover`, `.mir2-bag`) and asserts the order — don't move the game
+  CSS back into `public/` or drop the assertion
 - The games keep the engine imperative and the UI in React; the engine notifies
   the UI through a `setUI({...})` hook object. Element ids/classes in the game
-  components mirror the old pages because `public/mahjong|mir2/style.css`
-  depends on them
+  components mirror the old pages because the route's `style.css` depends on them
 - HTML lang is `zh-CN`; all user-facing text is Chinese
 - In-page links are plain `<a>`, never `next/link`
 

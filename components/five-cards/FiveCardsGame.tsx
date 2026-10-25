@@ -137,7 +137,7 @@ export default function FiveCardsGame() {
               revealed
                 ? correct
                   ? "font-semibold text-primary"
-                  : "font-semibold text-accent"
+                  : "font-semibold text-accent-strong"
                 : "text-fg-muted"
             }`}
           >

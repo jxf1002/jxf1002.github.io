@@ -312,13 +312,13 @@ export default function GuessGame() {
                     <button
                       type="button"
                       onClick={abandon}
-                      className="cursor-pointer rounded-xl border-0 bg-transparent px-4 py-2.5 font-semibold! text-fg-muted transition-colors hover:text-accent"
+                      className="cursor-pointer rounded-xl border-0 bg-transparent px-4 py-2.5 font-semibold! text-fg-muted transition-colors hover:text-accent-strong"
                     >
                       放弃
                     </button>
                   </div>
 
-                  <p role="alert" className="mt-2 h-5 text-center text-sm text-accent">
+                  <p role="alert" className="mt-2 h-5 text-center text-sm text-accent-strong">
                     {error}
                   </p>
                 </>

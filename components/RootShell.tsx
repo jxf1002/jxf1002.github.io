@@ -1,9 +1,10 @@
 import type { ReactNode } from "react"
 import SiteFooter from "./SiteFooter"
 import SiteHeader from "./SiteHeader"
+import SiteTabBar from "./SiteTabBar"
 
 // 首屏前就把 dark class 定下来，避免主题闪白（与旧 common.js 同一套约定）
-const THEME_SCRIPT = `try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}`
+export const THEME_SCRIPT = `try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}`
 
 // 第三方脚本必须由 React 直接渲染；在 head 里动态 insert 会改掉 hydrate 前的 DOM 顺序
 const ANALYTICS_QUEUE = "window._hmt = window._hmt || [];"
@@ -29,6 +30,7 @@ export default function RootShell({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <SiteTabBar />
       </body>
     </html>
   )

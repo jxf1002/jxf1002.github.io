@@ -1,12 +1,13 @@
 "use client"
 
-import Chart from "chart.js/auto"
-import type { ChartConfiguration } from "chart.js"
+import type { EChartsType } from "echarts/core"
 import { useEffect, useMemo, useRef, useState } from "react"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
 import type { DcfInputs, DcfResult } from "../../lib/dcf"
 import { computeDcf } from "../../lib/dcf"
+import { optionFor } from "../../lib/dcf-chart-option"
+import type { DcfChartColors } from "../../lib/dcf-chart-option"
 
 const DEFAULTS: DcfInputs = {
   netProfit: "10",
@@ -16,17 +17,8 @@ const DEFAULTS: DcfInputs = {
   discountRate: "10",
 }
 
-type ChartColors = {
-  primary: string
-  primaryFill: string
-  accent: string
-  accentFill: string
-  text: string
-  grid: string
-}
-
 // 与旧 dcf/app.js 的配色保持一致，跟着主题切换
-function chartTheme(): ChartColors {
+function chartTheme(): DcfChartColors {
   const dark = document.documentElement.classList.contains("dark")
   return dark
     ? {
@@ -38,107 +30,22 @@ function chartTheme(): ChartColors {
         grid: "rgba(161, 184, 175, 0.16)",
       }
     : {
-        primary: "#167c6b",
-        primaryFill: "rgba(22, 124, 107, 0.72)",
+        primary: "#0f6a5b",
+        primaryFill: "rgba(15, 106, 91, 0.72)",
         accent: "#e57b5d",
         accentFill: "rgba(229, 123, 93, 0.14)",
-        text: "#657a72",
-        grid: "rgba(101, 122, 114, 0.16)",
+        text: "#566c64",
+        grid: "rgba(86, 108, 100, 0.16)",
       }
-}
-
-function chartConfig(colors: ChartColors) {
-  return {
-    type: "bar",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: "现金流",
-          data: [],
-          backgroundColor: colors.primaryFill,
-          borderColor: colors.primary,
-          borderWidth: 1.5,
-          borderRadius: 4,
-          yAxisID: "y",
-          order: 2,
-        },
-        {
-          label: "折现值",
-          data: [],
-          type: "line",
-          borderColor: colors.accent,
-          backgroundColor: colors.accentFill,
-          pointBackgroundColor: colors.accent,
-          pointBorderColor: colors.text,
-          pointBorderWidth: 2,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          borderWidth: 3,
-          fill: true,
-          tension: 0.25,
-          yAxisID: "y",
-          order: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: "index", intersect: false },
-      plugins: {
-        legend: {
-          display: true,
-          labels: {
-            usePointStyle: true,
-            pointStyle: "circle",
-            padding: 20,
-            font: { size: 13, weight: "500" },
-            color: colors.text,
-          },
-        },
-        tooltip: {
-          callbacks: {
-            label: (context: { dataset: { label?: string }; parsed: { y?: number } }) => {
-              const label = context.dataset.label || ""
-              const val = context.parsed.y
-              if (val === undefined || !isFinite(val)) return label + ": —"
-              return label + ": " + val.toFixed(2) + " 亿元"
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          grid: { color: colors.grid },
-          ticks: {
-            callback: (value: number) => value.toFixed(0) + " 亿元",
-            font: { size: 11 },
-            color: colors.text,
-          },
-        },
-        x: {
-          grid: { display: false },
-          ticks: {
-            font: { size: 11, weight: "500" },
-            color: colors.text,
-            maxRotation: 30,
-            autoSkip: true,
-          },
-        },
-      },
-      elements: { bar: { backgroundColor: colors.primaryFill } },
-    },
-  }
 }
 
 const fmt2 = (value: number) => (isFinite(value) ? value.toFixed(2) : "∞")
 const fmt4 = (value: number) => (isFinite(value) ? value.toFixed(4) : "—")
 
 export default function DcfCalculator() {
-  const canvas = useRef<HTMLCanvasElement | null>(null)
-  const chart = useRef<Chart | null>(null)
+  const chartEl = useRef<HTMLDivElement | null>(null)
+  const chart = useRef<EChartsType | null>(null)
+  const [chartReady, setChartReady] = useState(0)
   const [inputs, setInputs] = useState<DcfInputs>(DEFAULTS)
   const signature = Object.values(inputs).join("|")
   const result = useMemo(() => computeDcf(inputs), [signature])
@@ -149,44 +56,39 @@ export default function DcfCalculator() {
     if (result) setShown(result)
   }, [result])
 
+  // 图表在 hydration 后才按需加载 echarts，首屏 JS 不带图表库
   useEffect(() => {
-    if (!canvas.current) return
-    chart.current = new Chart(
-      canvas.current,
-      chartConfig(chartTheme()) as ChartConfiguration,
-    )
-    function onThemeChange() {
-      const instance = chart.current as any
-      if (!instance) return
-      const colors = chartTheme()
-      instance.data.datasets[0].backgroundColor = colors.primaryFill
-      instance.data.datasets[0].borderColor = colors.primary
-      instance.data.datasets[1].borderColor = colors.accent
-      instance.data.datasets[1].backgroundColor = colors.accentFill
-      instance.data.datasets[1].pointBackgroundColor = colors.accent
-      instance.data.datasets[1].pointBorderColor = colors.text
-      instance.options.plugins.legend.labels.color = colors.text
-      instance.options.scales.y.grid.color = colors.grid
-      instance.options.scales.y.ticks.color = colors.text
-      instance.options.scales.x.ticks.color = colors.text
-      instance.update()
+    let cancelled = false
+    let instance: EChartsType | null = null
+    import("../../lib/dcf-chart").then(({ echarts }) => {
+      if (cancelled || !chartEl.current) return
+      instance = echarts.init(chartEl.current)
+      chart.current = instance
+      setChartReady((n) => n + 1)
+    })
+    function onResize() {
+      chart.current?.resize()
     }
-    window.addEventListener("themechange", onThemeChange)
+    window.addEventListener("resize", onResize)
     return () => {
-      window.removeEventListener("themechange", onThemeChange)
-      chart.current?.destroy()
+      cancelled = true
+      window.removeEventListener("resize", onResize)
       chart.current = null
+      instance?.dispose()
     }
   }, [])
 
   useEffect(() => {
-    const instance = chart.current
-    if (!instance || !shown) return
-    instance.data.labels = shown.chartLabels
-    const datasets = instance.data.datasets as Array<{ data: number[] }>
-    datasets[0].data = shown.chartCF
-    datasets[1].data = shown.chartPV
-    instance.update()
+    chart.current?.setOption(optionFor(shown, chartTheme()), true)
+  }, [shown, chartReady])
+
+  // 主题变化整体重设 option（notMerge），省掉逐字段改色
+  useEffect(() => {
+    function onThemeChange() {
+      chart.current?.setOption(optionFor(shown, chartTheme()), true)
+    }
+    window.addEventListener("themechange", onThemeChange)
+    return () => window.removeEventListener("themechange", onThemeChange)
   }, [shown])
 
   const totalValid = isFinite(shown.totalPV) && shown.totalPV > 0
@@ -212,7 +114,7 @@ export default function DcfCalculator() {
     },
     {
       name: "growthYears",
-      label: "高速增长年度",
+      label: "高速增长期",
       unit: "年",
       step: "1",
       min: "0",
@@ -375,12 +277,10 @@ export default function DcfCalculator() {
             <div className="chart-header">
               <h3>📉 现金流 &amp; 折现值趋势</h3>
               <span className="legend-tip">
-                柱状图 · 现金流 &nbsp;|&nbsp; 折线图 · 折现值
+                柱状图 · 现金流 &nbsp;|&nbsp; 折线图 · 折现值 · 不含永续期
               </span>
             </div>
-            <div className="chart-wrapper">
-              <canvas ref={canvas} id="dcfChart" />
-            </div>
+            <div className="chart-wrapper" ref={chartEl} aria-hidden="true" />
           </section>
 
           <section className="table-section">
