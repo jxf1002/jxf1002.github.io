@@ -141,6 +141,21 @@ test("旋转/翻转：格数不变，转四次回到原点", () => {
   }
 })
 
+test("翻转：按当前朝向左右翻转", () => {
+  for (const mode of MODES) {
+    for (const shape of piecesOf(mode)) {
+      for (let rotation = 0; rotation < 4; rotation += 1) {
+        const shown = orient(shape, rotation, false)
+        const maxCol = Math.max(...shown.map(([, col]) => col))
+        const leftRight = shown
+          .map(([row, col]) => [row, maxCol - col] as [number, number])
+          .sort((a, b) => a[0] - b[0] || a[1] - b[1])
+        assert.deepEqual(orient(shape, rotation, true), leftRight)
+      }
+    }
+  }
+})
+
 test("落子：以点到的实心格为左上角，越界返回 null", () => {
   assert.deepEqual(
     placementCells("advanced", 0, 0, false, "d1"),

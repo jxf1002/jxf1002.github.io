@@ -192,11 +192,12 @@ export function orient(
   mirrored: boolean,
 ): [number, number][] {
   let cells = shape.map(([row, col]) => [row, col] as [number, number])
-  if (mirrored) cells = cells.map(([row, col]) => [row, -col])
   const turns = ((rotation % 4) + 4) % 4
   for (let i = 0; i < turns; i += 1) {
     cells = cells.map(([row, col]) => [col, -row])
   }
+  // 先旋转再左右翻转：翻转轴跟随当前朝向，而不是拼块原始朝向
+  if (mirrored) cells = cells.map(([row, col]) => [row, -col])
   return normalize(cells)
 }
 
