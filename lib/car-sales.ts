@@ -18,10 +18,20 @@ export type MonthSales = {
 }
 
 export type BrandTotal = {
+  id: number
   name: string
   country: string
   sales: number
   yoy: number | null
+}
+
+// 品牌在售车型指导价区间，按品牌 id 与销量行对齐（brand-price.json，不随月份变）
+export type BrandPrice = {
+  id: number
+  name: string
+  min: number
+  max: number
+  models: number
 }
 
 export type CarSalesYear = "2025" | "2026"
@@ -43,13 +53,14 @@ export function lastMonth(months: MonthSales[], year: string): number {
 }
 
 function sumBrands(months: MonthSales[], year: string, through: number) {
-  const totals = new Map<string, { country: string; sales: number }>()
+  const totals = new Map<string, { id: number; country: string; sales: number }>()
   for (const item of months) {
     if (!item.month.startsWith(year + "-")) continue
     if (Number(item.month.slice(5)) > through) continue
     for (const row of item.rows) {
       const current = totals.get(row.name)
       totals.set(row.name, {
+        id: current?.id ?? row.id,
         country: row.country,
         sales: (current?.sales ?? 0) + row.sales,
       })
@@ -68,9 +79,10 @@ export function rankBrands(
   const current = sumBrands(months, year, through)
   const previous = compareYear ? sumBrands(months, compareYear, through) : null
   return [...current.entries()]
-    .map(([name, { country, sales }]) => {
+    .map(([name, { id, country, sales }]) => {
       const base = previous?.get(name)?.sales ?? 0
       return {
+        id,
         name,
         country,
         sales,
@@ -78,6 +90,11 @@ export function rankBrands(
       }
     })
     .sort((a, b) => b.sales - a.sales || a.name.localeCompare(b.name, "zh-CN"))
+}
+
+export function formatPrice(price?: BrandPrice): string {
+  if (!price) return "-"
+  return price.min === price.max ? `${price.min}万` : `${price.min}-${price.max}万`
 }
 
 export function formatYoy(yoy: number | null): string {

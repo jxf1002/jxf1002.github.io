@@ -104,7 +104,9 @@ Example: `2026-09-19 12:08 增加对领先玩家的防守权重(dangerOf按分�
 - Car sales data: `index.json` + one file per month are the source of truth;
   `npm run data:cars` merges them into `<year>.json`, which is what the page
   fetches (2 requests instead of 23). `check-build` fails if the year files are
-  out of sync with the monthly files
+  out of sync with the monthly files. `brand-price.json`（品牌在售车型指导价
+  区间，按品牌 id 对齐、不随月份变）由 starlight 的 `tools/car-sales` 生成，
+  `check-build` 校验字段与覆盖率
 - China map data: `assets/china-cities.source.json` is echarts' UTF8Encoding
   compressed geometry (not deployed); `npm run data:map` decodes it, simplifies
   rings (Douglas-Peucker, `eps=0.02°`), re-encodes and writes

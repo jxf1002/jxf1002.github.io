@@ -1,6 +1,6 @@
 // 构建产物自检：node scripts/check-build.ts（先跑 npm run build）
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
-import type { MonthSales } from "../lib/car-sales.ts"
+import type { BrandPrice, MonthSales } from "../lib/car-sales.ts"
 import { AVAILABLE_YEARS } from "../lib/college.ts"
 import { PAGES, SITE } from "../lib/site.ts"
 
@@ -222,6 +222,37 @@ for (const year of years) {
     data.year === year && JSON.stringify(data.months) === JSON.stringify(expected),
   )
 }
+
+// 售价不随月份变，单独一个文件；缺了或抓残了页面会静默少一列，这里兜住
+const priceFile = json<{ rows: BrandPrice[] }>("data/car-sales/brand-price.json")
+const priceRows = priceFile.rows
+check("brand-price 非空", Array.isArray(priceRows) && priceRows.length > 0)
+check(
+  "brand-price 字段完整",
+  priceRows.every(
+    (row) =>
+      Number.isInteger(row.id) &&
+      row.name.length > 0 &&
+      Number.isFinite(row.min) &&
+      Number.isFinite(row.max) &&
+      row.min > 0 &&
+      row.max >= row.min &&
+      Number.isInteger(row.models) &&
+      row.models >= 1,
+  ),
+)
+const salesIds = new Set(
+  [...monthly.values()].flatMap((data) => data.rows.map((row) => row.id)),
+)
+check(
+  "brand-price 品牌都在销量数据里",
+  priceRows.every((row) => salesIds.has(row.id)),
+)
+// 抓取截断会让部分品牌没价，留 20% 余量（停售品牌本来就没有在售车型）
+check(
+  "brand-price 至少覆盖 80% 品牌",
+  priceRows.length >= Math.ceil(salesIds.size * 0.8),
+)
 
 for (const suit of ["s", "h", "d", "c"]) {
   for (let rank = 1; rank <= 13; rank += 1) {

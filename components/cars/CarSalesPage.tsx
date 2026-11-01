@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Page from "../layout/Page"
 import PageHeader from "../layout/PageHeader"
 import {
@@ -11,18 +11,31 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table"
-import type { CarSalesYear, MonthSales } from "../../lib/car-sales"
+import type { BrandPrice, CarSalesYear, MonthSales } from "../../lib/car-sales"
 import {
   DEFAULT_YEAR,
   YEARS,
+  formatPrice,
   formatYoy,
   isCarSalesYear,
   lastMonth,
   rankBrands,
 } from "../../lib/car-sales"
 
-export default function CarSalesPage({ months }: { months: MonthSales[] }) {
+export default function CarSalesPage({
+  months,
+  prices,
+}: {
+  months: MonthSales[]
+  prices: BrandPrice[]
+}) {
   const [year, setYear] = useState<CarSalesYear>(DEFAULT_YEAR)
+
+  // 售价按品牌 id 对齐，品牌改名不会串行；查不到就是没在售车型
+  const priceById = useMemo(
+    () => new Map(prices.map((price) => [price.id, price])),
+    [prices],
+  )
 
   // 查询参数在挂载后读取，避免静态 HTML 与首屏渲染不一致
   useEffect(() => {
@@ -45,7 +58,7 @@ export default function CarSalesPage({ months }: { months: MonthSales[] }) {
               ? `${year} 年全年累计`
               : `${year} 年 1-${through} 月累计`
             : `${year} 年`
-        }，数据来源：车主之家，不含进口车型`}
+        }，数据来源：车主之家，销量不含进口车型；售价为在售车型厂商指导价（含进口）`}
         actions={
           <div className="year-links">
             {YEARS.map((item) => (
@@ -68,6 +81,7 @@ export default function CarSalesPage({ months }: { months: MonthSales[] }) {
               <TableHead>排名</TableHead>
               <TableHead>品牌</TableHead>
               <TableHead className="desktop-only">国别</TableHead>
+              <TableHead>售价</TableHead>
               <TableHead>销量</TableHead>
               <TableHead>同比</TableHead>
             </TableRow>
@@ -79,6 +93,9 @@ export default function CarSalesPage({ months }: { months: MonthSales[] }) {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell className="desktop-only">{row.country}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {formatPrice(priceById.get(row.id))}
+                  </TableCell>
                   <TableCell>{row.sales.toLocaleString("zh-CN")}</TableCell>
                   <TableCell
                     className={
@@ -95,7 +112,7 @@ export default function CarSalesPage({ months }: { months: MonthSales[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell className="empty" colSpan={5}>
+                <TableCell className="empty" colSpan={6}>
                   暂无数据
                 </TableCell>
               </TableRow>

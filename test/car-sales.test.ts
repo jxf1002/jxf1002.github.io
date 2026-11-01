@@ -2,7 +2,7 @@
 import assert from "node:assert/strict"
 import test from "node:test"
 import type { MonthSales } from "../lib/car-sales.ts"
-import { formatYoy, lastMonth, rankBrands } from "../lib/car-sales.ts"
+import { formatPrice, formatYoy, lastMonth, rankBrands } from "../lib/car-sales.ts"
 
 function salesMonth(
   month: string,
@@ -85,4 +85,21 @@ test("汽车销量：同比文案", () => {
   assert.equal(formatYoy(0), "+0.0%")
   assert.equal(formatYoy(12.345), "+12.3%")
   assert.equal(formatYoy(-5), "-5.0%")
+})
+
+test("汽车销量：年榜带出品牌 id，供售价对齐", () => {
+  const rows = rankBrands([salesMonth("2026-01", [["甲", 100]])], "2026", 1)
+  assert.equal(rows[0].id, 1)
+})
+
+test("售价：区间、单值、缺数据", () => {
+  assert.equal(
+    formatPrice({ id: 1, name: "甲", min: 6.59, max: 30.99, models: 37 }),
+    "6.59-30.99万",
+  )
+  assert.equal(
+    formatPrice({ id: 2, name: "乙", min: 23.55, max: 23.55, models: 1 }),
+    "23.55万",
+  )
+  assert.equal(formatPrice(), "-")
 })
